@@ -2,6 +2,7 @@ package monzter.adventurescraft.plugin;
 
 import monzter.adventurescraft.plugin.commands.Commands;
 import monzter.adventurescraft.plugin.event.PlayerChat;
+import monzter.adventurescraft.plugin.event.PlayerDropItem;
 import monzter.adventurescraft.plugin.event.ProjectileHit;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -27,6 +28,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileHit(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerDropItem(this), this);
         getCommand("Captcha").setExecutor(new Commands(this));
         saveDefaultConfig();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");

@@ -1,8 +1,5 @@
-# There are 3 types of Captchas which can be used
-# STRING type will make a Captcha from this list "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-# CHARS type will make a Captcha from this list "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-# INTS type will make a Captcha from this list "1234567890"
-Captcha-Type: STRING
+# Should arrows be despawned after hitting an enemy, rather than remaining on the ground
+Arrow-Despawn: true
 
 # How long the Captcha will be
 Captcha-Length: 5

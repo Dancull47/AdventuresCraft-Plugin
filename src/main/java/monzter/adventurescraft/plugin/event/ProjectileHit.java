@@ -8,15 +8,19 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class ProjectileHit implements Listener {
     private final AdventuresCraft plugin;
+    private final boolean enabled;
 
     public ProjectileHit(AdventuresCraft plugin) {
+        enabled = plugin.getConfig().getBoolean("Arrow-Despawn", true);
         this.plugin = plugin;
     }
 
     @EventHandler
     public void arrowDespawn(ProjectileHitEvent event){
         if (event.getEntity().getType() == EntityType.ARROW){
-            event.getEntity().remove();
+            if (enabled){
+                event.getEntity().remove();
+            }
         }
     }
 }
