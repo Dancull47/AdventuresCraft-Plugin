@@ -1,0 +1,7 @@
+name: Captcha
+version: 1.0
+api-version: 1.16
+main: monzter.captcha.plugin.Captcha
+
+commands:
+  captcha:
