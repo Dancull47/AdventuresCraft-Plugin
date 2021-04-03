@@ -1,7 +1,7 @@
-package monzter.captcha.plugin.commands;
+package monzter.adventurescraft.plugin.commands;
 
-import monzter.captcha.plugin.Language;
-import monzter.captcha.plugin.Captcha;
+import monzter.adventurescraft.plugin.Language;
+import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,9 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor {
-    private final Captcha plugin;
+    private final AdventuresCraft plugin;
 
-    public Commands(Captcha plugin) {
+    public Commands(AdventuresCraft plugin) {
             this.plugin = plugin;
     }
 

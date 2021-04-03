@@ -1,7 +1,8 @@
-package monzter.captcha.plugin;
+package monzter.adventurescraft.plugin;
 
-import monzter.captcha.plugin.event.PlayerChat;
-import monzter.captcha.plugin.commands.Commands;
+import monzter.adventurescraft.plugin.commands.Commands;
+import monzter.adventurescraft.plugin.event.PlayerChat;
+import monzter.adventurescraft.plugin.event.ProjectileHit;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 
-public class Captcha extends JavaPlugin implements Listener {
+public class AdventuresCraft extends JavaPlugin implements Listener {
     private static Permission perms = null;
     public static YamlConfiguration LANGUAGE;
     public static File LANGUAGE_FILE;
@@ -25,6 +26,7 @@ public class Captcha extends JavaPlugin implements Listener {
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ProjectileHit(this), this);
         getCommand("Captcha").setExecutor(new Commands(this));
         saveDefaultConfig();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");

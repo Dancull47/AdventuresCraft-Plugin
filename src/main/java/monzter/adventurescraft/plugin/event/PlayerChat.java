@@ -1,7 +1,7 @@
-package monzter.captcha.plugin.event;
+package monzter.adventurescraft.plugin.event;
 
-import monzter.captcha.plugin.Language;
-import monzter.captcha.plugin.Captcha;
+import monzter.adventurescraft.plugin.Language;
+import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -22,13 +21,13 @@ public class PlayerChat implements Listener {
     String stringMethod = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     String charsMethod = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String intsMethod = "1234567890";
-    private final Captcha plugin;
+    private final AdventuresCraft plugin;
     private final int codeLimit;
     private final String permission;
     private final String configMethod;
     private final Set<UUID> whitelist = new CopyOnWriteArraySet<>();
 
-    public PlayerChat(Captcha plugin) {
+    public PlayerChat(AdventuresCraft plugin) {
         this.plugin = plugin;
         codeLimit = plugin.getConfig().getInt("Captcha-Length", 5);
         permission = plugin.getConfig().getString("Given-Permission", "CAPTCHA.VERIFIED");

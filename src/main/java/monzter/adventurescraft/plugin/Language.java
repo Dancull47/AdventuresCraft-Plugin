@@ -1,4 +1,4 @@
-package monzter.captcha.plugin;
+package monzter.adventurescraft.plugin;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
