@@ -1,28 +1,19 @@
 package monzter.adventurescraft.plugin.event;
 
-import com.google.common.util.concurrent.Service;
-import io.lumine.mythic.lib.api.item.NBTCompound;
-import io.lumine.mythic.lib.api.item.NBTItem;
-import io.lumine.mythic.lib.api.itemtype.MMOItemType;
-import jdk.incubator.jpackage.internal.Log;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.event.extras.DropTier;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.ItemTier;
 import net.Indyuce.mmoitems.api.item.mmoitem.LiveMMOItem;
-import net.Indyuce.mmoitems.manager.TierManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class PlayerDropItem implements Listener {
     private final AdventuresCraft plugin;

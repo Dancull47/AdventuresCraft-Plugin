@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.event;
+package monzter.adventurescraft.plugin.event.extras;
 
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.ItemTier;

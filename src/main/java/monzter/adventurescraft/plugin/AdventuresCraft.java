@@ -1,12 +1,11 @@
 package monzter.adventurescraft.plugin;
 
 import monzter.adventurescraft.plugin.commands.Commands;
-import monzter.adventurescraft.plugin.event.PlayerChat;
-import monzter.adventurescraft.plugin.event.PlayerDropItem;
-import monzter.adventurescraft.plugin.event.ProjectileHit;
+import monzter.adventurescraft.plugin.event.*;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Warning;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,9 +28,15 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileHit(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDropItem(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteract(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         getCommand("Captcha").setExecutor(new Commands(this));
         saveDefaultConfig();
+        new Placeholder().register();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
+            getLogger().log(Level.WARNING, "PlaceholderAPI is NOT installed!");
     }
 
     @Override
