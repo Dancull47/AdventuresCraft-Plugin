@@ -3,7 +3,8 @@ package monzter.adventurescraft.plugin.event;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.PetEggs;
+import monzter.adventurescraft.plugin.event.extras.PetEgg;
+import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,14 +15,6 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerInteract implements Listener {
     private AdventuresCraft plugin;
 
-    private final PetEggs[] EGGS = new PetEggs[]{
-            new PetEggs("PET_EGG", 100),
-            new PetEggs("PET_EGG2", 500),
-            new PetEggs("PET_EGG3", 1000),
-            new PetEggs("PET_EGG4", 1500),
-            new PetEggs("PET_EGG5", 2000)
-    };
-
     public PlayerInteract(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
@@ -31,18 +24,17 @@ public class PlayerInteract implements Listener {
         Player player = event.getPlayer();
         ItemStack itemStack = event.getItem();
         NBTItem nbtItem = NBTItem.get(itemStack);
-        boolean hasType = nbtItem.hasType();
         //String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
-        if (hasType) {
-            String id = nbtItem.getString("MMOITEMS_ITEM_ID");
-            for (PetEggs egg : EGGS) {
-                if (egg.getName().equals(id)) {
+        String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
+        if (id != null) {
+            for (PetEgg egg : PetEgg.values()) {
+                if (egg.name.equals(id)) {
                     String playerPetEXP = "%betonquest_items:point.PetExperience.amount%";
                     playerPetEXP = PlaceholderAPI.setPlaceholders(player, playerPetEXP);
-                    if (Integer.valueOf(playerPetEXP) >= egg.getExpToHatch()) {
+                    if (Integer.valueOf(playerPetEXP) >= egg.expToHatch) {
                         readyToHatch(player, Integer.valueOf(playerPetEXP));
                     } else {
-                        notReadyToHatch(player, Integer.valueOf(playerPetEXP), egg.getExpToHatch());
+                        notReadyToHatch(player, Integer.valueOf(playerPetEXP), egg.expToHatch);
                     }
                 }
             }

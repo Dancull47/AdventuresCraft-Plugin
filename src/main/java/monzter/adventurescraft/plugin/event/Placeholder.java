@@ -2,7 +2,10 @@ package monzter.adventurescraft.plugin.event;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import org.bukkit.OfflinePlayer;
+
+import java.text.DecimalFormat;
 
 public class Placeholder extends PlaceholderExpansion {
 
@@ -47,13 +50,69 @@ public class Placeholder extends PlaceholderExpansion {
             return playerPetEXP;
         }
 
-        // %example_placeholder2%
-        if(identifier.equals("PetEgg1")){
-            return "placeholder2 works";
+        if(identifier.equals("PetEgg")){
+            return String.valueOf(PetEgg.COMMON.expToHatch);
+        }
+        if(identifier.equals("PetEgg_formatted")){
+            return numberFormat(PetEgg.COMMON.expToHatch);
+        }
+        if(identifier.equals("PetEgg2")){
+            return String.valueOf(PetEgg.UNCOMMON.expToHatch);
+        }
+        if(identifier.equals("PetEgg2_formatted")){
+            return numberFormat(PetEgg.UNCOMMON.expToHatch);
+        }
+        if(identifier.equals("PetEgg3")){
+            return String.valueOf(PetEgg.RARE.expToHatch);
+        }
+        if(identifier.equals("PetEgg3_formatted")){
+            return numberFormat(PetEgg.RARE.expToHatch);
+        }
+        if(identifier.equals("PetEgg4")){
+            return String.valueOf(PetEgg.LEGENDARY.expToHatch);
+        }
+        if(identifier.equals("PetEgg4_formatted")){
+            return numberFormat(PetEgg.LEGENDARY.expToHatch);
+        }
+        if(identifier.equals("PetEgg5")){
+            return String.valueOf(PetEgg.EXOTIC.expToHatch);
+        }
+        if(identifier.equals("PetEgg5_formatted")){
+            return numberFormat(PetEgg.EXOTIC.expToHatch);
+        }
+        if(identifier.equals("PetEggPhoenix")){
+            return String.valueOf(PetEgg.PHOENIX.expToHatch);
+        }
+        if(identifier.equals("PetEggPhoenix_formatted")){
+            return numberFormat(PetEgg.PHOENIX.expToHatch);
+        }
+        if(identifier.equals("PetEggPhoenix2")){
+            return String.valueOf(PetEgg.PHOENIX2.expToHatch);
+        }
+        if(identifier.equals("PetEggPhoenix2_formatted")){
+            return numberFormat(PetEgg.PHOENIX2.expToHatch);
+        }
+        if(identifier.equals("PetEggDragon")){
+            return String.valueOf(PetEgg.DRAGON.expToHatch);
+        }
+        if(identifier.equals("PetEggDragon_formatted")){
+            return numberFormat(PetEgg.DRAGON.expToHatch);
+        }
+        if(identifier.equals("PetEggDragon2")){
+            return String.valueOf(PetEgg.DRAGON2.expToHatch);
+        }
+        if(identifier.equals("PetEggDragon2_formatted")){
+            return numberFormat(PetEgg.DRAGON2.expToHatch);
         }
 
         // We return null if an invalid placeholder (f.e. %example_placeholder3%)
         // was provided
         return null;
     }
+
+    public String numberFormat(int expToHatch){
+        DecimalFormat format = new DecimalFormat("###,###,###");
+        return format.format(expToHatch);
+    }
+
 }
