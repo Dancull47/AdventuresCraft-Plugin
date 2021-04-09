@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 public class Commands implements CommandExecutor {
     private final AdventuresCraft plugin;
 
@@ -27,7 +29,11 @@ public class Commands implements CommandExecutor {
             if (sender.isOp() || sender.hasPermission(plugin.getConfig().getString("Admin-Permission", "CAPTCHA.ADMIN"))){
                 sender.sendMessage(Language.TITLE.toString() + ChatColor.GREEN + "The plugin has been reloaded!");
                 plugin.reloadConfig();
-                plugin.loadLang();
+                try {
+                    plugin.loadLang();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         }
