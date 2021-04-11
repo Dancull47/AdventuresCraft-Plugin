@@ -12,10 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerInteract implements Listener {
     private AdventuresCraft plugin;
+
     public PlayerInteract(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
@@ -27,15 +29,17 @@ public class PlayerInteract implements Listener {
         NBTItem nbtItem = NBTItem.get(itemStack);
         //String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
         String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
-        if (id != null) {
-            for (PetEgg egg : PetEgg.values()) {
-                if (egg.name.equals(id)) {
-                    String playerPetEXP = "%betonquest_items:point.PetExperience.amount%";
-                    playerPetEXP = PlaceholderAPI.setPlaceholders(player, playerPetEXP);
-                    if (Integer.valueOf(playerPetEXP) >= egg.expToHatch) {
-                        readyToHatch(player, Integer.valueOf(playerPetEXP));
-                    } else {
-                        notReadyToHatch(player, Integer.valueOf(playerPetEXP), egg.expToHatch);
+        if (event.getHand() == EquipmentSlot.HAND) {
+            if (id != null) {
+                for (PetEgg egg : PetEgg.values()) {
+                    if (egg.name.equals(id)) {
+                        String playerPetEXP = "%betonquest_items:point.PetExperience.amount%";
+                        playerPetEXP = PlaceholderAPI.setPlaceholders(player, playerPetEXP);
+                        if (Integer.valueOf(playerPetEXP) >= egg.expToHatch) {
+                            readyToHatch(player, Integer.valueOf(playerPetEXP));
+                        } else {
+                            notReadyToHatch(player, Integer.valueOf(playerPetEXP), egg.expToHatch);
+                        }
                     }
                 }
             }

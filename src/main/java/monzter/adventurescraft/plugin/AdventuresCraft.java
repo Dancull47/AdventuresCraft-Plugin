@@ -5,19 +5,24 @@ import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import monzter.adventurescraft.plugin.commands.BattlePass;
 import monzter.adventurescraft.plugin.commands.Commands;
 import monzter.adventurescraft.plugin.event.*;
+import monzter.adventurescraft.plugin.event.extras.Pet;
+import monzter.adventurescraft.plugin.event.extras.Stats;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import scala.language;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 public class AdventuresCraft extends JavaPlugin implements Listener {
@@ -27,7 +32,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private StateFlag prisonMineFlag;
 
     @Override
-    public void onLoad(){
+    public void onLoad() {
+        if (!getDataFolder().mkdir()) {
+            getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Failed to create Plugin Folder!!!" + "\n"
+                    + Language.TITLE + ChatColor.RED + "Check your file permissions!!");
+            this.setEnabled(false);
+            return;
+        }
+
         try {
             prisonMineFlag = registerFlag();
         } catch (IllegalStateException e) {
@@ -36,6 +48,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             this.setEnabled(false);
         }
     }
+
     @Override
     public void onEnable() {
         try {
@@ -55,8 +68,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreak(this, prisonMineFlag), this);
         getCommand("Captcha").setExecutor(new Commands(this));
+        getCommand("BattlePass").setExecutor(new BattlePass(this));
         saveDefaultConfig();
-        new Placeholder().register();
+        new Placeholder(this, perms, loadPets()).register();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
@@ -82,14 +96,13 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public void loadLang() throws IOException {
         File language = new File(getDataFolder(), "language.yml");
         if (!language.exists()) {
-                getDataFolder().mkdir();
-                language.createNewFile();
-                InputStream defConfigStream = this.getResource("language.yml");
-                if (defConfigStream != null) {
-                    YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(language);
-                    defConfig.save(language);
-                    Language.setFile(defConfig);
-                }
+            language.createNewFile();
+            InputStream defConfigStream = this.getResource("language.yml");
+            if (defConfigStream != null) {
+                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(language);
+                defConfig.save(language);
+                Language.setFile(defConfig);
+            }
         }
         YamlConfiguration conf = YamlConfiguration.loadConfiguration(language);
         for (Language item : Language.values()) {
@@ -106,6 +119,53 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Failed to save lang.yml." + "\n"
                     + Language.TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
         }
+    }
+
+    private Set<Pet> loadPets() {
+        File petsFile = new File(getDataFolder(), "pets.yml");
+        if (!petsFile.exists()) {
+            saveResource("pets.yml", false);
+        }
+
+        Set<Pet> petSet = new HashSet<>();
+
+        YamlConfiguration petConfig = YamlConfiguration.loadConfiguration(petsFile);
+        Set<String> petNames = petConfig.getKeys(false);
+        for (String currentPetName : petNames) {
+            if (!petConfig.isConfigurationSection(currentPetName)) {
+                getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Rarity Config section with key: '" + currentPetName + "'.");
+                continue;
+            }
+            ConfigurationSection rarityConfigSection = petConfig.getConfigurationSection(currentPetName);
+            Set<String> rarities = rarityConfigSection.getKeys(false);
+            for (String currentRarity : rarities) {
+                if (!rarityConfigSection.isConfigurationSection(currentRarity)) {
+                    getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat Config section with key: '" + currentPetName + "." + currentRarity + "'.");
+                    continue;
+                }
+                Pet.Builder pet = Pet.builder()
+                        .setName(currentPetName)
+                        .setRarity(currentRarity)
+                        .setPermissionPrefix("PET");
+                ConfigurationSection statsConfigSection = rarityConfigSection.getConfigurationSection(currentRarity);
+                Set<String> stats = statsConfigSection.getKeys(false);
+                for (String currentStat : stats) {
+                    if (!statsConfigSection.isDouble(currentStat) && !statsConfigSection.isInt(currentStat) && !statsConfigSection.isLong(currentStat)) {
+                        getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat value with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
+                        continue;
+                    }
+                    try {
+                        Stats statType = Stats.valueOf(currentStat);
+                        double statsValue = statsConfigSection.getDouble(currentStat);
+                        pet.addStat(statType, statsValue);
+                    } catch (IllegalArgumentException e){
+                        getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat type with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
+                    }
+                }
+                petSet.add(pet.build());
+            }
+        }
+        return petSet;
     }
 
     public YamlConfiguration getLanguage() {

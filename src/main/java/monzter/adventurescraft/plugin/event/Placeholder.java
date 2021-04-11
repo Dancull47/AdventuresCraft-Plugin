@@ -2,12 +2,27 @@ package monzter.adventurescraft.plugin.event;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.PetEgg;
+import monzter.adventurescraft.plugin.event.extras.Stats;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.OfflinePlayer;
 
 import java.text.DecimalFormat;
+import java.util.*;
 
 public class Placeholder extends PlaceholderExpansion {
+
+    private final AdventuresCraft plugin;
+    private final Permission permission;
+    private final Set<Pet> pets;
+
+    public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets) {
+        this.plugin = plugin;
+        this.permission = permission;
+        this.pets = pets;
+    }
 
     @Override
     public boolean canRegister() {
@@ -88,22 +103,53 @@ public class Placeholder extends PlaceholderExpansion {
             case "PetEggDragon2_formatted":
                 return numberFormat(PetEgg.DRAGON2.expToHatch);
 
-                // STATS
+            // STATS
             case "Stat_MaxWeight":
                 String maxWeightDefault = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
                 String maxWeightPet = PlaceholderAPI.setPlaceholders(player, "%ac_PetMaxWeight_VALUE%");
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
                 return String.valueOf((Integer.valueOf(maxWeightDefault) + Integer.valueOf(maxWeightPet)) * Integer.valueOf(maxWeightMultiplier));
 
-                // PETS
+            case "Stat_MaxWeightMultiplier":
+                return String.valueOf(calculateStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
+
+            case "Stat_BlockMultiplier":
+                return String.valueOf(calculateStats(player, Stats.BLOCK_MULTIPLIER));
+
+            // PETS
+
             default:
                 return null;
         }
     }
 
-    private String numberFormat(int expToHatch) {
+    private String numberFormat(int number) {
         DecimalFormat format = new DecimalFormat("###,###,###");
-        return format.format(expToHatch);
+        return format.format(number);
     }
 
+    private double calculateStats(OfflinePlayer player, Stats petStat) {
+        double statSum = 0;
+        for (Pet pet : pets) {
+            if (hasPermission(player, pet.getPermission())) {
+                OptionalDouble stat = pet.getStat(petStat);
+                if (stat.isPresent()) {
+                    statSum += stat.getAsDouble();
+                }
+            }
+        }
+        if (statSum > 0) {
+            return statSum;
+        } else {
+            return petStat.getDefaultValue();
+        }
+    }
+
+    private boolean hasPermission(OfflinePlayer player, String permission) {
+        if (player.isOnline()) {
+            return player.getPlayer().hasPermission(permission);
+        } else {
+            return this.permission.playerHas(plugin.getServer().getWorlds().get(0).getName(), player, permission);
+        }
+    }
 }
