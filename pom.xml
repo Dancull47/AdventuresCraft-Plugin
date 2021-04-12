@@ -86,6 +86,12 @@
             <version>7.0.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.elmakers.mine.bukkit</groupId>
+            <artifactId>EffectLib</artifactId>
+            <version>9.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 

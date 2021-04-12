@@ -8,9 +8,11 @@ import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.Stats;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 public class Placeholder extends PlaceholderExpansion {
 
@@ -105,19 +107,16 @@ public class Placeholder extends PlaceholderExpansion {
 
             // STATS
             case "Stat_MaxWeight":
-                String maxWeightDefault = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
-                String maxWeightPet = PlaceholderAPI.setPlaceholders(player, "%ac_PetMaxWeight_VALUE%");
-                String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
-                return String.valueOf((Integer.valueOf(maxWeightDefault) + Integer.valueOf(maxWeightPet)) * Integer.valueOf(maxWeightMultiplier));
+                return calculateStats(player, "%betonquest_items:point.MaxWeight.amount%", "%ac_Stat_MaxWeightMultiplier%");
 
             case "Stat_MaxWeightMultiplier":
-                return String.valueOf(calculateStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
+                return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
 
             case "Stat_BlockMultiplier":
-                return String.valueOf(calculateStats(player, Stats.BLOCK_MULTIPLIER));
+                String blockMultiplierDefault = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_stamina_regeneration%");
+                return String.valueOf(calculatePetStats(player, Stats.BLOCK_MULTIPLIER) + Integer.valueOf(blockMultiplierDefault) + calculateBoosterStats(player, "block"));
 
             // PETS
-
             default:
                 return null;
         }
@@ -128,7 +127,7 @@ public class Placeholder extends PlaceholderExpansion {
         return format.format(number);
     }
 
-    private double calculateStats(OfflinePlayer player, Stats petStat) {
+    private double calculatePetStats(OfflinePlayer player, Stats petStat) {
         double statSum = 0;
         for (Pet pet : pets) {
             if (hasPermission(player, pet.getPermission())) {
@@ -143,6 +142,36 @@ public class Placeholder extends PlaceholderExpansion {
         } else {
             return petStat.getDefaultValue();
         }
+    }
+
+    private String calculateStats(OfflinePlayer player, String placeholder, String placeholder2) {
+        String stat = PlaceholderAPI.setPlaceholders(player, placeholder);
+        String stat2 = PlaceholderAPI.setPlaceholders(player, placeholder2);
+        return String.valueOf(Double.valueOf(stat + stat2));
+    }
+
+    private String calculateStats(Player player, String placeholder, String placeholder2, String placeholder3) {
+        String stat = PlaceholderAPI.setPlaceholders(player, placeholder);
+        String stat2 = PlaceholderAPI.setPlaceholders(player, placeholder2);
+        String stat3 = PlaceholderAPI.setPlaceholders(player, placeholder3);
+        return String.valueOf(Double.valueOf(stat + stat2 + stat3));
+    }
+
+    private String calculateStats(Player player, String placeholder, String placeholder2, String placeholder3, String placeholder4) {
+        String stat = PlaceholderAPI.setPlaceholders(player, placeholder);
+        String stat2 = PlaceholderAPI.setPlaceholders(player, placeholder2);
+        String stat3 = PlaceholderAPI.setPlaceholders(player, placeholder3);
+        String stat4 = PlaceholderAPI.setPlaceholders(player, placeholder4);
+        return String.valueOf(Double.valueOf(stat + stat2 + stat3 + stat4));
+    }
+
+    private int calculateBoosterStats(OfflinePlayer player, String booster) {
+        for (int i = 10; i > 0; i--) {
+            if (player.getPlayer().hasPermission(booster + ".booster." + i)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private boolean hasPermission(OfflinePlayer player, String permission) {

@@ -6,6 +6,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import monzter.adventurescraft.plugin.commands.BattlePass;
+import monzter.adventurescraft.plugin.commands.Booster;
 import monzter.adventurescraft.plugin.commands.Commands;
 import monzter.adventurescraft.plugin.event.*;
 import monzter.adventurescraft.plugin.event.extras.Pet;
@@ -69,6 +70,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreak(this, prisonMineFlag), this);
         getCommand("Captcha").setExecutor(new Commands(this));
         getCommand("BattlePass").setExecutor(new BattlePass(this));
+        getCommand("Booster").setExecutor(new Booster(this));
         saveDefaultConfig();
         new Placeholder(this, perms, loadPets()).register();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");
