@@ -167,7 +167,7 @@ public class Placeholder extends PlaceholderExpansion {
 
     private int calculateBoosterStats(OfflinePlayer player, String booster) {
         for (int i = 10; i > 0; i--) {
-            if (player.getPlayer().hasPermission(booster + ".booster." + i)) {
+            if (hasPermission(player, booster + ".booster." + i)) {
                 return i;
             }
         }

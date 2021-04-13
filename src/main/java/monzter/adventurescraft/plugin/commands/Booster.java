@@ -21,8 +21,13 @@ public class Booster implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
-            booster(args[0], Bukkit.getPlayer(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]));
-            return true;
+            Player target = Bukkit.getPlayer(args[1]);
+            if (args[1].contains("global")){
+                globalBooster(args[0], Integer.valueOf(args[2]), Integer.valueOf(args[3]));
+                return true;
+            } else if (target != null){
+                booster(args[0], target, Integer.valueOf(args[2]), Integer.valueOf(args[3]));
+            }
         }
         return true;
     }
@@ -52,6 +57,16 @@ public class Booster implements CommandExecutor {
         player.sendMessage(ChatColor.GREEN + "You've just activated a " + ChatColor.YELLOW + boosterTier + "x " + booster
                 + ChatColor.GREEN + "for " + ChatColor.YELLOW + boosterDuration + " minutes" + ChatColor.GREEN + "!");
 
+    }
+
+    public void globalBooster(String boosterType, int boosterTier, int boosterDuration){
+        for (Player player : plugin.getServer().getOnlinePlayers()){
+            player.sendTitle(ChatColor.GOLD.toString() + ChatColor.BOLD + "GLOBAL BOOSTER", ChatColor.GREEN.toString() + ChatColor.BOLD +"ACTIVATED!", 10,70,20);
+            player.sendMessage(ChatColor.GOLD + "A " + ChatColor.YELLOW + ChatColor.BOLD + "GLOBAL BOOSTER " + ChatColor.GOLD + "has been activated!");
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, 1f, 1f);
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR, 1f, 1f);
+            booster(boosterType, player, boosterTier, boosterDuration);
+        }
     }
 }
 
