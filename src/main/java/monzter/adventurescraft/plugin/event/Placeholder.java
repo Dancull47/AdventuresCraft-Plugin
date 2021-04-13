@@ -1,5 +1,6 @@
 package monzter.adventurescraft.plugin.event;
 
+import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
@@ -7,8 +8,11 @@ import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.Stats;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -107,7 +111,7 @@ public class Placeholder extends PlaceholderExpansion {
 
             // STATS
             case "Stat_MaxWeight":
-                String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
+                String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
                 return String.valueOf(Double.valueOf(maxWeight) * Double.valueOf(maxWeightMultiplier));
             case "Stat_MaxWeightMultiplier":
@@ -124,6 +128,9 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_Pet_EXPMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
+            case "Stat_Weight":
+                String currentWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Weight.amount%");
+                return currentWeight;
             case "Stat_Pet_EXPAmount":
                 String petEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%");
                 return petEXPAmount;
@@ -145,7 +152,17 @@ public class Placeholder extends PlaceholderExpansion {
                 String adventureCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
                 return adventureCoins;
 
-            // PETS
+            // ENCHANTMENTS
+            case "Enchantment_Experience":
+                return String.valueOf(calculateEnchantments(player, "Experience"));
+            case "Enchantment_Pet_Experience":
+                return String.valueOf(calculateEnchantments(player, "Pet Experience"));
+            case "Enchantment_Explosive":
+                return String.valueOf(calculateEnchantments(player, "Explosive"));
+            case "Enchantment_Explosive_Chance":
+                return String.valueOf(calculateEnchantments(player, "Explosive Chance"));
+            case "Enchantment_Luck":
+                return String.valueOf(calculateEnchantments(player, "Luck"));
             default:
                 return null;
         }
@@ -198,6 +215,20 @@ public class Placeholder extends PlaceholderExpansion {
         for (int i = 10; i > 0; i--) {
             if (hasPermission(player, booster + ".booster." + i)) {
                 return i;
+            }
+        }
+        return 0;
+    }
+
+    private int calculateEnchantments(OfflinePlayer player, String enchantment){
+        if (player.isOnline()){
+            Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
+            if (!enchantmentMap.isEmpty()){
+//                System.out.println(enchantmentMap);
+                if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))){
+//                    System.out.println(enchantment);
+                    return enchantmentMap.get(Enchantment.getByName(enchantment));
+                }
             }
         }
         return 0;

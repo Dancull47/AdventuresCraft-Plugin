@@ -16,7 +16,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.time.Instant;
 
-public class PlayerDropItem implements Listener {
+public class AntiDrop implements Listener {
     private final AdventuresCraft plugin;
     private final DropTier[] TIERS = new DropTier[]{
             new DropTier("COMMON", "DropPerm1", 2),
@@ -30,7 +30,7 @@ public class PlayerDropItem implements Listener {
 
     private static final int TIMEOUT = 5;
 
-    public PlayerDropItem(AdventuresCraft plugin) {
+    public AntiDrop(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 

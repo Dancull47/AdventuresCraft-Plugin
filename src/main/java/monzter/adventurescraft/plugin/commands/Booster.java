@@ -1,5 +1,7 @@
 package monzter.adventurescraft.plugin.commands;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -7,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Booster implements CommandExecutor {
     private final AdventuresCraft plugin;
@@ -33,12 +36,14 @@ public class Booster implements CommandExecutor {
         double x = player.getLocation().getX();
         double y = player.getLocation().getY();
         double z = player.getLocation().getZ();
+        hologram(player);
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + player.getName() + " permission settemp " + boosterType.toLowerCase() + ".booster." + boosterTier + " true " + boosterDuration + "m");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1f, 2f);
         player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, x, y + 2, z, 5, .25, .25, .25);
         player.sendMessage(ChatColor.GREEN + "You've just activated a " + ChatColor.YELLOW + boosterTier + "x " + getType(boosterType)
                 + ChatColor.GREEN + "for " + ChatColor.YELLOW + boosterDuration + " minutes" + ChatColor.GREEN + "!");
     }
+
     private void globalBooster(String boosterType, int boosterTier, int boosterDuration) {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             player.sendTitle(ChatColor.GOLD.toString() + ChatColor.BOLD + "GLOBAL BOOSTER", ChatColor.GREEN.toString() + ChatColor.BOLD + "ACTIVATED!", 10, 70, 20);
@@ -48,6 +53,23 @@ public class Booster implements CommandExecutor {
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR, 1f, 1f);
             booster(boosterType, player, boosterTier, boosterDuration);
         }
+    }
+
+    private void hologram(Player player) {
+        final Hologram hologram = HologramsAPI.createHologram(plugin, player.getLocation().add(0.0, 2.0, 0.0));
+        hologram.appendTextLine(ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + "BOOSTER ACTIVATED!");
+        new BukkitRunnable() {
+            int ticks;
+            @Override
+            public void run() {
+                ticks++;
+                hologram.teleport(player.getLocation().add(0.0, 2.0, 0.0));
+                if (ticks > 60) {
+                    hologram.delete();
+                    cancel();
+                }
+            }
+        }.runTaskTimer(plugin, 1L, 1L);
     }
 
     private String getType(String boosterType) {

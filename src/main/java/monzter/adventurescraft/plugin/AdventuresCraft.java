@@ -34,13 +34,12 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onLoad() {
-        if (!getDataFolder().mkdir()) {
-            getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Failed to create Plugin Folder!!!" + "\n"
-                    + Language.TITLE + ChatColor.RED + "Check your file permissions!!");
-            this.setEnabled(false);
-            return;
-        }
-
+//        if (!getDataFolder().mkdir()) {
+//            getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Failed to create Plugin Folder!!!" + "\n"
+//                    + Language.TITLE + ChatColor.RED + "Check your file permissions!!");
+//            this.setEnabled(false);
+//            return;
+//        }
         try {
             prisonMineFlag = registerFlag();
         } catch (IllegalStateException e) {
@@ -63,11 +62,12 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new ProjectileHit(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerDropItem(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteract(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractBlockActions(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreak(this, prisonMineFlag), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
         getCommand("Captcha").setExecutor(new Commands(this));
         getCommand("BattlePass").setExecutor(new BattlePass(this));
         getCommand("Booster").setExecutor(new Booster(this));
@@ -77,6 +77,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
             getLogger().log(Level.WARNING, "PlaceholderAPI is NOT installed!");
+        if (Bukkit.getPluginManager().getPlugin("HolographicDisplays") == null)
+            getLogger().log(Level.WARNING, "HolographicDisplays is NOT installed!");
     }
 
 

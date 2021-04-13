@@ -6,11 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-public class ProjectileHit implements Listener {
+public class ProjectileCancelArrowDrop implements Listener {
     private final AdventuresCraft plugin;
     private final boolean enabled;
 
-    public ProjectileHit(AdventuresCraft plugin) {
+    public ProjectileCancelArrowDrop(AdventuresCraft plugin) {
         enabled = plugin.getConfig().getBoolean("Arrow-Despawn", true);
         this.plugin = plugin;
     }

@@ -15,10 +15,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerInteract implements Listener {
+public class InteractPetEgg implements Listener {
     private AdventuresCraft plugin;
 
-    public PlayerInteract(AdventuresCraft plugin) {
+    public InteractPetEgg(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 
