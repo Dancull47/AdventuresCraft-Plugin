@@ -107,14 +107,43 @@ public class Placeholder extends PlaceholderExpansion {
 
             // STATS
             case "Stat_MaxWeight":
-                return calculateStats(player, "%betonquest_items:point.MaxWeight.amount%", "%ac_Stat_MaxWeightMultiplier%");
-
+                String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
+                String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
+                return String.valueOf(Double.valueOf(maxWeight) * Double.valueOf(maxWeightMultiplier));
             case "Stat_MaxWeightMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
-
             case "Stat_BlockMultiplier":
                 String blockMultiplierDefault = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_stamina_regeneration%");
-                return String.valueOf(calculatePetStats(player, Stats.BLOCK_MULTIPLIER) + Integer.valueOf(blockMultiplierDefault) + calculateBoosterStats(player, "block"));
+                return String.valueOf(calculatePetStats(player, Stats.BLOCK_MULTIPLIER) + Double.valueOf(blockMultiplierDefault) + calculateBoosterStats(player, "block"));
+            case "Stat_SellMultiplier":
+                return String.valueOf(calculatePetStats(player, Stats.SELL_MULTIPLIER) + calculateBoosterStats(player, "sell"));
+            case "Stat_LuckMultiplier":
+                return String.valueOf(calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
+            case "Stat_EXPMultiplier":
+                return String.valueOf(calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
+            case "Stat_Pet_EXPMultiplier":
+                return String.valueOf(calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
+
+            case "Stat_Pet_EXPAmount":
+                String petEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%");
+                return petEXPAmount;
+            case "Stat_EXPAmount":
+                String EXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%");
+                return EXPAmount;
+            case "Stat_PetAmount":
+                String petAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetAmount.amount%");
+                return petAmount;
+            case "Stat_MaxPetAmount":
+                String maxPetAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPetAmount.amount%");
+                return maxPetAmount;
+            case "Stat_BattlePassEXPAmount":
+                String battlePassEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_battlePass:point.EXP.amount%");
+                return battlePassEXPAmount;
+
+            // CURRENCIES
+            case "Currency_AdventureCoins":
+                String adventureCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
+                return adventureCoins;
 
             // PETS
             default:
@@ -150,14 +179,14 @@ public class Placeholder extends PlaceholderExpansion {
         return String.valueOf(Double.valueOf(stat + stat2));
     }
 
-    private String calculateStats(Player player, String placeholder, String placeholder2, String placeholder3) {
+    private String calculateStats(OfflinePlayer player, String placeholder, String placeholder2, String placeholder3) {
         String stat = PlaceholderAPI.setPlaceholders(player, placeholder);
         String stat2 = PlaceholderAPI.setPlaceholders(player, placeholder2);
         String stat3 = PlaceholderAPI.setPlaceholders(player, placeholder3);
         return String.valueOf(Double.valueOf(stat + stat2 + stat3));
     }
 
-    private String calculateStats(Player player, String placeholder, String placeholder2, String placeholder3, String placeholder4) {
+    private String calculateStats(OfflinePlayer player, String placeholder, String placeholder2, String placeholder3, String placeholder4) {
         String stat = PlaceholderAPI.setPlaceholders(player, placeholder);
         String stat2 = PlaceholderAPI.setPlaceholders(player, placeholder2);
         String stat3 = PlaceholderAPI.setPlaceholders(player, placeholder3);
