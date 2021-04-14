@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import monzter.adventurescraft.plugin.commands.BattlePass;
 import monzter.adventurescraft.plugin.commands.Booster;
 import monzter.adventurescraft.plugin.commands.Commands;
+import monzter.adventurescraft.plugin.commands.Sell;
 import monzter.adventurescraft.plugin.event.*;
 import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.Stats;
@@ -71,6 +72,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Captcha").setExecutor(new Commands(this));
         getCommand("BattlePass").setExecutor(new BattlePass(this));
         getCommand("Booster").setExecutor(new Booster(this));
+        getCommand("Sell").setExecutor(new Sell(this));
         saveDefaultConfig();
         new Placeholder(this, perms, loadPets()).register();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");

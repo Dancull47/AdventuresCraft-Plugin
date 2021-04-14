@@ -9,3 +9,4 @@ commands:
     usage: '/<command> <code>'
   BattlePass:
   Booster:
+  Sell:

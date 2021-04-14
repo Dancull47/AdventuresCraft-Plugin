@@ -113,7 +113,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_MaxWeight":
                 String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
-                return String.valueOf(Double.valueOf(maxWeight) * Double.valueOf(maxWeightMultiplier));
+                return String.valueOf((Double.valueOf(maxWeight) + calculatePetStats(player, Stats.MAX_WEIGHT)) * Double.valueOf(maxWeightMultiplier));
             case "Stat_MaxWeightMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
             case "Stat_BlockMultiplier":
@@ -122,11 +122,11 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_SellMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.SELL_MULTIPLIER) + calculateBoosterStats(player, "sell"));
             case "Stat_LuckMultiplier":
-                return String.valueOf(calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
+                return String.valueOf(calculateEnchantments(player, "Luck") + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
             case "Stat_EXPMultiplier":
-                return String.valueOf(calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
+                return String.valueOf(calculateEnchantments(player, "Experience") + calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
             case "Stat_Pet_EXPMultiplier":
-                return String.valueOf(calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
+                return String.valueOf(calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
             case "Stat_Weight":
                 String currentWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Weight.amount%");
@@ -224,9 +224,9 @@ public class Placeholder extends PlaceholderExpansion {
         if (player.isOnline()){
             Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
             if (!enchantmentMap.isEmpty()){
-//                System.out.println(enchantmentMap);
+                System.out.println(enchantmentMap);
                 if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))){
-//                    System.out.println(enchantment);
+                    System.out.println(enchantment);
                     return enchantmentMap.get(Enchantment.getByName(enchantment));
                 }
             }

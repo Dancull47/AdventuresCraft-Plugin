@@ -6,7 +6,7 @@ public enum Stats {
     LUCK_MULTIPLIER(1),
     MAX_WEIGHT(0),
     MAX_WEIGHT_MULTIPLIER(1),
-    PET_EXPERIENCE(0),
+    PET_EXPERIENCE(1),
     SELL_MULTIPLIER(1),
     ;
 
