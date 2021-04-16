@@ -15,11 +15,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
-public class Commands implements CommandExecutor {
+public class Commands implements CommandExecutor, @Nullable TabCompleter {
     private final AdventuresCraft plugin;
 
     public Commands(AdventuresCraft plugin) {
@@ -28,34 +35,62 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        switch (command.getName()) {
-            case "Discord":
-                final TextComponent textComponent = Component.text("Join our ")
-                        .color(NamedTextColor.GREEN)
-                        .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
-                        .hoverEvent(Component.text("Click to join the Discord!", NamedTextColor.GREEN))
-                        .clickEvent(ClickEvent.openUrl("https://discord.com/invite/bw4DztR"))
-                        .append(Component.text(" for"))
-                        .append(Component.text(" Giveaways, Supports, and more", NamedTextColor.GOLD))
-                        .append(Component.text("!"));
-                sender.sendMessage(textComponent);
-                return true;
-            case "Bank":
-                if (sender.hasPermission("bank.open.command")){
-                    Player player = sender.getServer().getPlayer(sender.getName());
-                    player.performCommand("banks open");
-                } else{
-                    final TextComponent textComponent2 = Component.text("You can only access your Bank at a nearby Enderchest! If you wish to use it in your Menu, purchase the ")
-                            .color(NamedTextColor.RED)
-                            .append(Component.text("Explorer Rank", NamedTextColor.GREEN))
-                            .hoverEvent(Component.text(NamedTextColor.GREEN + "Click to visit the " + NamedTextColor.GOLD + TextDecoration.BOLD + "STORE" + NamedTextColor.GREEN + "!"))
-                            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net/category/Rank"))
-                            .append(Component.text(NamedTextColor.RED + "!"));
-                    sender.sendMessage(textComponent2);
-                }
-            default:
-                return false;
+        if (sender instanceof Player) {
+            Player player = ((Player) sender).getPlayer();
+            switch (command.getName()) {
+                case "Discord":
+                    final TextComponent textComponent = Component.text("Join our ")
+                            .color(NamedTextColor.GREEN)
+                            .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
+                            .hoverEvent(Component.text("Click to join the Discord!", NamedTextColor.GREEN))
+                            .clickEvent(ClickEvent.openUrl("https://discord.com/invite/bw4DztR"))
+                            .append(Component.text(" for"))
+                            .append(Component.text(" Giveaways, Supports, and more", NamedTextColor.GOLD))
+                            .append(Component.text("!"));
+                    player.sendMessage(textComponent);
+                    return true;
+                case "Bank":
+                    if (player.hasPermission("bank.open.command")) {
+                        player.performCommand("banks open");
+                    } else {
+                        final TextComponent textComponent2 = Component.text("You can only access your Bank at a nearby Enderchest! If you wish to use it in your Menu, purchase the ")
+                                .color(NamedTextColor.RED)
+                                .append(Component.text("Explorer Rank", NamedTextColor.GREEN))
+                                .hoverEvent(Component.text(NamedTextColor.GREEN + "Click to visit the " + NamedTextColor.GOLD + TextDecoration.BOLD + "STORE" + NamedTextColor.GREEN + "!"))
+                                .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net/category/Rank"))
+                                .append(Component.text(NamedTextColor.RED + "!"));
+                        player.sendMessage(textComponent2);
+                    }
+                    // BROKEN
+                case "Pet":
+                    if (args.length < 1) {
+                        System.out.println("Test");
+                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
+                    } else if (args[0].toLowerCase().contains("summon")) {
+                        player.performCommand("mpet open");
+                    } else if (args[0].toLowerCase().contains("equip")) {
+                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
+                    }
+                default:
+                    return false;
+            }
         }
+        return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1) {
+            List<String> commands = new ArrayList<>();
+            List<String> arg1 = Arrays.asList("Summon", "SummonMenu", "Equip", "Equipped", "EquippedMenu");
+            for (String typeChars : arg1) {
+                if (args[0].length() < 1 || typeChars.toLowerCase().contains(args[0].toLowerCase())) {
+                    commands.add(typeChars);
+                }
+            }
+            return commands;
+        }
+        return null;
     }
 }
 

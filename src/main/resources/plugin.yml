@@ -11,6 +11,7 @@ commands:
   Booster:
   Sell:
   Discord:
+  Pet:
   Bank:
     aliases: [Enderchest, Vault]
   Warp:
