@@ -10,3 +10,7 @@ commands:
   BattlePass:
   Booster:
   Sell:
+  Discord:
+  Bank:
+    aliases: [ Enderchest, Vault ]
+  Warp:

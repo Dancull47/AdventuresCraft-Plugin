@@ -5,10 +5,7 @@ import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
-import monzter.adventurescraft.plugin.commands.BattlePass;
-import monzter.adventurescraft.plugin.commands.Booster;
-import monzter.adventurescraft.plugin.commands.Commands;
-import monzter.adventurescraft.plugin.commands.Sell;
+import monzter.adventurescraft.plugin.commands.*;
 import monzter.adventurescraft.plugin.event.*;
 import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.Stats;
@@ -69,10 +66,13 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new InteractBlockActions(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
-        getCommand("Captcha").setExecutor(new Commands(this));
+        getCommand("Discord").setExecutor(new Commands(this));
+        getCommand("Bank").setExecutor(new Commands(this));
         getCommand("BattlePass").setExecutor(new BattlePass(this));
         getCommand("Booster").setExecutor(new Booster(this));
         getCommand("Sell").setExecutor(new Sell(this));
+        getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
+        getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
         saveDefaultConfig();
         new Placeholder(this, perms, loadPets()).register();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");
@@ -164,7 +164,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                         Stats statType = Stats.valueOf(currentStat);
                         double statsValue = statsConfigSection.getDouble(currentStat);
                         pet.addStat(statType, statsValue);
-                    } catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat type with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
                     }
                 }
@@ -172,6 +172,19 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             }
         }
         return petSet;
+    }
+
+    private YamlConfiguration loadWarps() {
+        File warpsFile = new File(getDataFolder(), "warps.yml");
+        if (!warpsFile.exists()) {
+            saveResource("warps.yml", false);
+        }
+
+        YamlConfiguration petConfig = YamlConfiguration.loadConfiguration(warpsFile);
+        return petConfig;
+    }
+    public File getWarpsFile(){
+        return new File(getDataFolder(), "warps.yml");
     }
 
     public YamlConfiguration getLanguage() {
