@@ -32,7 +32,6 @@ public class Sell implements CommandExecutor {
         }
         return false;
     }
-// Need to subtract points and convert Materials into common names
     private void sell(Player player) {
         double counter = 0;
         for (WeightPrices material : WeightPrices.values()) {
@@ -43,6 +42,9 @@ public class Sell implements CommandExecutor {
                 counter += calculation;
                 player.sendMessage(ChatColor.GREEN + "You sold " + ChatColor.GOLD + materialAmount + "x " + material.getMaterial().toString() + ChatColor.GREEN + " for $"
                         + ChatColor.YELLOW + calculation + ChatColor.GREEN + "!");
+                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " dell items." + material.toString());
+                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " dell items.Weight");
+                plugin.money(player, calculation);
             }
         }
         player.sendMessage(ChatColor.GREEN + "You made " + ChatColor.GOLD + counter + ChatColor.GREEN + "!");

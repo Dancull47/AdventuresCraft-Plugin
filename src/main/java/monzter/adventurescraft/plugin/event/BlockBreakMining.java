@@ -87,13 +87,15 @@ public class BlockBreakMining implements Listener {
                                         for (WeightPrices newMaterial : WeightPrices.values()) {
                                             System.out.println("Made it to Loop!");
                                             System.out.println(newBlock.getType());
-                                            if (newMaterial.material.equals(newBlock.getType())) {
+                                            if (newMaterial.material.equals(newBlock.getType()) && newBlock.getType() != Material.AIR) {
                                                 System.out.println("Found Block");
                                                 System.out.println(newMaterial.weight);
-                                                System.out.println(newMaterial.weight*blockMultiplier);
-                                                if ((newMaterial.weight * blockMultiplier) + currentWeight <= maxWeight) {
+                                                System.out.println(newMaterial.weight * blockMultiplier);
+                                                if (((newMaterial.weight * blockMultiplier) + currentWeight) <= maxWeight) {
                                                     minedBlock(player, newMaterial.material, blockMultiplier, (newMaterial.weight * blockMultiplier));
                                                     newBlock.setType(Material.AIR);
+                                                } else {
+                                                    tooHeavy(player);
                                                 }
                                             }
                                         }

@@ -12,5 +12,7 @@ commands:
   Sell:
   Discord:
   Bank:
-    aliases: [ Enderchest, Vault ]
+    aliases: [Enderchest, Vault]
   Warp:
+    aliases: [Travel]
+  Mine:

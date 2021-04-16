@@ -34,7 +34,7 @@ public class InteractBlockActions implements Listener {
 
     @EventHandler
     public void enchantingTable(PlayerInteractEvent event) {
-        if (!event.getClickedBlock().getType().equals(null) && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
             Player player = event.getPlayer();
             ItemStack itemStack = event.getItem();
             if (itemStack != null) {
@@ -49,7 +49,6 @@ public class InteractBlockActions implements Listener {
             } else {
                 event.setCancelled(true);
                 player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-
             }
         }
     }

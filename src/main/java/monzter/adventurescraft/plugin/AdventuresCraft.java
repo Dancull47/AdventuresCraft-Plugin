@@ -9,12 +9,16 @@ import monzter.adventurescraft.plugin.commands.*;
 import monzter.adventurescraft.plugin.event.*;
 import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.Stats;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -26,6 +30,7 @@ import java.util.logging.Level;
 
 public class AdventuresCraft extends JavaPlugin implements Listener {
     private static Permission perms = null;
+    private static Economy econ = null;
     public static YamlConfiguration LANGUAGE;
     public static File LANGUAGE_FILE;
     private StateFlag prisonMineFlag;
@@ -49,6 +54,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        if (!setupEconomy() ) {
+            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         try {
             loadLang();
         } catch (IOException e) {
@@ -71,6 +81,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("BattlePass").setExecutor(new BattlePass(this));
         getCommand("Booster").setExecutor(new Booster(this));
         getCommand("Sell").setExecutor(new Sell(this));
+        getCommand("Mine").setExecutor(new Mine(this));
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
         saveDefaultConfig();
@@ -90,12 +101,32 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
 
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
+    }
+    public void money(Player player, double amount){
+        EconomyResponse r = econ.depositPlayer(player, amount);
+        if(!r.transactionSuccess()) {
+            player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!");
+            getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
+        }
+    }
     private void setupPermissions() {
         perms = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
     }
-
     public Permission getPermissions() {
         return perms;
+    }
+    public static Economy getEconomy() {
+        return econ;
     }
 
 
