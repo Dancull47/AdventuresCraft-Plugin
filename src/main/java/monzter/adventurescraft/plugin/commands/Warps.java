@@ -142,7 +142,6 @@ public class Warps implements TabExecutor {
             String permission = null;
             List<String> warpArray = new ArrayList<>();
             Set<String> warpNames = warps.getKeys(false);
-            System.out.println(args[0].length());
             for (String currentWarpName : warpNames) {
                 if (args[0].length() < 1 || currentWarpName.toLowerCase().contains(args[0].toLowerCase())) {
                     ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
@@ -160,12 +159,6 @@ public class Warps implements TabExecutor {
                 }
             }
             return warpArray;
-        } else if (args.length == 2) {
-            List<String> arguments = new ArrayList<>();
-            arguments.add("Daddy");
-            arguments.add("JamesHarden#1");
-
-            return arguments;
         }
         return null;
     }
