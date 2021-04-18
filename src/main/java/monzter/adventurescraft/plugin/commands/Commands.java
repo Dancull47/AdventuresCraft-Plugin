@@ -12,22 +12,23 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Commands implements CommandExecutor, @Nullable TabCompleter {
     private final AdventuresCraft plugin;
+    private HashMap<UUID, Integer> codeAttempts = new HashMap<>();
 
     public Commands(AdventuresCraft plugin) {
         this.plugin = plugin;
@@ -61,16 +62,28 @@ public class Commands implements CommandExecutor, @Nullable TabCompleter {
                                 .append(Component.text(NamedTextColor.RED + "!"));
                         player.sendMessage(textComponent2);
                     }
-                    // BROKEN
+                    return true;
                 case "Pet":
                     if (args.length < 1) {
-                        System.out.println("Test");
                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
                     } else if (args[0].toLowerCase().contains("summon")) {
                         player.performCommand("mpet open");
                     } else if (args[0].toLowerCase().contains("equip")) {
                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
                     }
+                    return true;
+                case "Spawn":
+                    sendToSpawn(player);
+                    return true;
+                case "ActiveQuests":
+                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "rpgmenu open default-Menus-menu.active " + player.getName());
+                    return true;
+                case "UnclaimedQuests":
+                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "rpgmenu open default-Menus-menu.unclaimed " + player.getName());
+                    return true;
+                case "Quest":
+                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Quests " + player.getName());
+                    return true;
                 default:
                     return false;
             }
@@ -80,17 +93,21 @@ public class Commands implements CommandExecutor, @Nullable TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length == 1) {
-            List<String> commands = new ArrayList<>();
-            List<String> arg1 = Arrays.asList("Summon", "SummonMenu", "Equip", "Equipped", "EquippedMenu");
-            for (String typeChars : arg1) {
-                if (args[0].length() < 1 || typeChars.toLowerCase().contains(args[0].toLowerCase())) {
-                    commands.add(typeChars);
-                }
+        if (command.getName().toLowerCase().equals("pet")) {
+            if (args.length == 1) {
+                List<String> arguments = new ArrayList<>(Arrays.asList("Summon", "Equipped"));
+                return arguments;
             }
-            return commands;
         }
         return null;
+    }
+
+    public void sendToSpawn(Player player) {
+        if (player.getWorld().getName().equals("World")) {
+            player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1);
+            player.sendMessage(ChatColor.GREEN + "You've traveled to the " + ChatColor.YELLOW + "Yard" + ChatColor.GREEN + "!");
+            player.teleport(new Location(player.getWorld(), 1181.5, 202, 1603.5, 89.8f, -0.7f));
+        }
     }
 }
 

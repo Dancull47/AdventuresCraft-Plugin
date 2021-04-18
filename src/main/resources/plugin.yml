@@ -17,3 +17,13 @@ commands:
   Warp:
     aliases: [Travel]
   Mine:
+  Spawn:
+    aliases: [Yard]
+  Quest:
+    aliases: [Quests, QuestMenu, QuestsMenu]
+  ActiveQuest:
+    aliases: [ActiveQuests, CurrentQuest, CurrentQuests]
+  UnclaimedQuest:
+    aliases: [UnclaimedQuests]
+  Login:
+

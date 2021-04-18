@@ -45,7 +45,7 @@ public class AntiDrop implements Listener {
             for (DropTier dropTier : TIERS) {
                 if (dropTier.getTier() == tier && player.hasPermission(dropTier.getPermission())) {
                     if (!player.hasMetadata("LAST_DROP"))
-                        player.setMetadata("LAST_DROP", new FixedMetadataValue(MMOItems.plugin, Instant.now().getEpochSecond()));
+                        player.setMetadata("LAST_DROP", new FixedMetadataValue(plugin, Instant.now().getEpochSecond()));
 
                     long lastDrop = player.getMetadata("LAST_DROP").get(0).asLong();
 

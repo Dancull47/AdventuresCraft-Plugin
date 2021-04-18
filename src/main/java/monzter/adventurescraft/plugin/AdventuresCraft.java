@@ -69,13 +69,18 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         }
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractBlockActions(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
+        getCommand("Login").setExecutor(new Security(this));
+        getCommand("Spawn").setExecutor(new Commands(this));
+        getCommand("ActiveQuest").setExecutor(new Commands(this));
+        getCommand("UnclaimedQuest").setExecutor(new Commands(this));
+        getCommand("Quest").setExecutor(new Commands(this));
         getCommand("Pet").setExecutor(new Commands(this));
         getCommand("Pet").setTabCompleter(new Commands(this));
         getCommand("Discord").setExecutor(new Commands(this));
