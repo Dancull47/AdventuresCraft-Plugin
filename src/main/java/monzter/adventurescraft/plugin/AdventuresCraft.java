@@ -9,6 +9,8 @@ import monzter.adventurescraft.plugin.commands.*;
 import monzter.adventurescraft.plugin.event.*;
 import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.Stats;
+import monzter.adventurescraft.plugin.mySQL.MySQL;
+import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
@@ -29,6 +31,8 @@ import java.util.Set;
 import java.util.logging.Level;
 
 public class AdventuresCraft extends JavaPlugin implements Listener {
+    public MySQL SQL;
+    public SQLGetter data;
     private static Permission perms = null;
     private static Economy econ = null;
     public static YamlConfiguration LANGUAGE;
@@ -54,9 +58,12 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        if (!setupEconomy() ) {
+        this.SQL = new MySQL(this);
+        this.data = new SQLGetter(this);
+        SQL.connect();
+        if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
+            this.setEnabled(false);
             return;
         }
         try {
@@ -105,6 +112,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has shut down!");
+        SQL.disconnect();
     }
 
 
@@ -119,19 +127,23 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         econ = rsp.getProvider();
         return econ != null;
     }
-    public void money(Player player, double amount){
+
+    public void money(Player player, double amount) {
         EconomyResponse r = econ.depositPlayer(player, amount);
-        if(!r.transactionSuccess()) {
+        if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!");
             getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
         }
     }
+
     private void setupPermissions() {
         perms = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
     }
+
     public Permission getPermissions() {
         return perms;
     }
+
     public static Economy getEconomy() {
         return econ;
     }
@@ -221,7 +233,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         YamlConfiguration petConfig = YamlConfiguration.loadConfiguration(warpsFile);
         return petConfig;
     }
-    public File getWarpsFile(){
+
+    public File getWarpsFile() {
         return new File(getDataFolder(), "warps.yml");
     }
 
@@ -253,6 +266,59 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 throw new IllegalStateException();
             }
         }
-
     }
+
+//    public void createTable() {
+//        String sql = "CREATE TABLE IF NOT EXISTS adventuresCraft (Player varchar(200), dailyLogin double);";
+//// prepare the statement to be executed
+//        try {
+//            PreparedStatement stmt = connection.prepareStatement(sql);
+//            // use executeUpdate() to update the databases table.
+//            stmt.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
+//    //https://www.spigotmc.org/wiki/mysql-database-integration-with-your-plugin/
+//    //https://www.spigotmc.org/threads/using-mysql-with-java-basic-tutorial.222291/
+//    public void addToDB(Player player) {
+//        String sql = "UPDATE adventuresCraft SET dailyLogin=? WHERE Player=?";
+//        try {
+//            PreparedStatement stmt = connection.prepareStatement(sql);
+//            stmt.setString(2, player.getUniqueId().toString());
+//            stmt.setLong(1, Instant.now().getEpochSecond());
+//            int update = stmt.executeUpdate();
+//            if (update == 0) {
+//                sql = "INSERT INTO adventuresCraft (Player, dailyLogin) VALUES (?, ?);";
+//                stmt = connection.prepareStatement(sql);
+//                stmt.setString(1, player.getUniqueId().toString());
+//                stmt.setLong(2, Instant.now().getEpochSecond());
+//                stmt.execute();
+//                stmt.close();
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
+//    public void checkFromDB(Player player) {
+//        String sql = "SELECT dailyLogin FROM adventuresCraft WHERE Player=?";
+//        PreparedStatement stmt = null;
+//        try {
+//            stmt = connection.prepareStatement(sql);
+//            stmt.setString(1, player.getUniqueId().toString()); // Set first "?" to query string
+//            ResultSet results = stmt.executeQuery();
+//            if (!results.next()) {
+//                System.out.println("Failed");
+//            } else {
+//                System.out.println(results.getString("dailyLogin"));
+//                System.out.println("Success");
+//            }
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//    }
 }

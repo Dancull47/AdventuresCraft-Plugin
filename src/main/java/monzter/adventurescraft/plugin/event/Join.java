@@ -18,8 +18,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class Join implements Listener {
     private AdventuresCraft plugin;
+    private static final SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public Join(AdventuresCraft plugin) {
         this.plugin = plugin;
@@ -48,5 +55,11 @@ public class Join implements Listener {
                 player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
             }
         }
+//        if (Instant.now().getEpochSecond() - plugin.data.getLoginTime(player.getUniqueId()) >= 86400){
+//            plugin.data.setLoginTime(player.getUniqueId(), Instant.now().getEpochSecond());
+//            player.sendMessage("Enjoy your daily login reward!");
+//        } else {
+//            player.sendMessage("Come back in 24 hours!");
+//        }
     }
 }
