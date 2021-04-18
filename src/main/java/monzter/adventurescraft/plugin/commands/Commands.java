@@ -86,6 +86,9 @@ public class Commands implements CommandExecutor, @Nullable TabCompleter {
                 case "Quest":
                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Quests " + player.getName());
                     return true;
+                case "PointsDebug":
+                    player.sendMessage(ChatColor.GREEN + "You have mined " + plugin.data.getPointAmount(player.getUniqueId(), args[0]));
+                    return true;
                 default:
                     return false;
             }

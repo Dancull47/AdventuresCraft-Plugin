@@ -85,6 +85,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
         getCommand("Login").setExecutor(new Security(this));
         getCommand("Spawn").setExecutor(new Commands(this));
+        getCommand("PointsDebug").setExecutor(new Commands(this));
         getCommand("ActiveQuest").setExecutor(new Commands(this));
         getCommand("UnclaimedQuest").setExecutor(new Commands(this));
         getCommand("Quest").setExecutor(new Commands(this));

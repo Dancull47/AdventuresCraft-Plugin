@@ -55,11 +55,5 @@ public class Join implements Listener {
                 player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
             }
         }
-//        if (Instant.now().getEpochSecond() - plugin.data.getLoginTime(player.getUniqueId()) >= 86400){
-//            plugin.data.setLoginTime(player.getUniqueId(), Instant.now().getEpochSecond());
-//            player.sendMessage("Enjoy your daily login reward!");
-//        } else {
-//            player.sendMessage("Come back in 24 hours!");
-//        }
     }
 }

@@ -21,7 +21,7 @@ public class SQLGetter {
         PreparedStatement ps;
         try {
             ps = plugin.SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS ac_daily_login "
-                    + "(name VARCHAR(100),uuid VARCHAR(100),pointType VARCHAR(100),pointAmount BIGINT(100),PRIMARY KEY (name));");
+                    + "(name VARCHAR(100),uuid VARCHAR(100),pointType VARCHAR(100),pointAmount BIGINT(100), CONSTRAINT ac_daily_login PRIMARY KEY (uuid, pointType));");
             ps.executeUpdate();
         } catch (SQLException e) {
             plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed to create Table!", e);
@@ -30,37 +30,39 @@ public class SQLGetter {
 
     public void createPlayer(Player player, String pointType, long pointAmount) {
         try {
-            if (!exists(player.getUniqueId(), pointType)) {
-                PreparedStatement ps2 = plugin.SQL.getConnection().prepareStatement("INSERT INTO ac_daily_login (name,uuid,pointType,pointAmount) VALUES (?,?,?,?);");
+//            if (!exists(player.getUniqueId(), pointType)) {
+                PreparedStatement ps2 = plugin.SQL.getConnection().prepareStatement("INSERT INTO ac_daily_login (name,uuid,pointType,pointAmount) VALUES (?,?,?,?) " +
+                        "ON DUPLICATE KEY UPDATE pointAmount=pointAmount+?;");
                 ps2.setString(1, player.getName());
                 ps2.setString(2, player.getUniqueId().toString());
                 ps2.setString(3, pointType);
                 ps2.setLong(4, pointAmount);
+                ps2.setLong(5, pointAmount);
                 ps2.executeUpdate();
                 return;
-            }
+//            }
         } catch (SQLException e) {
             plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed to create Player!", e);
         }
     }
 
-    public boolean exists(UUID uuid, String pointType) {
-        try {
-            PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT pointType FROM ac_daily_login WHERE uuid=? AND pointType=?");
-            ps.setString(1, pointType);
-            ps.setString(2, uuid.toString());
-            ps.setString(3, pointType);
-            ResultSet results = ps.executeQuery();
-            if (results.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException e) {
-            plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed to check if Exists!", e);
-            return false;
-        }
-    }
+//    public boolean exists(UUID uuid, String pointType) {
+//        try {
+//            PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT pointType FROM ac_daily_login WHERE uuid=? AND pointType=?");
+//            ps.setString(1, pointType);
+//            ps.setString(2, uuid.toString());
+//            ps.setString(3, pointType);
+//            ResultSet results = ps.executeQuery();
+//            if (results.next()) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } catch (SQLException e) {
+//            plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed to check if Exists!", e);
+//            return false;
+//        }
+//    }
 
     public void setPointAmount(UUID uuid, String pointType, long pointAmount) {
         try {

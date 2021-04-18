@@ -39,7 +39,7 @@ public class BlockBreakMining implements Listener {
     @EventHandler
     public void mine(BlockBreakEvent event) {
         Player player = event.getPlayer();
-//        plugin.data.createPlayer(player, event.getBlock().getType().name(), 1);
+        plugin.data.createPlayer(player, event.getBlock().getType().name(), 1);
 //        plugin.data.setPointAmount(player.getUniqueId(), event.getBlock().getType().name(), 1);
         int enchantmentExperience = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Experience%"));
         int enchantmentPetExperience = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Pet_Experience%"));
