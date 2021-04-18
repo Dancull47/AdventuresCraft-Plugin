@@ -65,13 +65,6 @@ public class Placeholder extends PlaceholderExpansion {
 
         switch (identifier) {
 
-
-            case "PetExp":
-            case "PetExperience":
-                String playerPetEXP = "%betonquest_items:point.PetExperience.amount%";
-                playerPetEXP = PlaceholderAPI.setPlaceholders(player, playerPetEXP);
-                return playerPetEXP;
-
             case "PetEgg":
                 return String.valueOf(PetEgg.COMMON.expToHatch);
             case "PetEgg_formatted":
@@ -110,6 +103,9 @@ public class Placeholder extends PlaceholderExpansion {
                 return numberFormat(PetEgg.DRAGON2.expToHatch);
 
             // STATS
+            case "Stat_MiningSpeed":
+                String miningSpeed = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_faction_damage_breakingspeed%");
+                return miningSpeed;
             case "Stat_MaxWeight":
                 String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
@@ -224,9 +220,9 @@ public class Placeholder extends PlaceholderExpansion {
         if (player.isOnline()){
             Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
             if (!enchantmentMap.isEmpty()){
-                System.out.println(enchantmentMap);
+//                System.out.println(enchantmentMap);
                 if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))){
-                    System.out.println(enchantment);
+//                    System.out.println(enchantment);
                     return enchantmentMap.get(Enchantment.getByName(enchantment));
                 }
             }

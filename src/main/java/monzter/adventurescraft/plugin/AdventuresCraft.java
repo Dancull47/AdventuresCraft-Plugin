@@ -38,7 +38,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public static YamlConfiguration LANGUAGE;
     public static File LANGUAGE_FILE;
     private StateFlag prisonMineFlag;
-
     @Override
     public void onLoad() {
 //        if (!getDataFolder().mkdir()) {
@@ -85,7 +84,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
         getCommand("Login").setExecutor(new Security(this));
         getCommand("Spawn").setExecutor(new Commands(this));
-        getCommand("PointsDebug").setExecutor(new Commands(this));
+        getCommand("PointsDebug").setExecutor(new AdminCommands(this));
+        getCommand("Stat").setExecutor(new AdminCommands(this));
         getCommand("ActiveQuest").setExecutor(new Commands(this));
         getCommand("UnclaimedQuest").setExecutor(new Commands(this));
         getCommand("Quest").setExecutor(new Commands(this));

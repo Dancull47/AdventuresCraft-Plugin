@@ -74,8 +74,6 @@ public class Commands implements CommandExecutor, @Nullable TabCompleter {
                     return true;
                 case "Spawn":
                     sendToSpawn(player);
-                    plugin.data.setPointAmount(player.getUniqueId(), "STONE", 1);
-                    player.sendMessage(String.valueOf(plugin.data.getPointAmount(player.getUniqueId(), "STONE")));
                     return true;
                 case "ActiveQuests":
                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "rpgmenu open default-Menus-menu.active " + player.getName());
@@ -85,9 +83,6 @@ public class Commands implements CommandExecutor, @Nullable TabCompleter {
                     return true;
                 case "Quest":
                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Quests " + player.getName());
-                    return true;
-                case "PointsDebug":
-                    player.sendMessage(ChatColor.GREEN + "You have mined " + plugin.data.getPointAmount(player.getUniqueId(), args[0]));
                     return true;
                 default:
                     return false;

@@ -26,7 +26,6 @@ import java.util.TimeZone;
 
 public class Join implements Listener {
     private AdventuresCraft plugin;
-    private static final SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public Join(AdventuresCraft plugin) {
         this.plugin = plugin;

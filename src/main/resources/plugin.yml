@@ -27,3 +27,4 @@ commands:
     aliases: [UnclaimedQuests]
   Login:
   PointsDebug:
+  Stat:
