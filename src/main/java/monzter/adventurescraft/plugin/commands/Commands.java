@@ -1,15 +1,11 @@
 package monzter.adventurescraft.plugin.commands;
 
-import monzter.adventurescraft.plugin.Language;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,12 +14,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Commands implements CommandExecutor, @Nullable TabCompleter {
@@ -39,28 +32,38 @@ public class Commands implements CommandExecutor, @Nullable TabCompleter {
         if (sender instanceof Player) {
             Player player = ((Player) sender).getPlayer();
             switch (command.getName()) {
+                case "Vote":
+                    final TextComponent vote = Component.text("You can")
+                            .color(NamedTextColor.GREEN)
+                            .append(Component.text(" Vote ", NamedTextColor.GOLD))
+                            .hoverEvent(Component.text("Click to visit Voting Guide!", NamedTextColor.GREEN))
+                            .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"))
+                            .append(Component.text(" for our Server, to receive awesome rewards every day!"));
+                    player.sendMessage(vote);
+                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Vote " + player.getName());
+                    return true;
                 case "Discord":
-                    final TextComponent textComponent = Component.text("Join our ")
+                    final TextComponent discord = Component.text("Join our ")
                             .color(NamedTextColor.GREEN)
                             .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
                             .hoverEvent(Component.text("Click to join the Discord!", NamedTextColor.GREEN))
                             .clickEvent(ClickEvent.openUrl("https://discord.com/invite/bw4DztR"))
                             .append(Component.text(" for"))
-                            .append(Component.text(" Giveaways, Supports, and more", NamedTextColor.GOLD))
+                            .append(Component.text(" Giveaways, Support, and more", NamedTextColor.GOLD))
                             .append(Component.text("!"));
-                    player.sendMessage(textComponent);
+                    player.sendMessage(discord);
                     return true;
                 case "Bank":
                     if (player.hasPermission("bank.open.command")) {
                         player.performCommand("banks open");
                     } else {
-                        final TextComponent textComponent2 = Component.text("You can only access your Bank at a nearby Enderchest! If you wish to use it in your Menu, purchase the ")
+                        final TextComponent bankDeny = Component.text("You can only access your Bank at a nearby Enderchest! If you wish to use it in your Menu, purchase the ")
                                 .color(NamedTextColor.RED)
                                 .append(Component.text("Explorer Rank", NamedTextColor.GREEN))
                                 .hoverEvent(Component.text(NamedTextColor.GREEN + "Click to visit the " + NamedTextColor.GOLD + TextDecoration.BOLD + "STORE" + NamedTextColor.GREEN + "!"))
                                 .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net/category/Rank"))
                                 .append(Component.text(NamedTextColor.RED + "!"));
-                        player.sendMessage(textComponent2);
+                        player.sendMessage(bankDeny);
                     }
                     return true;
                 case "Pet":

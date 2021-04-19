@@ -1,28 +1,15 @@
 package monzter.adventurescraft.plugin.event;
 
-import io.lumine.mythic.lib.api.item.NBTItem;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import net.Indyuce.mmocore.api.player.PlayerData;
-import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class Join implements Listener {
     private AdventuresCraft plugin;
@@ -35,6 +22,7 @@ public class Join implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         ItemStack book = player.getInventory().getItem(8);
+        player.setCollidable(true);
         if (book != null || book.getType() == Material.WRITTEN_BOOK) {
             player.openBook(book);
         }

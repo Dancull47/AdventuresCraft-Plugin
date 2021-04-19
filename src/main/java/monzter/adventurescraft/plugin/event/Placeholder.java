@@ -1,5 +1,16 @@
 package monzter.adventurescraft.plugin.event;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.StringFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -8,14 +19,17 @@ import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.Stats;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class Placeholder extends PlaceholderExpansion {
@@ -23,11 +37,15 @@ public class Placeholder extends PlaceholderExpansion {
     private final AdventuresCraft plugin;
     private final Permission permission;
     private final Set<Pet> pets;
+    private final StringFlag displayNameFlag;
+    private long restartTime;
 
-    public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets) {
+    public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets, StringFlag displayNameFlag, long restartTime) {
         this.plugin = plugin;
         this.permission = permission;
         this.pets = pets;
+        this.displayNameFlag = displayNameFlag;
+        this.restartTime = restartTime;
     }
 
     @Override
@@ -109,7 +127,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_MaxWeight":
                 String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
-                return String.valueOf((Double.valueOf(maxWeight) + calculatePetStats(player, Stats.MAX_WEIGHT)) * Double.valueOf(maxWeightMultiplier));
+                return String.valueOf((50 + Double.valueOf(maxWeight) + calculatePetStats(player, Stats.MAX_WEIGHT)) * Double.valueOf(maxWeightMultiplier));
             case "Stat_MaxWeightMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
             case "Stat_BlockMultiplier":
@@ -138,7 +156,7 @@ public class Placeholder extends PlaceholderExpansion {
                 return petAmount;
             case "Stat_MaxPetAmount":
                 String maxPetAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPetAmount.amount%");
-                return maxPetAmount;
+                return String.valueOf(2 + Integer.valueOf(maxPetAmount));
             case "Stat_BattlePassEXPAmount":
                 String battlePassEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_battlePass:point.EXP.amount%");
                 return battlePassEXPAmount;
@@ -159,9 +177,65 @@ public class Placeholder extends PlaceholderExpansion {
                 return String.valueOf(calculateEnchantments(player, "Explosive Chance"));
             case "Enchantment_Luck":
                 return String.valueOf(calculateEnchantments(player, "Luck"));
+
+            case "Location":
+                return location(player);
+            case "Restart":
+                long timeUntil = restartTime - System.currentTimeMillis();
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
+                return String.valueOf(seconds);
+            case "Restart_formatted":
+                timeUntil = restartTime - System.currentTimeMillis();
+                long hours = TimeUnit.MILLISECONDS.toHours(timeUntil);
+                timeUntil -= TimeUnit.HOURS.toMillis(hours);
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(timeUntil);
+                timeUntil -= TimeUnit.MINUTES.toMillis(minutes);
+                seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
+                StringBuilder sb = new StringBuilder();
+                sb.append(hours);
+                if (hours > 1){
+                    sb.append(" Hours ");
+                } else if (hours == 1){
+                    sb.append(" Hour ");
+                }
+                sb.append(minutes);
+                if (minutes > 1){
+                    sb.append(" Minutes ");
+                } else if (minutes == 1){
+                    sb.append(" Minute ");
+                }
+                if (hours < 1 && seconds > 1){
+                    sb.append(seconds);
+                    sb.append(" Seconds ");
+                } else if (hours < 1 && seconds < 1){
+                    sb.append(seconds);
+                    sb.append(" Second ");
+                }
+                if (hours < 1 && minutes < 1 && seconds < 1){
+                    sb.append("NOW");
+                }
+                    return (sb.toString());
+
             default:
                 return null;
+
         }
+    }
+
+    private String location(OfflinePlayer player) {
+        if (player.getPlayer().isOnline()) {
+            Player player1 = player.getPlayer();
+            Location location = BukkitAdapter.adapt(player1.getLocation());
+            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query = container.createQuery();
+            ApplicableRegionSet set = query.getApplicableRegions(location);
+            if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag).equals(null)) {
+                return "Unknown!";
+            } else {
+                return set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag);
+            }
+        }
+        return null;
     }
 
     private String numberFormat(int number) {
@@ -216,12 +290,12 @@ public class Placeholder extends PlaceholderExpansion {
         return 0;
     }
 
-    private int calculateEnchantments(OfflinePlayer player, String enchantment){
-        if (player.isOnline()){
+    private int calculateEnchantments(OfflinePlayer player, String enchantment) {
+        if (player.isOnline()) {
             Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
-            if (!enchantmentMap.isEmpty()){
+            if (!enchantmentMap.isEmpty()) {
 //                System.out.println(enchantmentMap);
-                if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))){
+                if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
 //                    System.out.println(enchantment);
                     return enchantmentMap.get(Enchantment.getByName(enchantment));
                 }

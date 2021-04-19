@@ -3,6 +3,7 @@ package monzter.adventurescraft.plugin;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import monzter.adventurescraft.plugin.commands.*;
@@ -11,6 +12,11 @@ import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.Stats;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
@@ -27,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -38,6 +45,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public static YamlConfiguration LANGUAGE;
     public static File LANGUAGE_FILE;
     private StateFlag prisonMineFlag;
+    private StringFlag displayNameFlag;
+    private long restartTime;
+
     @Override
     public void onLoad() {
 //        if (!getDataFolder().mkdir()) {
@@ -46,8 +56,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //            this.setEnabled(false);
 //            return;
 //        }
+        restartTime = System.currentTimeMillis() + 21600000;
+        restart();
         try {
-            prisonMineFlag = registerFlag();
+            prisonMineFlag = registerStateFlag();
+            displayNameFlag = registerStringFlag();
         } catch (IllegalStateException e) {
             getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Failed to register Region Flag!" + "\n"
                     + Language.TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
@@ -60,6 +73,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         this.SQL = new MySQL(this);
         this.data = new SQLGetter(this);
         SQL.connect();
+        tipsMessage();
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             this.setEnabled(false);
@@ -82,10 +96,15 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Regions(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this), this);
         getCommand("Login").setExecutor(new Security(this));
-        getCommand("Spawn").setExecutor(new Commands(this));
         getCommand("PointsDebug").setExecutor(new AdminCommands(this));
         getCommand("Stat").setExecutor(new AdminCommands(this));
+        getCommand("RestartTime").setExecutor(new AdminCommands(this));
+        getCommand("Vote").setExecutor(new Commands(this));
+        getCommand("Spawn").setExecutor(new Commands(this));
         getCommand("ActiveQuest").setExecutor(new Commands(this));
         getCommand("UnclaimedQuest").setExecutor(new Commands(this));
         getCommand("Quest").setExecutor(new Commands(this));
@@ -100,7 +119,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
         saveDefaultConfig();
-        new Placeholder(this, perms, loadPets()).register();
+        new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime).register();
         getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
@@ -253,7 +272,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
      * <br>Flag Types
      * <br>https://worldguard.enginehub.org/en/latest/regions/flags/
      */
-    public StateFlag registerFlag() {
+    public StateFlag registerStateFlag() {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         try {
             StateFlag flag = new StateFlag("prison-mine", false);
@@ -263,6 +282,22 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             Flag<?> existing = registry.get("prison-mine");
             if (existing instanceof StateFlag) {
                 return (StateFlag) existing;
+            } else {
+                throw new IllegalStateException();
+            }
+        }
+    }
+
+    public StringFlag registerStringFlag() {
+        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        try {
+            StringFlag stringFlag = new StringFlag("region-display-name");
+            registry.register(stringFlag);
+            return stringFlag;
+        } catch (FlagConflictException e) {
+            Flag<?> existing = registry.get("region-display-name");
+            if (existing instanceof StateFlag) {
+                return (StringFlag) existing;
             } else {
                 throw new IllegalStateException();
             }
@@ -322,4 +357,136 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //            throwables.printStackTrace();
 //        }
 //    }
+
+    public void restart() {
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+            Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 10 minutes!");
+            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+                Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 5 minutes!");
+                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+                    Bukkit.broadcastMessage(ChatColor.GOLD + "Server will be restarting in 3 minutes!");
+                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+                        Bukkit.broadcastMessage(ChatColor.DARK_RED + "Server is now restarting!");
+                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+                        this.setEnabled(false);
+                    }, 3600L);
+                }, 2400L);
+            }, 6000L);
+        }, 420000L);
+    }
+
+    public void tipsMessage(){
+        String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "♦" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
+        TextComponent[] tipList = new TextComponent[]{
+                Component.text(prefix + "Join our ")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
+                        .hoverEvent(Component.text("Click to join the Discord!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.openUrl("https://discord.com/invite/bw4DztR"))
+                        .append(Component.text(" for"))
+                        .append(Component.text(" Giveaways, Support, and more", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "You can view all ")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text("Quests & Jobs", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to view Quests & Jobs!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("Quests"))
+                        .append(Component.text(" by using"))
+                        .append(Component.text(" /Quests", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "You can view your currently ")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text("Active Quests & Jobs", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to view Active Quests & Jobs!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/ActiveQuests"))
+                        .append(Component.text(" by using"))
+                        .append(Component.text(" /ActiveQuests", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "You can find unclaimed ")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text("Quest & Job Rewards", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to view unclaimed Quest & Job Rewards!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/UnclaimedQuests"))
+                        .append(Component.text(" by using"))
+                        .append(Component.text(" /UnclaimedQuests", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "Many")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" Jobs ", NamedTextColor.GOLD))
+                        .append(Component.text("are repeatable tasks you can get from folks within the"))
+                .append(Component.text(" Yard", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "Your ")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text("Quest Journal", NamedTextColor.GOLD))
+                        .append(Component.text(" is meant to guide you on each quest!")),
+                Component.text(prefix + "View your")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" Quest Menu ", NamedTextColor.GOLD))
+                        .append(Component.text("to track your quest progress by using "))
+                        .append(Component.text("/Quests", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to view Quests and Jobs!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/Quests"))
+                        .append(Component.text("!")),
+                Component.text(prefix + "You can donate to get epic rewards from our")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" Store", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"))
+                        .append(Component.text("!")),
+                Component.text(prefix + "It's recommended to play on at least")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" 1.15.2+ ", NamedTextColor.GOLD))
+                        .append(Component.text("as older versions lack certain features and may no longer be supported!")),
+                Component.text(prefix + "Use")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" /Spawn ", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to return to the Yard!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/Spawn"))
+                        .append(Component.text(" if you're stuck!")),
+                Component.text(prefix + "You can")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" Vote ", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to visit Voting Guide!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"))
+                        .append(Component.text(" for our Server, to receive awesome rewards every day!")),
+                Component.text(prefix + "You can add others to your")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" Friends List ", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to add friend!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/friend add "))
+                        .append(Component.text("by using"))
+                        .append(Component.text(" /friend add <Name>", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "You can invite others to your")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" Party ", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to invite Player!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/party invite "))
+                        .append(Component.text("by using"))
+                        .append(Component.text(" /party invite <Name>", NamedTextColor.GOLD))
+                        .append(Component.text("!")),
+                Component.text(prefix + "Use")
+                        .color(NamedTextColor.GREEN)
+                        .append(Component.text(" /Home ", NamedTextColor.GOLD))
+                        .hoverEvent(Component.text("Click to return Home!", NamedTextColor.GREEN))
+                        .clickEvent(ClickEvent.suggestCommand("/home"))
+                        .append(Component.text("to return back to your private house!")),
+        };
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()){
+                if (player.hasPermission("tips")){
+                    player.sendMessage(tipList[(new Random().nextInt(tipList.length))]);
+                }
+            }
+        }, 0L, 20 * 90);
+
+    }
 }

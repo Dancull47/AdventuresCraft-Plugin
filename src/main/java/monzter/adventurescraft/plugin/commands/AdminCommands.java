@@ -2,13 +2,8 @@ package monzter.adventurescraft.plugin.commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.Placeholder;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -115,6 +110,11 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                             player.sendMessage(ChatColor.GREEN + "You have mined " + plugin.data.getPointAmount(player.getUniqueId(), args[0]) + " " + ChatColor.COLOR_CHAR + args[0] + ChatColor.GREEN + "!");
                             return true;
                         }
+                    case "RestartTime":
+                        String restartTime = PlaceholderAPI.setPlaceholders(player, "%ac_Restart_formatted%");
+                        String restartTimeSeconds = PlaceholderAPI.setPlaceholders(player, "%ac_Restart%");
+                        player.sendMessage(ChatColor.GREEN + "There is " + ChatColor.GOLD + restartTime + ChatColor.GREEN + " until restart!");
+                        player.sendMessage(ChatColor.GOLD + restartTimeSeconds + ChatColor.GREEN + " seconds!");
                 }
             }
         }
