@@ -292,12 +292,14 @@ public class Placeholder extends PlaceholderExpansion {
 
     private int calculateEnchantments(OfflinePlayer player, String enchantment) {
         if (player.isOnline()) {
-            Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
-            if (!enchantmentMap.isEmpty()) {
+            if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null){
+                Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
+                if (!enchantmentMap.isEmpty()) {
 //                System.out.println(enchantmentMap);
-                if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
+                    if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
 //                    System.out.println(enchantment);
-                    return enchantmentMap.get(Enchantment.getByName(enchantment));
+                        return enchantmentMap.get(Enchantment.getByName(enchantment));
+                    }
                 }
             }
         }
