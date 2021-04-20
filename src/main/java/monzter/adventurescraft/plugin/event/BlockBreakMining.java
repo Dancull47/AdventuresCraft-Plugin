@@ -6,26 +6,18 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
-import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-
-import javax.management.Query;
 
 public class BlockBreakMining implements Listener {
     private final AdventuresCraft plugin;
@@ -39,7 +31,7 @@ public class BlockBreakMining implements Listener {
     @EventHandler
     public void mine(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        plugin.data.createPlayer(player, event.getBlock().getType().name(), 1);
+        plugin.data.savePlayer(player, event.getBlock().getType().name(), 1);
 //        plugin.data.setPointAmount(player.getUniqueId(), event.getBlock().getType().name(), 1);
         int enchantmentExperience = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Experience%"));
         int enchantmentPetExperience = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Pet_Experience%"));

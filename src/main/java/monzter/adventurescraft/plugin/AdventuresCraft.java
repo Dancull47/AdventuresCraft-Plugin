@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.logging.Level;
 
 public class AdventuresCraft extends JavaPlugin implements Listener {
+    public static final String TITLE = ChatColor.RED + "[" + ChatColor.GOLD + "AdventuresCraft" + ChatColor.RED + "]";
     public MySQL SQL;
     public SQLGetter data;
     private static Permission perms = null;
@@ -50,40 +51,25 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onLoad() {
-//        if (!getDataFolder().mkdir()) {
-//            getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Failed to create Plugin Folder!!!" + "\n"
-//                    + Language.TITLE + ChatColor.RED + "Check your file permissions!!");
-//            this.setEnabled(false);
-//            return;
-//        }
-        restartTime = System.currentTimeMillis() + 21600000;
-        restart();
         try {
             prisonMineFlag = registerStateFlag();
             displayNameFlag = registerStringFlag();
         } catch (IllegalStateException e) {
-            getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Failed to register Region Flag!" + "\n"
-                    + Language.TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
+            getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n"
+                    + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
             this.setEnabled(false);
         }
     }
 
     @Override
     public void onEnable() {
-        this.SQL = new MySQL(this);
-        this.data = new SQLGetter(this);
-        SQL.connect();
+//        this.SQL = new MySQL(this);
+//        this.data = new SQLGetter(this, SQL);
+        restartTime = System.currentTimeMillis() + 21600000;
+        restart();
         tipsMessage();
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            this.setEnabled(false);
-            return;
-        }
-        try {
-            loadLang();
-        } catch (IOException e) {
-            getLogger().log(Level.SEVERE, Language.TITLE.toString() + ChatColor.RED + "Couldn't create language file." + "\n"
-                    + Language.TITLE + ChatColor.RED + "This is a fatal error. Now disabling", e);
             this.setEnabled(false);
             return;
         }
@@ -92,15 +78,20 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractBlockActions(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Regions(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this), this);
+        getCommand("PetUnequip").setExecutor(new InteractPets(this, loadPetsConfig()));
         getCommand("Login").setExecutor(new Security(this));
-        getCommand("PointsDebug").setExecutor(new AdminCommands(this));
+        getCommand("Reward").setExecutor(new AdminCommands(this));
+        getCommand("PointsAdd").setExecutor(new AdminCommands(this));
+        getCommand("PointsAmount").setExecutor(new AdminCommands(this));
         getCommand("Stat").setExecutor(new AdminCommands(this));
         getCommand("RestartTime").setExecutor(new AdminCommands(this));
         getCommand("Vote").setExecutor(new Commands(this));
@@ -120,7 +111,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
         saveDefaultConfig();
         new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime).register();
-        getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has started!");
+        getLogger().info(TITLE + ChatColor.GREEN + "has started!");
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
             getLogger().log(Level.WARNING, "PlaceholderAPI is NOT installed!");
@@ -131,8 +122,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        getLogger().info(Language.TITLE.toString() + ChatColor.GREEN + "has shut down!");
-        SQL.disconnect();
+        getLogger().info(TITLE + ChatColor.GREEN + "has shut down!");
+//        SQL.disconnect();
     }
 
 
@@ -160,42 +151,33 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         perms = getServer().getServicesManager().getRegistration(Permission.class).getProvider();
     }
 
-    public Permission getPermissions() {
-        return perms;
-    }
-
-    public static Economy getEconomy() {
-        return econ;
-    }
-
-
-    public void loadLang() throws IOException {
-        File language = new File(getDataFolder(), "language.yml");
-        if (!language.exists()) {
-            language.createNewFile();
-            InputStream defConfigStream = this.getResource("language.yml");
-            if (defConfigStream != null) {
-                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(language);
-                defConfig.save(language);
-                Language.setFile(defConfig);
-            }
-        }
-        YamlConfiguration conf = YamlConfiguration.loadConfiguration(language);
-        for (Language item : Language.values()) {
-            if (conf.getString(item.getPath()) == null) {
-                conf.set(item.getPath(), item.getDefault());
-            }
-        }
-        Language.setFile(conf);
-        this.LANGUAGE = conf;
-        this.LANGUAGE_FILE = language;
-        try {
-            conf.save(getLangFile());
-        } catch (IOException e) {
-            getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Failed to save lang.yml." + "\n"
-                    + Language.TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
-        }
-    }
+//    public void loadLang() throws IOException {
+//        File language = new File(getDataFolder(), "language.yml");
+//        if (!language.exists()) {
+//            language.createNewFile();
+//            InputStream defConfigStream = this.getResource("language.yml");
+//            if (defConfigStream != null) {
+//                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(language);
+//                defConfig.save(language);
+//                Language.setFile(defConfig);
+//            }
+//        }
+//        YamlConfiguration conf = YamlConfiguration.loadConfiguration(language);
+//        for (Language item : Language.values()) {
+//            if (conf.getString(item.getPath()) == null) {
+//                conf.set(item.getPath(), item.getDefault());
+//            }
+//        }
+//        Language.setFile(conf);
+//        this.LANGUAGE = conf;
+//        this.LANGUAGE_FILE = language;
+//        try {
+//            conf.save(getLangFile());
+//        } catch (IOException e) {
+//            getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Failed to save lang.yml." + "\n"
+//                    + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
+//        }
+//    }
 
     private Set<Pet> loadPets() {
         File petsFile = new File(getDataFolder(), "pets.yml");
@@ -209,14 +191,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Set<String> petNames = petConfig.getKeys(false);
         for (String currentPetName : petNames) {
             if (!petConfig.isConfigurationSection(currentPetName)) {
-                getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Rarity Config section with key: '" + currentPetName + "'.");
+                getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Rarity Config section with key: '" + currentPetName + "'.");
                 continue;
             }
             ConfigurationSection rarityConfigSection = petConfig.getConfigurationSection(currentPetName);
             Set<String> rarities = rarityConfigSection.getKeys(false);
             for (String currentRarity : rarities) {
                 if (!rarityConfigSection.isConfigurationSection(currentRarity)) {
-                    getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat Config section with key: '" + currentPetName + "." + currentRarity + "'.");
+                    getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Stat Config section with key: '" + currentPetName + "." + currentRarity + "'.");
                     continue;
                 }
                 Pet.Builder pet = Pet.builder()
@@ -227,7 +209,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 Set<String> stats = statsConfigSection.getKeys(false);
                 for (String currentStat : stats) {
                     if (!statsConfigSection.isDouble(currentStat) && !statsConfigSection.isInt(currentStat) && !statsConfigSection.isLong(currentStat)) {
-                        getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat value with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
+                        getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Stat value with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
                         continue;
                     }
                     try {
@@ -235,7 +217,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                         double statsValue = statsConfigSection.getDouble(currentStat);
                         pet.addStat(statType, statsValue);
                     } catch (IllegalArgumentException e) {
-                        getLogger().log(Level.WARNING, Language.TITLE.toString() + ChatColor.RED + "Cannot find Pet Stat type with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
+                        getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Stat type with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
                     }
                 }
                 petSet.add(pet.build());
@@ -249,21 +231,20 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         if (!warpsFile.exists()) {
             saveResource("warps.yml", false);
         }
-
-        YamlConfiguration petConfig = YamlConfiguration.loadConfiguration(warpsFile);
-        return petConfig;
+        YamlConfiguration warpConfig = YamlConfiguration.loadConfiguration(warpsFile);
+        return warpConfig;
+    }
+    private YamlConfiguration loadPetsConfig() {
+        File petsFile = new File(getDataFolder(), "pets.yml");
+        if (!petsFile.exists()) {
+            saveResource("pets.yml", false);
+        }
+        YamlConfiguration petsConfig = YamlConfiguration.loadConfiguration(petsFile);
+        return petsConfig;
     }
 
     public File getWarpsFile() {
         return new File(getDataFolder(), "warps.yml");
-    }
-
-    public YamlConfiguration getLanguage() {
-        return LANGUAGE;
-    }
-
-    public File getLangFile() {
-        return LANGUAGE_FILE;
     }
 
     /**
@@ -483,7 +464,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player player : Bukkit.getOnlinePlayers()){
                 if (player.hasPermission("tips")){
-                    player.sendMessage(tipList[(new Random().nextInt(tipList.length))]);
+                    int lastTips = new Random().nextInt(tipList.length);
+                    player.sendMessage(tipList[lastTips]);
                 }
             }
         }, 0L, 20 * 90);

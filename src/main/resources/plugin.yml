@@ -26,7 +26,10 @@ commands:
   UnclaimedQuest:
     aliases: [UnclaimedQuests]
   Login:
-  PointsDebug:
+  PointsAdd:
+  PointsAmount:
   Stat:
   RestartTime:
   Vote:
+  Reward:
+  PetUnequip:

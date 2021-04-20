@@ -1,11 +1,15 @@
 package monzter.adventurescraft.plugin.mySQL;
 
+import com.zaxxer.hikari.HikariDataSource;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class MySQL {
@@ -16,6 +20,7 @@ public class MySQL {
     String database = ("minecraft_prison");
     String user = ("minecraft");
     String password = ("kWz7Y8eK0tMCUvr0Cm");
+    HikariDataSource hikari;
 
     public MySQL(AdventuresCraft plugin) {
         this.plugin = plugin;
@@ -27,30 +32,39 @@ public class MySQL {
 
     public void connect() {
         if (!isConnected()) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
-                connection = DriverManager.getConnection(url, user, password);
-                plugin.getLogger().info(ChatColor.GREEN + "MySQL connection established!");
-                plugin.data.createTable();
-            } catch (ClassNotFoundException | SQLException e) {
-                plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed establishing connection to MySQL!", e);
-            }
+            hikari = new HikariDataSource();
+            hikari.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            hikari.addDataSourceProperty("serverName", host);
+            hikari.addDataSourceProperty("port", port);
+            hikari.addDataSourceProperty("databaseName", database);
+            hikari.addDataSourceProperty("user", user);
+            hikari.addDataSourceProperty("password", password);
+            plugin.getLogger().info(ChatColor.GREEN + "MySQL connection established!");
+            createTable();
         }
     }
 
     public void disconnect() {
-        if (isConnected()) {
-            try {
-                connection.close();
-                plugin.getLogger().log(Level.SEVERE, ChatColor.GREEN + "Successfully disconnected from MySQL!");
-            } catch (SQLException e) {
-                plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed to properly disconnect from MySQL!", e);
-            }
+        if (hikari != null){
+            hikari.close();
+            plugin.getLogger().log(Level.SEVERE, ChatColor.GREEN + "Successfully disconnected from MySQL!");
         }
     }
 
-    public Connection getConnection(){
-        return connection;
+    public Connection getConnection() throws SQLException {
+        return hikari.getConnection();
     }
+
+    public void createTable() {
+        try (Connection connection = hikari.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ac_Points "
+                    + "(name VARCHAR(36),uuid VARCHAR(36),pointType VARCHAR(100),pointAmount BIGINT(100), CONSTRAINT ac_Points PRIMARY KEY (uuid, pointType));");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ac_Votes "
+                    + "(name VARCHAR(36),uuid VARCHAR(36),voteWebsite VARCHAR(100),voteTime BIGINT(100), CONSTRAINT ac_Votes PRIMARY KEY (uuid, voteWebsite));");
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, ChatColor.RED + "Failed to create Table!", e);
+        }
+    }
+
 }

@@ -4,10 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +21,8 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            Player player = ((Player) sender).getPlayer();
-            if (player.isOp()) {
+            if (sender != null && sender.isOp()) {
+                Player player = ((Player) sender).getPlayer();
                 switch (command.getName()) {
                     case "Stat":
                         if (args.length < 1) {
@@ -97,8 +94,8 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                             return true;
                         } else if (args.length > 1) {
                             player.sendMessage(ChatColor.YELLOW + "You added +" + args[0] + " to " + args[1] + ChatColor.GREEN + "!");
-                            plugin.data.createPlayer(player, args[1], Long.valueOf(args[0]));
-                            plugin.data.setPointAmount(player.getUniqueId(), args[1], Long.valueOf(args[0]));
+                            plugin.data.loadPlayer(player, args[1], Long.valueOf(args[0]));
+                            plugin.data.savePlayer(player, args[1], Long.valueOf(args[0]));
                             return true;
                         }
                         return true;
@@ -110,11 +107,104 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                             player.sendMessage(ChatColor.GREEN + "You have mined " + plugin.data.getPointAmount(player.getUniqueId(), args[0]) + " " + ChatColor.COLOR_CHAR + args[0] + ChatColor.GREEN + "!");
                             return true;
                         }
+                        return false;
                     case "RestartTime":
                         String restartTime = PlaceholderAPI.setPlaceholders(player, "%ac_Restart_formatted%");
                         String restartTimeSeconds = PlaceholderAPI.setPlaceholders(player, "%ac_Restart%");
                         player.sendMessage(ChatColor.GREEN + "There is " + ChatColor.GOLD + restartTime + ChatColor.GREEN + " until restart!");
                         player.sendMessage(ChatColor.GOLD + restartTimeSeconds + ChatColor.GREEN + " seconds!");
+                        return true;
+                    case "Reward":
+                        if (args.length < 1) {
+                            player.sendMessage(ChatColor.RED + "/Reward <Stat> <Amount> <Player>");
+                            return true;
+                        } else if (args.length > 1) {
+                            Player targetPlayer = Bukkit.getPlayer(args[2]);
+                            if (targetPlayer != null) {
+                                switch (args[0]) {
+                                    case "PetExperience":
+                                    case "PetEXP":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.AQUA + "❉ Pet Experience" + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.PetExperience " + args[1]);
+                                        return true;
+                                    case "Experience":
+                                    case "EXP":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.GREEN + "۞ Experience" + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.Experience " + args[1]);
+                                        return true;
+                                    case "BattlePass":
+                                    case "Battlepass":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.DARK_PURPLE + "♦ Battle Pass Experience" + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add battlePass.EXP " + args[1]);
+                                        return true;
+                                }
+                            } else {
+                                switch (args[0]) {
+                                    case "PetExperience":
+                                    case "PetEXP":
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.PetExperience " + args[1]);
+                                        return true;
+                                    case "Experience":
+                                    case "EXP":
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.Experience " + args[1]);
+                                        return true;
+                                    case "BattlePass":
+                                    case "Battlepass":
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add battlePass.EXP " + args[1]);
+                                        return true;
+                                }
+                            }
+                            return true;
+                        }
+                        return true;
+                }
+            }
+        } else if (sender instanceof ConsoleCommandSender) {
+            if (sender != null && sender.isOp()) {
+                switch (command.getName()) {
+                    case "Reward":
+                        if (args.length < 1) {
+                            sender.sendMessage(ChatColor.RED + "/Reward <Stat> <Amount> <Player>");
+                            return true;
+                        } else if (args.length > 1) {
+                            Player targetPlayer = Bukkit.getPlayer(args[2]);
+                            if (targetPlayer != null) {
+                                switch (args[0]) {
+                                    case "PetExperience":
+                                    case "PetEXP":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.AQUA + "❉ Pet Experience" + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.PetExperience " + args[1]);
+                                        return true;
+                                    case "Experience":
+                                    case "EXP":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.GREEN + "۞ Experience" + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.Experience " + args[1]);
+                                        return true;
+                                    case "BattlePass":
+                                    case "Battlepass":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.DARK_PURPLE + "♦ Battle Pass Experience" + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add battlePass.EXP " + args[1]);
+                                        return true;
+                                }
+                            } else {
+                                switch (args[0]) {
+                                    case "PetExperience":
+                                    case "PetEXP":
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.PetExperience " + args[1]);
+                                        return true;
+                                    case "Experience":
+                                    case "EXP":
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.Experience " + args[1]);
+                                        return true;
+                                    case "BattlePass":
+                                    case "Battlepass":
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add battlePass.EXP " + args[1]);
+                                        return true;
+                                }
+                            }
+                            return true;
+                        }
+                        return true;
                 }
             }
         }

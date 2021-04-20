@@ -15,7 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
-
+//https://github.com/NuVotifier/NuVotifier/wiki/Developer-Documentation
 public class Voting implements Listener {
     private final AdventuresCraft plugin;
     private final HashMap<Player, Long> cooldown = new HashMap<>();
