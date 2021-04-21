@@ -297,7 +297,6 @@ public class Placeholder extends PlaceholderExpansion {
                 if (!enchantmentMap.isEmpty()) {
 //                System.out.println(enchantmentMap);
                     if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
-//                    System.out.println(enchantment);
                         return enchantmentMap.get(Enchantment.getByName(enchantment));
                     }
                 }

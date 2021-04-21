@@ -90,6 +90,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("PetUnequip").setExecutor(new InteractPets(this, loadPetsConfig()));
         getCommand("Login").setExecutor(new Security(this));
         getCommand("Reward").setExecutor(new AdminCommands(this));
+        getCommand("DonationRewards").setExecutor(new DonationRewards(this));
         getCommand("PointsAdd").setExecutor(new AdminCommands(this));
         getCommand("PointsAmount").setExecutor(new AdminCommands(this));
         getCommand("Stat").setExecutor(new AdminCommands(this));

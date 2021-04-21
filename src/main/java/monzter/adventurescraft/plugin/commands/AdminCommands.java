@@ -2,6 +2,7 @@ package monzter.adventurescraft.plugin.commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -136,6 +137,11 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                                     case "Battlepass":
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.DARK_PURPLE + "♦ Battle Pass Experience" + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add battlePass.EXP " + args[1]);
+                                        return true;
+                                    case "AC":
+                                    case "AdventureCoins":
+                                        targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
+                                        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.AdventureCoin " + args[1]);
                                         return true;
                                 }
                             } else {
