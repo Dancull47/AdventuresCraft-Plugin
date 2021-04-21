@@ -2,6 +2,15 @@ package monzter.adventurescraft.plugin.commands;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.LocationFlag;
+import com.sk89q.worldguard.protection.flags.StringFlag;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
@@ -18,20 +27,35 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Sell implements CommandExecutor {
     private final AdventuresCraft plugin;
+    private final LocationFlag sellLocationFlag;
 
-    public Sell(AdventuresCraft plugin) {
+
+    public Sell(AdventuresCraft plugin, LocationFlag sellLocationFlag) {
         this.plugin = plugin;
+        this.sellLocationFlag = sellLocationFlag;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            System.out.println("Sender");
-            sell(((Player) sender).getPlayer());
+            Player player = ((Player) sender).getPlayer();
+            if (player.hasPermission("SELL.ALL")){
+                sell(player);
+            } else {
+                Location location = BukkitAdapter.adapt(player.getLocation());
+                RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                RegionQuery query = container.createQuery();
+                ApplicableRegionSet set = query.getApplicableRegions(location);
+                if (!set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player), sellLocationFlag).equals(null)) {
+                    player.teleport(BukkitAdapter.adapt(set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player), sellLocationFlag)));
+                    sell(player);
+                }
+            }
+
+            }
             return true;
         }
-        return false;
-    }
+
     private void sell(Player player) {
         double counter = 0;
         for (WeightPrices material : WeightPrices.values()) {

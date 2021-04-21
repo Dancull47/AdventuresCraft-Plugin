@@ -9,16 +9,16 @@ public enum DonationRewardList {
     MythicalLootbox10("MythicalLootbox10", "10 Mythical Lootboxes", 1300),
     GodlyLootbox5("GodlyLootbox5", "5 Godly Lootboxes", 1200),
     GodlyLootbox10("GodlyLootbox10", "10 Godly Lootboxes", 2250),
-    ExoticEgg5("ExoticEgg5", "5 Exotic Eggs", 350),
-    ExoticEgg10("ExoticEgg10", "10 Exotic Eggs", 550),
-    MythicalEgg5("MythicalEgg5", "5 Mythical Eggs", 750),
-    MythicalEgg10("MythicalEgg10", "10 Mythical Eggs", 1300),
-    GodlyEgg5("GodlyEgg5", "5 Godly Eggs", 1200),
-    GodlyEgg10("GodlyEgg10", "10 Godly Eggs", 2250),
-    LegendaryPhoenixEgg5("LegendaryPhoenixEgg5", "5 Legendary Phoenix Eggs", 1200),
-    LegendaryPhoenixEgg10("LegendaryPhoenixEgg10", "10 Legendary Phoenix Eggs", 2250),
-    LegendaryDragonEgg5("LegendaryDragonEgg5", "5 Legendary Dragon Eggs", 1200),
-    LegendaryDragonEgg10("LegendaryDragonEgg10", "10 Legendary Dragon Eggs", 2250);
+    ExoticPetEgg5("ExoticPetEgg5", "5 Exotic Pet Eggs", 350),
+    ExoticPetEgg10("ExoticPetEgg10", "10 Exotic Pet Eggs", 550),
+    MythicalPetEgg5("MythicalPetEgg5", "5 Mythical Pet Eggs", 750),
+    MythicalPetEgg10("MythicalPetEgg10", "10 Mythical Pet Eggs", 1300),
+    GodlyPetEgg5("GodlyPetEgg5", "5 Godly Pet Eggs", 1200),
+    GodlyPetEgg10("GodlyPetEgg10", "10 Godly Pet Eggs", 2250),
+    LegendaryPhoenixPetEgg5("LegendaryPhoenixPetEgg5", "5 Legendary Phoenix Pet Eggs", 1200),
+    LegendaryPhoenixPetEgg10("LegendaryPhoenixPetEgg10", "10 Legendary Phoenix Pet Eggs", 2250),
+    LegendaryDragonPetEgg5("LegendaryDragonPetEgg5", "5 Legendary Dragon Pet Eggs", 1200),
+    LegendaryDragonPetEgg10("LegendaryDragonPetEgg10", "10 Legendary Dragon Pet Eggs", 2250);
 
     public final String id;
     public final String displayName;

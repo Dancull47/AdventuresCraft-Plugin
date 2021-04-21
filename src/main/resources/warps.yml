@@ -342,11 +342,11 @@ O:
   Location:
     ==: org.bukkit.Location
     world: World
-    x: -1502.5
-    y: 166.0
-    z: 787.5
-    pitch: -0.3
-    yaw: 89.6
+    x: -1248.5
+    y: 180.0
+    z: 756.5
+    pitch: 88.9
+    yaw: 1
 MineO:
   Name: Mine O
   Permission: mines.tp.o
@@ -354,11 +354,11 @@ MineO:
   Location:
     ==: org.bukkit.Location
     world: World
-    x: -1957.5
-    y: 170.0
-    z: 758.5
-    pitch: 0.5
-    yaw: -89.6
+    x: -1248.5
+    y: 180.0
+    z: 756.5
+    pitch: 88.9
+    yaw: 1
 MineP:
   Name: Mine P
   Permission: mines.tp.p

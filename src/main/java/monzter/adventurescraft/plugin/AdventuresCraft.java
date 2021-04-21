@@ -2,6 +2,7 @@ package monzter.adventurescraft.plugin;
 
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.LocationFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
@@ -47,6 +48,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public static File LANGUAGE_FILE;
     private StateFlag prisonMineFlag;
     private StringFlag displayNameFlag;
+    private LocationFlag sellLocationFlag;
     private long restartTime;
 
     @Override
@@ -54,6 +56,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         try {
             prisonMineFlag = registerStateFlag();
             displayNameFlag = registerStringFlag();
+            sellLocationFlag = registerLocationFlag();
         } catch (IllegalStateException e) {
             getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n"
                     + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
@@ -88,6 +91,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this), this);
         getCommand("PetUnequip").setExecutor(new InteractPets(this, loadPetsConfig()));
+        getCommand("Hatch").setExecutor(new Hatch(this));
+        getCommand("DropTables").setExecutor(new DropTables(this));
         getCommand("Login").setExecutor(new Security(this));
         getCommand("Reward").setExecutor(new AdminCommands(this));
         getCommand("DonationRewards").setExecutor(new DonationRewards(this));
@@ -106,7 +111,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Bank").setExecutor(new Commands(this));
         getCommand("BattlePass").setExecutor(new BattlePass(this));
         getCommand("Booster").setExecutor(new Booster(this));
-        getCommand("Sell").setExecutor(new Sell(this));
+        getCommand("Sell").setExecutor(new Sell(this, sellLocationFlag));
         getCommand("Mine").setExecutor(new Mine(this));
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
@@ -280,6 +285,22 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             Flag<?> existing = registry.get("region-display-name");
             if (existing instanceof StateFlag) {
                 return (StringFlag) existing;
+            } else {
+                throw new IllegalStateException();
+            }
+        }
+    }
+
+    public LocationFlag registerLocationFlag() {
+        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        try {
+            LocationFlag LocationFlag = new LocationFlag("sell-location");
+            registry.register(LocationFlag);
+            return LocationFlag;
+        } catch (FlagConflictException e) {
+            Flag<?> existing = registry.get("region-display-name");
+            if (existing instanceof StateFlag) {
+                return (LocationFlag) existing;
             } else {
                 throw new IllegalStateException();
             }

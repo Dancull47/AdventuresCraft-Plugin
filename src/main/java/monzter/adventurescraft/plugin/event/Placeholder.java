@@ -15,6 +15,7 @@ import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.Stats;
@@ -119,6 +120,43 @@ public class Placeholder extends PlaceholderExpansion {
                 return String.valueOf(PetEgg.DRAGON2.expToHatch);
             case "PetEggDragon2_formatted":
                 return numberFormat(PetEgg.DRAGON2.expToHatch);
+
+            case "Donation_PetSlot":
+                return numberFormat(DonationRewardList.PetSlot.price);
+            case "Donation_UnlimitedWeight":
+                return numberFormat(DonationRewardList.UnlimitedWeight.price);
+            case "Donation_ExoticLootbox5":
+                return numberFormat(DonationRewardList.ExoticLootbox5.price);
+            case "Donation_ExoticLootbox10":
+                return numberFormat(DonationRewardList.ExoticLootbox10.price);
+            case "Donation_MythicalLootbox5":
+                return numberFormat(DonationRewardList.MythicalLootbox5.price);
+            case "Donation_MythicalLootbox10":
+                return numberFormat(DonationRewardList.MythicalLootbox10.price);
+            case "Donation_GodlyLootbox5":
+                return numberFormat(DonationRewardList.GodlyLootbox5.price);
+            case "Donation_GodlyLootbox10":
+                return numberFormat(DonationRewardList.GodlyLootbox10.price);
+            case "Donation_ExoticPetEgg5":
+                return numberFormat(DonationRewardList.ExoticPetEgg5.price);
+            case "Donation_ExoticPetEgg10":
+                return numberFormat(DonationRewardList.ExoticPetEgg10.price);
+            case "Donation_MythicalPetEgg5":
+                return numberFormat(DonationRewardList.MythicalPetEgg5.price);
+            case "Donation_MythicalPetEgg10":
+                return numberFormat(DonationRewardList.MythicalPetEgg10.price);
+            case "Donation_GodlyPetEgg5":
+                return numberFormat(DonationRewardList.GodlyPetEgg5.price);
+            case "Donation_GodlyPetEgg10":
+                return numberFormat(DonationRewardList.GodlyPetEgg10.price);
+            case "Donation_LegendaryPhoenixPetEgg5":
+                return numberFormat(DonationRewardList.LegendaryPhoenixPetEgg5.price);
+            case "Donation_LegendaryPhoenixPetEgg10":
+                return numberFormat(DonationRewardList.LegendaryPhoenixPetEgg10.price);
+            case "Donation_LegendaryDragonPetEgg5":
+                return numberFormat(DonationRewardList.LegendaryDragonPetEgg5.price);
+            case "Donation_LegendaryDragonPetEgg10":
+                return numberFormat(DonationRewardList.LegendaryDragonPetEgg10.price);
 
             // STATS
             case "Stat_MiningSpeed":

@@ -4,18 +4,14 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.acUtils;
+import monzter.adventurescraft.plugin.utilities.acUtils;
 import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
-import net.Indyuce.mmocore.api.player.PlayerData;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.*;
 
 public class DonationRewards implements CommandExecutor {
     private final AdventuresCraft plugin;
@@ -124,7 +120,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "ExoticEgg5":
+                                case "ExoticPetEgg5":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -134,7 +130,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "ExoticEgg10":
+                                case "ExoticPetEgg10":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -144,7 +140,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "MythicalEgg5":
+                                case "MythicalPetEgg5":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -154,7 +150,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "MythicalEgg10":
+                                case "MythicalPetEgg10":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -164,7 +160,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "GodlyEgg5":
+                                case "GodlyPetEgg5":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -174,7 +170,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "GodlyEgg10":
+                                case "GodlyPetEgg10":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -184,7 +180,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "LegendaryDragonEgg5":
+                                case "LegendaryDragonPetEgg5":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -194,7 +190,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "LegendaryDragonEgg10":
+                                case "LegendaryDragonPetEgg10":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -204,7 +200,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "LegendaryPhoenixEgg5":
+                                case "LegendaryPhoenixPetEgg5":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);
@@ -214,7 +210,7 @@ public class DonationRewards implements CommandExecutor {
                                         }
                                     }
                                     break;
-                                case "LegendaryPhoenixEgg10":
+                                case "LegendaryPhoenixPetEgg10":
                                     if (priceCheck(player, adventureCoins, donationReward.price)) {
                                         if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                             purchaseItem(player, donationReward.price, donationReward.displayName);

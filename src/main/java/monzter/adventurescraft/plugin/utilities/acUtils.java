@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.event;
+package monzter.adventurescraft.plugin.utilities;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import net.milkbowl.vault.chat.Chat;
@@ -8,6 +8,14 @@ import org.bukkit.entity.Player;
 
 public class acUtils {
     private static Bukkit plugin;
+    public static String common = ChatColor.WHITE.toString();
+    public static String uncommon = ChatColor.DARK_GREEN.toString();
+    public static String rare = ChatColor.BLUE.toString();
+    public static String legendary = ChatColor.DARK_PURPLE.toString();
+    public static String exotic = ChatColor.YELLOW.toString();
+    public static String mythical = ChatColor.LIGHT_PURPLE.toString();
+    public static String godly = ChatColor.RED.toString();
+
 
     public static void givePermission(Player player, String permission){
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " true");
@@ -19,6 +27,8 @@ public class acUtils {
         plugin.getLogger().info(ChatColor.GREEN + "The " + ChatColor.GOLD + permission + ChatColor.GREEN
                 + " permission has been TAKEN FROM " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + "!");
     }
+
+
     public static void giveMMOItem(Player player, String type, String id){
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give " + type + " " + id + " " + player.getName() + " 1 0 100 0");
     }
@@ -31,4 +41,14 @@ public class acUtils {
     public static void giveMMOItem(Player player, String type, String id, int amount, boolean silent){
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give " + type + " " + id + " " + player.getName() + " " + amount + " 0 100 0 s");
     }
+
+
+    public static boolean fullInventory(Player player) {
+        if (player.getInventory().firstEmpty() == -1) {
+            player.sendMessage(ChatColor.RED + "You're inventory is full! Try again once you have at least one available slot!");
+            return true;
+        }
+        return false;
+    }
+
 }
