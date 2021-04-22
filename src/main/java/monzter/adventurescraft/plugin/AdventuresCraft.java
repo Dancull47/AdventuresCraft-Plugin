@@ -31,8 +31,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -110,7 +108,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Hatch").setTabCompleter(new Commands(this));
         getCommand("Discord").setExecutor(new Commands(this));
         getCommand("Bank").setExecutor(new Commands(this));
-        getCommand("BattlePass").setExecutor(new BattlePass(this));
+        getCommand("MiningPass").setExecutor(new MiningPass(this));
         getCommand("Booster").setExecutor(new Booster(this));
         getCommand("Sell").setExecutor(new Sell(this, sellLocationFlag));
         getCommand("Mine").setExecutor(new Mine(this));

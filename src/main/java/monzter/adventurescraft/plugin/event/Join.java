@@ -21,10 +21,12 @@ public class Join implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        ItemStack book = player.getInventory().getItem(8);
         player.setCollidable(true);
-        if (book != null || book.getType() == Material.WRITTEN_BOOK) {
-            player.openBook(book);
+        if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK){
+            ItemStack book = player.getInventory().getItem(8);
+            if (book != null || book.getType() == Material.WRITTEN_BOOK) {
+                player.openBook(book);
+            }
         }
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             PlayerData playerData = PlayerData.get(player.getUniqueId());

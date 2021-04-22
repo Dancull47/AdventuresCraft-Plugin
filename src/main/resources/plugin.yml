@@ -7,7 +7,7 @@ commands:
   Captcha:
     description: 'Unlock chat!'
     usage: '/<command> <code>'
-  BattlePass:
+  MiningPass:
   Booster:
   Sell:
   Discord:

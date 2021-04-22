@@ -18,6 +18,9 @@ public class acUtils {
     public static String godly = ChatColor.RED.toString();
 
 
+    public static void consoleCommand(String command){
+        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+    }
     public static void givePermission(Player player, String permission) {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " true");
         plugin.getLogger().info(ChatColor.GREEN + "The " + ChatColor.GOLD + permission + ChatColor.GREEN
@@ -90,7 +93,20 @@ public class acUtils {
     }
 
     //SOUNDS
+    public static void playSound(Player player, Sound sound, float volume, float pitch){
+        player.getWorld().playSound(player.getLocation(), sound, volume, pitch);
+
+    }
     public static void soundNo(Player player, float pitch){
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, pitch);
+    }
+    public static void soundYes(Player player, float pitch){
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1f, pitch);
+    }
+    public static void soundYes2(Player player, float pitch){
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_WANDERING_TRADER_YES, 1f, pitch);
+    }
+    public static void soundPurchase(Player player, float pitch){
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, pitch);
     }
 }

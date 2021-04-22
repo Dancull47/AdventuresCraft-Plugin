@@ -27,7 +27,6 @@ public class InteractQuestBook implements Listener {
                 BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
                 if (bookMeta.getTitle() != null) {
                     if (bookMeta.getTitle().equals("Quest Journal")) {
-                        player.sendMessage("Book Opened!");
                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "rpgmenu open default-Menus-menu.active " + player.getName());
                     }
                 }

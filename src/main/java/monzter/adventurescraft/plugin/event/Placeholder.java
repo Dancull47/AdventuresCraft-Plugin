@@ -19,6 +19,7 @@ import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.Stats;
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -83,6 +84,28 @@ public class Placeholder extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, String identifier) {
 
         switch (identifier) {
+
+//            case "Rank":
+//                String ranks = PlaceholderAPI.setPlaceholders(player, "%prison_rank_tag_default%");
+//                String prestiges = PlaceholderAPI.setPlaceholders(player, "%prison_rank_tag_prestiges%")
+//                        .replace("§", "")
+//                        .replace("7", "")
+//                        .replace("[", "")
+//                        .replace("c", "")
+//                        .replace("]", "")
+//                        ;
+//                if (ranks
+////                        .replace("§", "")
+////                        .replace("7", "")
+////                        .replace("[", "")
+////                        .replace("c", "")
+////                        .replace("]", "")
+//                        .contains("Z")){
+//                    if (Integer.valueOf(prestiges) > 0){
+//                        return ChatColor.WHITE + "[" + ChatColor.GREEN + prestiges + ChatColor.GREEN + "]";
+//                    }
+//                }
+//                return ranks;
 
             case "PetEgg":
                 return String.valueOf(PetEgg.COMMON.expToHatch);
@@ -195,9 +218,9 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_MaxPetAmount":
                 String maxPetAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPetAmount.amount%");
                 return String.valueOf(2 + Integer.valueOf(maxPetAmount));
-            case "Stat_BattlePassEXPAmount":
-                String battlePassEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_battlePass:point.EXP.amount%");
-                return battlePassEXPAmount;
+            case "Stat_MiningPassEXPAmount":
+                String miningPassEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%");
+                return miningPassEXPAmount;
 
             // CURRENCIES
             case "Currency_AdventureCoins":
