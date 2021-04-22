@@ -2,7 +2,7 @@ name: AdventuresCraft
 version: 1.0
 api-version: 1.16
 main: monzter.adventurescraft.plugin.AdventuresCraft
-depend: [MMOItems, PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier]
+depend: [MMOItems, PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier, MythicMobs]
 commands:
   Captcha:
     description: 'Unlock chat!'

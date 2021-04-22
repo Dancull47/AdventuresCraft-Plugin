@@ -92,7 +92,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this), this);
         getCommand("PetUnequip").setExecutor(new InteractPets(this, loadPetsConfig()));
         getCommand("Hatch").setExecutor(new Hatch(this));
-        getCommand("DropTables").setExecutor(new DropTables(this));
+//        getCommand("DropTables").setExecutor(new DropTables(this));
         getCommand("Login").setExecutor(new Security(this));
         getCommand("Reward").setExecutor(new AdminCommands(this));
         getCommand("DonationRewards").setExecutor(new DonationRewards(this));
@@ -107,6 +107,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Quest").setExecutor(new Commands(this));
         getCommand("Pet").setExecutor(new Commands(this));
         getCommand("Pet").setTabCompleter(new Commands(this));
+        getCommand("Hatch").setTabCompleter(new Commands(this));
         getCommand("Discord").setExecutor(new Commands(this));
         getCommand("Bank").setExecutor(new Commands(this));
         getCommand("BattlePass").setExecutor(new BattlePass(this));
@@ -453,13 +454,13 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                         .append(Component.text(" /Spawn ", NamedTextColor.GOLD))
                         .hoverEvent(Component.text("Click to return to the Yard!", NamedTextColor.GREEN))
                         .clickEvent(ClickEvent.suggestCommand("/Spawn"))
-                        .append(Component.text(" if you're stuck!")),
+                        .append(Component.text("if you're stuck!")),
                 Component.text(prefix + "You can")
                         .color(NamedTextColor.GREEN)
                         .append(Component.text(" Vote ", NamedTextColor.GOLD))
                         .hoverEvent(Component.text("Click to visit Voting Guide!", NamedTextColor.GREEN))
                         .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"))
-                        .append(Component.text(" for our Server, to receive awesome rewards every day!")),
+                        .append(Component.text("for our Server, to receive awesome rewards every day!")),
                 Component.text(prefix + "You can add others to your")
                         .color(NamedTextColor.GREEN)
                         .append(Component.text(" Friends List ", NamedTextColor.GOLD))
