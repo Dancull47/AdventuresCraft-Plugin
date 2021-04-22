@@ -22,7 +22,7 @@ public class MiningPass implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender != null && sender.isOp()) {
+        if (sender != null) {
             Player player = ((Player) sender).getPlayer();
             if (args.length < 1) {
                 if (!sender.hasPermission("MININGPASS.PURCHASED"))

@@ -4,11 +4,9 @@ api-version: 1.16
 main: monzter.adventurescraft.plugin.AdventuresCraft
 depend: [MMOItems, PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier, MythicMobs]
 commands:
-  Captcha:
-    description: 'Unlock chat!'
-    usage: '/<command> <code>'
   MiningPass:
   Booster:
+    permission: *
   Sell:
   Discord:
   Pet:
@@ -27,12 +25,26 @@ commands:
     aliases: [UnclaimedQuests]
   Login:
   PointsAdd:
+    permission: *
+    usage: "/PointsAdd [Amount] [Material]"
   PointsAmount:
+    permission: *
+    usage: "/PointsAmount [Material]"
   Stat:
+    permission: *
+    usage: "/Stat [Stat] [Player]"
   RestartTime:
+    permission: *
   Vote:
   Reward:
+    permission: *
+      usage: "/Reward [Stat] [Amount] [Player]"
   PetUnequip:
+    usage: "/PetUnequip [pet-name]"
   DonationRewards:
   DropTables:
+    permission: *
+    permission-message: You do not have permission to use this command.
+    usage: "/DropTables [table-name]"
   Hatch:
+    usage: "/Hatch [egg-rarity]"

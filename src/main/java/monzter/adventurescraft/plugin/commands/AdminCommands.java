@@ -31,60 +31,60 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                             return true;
                         } else {
                             Player targetPlayer = Bukkit.getPlayer(args[1]);
-                            switch (args[0]) {
-                                case "MaxWeightM":
+                            switch (args[0].toLowerCase()) {
+                                case "maxweightm":
                                     String statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "BlockM":
+                                case "blockm":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "SellM":
+                                case "sellm":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "LuckM":
+                                case "luckm":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "EXPM":
+                                case "expm":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "PetEXPM":
+                                case "petexpm":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "MaxWeight":
+                                case "maxweight":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "Weight":
+                                case "weight":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Weight%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "EXP":
+                                case "exp":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "Pets":
+                                case "pets":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetAmount%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "MaxPets":
+                                case "maxpets":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxPetAmount%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "AC":
+                                case "ac":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "MiningPass":
+                                case "miningpass":
                                     statValue = PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%");
                                     checkStat(player, targetPlayer, args[0], statValue);
                                     return true;
-                                case "All":
+                                case "all":
                                     checkAllStats(player, targetPlayer);
                                     return true;
                             }
@@ -123,22 +123,21 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                             Player targetPlayer = Bukkit.getPlayer(args[2]);
                             if (targetPlayer != null) {
                                 switch (args[0]) {
-                                    case "PetExperience":
-                                    case "PetEXP":
+                                    case "petexperience":
+                                    case "petexp":
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.AQUA + "❉ Pet Experience" + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.PetExperience " + args[1]);
                                         return true;
                                     case "Experience":
-                                    case "EXP":
+                                    case "exp":
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.GREEN + "۞ Experience" + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.Experience " + args[1]);
                                         return true;
-                                    case "MiningPass":
-                                    case "Miningpass":
+                                    case "miningpass":
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.DARK_PURPLE + "♦ Mining Pass Experience" + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add MiningPass.EXP " + args[1]);
                                         return true;
-                                    case "AC":
+                                    case "ac":
                                     case "AdventureCoins":
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.AdventureCoin " + args[1]);
@@ -146,16 +145,15 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                                 }
                             } else {
                                 switch (args[0]) {
-                                    case "PetExperience":
-                                    case "PetEXP":
+                                    case "petexperience":
+                                    case "petexp":
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.PetExperience " + args[1]);
                                         return true;
                                     case "Experience":
-                                    case "EXP":
+                                    case "exp":
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.Experience " + args[1]);
                                         return true;
-                                    case "MiningPass":
-                                    case "Miningpass":
+                                    case "miningpass":
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add MiningPass.EXP " + args[1]);
                                         return true;
                                 }
@@ -186,7 +184,7 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.GREEN + "۞ Experience" + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add items.Experience " + args[1]);
                                         return true;
-                                    case "Miningpass":
+                                    case "miningpass":
                                         targetPlayer.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + args[1] + ChatColor.GREEN + "x " + ChatColor.DARK_PURPLE + "♦ Mining Pass Experience" + ChatColor.GREEN + "!");
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getName() + " add MiningPass.EXP " + args[1]);
                                         return true;
@@ -194,14 +192,14 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
                             } else {
                                 switch (args[0].toLowerCase()) {
                                     case "petexperience":
-                                    case "Petexp":
+                                    case "petexp":
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.PetExperience " + args[1]);
                                         return true;
                                     case "experience":
                                     case "exp":
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add items.Experience " + args[1]);
                                         return true;
-                                    case "Miningpass":
+                                    case "miningpass":
                                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + args[2] + " add MiningPass.EXP " + args[1]);
                                         return true;
                                 }
@@ -220,8 +218,8 @@ public class AdminCommands implements CommandExecutor, @Nullable TabCompleter {
         if (sender.isOp()) {
             if (command.getName().toLowerCase().equals("stat")) {
                 if (args.length == 1) {
-                    List<String> arguments = new ArrayList<>(Arrays.asList("All", "PetEXP", "Weight", "MaxWeight", "EXP", "Pets", "MaxPets", "MiningPass", "AC", "PetEXPM",
-                            "MaxWeightM", "BlockM", "SellM", "LuckM", "EXPM"));
+                    List<String> arguments = new ArrayList<>(Arrays.asList("all", "petexp", "weight", "maxweight", "exp", "pets", "maxpets", "miningpass", "ac", "petexpm",
+                            "maxweightm", "blockm", "sellm", "luckm", "expm"));
                     return arguments;
                 }
             }
