@@ -40,7 +40,7 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG", acUtils.common + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + acUtils.common + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEgg.COMMON.expToHatch);
-                        acUtils.giveDropTable(player, "EGG1");
+                        acUtils.consoleCommand("droptable " + player.getName() + " EGGCOMMON");
                         break;
                     }
                 }

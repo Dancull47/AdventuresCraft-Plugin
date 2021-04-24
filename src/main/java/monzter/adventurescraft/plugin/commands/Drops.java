@@ -7,7 +7,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.commands.dropTables.CommonPetEgg;
-import monzter.adventurescraft.plugin.commands.dropTables.testDrop;
 //import monzter.adventurescraft.plugin.event.TestInv;
 import monzter.adventurescraft.plugin.utilities.acUtils;
 import org.bukkit.Bukkit;
@@ -34,6 +33,7 @@ public class Drops extends BaseCommand {
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
+    @CommandCompletion("* eggcommon")
     public void statCommand(OnlinePlayer player, String table, int amount) {
         double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
         for (int i = 0; i < amount; i++) {

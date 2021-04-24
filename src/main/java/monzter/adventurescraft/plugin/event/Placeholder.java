@@ -182,6 +182,8 @@ public class Placeholder extends PlaceholderExpansion {
                 return numberFormat(DonationRewardList.LegendaryDragonPetEgg10.price);
 
             // STATS
+            case "Stat_TotalMined":
+                return String.valueOf(Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.TotalBlocks.amount%")));
             case "Stat_MiningSpeed":
                 String miningSpeed = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_faction_damage_breakingspeed%");
                 return miningSpeed;
