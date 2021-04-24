@@ -197,7 +197,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_SellMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.SELL_MULTIPLIER) + calculateBoosterStats(player, "sell"));
             case "Stat_LuckMultiplier":
-                return String.valueOf(calculateEnchantments(player, "Luck") + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
+                return String.valueOf((calculateEnchantments(player, "Luck") * .5) + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
             case "Stat_EXPMultiplier":
                 return String.valueOf(calculateEnchantments(player, "Experience") + calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
             case "Stat_Pet_EXPMultiplier":
@@ -228,6 +228,10 @@ public class Placeholder extends PlaceholderExpansion {
                 return adventureCoins;
 
             // ENCHANTMENTS
+            case "Enchantment_Randomizer":
+                return String.valueOf(calculateEnchantments(player, "Randomizer") * .0005);
+            case "Enchantment_Treasurer":
+                return String.valueOf(calculateEnchantments(player, "Treasurer") * .0005);
             case "Enchantment_Experience":
                 return String.valueOf(calculateEnchantments(player, "Experience"));
             case "Enchantment_Pet_Experience":

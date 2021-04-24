@@ -2,11 +2,11 @@ name: AdventuresCraft
 version: 1.0
 api-version: 1.16
 main: monzter.adventurescraft.plugin.AdventuresCraft
-depend: [MMOItems, PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier, MythicMobs]
+depend: [MMOItems, PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier, MythicMobs, helper]
 commands:
   MiningPass:
   Booster:
-    permission: *
+    permission: '*'
   Sell:
   Discord:
   Pet:
@@ -25,26 +25,26 @@ commands:
     aliases: [UnclaimedQuests]
   Login:
   PointsAdd:
-    permission: *
+    permission: '*'
     usage: "/PointsAdd [Amount] [Material]"
   PointsAmount:
-    permission: *
+    permission: '*'
     usage: "/PointsAmount [Material]"
   Stat:
-    permission: *
+    permission: '*'
     usage: "/Stat [Stat] [Player]"
   RestartTime:
-    permission: *
+    permission: '*'
   Vote:
   Reward:
-    permission: *
-      usage: "/Reward [Stat] [Amount] [Player]"
+    permission: '*'
+    usage: "/Reward [Stat] [Amount] [Player]"
   PetUnequip:
     usage: "/PetUnequip [pet-name]"
-  DonationRewards:
   DropTables:
-    permission: *
+    permission: '*'
     permission-message: You do not have permission to use this command.
     usage: "/DropTables [table-name]"
   Hatch:
     usage: "/Hatch [egg-rarity]"
+  EnchantReward:

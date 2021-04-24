@@ -49,6 +49,12 @@ public class acUtils {
     public static void giveMMOItem(Player player, String type, String id, int amount, boolean silent) {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give " + type + " " + id + " " + player.getName() + " " + amount + " 0 100 0 s");
     }
+    public static void giveMMDropTable(Player player, String tableName) {
+        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mm items give " + player.getName() + " " + tableName + " 1");
+    }
+    public static void giveMMDropTable(Player player, String tableName, int amount) {
+        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mm items give " + player.getName() + " " + tableName + " " + amount);
+    }
 
 
     public static boolean fullInventory(Player player) {
