@@ -27,14 +27,14 @@ public class Drops extends BaseCommand {
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
-    public void statCommand(OnlinePlayer player, String table) {
-        statCommand(player, table, 1);
+    public void dropTable(OnlinePlayer player, String table) {
+        dropTable(player, table, 1);
     }
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
     @CommandCompletion("* eggcommon")
-    public void statCommand(OnlinePlayer player, String table, int amount) {
+    public void dropTable(OnlinePlayer player, String table, int amount) {
         double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {

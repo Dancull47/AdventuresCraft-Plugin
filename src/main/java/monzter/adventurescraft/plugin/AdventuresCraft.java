@@ -45,8 +45,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public SQLGetter data;
     private static Permission perms = null;
     private static Economy econ = null;
-    public static YamlConfiguration LANGUAGE;
-    public static File LANGUAGE_FILE;
     private StateFlag prisonMineFlag;
     private StringFlag displayNameFlag;
     private LocationFlag sellLocationFlag;
@@ -70,7 +68,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        this.SQL = new MySQL(this);
 //        this.data = new SQLGetter(this, SQL);
         restartTime = System.currentTimeMillis() + 21600000;
-        restart();
+//        restart();
         tipsMessage();
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
@@ -84,6 +82,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Hatching(this));
         manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new Drops(this));
+        manager.registerCommand(new Voting(this));
         manager.registerCommand(new Sell(this, sellLocationFlag));
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
@@ -350,29 +349,29 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        }
 //    }
 
-    public void restart() {
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-            Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 10 minutes!");
-            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-                Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 5 minutes!");
-                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-                    Bukkit.broadcastMessage(ChatColor.GOLD + "Server will be restarting in 3 minutes!");
-                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-                        Bukkit.broadcastMessage(ChatColor.DARK_RED + "Server is now restarting!");
-                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-                        this.setEnabled(false);
-                    }, 3600L);
-                }, 2400L);
-            }, 6000L);
-        }, 420000L);
-    }
+//    public void restart() {
+//        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+//            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//            Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 10 minutes!");
+//            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+//                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//                Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 5 minutes!");
+//                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+//                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//                    Bukkit.broadcastMessage(ChatColor.GOLD + "Server will be restarting in 3 minutes!");
+//                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+//                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//                        Bukkit.broadcastMessage(ChatColor.DARK_RED + "Server is now restarting!");
+//                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
+//                        this.setEnabled(false);
+//                    }, 3600L);
+//                }, 2400L);
+//            }, 6000L);
+//        }, 420000L);
+//    }
 
     public void tipsMessage(){
         String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "♦" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;

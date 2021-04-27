@@ -1,12 +1,20 @@
 package monzter.adventurescraft.plugin.event;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
+import monzter.adventurescraft.plugin.event.extras.VoteRewardList;
+import monzter.adventurescraft.plugin.utilities.acUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -15,16 +23,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
+
 //https://github.com/NuVotifier/NuVotifier/wiki/Developer-Documentation
-public class Voting implements Listener {
+public class Voting extends BaseCommand implements Listener {
     private final AdventuresCraft plugin;
     private final HashMap<Player, Long> cooldown = new HashMap<>();
-    private final TextComponent vote = Component.text("Thanks for voting, claim your reward by using ")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text("/VoteClaim", NamedTextColor.GOLD))
-            .hoverEvent(Component.text("Click to claim rewards!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.runCommand("/VoteClaim"))
-            .append(Component.text("! You can vote again every 24 hours."));
+//    private final TextComponent vote = Component.text("Thanks for voting, claim your reward by using ")
+//            .color(NamedTextColor.GREEN)
+//            .append(Component.text("/Vote", NamedTextColor.GOLD))
+//            .hoverEvent(Component.text("Click to claim rewards!", NamedTextColor.GREEN))
+//            .clickEvent(ClickEvent.runCommand("/Vote"))
+//            .append(Component.text("! You can vote again every 24 hours."));
 
     public Voting(AdventuresCraft plugin) {
         this.plugin = plugin;
@@ -44,19 +53,21 @@ public class Voting implements Listener {
             case "MinecraftServers.org":
             case "MCSL":
             case "Minecraft-MP.com":
-                voteReward(player, vote.getUsername());
+//                voteReward(player, vote.getUsername());
+                voteAnnounce(vote.getUsername());
+                acUtils.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
         }
     }
 
 
-    public void voteReward(Player player, String name) {
-        if (player != null && player.isOnline()) {
-            player.sendMessage(vote);
-            player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR, .5f, 1f);
-        }
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + name + " add items.Vote " + "1");
-        voteAnnounce(name);
-    }
+//    public void voteReward(Player player, String name) {
+//        if (player != null && player.isOnline()) {
+//            player.sendMessage(vote);
+//            player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST_FAR, .5f, 1f);
+//        }
+//        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + name + " add items.Vote " + "1");
+//        voteAnnounce(name);
+//    }
 
     public void voteAnnounce(String playerName) {
         Player player = Bukkit.getPlayer(playerName);
@@ -80,6 +91,31 @@ public class Voting implements Listener {
                 cooldown.put(player, (System.currentTimeMillis() + (300 * 1000)));
                 Bukkit.getServer().broadcast(voteAnnounce, "");
             }
+        }
+    }
+
+    @CommandAlias("VoteClaim")
+    public void voteClaimCommand(Player player, String arg) {
+        Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
+        for (VoteRewardList reward: VoteRewardList.values()){
+            if (arg.equals(reward.getId())){
+                if (voteCoins >= reward.getPrice()){
+                    acUtils.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
+                    acUtils.consoleCommand("q point " + player.getName() + " add items.Vote -" + reward.getPrice());
+                    acUtils.soundYes(player,2);
+                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        player.sendMessage(ChatColor.GREEN + "Your purchase was successful and you now have " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%") + ChatColor.GREEN + " Vote Coins remaining!");
+                    }, 5L);
+                } else {
+                    player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + voteCoins + ChatColor.RED + "/" + ChatColor.GOLD + reward.getPrice() + ChatColor.RED + " Vote Coins!");
+                    acUtils.soundNo(player, 1);
+                }
+            }
+        }
+
+        if (arg.isEmpty()) {
+            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
+
         }
     }
 }

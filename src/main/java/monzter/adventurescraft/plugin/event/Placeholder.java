@@ -228,6 +228,9 @@ public class Placeholder extends PlaceholderExpansion {
             case "Currency_AdventureCoins":
                 String adventureCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
                 return adventureCoins;
+            case "Currency_VotingCoins":
+                String voteCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
+                return voteCoins;
 
             // ENCHANTMENTS
             case "Enchantment_Randomizer":
