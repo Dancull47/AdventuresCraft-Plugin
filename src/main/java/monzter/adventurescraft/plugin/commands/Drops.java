@@ -53,7 +53,7 @@ public class Drops extends BaseCommand {
     private void giveReward(Player player, String displayName, String rewardType, String rewardName, double chance) {
         double multipliedChance = chance*100;
         player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-        acUtils.giveMMOItem(player, rewardType, rewardName, true);
+        acUtils.giveMMOItem(player, rewardType, rewardName);
         if (multipliedChance < 50 && multipliedChance >= 25) {
             player.sendMessage(displayName + " " + ChatColor.BLUE + ChatColor.BOLD + multipliedChance + "% RARE!");
             acUtils.playSound(player, Sound.ENTITY_WITCH_CELEBRATE, 1, 1);

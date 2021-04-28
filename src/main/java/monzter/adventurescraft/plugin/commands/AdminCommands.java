@@ -9,6 +9,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.acUtils;
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -33,6 +34,7 @@ public class AdminCommands extends BaseCommand {
     @CommandCompletion("* maxweightm|blockm|sellm|luckm|expm|petexpm|maxweight|weight|exp|pets|maxpets|ac|miningpass|all")
     public void statCommand(Player player, OnlinePlayer targetPlayer, String stat) {
         statsCommand(player, stat, targetPlayer.getPlayer());
+        acUtils.giveMMOItem(player, "MATERIAL", "NULL", 1, false);
     }
 
     @CommandAlias("booster")

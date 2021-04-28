@@ -31,7 +31,7 @@ public class Enchanting extends BaseCommand {
         String enchantmentPlaceholder = "%ac_Enchantment_" + enchantment + "%";
         if (upgradeAmount == null){
             if (enoughPoints(player, enchantmentPlaceholder)) {
-                increaseEnchantment(player, "Randomizer", Integer.valueOf(PlaceholderAPI.setPlaceholders(player, enchantmentPlaceholder)));
+                increaseEnchantment(player, enchantment, Integer.valueOf(PlaceholderAPI.setPlaceholders(player, enchantmentPlaceholder)));
             }
 //        } else if (Integer.valueOf(upgradeAmount) > 0){
 //            for (int i = 0; i < Integer.valueOf(upgradeAmount); i++){
