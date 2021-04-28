@@ -93,6 +93,10 @@
             <id>aikar</id>
             <url>https://repo.aikar.co/content/groups/aikar/</url>
         </repository>
+        <repository>
+            <id>betonquest-repo</id>
+            <url>https://betonquest.org/nexus/repository/betonquest/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -189,7 +193,11 @@
             <version>0.5.0-SNAPSHOT</version>
             -->
         </dependency>
-
+        <dependency>
+            <groupId>pl.betoncraft</groupId>
+            <artifactId>betonquest</artifactId>
+            <version>1.12.2</version>
+        </dependency>
     </dependencies>
 
 

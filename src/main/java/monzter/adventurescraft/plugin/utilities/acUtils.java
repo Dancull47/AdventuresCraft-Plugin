@@ -8,16 +8,21 @@ import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.Indyuce.mmoitems.manager.ItemManager;
 import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.database.PlayerData;
 
 import java.text.DecimalFormat;
 
 public class acUtils {
     private static Bukkit plugin;
+    public static Economy econ = null;
     public static String common = ChatColor.WHITE.toString();
     public static String uncommon = ChatColor.DARK_GREEN.toString();
     public static String rare = ChatColor.BLUE.toString();
@@ -25,6 +30,32 @@ public class acUtils {
     public static String exotic = ChatColor.YELLOW.toString();
     public static String mythical = ChatColor.LIGHT_PURPLE.toString();
     public static String godly = ChatColor.RED.toString();
+
+    public static void money(Player player, double amount) {
+        EconomyResponse r = econ.depositPlayer(player, amount);
+        if (!r.transactionSuccess()) {
+            player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!");
+            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
+        }
+    }
+    public static void givePoint(Player player, String path, int amount) {
+        BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).modifyPoints(path, amount);
+    }
+    public static void givePointEXP(Player player, int amount) {
+        givePoint(player, "items.Experience", amount);
+    }
+    public static void givePointPetEXP(Player player, int amount) {
+        givePoint(player, "items.PetExperience", amount);
+    }
+    public static void givePointMiningPass(Player player, int amount) {
+        givePoint(player, "miningPass.EXP", amount);
+    }
+    public static void givePointWeight(Player player, int amount) {
+        givePoint(player, "items.Weight", amount);
+    }
+    public static void givePointACs(Player player, int amount) {
+        givePoint(player, "items.AdventureCoin", amount);
+    }
 
 
     public static void consoleCommand(String command){

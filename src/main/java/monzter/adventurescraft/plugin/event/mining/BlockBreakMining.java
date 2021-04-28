@@ -66,6 +66,7 @@ public class BlockBreakMining implements Listener {
                             enchantmentPetExperience(player);
                             enchantmentTreasurer(player);
                             enchantmentRandomizer(player);
+                            enchantmentMidasTouch(player);
                             event.setCancelled(false);
                         } else {
                             tooHeavy(player);
@@ -158,12 +159,25 @@ public class BlockBreakMining implements Listener {
             final org.bukkit.Location originalLocation = new org.bukkit.Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
             Location convertedLocation = BukkitAdapter.adapt(originalLocation);
             if (inRegion(query, convertedLocation)) {
-                if (acUtils.chanceCheck(.0025 * enchantmentLevel)) {
+                if (acUtils.chanceCheck(.0025 + enchantmentLevel)) {
                     originalLocation.getBlock().setType(Material.CHEST);
                     acUtils.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                     player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
                 }
             }
+        }
+    }
+
+    public static void enchantmentMidasTouch(Player player) {
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Midas_Touch%"))*.0005;
+        if (enchantmentLevel > 0) {
+            Random r = new Random();
+            int result = r.nextInt(250000-50000) + 10;
+                if (acUtils.chanceCheck(.0025 + enchantmentLevel)) {
+                    acUtils.consoleCommand("money give " + player.getName() + " " + result);
+                    acUtils.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                    player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
+                }
         }
     }
 

@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.commands;
+package monzter.adventurescraft.plugin.event.mining;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.mining.BlockBreakMining;
@@ -35,6 +35,9 @@ public class MiningEnchantments implements CommandExecutor {
                                 return true;
                             case "randomizer":
                                 BlockBreakMining.enchantmentRandomizer(targetPlayer);
+                                return true;
+                            case "midastouch":
+                                BlockBreakMining.enchantmentMidasTouch(targetPlayer);
                                 return true;
                         }
                 }

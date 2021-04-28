@@ -14,6 +14,7 @@ import monzter.adventurescraft.plugin.event.extras.Pet;
 import monzter.adventurescraft.plugin.event.extras.Stats;
 import monzter.adventurescraft.plugin.event.mining.BlockBreakMining;
 import monzter.adventurescraft.plugin.event.mining.ChestInteract;
+import monzter.adventurescraft.plugin.event.mining.MiningEnchantments;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import net.kyori.adventure.text.Component;

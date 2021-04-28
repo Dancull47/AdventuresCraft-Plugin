@@ -252,6 +252,15 @@ public class Placeholder extends PlaceholderExpansion {
             case "Enchantment_Randomizer_increase":
                 return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer"))+1);
 
+            case "Enchantment_Midas_Touch":
+                return String.valueOf(calculateEnchantments(player, "Midas Touch"));
+            case "Enchantment_Midas_Touch_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch")+1)*3500);
+            case "Enchantment_Midas_Touch_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Midas Touch")+1)*3500);
+            case "Enchantment_Midas_Touch_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch"))+1);
+
             case "Enchantment_Treasurer":
                 return String.valueOf(calculateEnchantments(player, "Treasurer"));
             case "Enchantment_Treasurer_math":
