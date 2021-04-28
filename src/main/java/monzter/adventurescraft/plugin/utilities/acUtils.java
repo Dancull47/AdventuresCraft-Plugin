@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.text.DecimalFormat;
+
 public class acUtils {
     private static Bukkit plugin;
     public static String common = ChatColor.WHITE.toString();
@@ -115,4 +117,11 @@ public class acUtils {
     public static void soundPurchase(Player player, float pitch){
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, pitch);
     }
+
+
+    public static String numberFormat(int number) {
+        DecimalFormat format = new DecimalFormat("###,###,###");
+        return format.format(number);
+    }
+
 }

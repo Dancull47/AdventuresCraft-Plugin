@@ -151,7 +151,7 @@ public class BlockBreakMining implements Listener {
     }
 
     public static void enchantmentTreasurer(Player player) {
-        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Treasurer%"));
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Treasurer%"))*.0005;
         if (enchantmentLevel > 0) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query = container.createQuery();
@@ -168,7 +168,7 @@ public class BlockBreakMining implements Listener {
     }
 
     public static void enchantmentRandomizer(Player player) {
-        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Randomizer%"));
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Randomizer%"))*.0005;
         if (enchantmentLevel > 0) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query = container.createQuery();

@@ -208,12 +208,18 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_Weight":
                 String currentWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Weight.amount%");
                 return currentWeight;
+            case "Stat_Weight_formatted":
+                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Weight%")));
             case "Stat_Pet_EXPAmount":
                 String petEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%");
                 return petEXPAmount;
+            case "Stat_Pet_EXPAmount_formatted":
+                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPAmount%")));
             case "Stat_EXPAmount":
                 String EXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%");
                 return EXPAmount;
+            case "Stat_EXPAmount_formatted":
+                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount%")));
             case "Stat_PetAmount":
                 String petAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetAmount.amount%");
                 return petAmount;
@@ -223,20 +229,38 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_MiningPassEXPAmount":
                 String miningPassEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%");
                 return miningPassEXPAmount;
+            case "Stat_MiningPassEXPAmount_formatted":
+                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MiningPassEXPAmount%")));
 
             // CURRENCIES
             case "Currency_AdventureCoins":
                 String adventureCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
                 return adventureCoins;
+            case "Currency_AdventureCoins_formatted":
+                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins%")));
             case "Currency_VotingCoins":
                 String voteCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
                 return voteCoins;
 
             // ENCHANTMENTS
             case "Enchantment_Randomizer":
-                return String.valueOf(calculateEnchantments(player, "Randomizer") * .0005);
+                return String.valueOf(calculateEnchantments(player, "Randomizer"));
+            case "Enchantment_Randomizer_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer")+1)*3500);
+            case "Enchantment_Randomizer_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Randomizer")+1)*3500);
+            case "Enchantment_Randomizer_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer"))+1);
+
             case "Enchantment_Treasurer":
-                return String.valueOf(calculateEnchantments(player, "Treasurer") * .0005);
+                return String.valueOf(calculateEnchantments(player, "Treasurer"));
+            case "Enchantment_Treasurer_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer")+1)*3500);
+            case "Enchantment_Treasurer_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Treasurer")+1)*3500);
+            case "Enchantment_Treasurer_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer"))+1);
+
             case "Enchantment_Experience":
                 return String.valueOf(calculateEnchantments(player, "Experience"));
             case "Enchantment_Pet_Experience":
@@ -365,7 +389,7 @@ public class Placeholder extends PlaceholderExpansion {
             if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null){
                 Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
                 if (!enchantmentMap.isEmpty()) {
-//                System.out.println(enchantmentMap);
+//                System.out.println(enchantmentMap + "TEST");
                     if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
                         return enchantmentMap.get(Enchantment.getByName(enchantment));
                     }

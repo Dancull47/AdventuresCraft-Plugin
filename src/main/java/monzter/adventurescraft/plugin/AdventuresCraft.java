@@ -83,6 +83,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new Drops(this));
         manager.registerCommand(new Voting(this));
+        manager.registerCommand(new Enchanting(this));
         manager.registerCommand(new Sell(this, sellLocationFlag));
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
