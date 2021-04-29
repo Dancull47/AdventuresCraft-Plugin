@@ -55,24 +55,39 @@ public class AdminCommands extends BaseCommand {
         acUtils.giveMMOItem(player, "MATERIAL", "NULL", 1, false);
     }
 
+
     @CommandAlias("booster")
     @CommandPermission("*")
     @Description("Check stats of a player")
-    public void boosterCommand(String player, String boosterType, int boosterTier, int boosterDuration) {
+    public void boosterCommand(String boosterType, String player, int boosterTier, int boosterDuration) {
         Player target = Bukkit.getPlayer(player);
         if (target != null) {
-            booster(boosterType, target, boosterTier, boosterDuration);
+            booster(boosterType.toUpperCase(), target, boosterTier, boosterDuration);
         } else {
-            globalBooster(boosterType, boosterTier, boosterDuration);
+            globalBooster(boosterType.toUpperCase(), boosterTier, boosterDuration);
         }
     }
 
-    private ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-    private ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private ItemStack previousPageItem = new ItemStack(Material.ARROW);
-    private ItemMeta previousPageItemMeta =  previousPageItem.getItemMeta();
-    private ItemStack nextPageItem = new ItemStack(Material.ARROW);
-    private ItemMeta nextPageItemMeta =  nextPageItem.getItemMeta();
+    private final String[] boosterType = new String[]{"SELL", "EXP", "BLOCK", "LUCK"};
+    private final int[] boosterTier = new int[]{1, 3, 5, 7, 10};
+
+    @CommandAlias("randomBooster")
+    @CommandPermission("*")
+    @Description("Check stats of a player")
+    public void randomBoosterCommand() {
+        final int randomType = new Random().nextInt(boosterType.length);
+        final int randomTier = new Random().nextInt(boosterTier.length);
+        final int randomDuration = new Random().nextInt(boosterTier.length);
+        globalBooster(boosterType[randomType].toUpperCase(), boosterTier[randomTier], boosterTier[randomDuration]);
+    }
+
+    private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+    private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
+    private final ItemStack previousPageItem = new ItemStack(Material.ARROW);
+    private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
+    private final ItemStack nextPageItem = new ItemStack(Material.ARROW);
+    private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
+
     @CommandAlias("testGUI")
     @CommandPermission("*")
     public void testGUI(Player player) {
@@ -127,10 +142,10 @@ public class AdminCommands extends BaseCommand {
         int i = 0;
         for (CommonPetEgg item : CommonPetEgg.values()) {
             final ItemStack itemStack = MMOItems.plugin.getItem(item.type, item.id);
-                    List<String> lore = itemStack.getLore();
-                    lore.add("");
-                    lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight*10 + "%");
-                    itemStack.setLore(lore);
+            List<String> lore = itemStack.getLore();
+            lore.add("");
+            lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight * 10 + "%");
+            itemStack.setLore(lore);
             if (i < 28) {
                 display.addItem(new GuiItem(itemStack));
                 i++;

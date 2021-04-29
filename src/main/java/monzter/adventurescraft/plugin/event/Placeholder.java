@@ -1,5 +1,6 @@
 package monzter.adventurescraft.plugin.event;
 
+import com.google.common.base.Strings;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
@@ -43,6 +44,7 @@ public class Placeholder extends PlaceholderExpansion {
     private final Set<Pet> pets;
     private final StringFlag displayNameFlag;
     private long restartTime;
+//    List<Point> global = BetonQuest.getInstance().getGlobalData().getPoints();
 
     public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets, StringFlag displayNameFlag, long restartTime) {
         this.plugin = plugin;
@@ -84,6 +86,7 @@ public class Placeholder extends PlaceholderExpansion {
      */
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
+        final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
 
         switch (identifier) {
 
@@ -208,13 +211,18 @@ public class Placeholder extends PlaceholderExpansion {
                 return String.valueOf(calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
             case "Stat_Weight":
-                final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
                 for (final Point point : points) {
                     if (point.getCategory().equalsIgnoreCase("items.Weight")) {
                         return String.valueOf(point.getCount());
                     }
                 }
-                return "0";
+            case "Stat_Beach":
+                return String.valueOf(BeachEvent.getBlocksBroken());
+            case "Stat_Beach_Max":
+                return String.valueOf(BeachEvent.getMax());
+            case "Stat_Beach_Bar":
+                return getProgressBar(BeachEvent.getBlocksBroken(), BeachEvent.getMax(), 5, '-', ChatColor.BOLD, ChatColor.BOLD);
+
             case "Stat_Weight_formatted":
                 return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Weight%")));
             case "Stat_Pet_EXPAmount":
@@ -337,6 +345,15 @@ public class Placeholder extends PlaceholderExpansion {
                 return null;
 
         }
+    }
+
+    public String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor,
+                                 ChatColor notCompletedColor) {
+        float percent = (float) current / max;
+        int progressBars = (int) (totalBars * percent);
+
+        return Strings.repeat("" + ChatColor.YELLOW + completedColor + symbol, progressBars)
+                + Strings.repeat("" + ChatColor.WHITE + notCompletedColor + symbol, totalBars - progressBars);
     }
 
     private String location(OfflinePlayer player) {

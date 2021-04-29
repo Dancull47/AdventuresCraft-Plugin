@@ -118,7 +118,6 @@ public class BlockBreakMining implements Listener {
                 + " " + amount);
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add blocks." + material.toString() + " 1"); // Gives a point for each specific block mined, used for Achievements
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalModifierBlocks " + amount); // I forget
-
     }
 
     public static void enchantmentLuck(Player player) {
