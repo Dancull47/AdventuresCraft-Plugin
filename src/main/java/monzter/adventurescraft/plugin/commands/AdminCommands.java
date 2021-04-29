@@ -4,15 +4,33 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
+import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
+import com.github.stefvanschie.inventoryframework.pane.Pane;
+import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.commands.dropTables.CommonPetEgg;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.acUtils;
+import net.Indyuce.mmoitems.MMOItems;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.*;
 import org.bukkit.command.*;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,11 +60,88 @@ public class AdminCommands extends BaseCommand {
     @Description("Check stats of a player")
     public void boosterCommand(String player, String boosterType, int boosterTier, int boosterDuration) {
         Player target = Bukkit.getPlayer(player);
-        if (target != null){
+        if (target != null) {
             booster(boosterType, target, boosterTier, boosterDuration);
         } else {
             globalBooster(boosterType, boosterTier, boosterDuration);
         }
+    }
+
+    private ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+    private ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
+    private ItemStack previousPageItem = new ItemStack(Material.ARROW);
+    private ItemMeta previousPageItemMeta =  previousPageItem.getItemMeta();
+    private ItemStack nextPageItem = new ItemStack(Material.ARROW);
+    private ItemMeta nextPageItemMeta =  nextPageItem.getItemMeta();
+    @CommandAlias("testGUI")
+    @CommandPermission("*")
+    public void testGUI(Player player) {
+        backgroundItemMeta.setDisplayName(" ");
+        previousPageItemMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
+        nextPageItemMeta.setDisplayName(ChatColor.GREEN + "Next Page");
+        backgroundItem.setItemMeta(backgroundItemMeta);
+        previousPageItem.setItemMeta(previousPageItemMeta);
+        nextPageItem.setItemMeta(nextPageItemMeta);
+
+        ChestGui gui = new ChestGui(6, "Lootbox Loot Table");
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
+        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+        OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+        StaticPane pageSelection = new StaticPane(0, 0, 9, 6);
+        StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
+        StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
+
+        page.addPane(0, background);
+        page.addPane(0, display);
+        page.addPane(1, background);
+        page.addPane(1, display2);
+
+
+        back.addItem(new GuiItem((previousPageItem), event -> {
+            page.setPage(page.getPage() - 1);
+            if (page.getPage() == 0) {
+                back.setVisible(false);
+            }
+            forward.setVisible(true);
+            gui.update();
+        }), 0, 0);
+        back.setVisible(false);
+        forward.addItem(new GuiItem((nextPageItem), event -> {
+            page.setPage(page.getPage() + 1);
+            if (page.getPage() == page.getPages() - 1) {
+                forward.setVisible(false);
+            }
+            back.setVisible(true);
+            gui.update();
+        }), 0, 0);
+
+
+        background.addItem(new GuiItem(backgroundItem));
+        background.setRepeat(true);
+
+        pageSelection.addItem(new GuiItem(new ItemStack(Material.ARROW)), 0, 6);
+
+        int i = 0;
+        for (CommonPetEgg item : CommonPetEgg.values()) {
+            final ItemStack itemStack = MMOItems.plugin.getItem(item.type, item.id);
+                    List<String> lore = itemStack.getLore();
+                    lore.add("");
+                    lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight*10 + "%");
+                    itemStack.setLore(lore);
+            if (i < 28) {
+                display.addItem(new GuiItem(itemStack));
+                i++;
+            } else {
+                display2.addItem(new GuiItem(itemStack));
+            }
+        }
+        gui.addPane(page);
+        gui.addPane(back);
+        gui.addPane(forward);
+        gui.show(player);
     }
 
     @CommandAlias("reward")
@@ -111,6 +206,7 @@ public class AdminCommands extends BaseCommand {
         hologram.appendTextLine(ChatColor.GREEN.toString() + ChatColor.BOLD.toString() + "BOOSTER ACTIVATED!");
         new BukkitRunnable() {
             int ticks;
+
             @Override
             public void run() {
                 ticks++;

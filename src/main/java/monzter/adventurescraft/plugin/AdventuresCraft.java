@@ -230,6 +230,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         YamlConfiguration warpConfig = YamlConfiguration.loadConfiguration(warpsFile);
         return warpConfig;
     }
+
     private YamlConfiguration loadPetsConfig() {
         File petsFile = new File(getDataFolder(), "pets.yml");
         if (!petsFile.exists()) {
@@ -288,7 +289,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             registry.register(LocationFlag);
             return LocationFlag;
         } catch (FlagConflictException e) {
-            Flag<?> existing = registry.get("region-display-name");
+            Flag<?> existing = registry.get("sell-location");
             if (existing instanceof StateFlag) {
                 return (LocationFlag) existing;
             } else {
@@ -375,7 +376,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        }, 420000L);
 //    }
 
-    public void tipsMessage(){
+    public void tipsMessage() {
         String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "♦" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
         TextComponent[] tipList = new TextComponent[]{
                 Component.text(prefix + "Join our ")
@@ -414,7 +415,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                         .color(NamedTextColor.GREEN)
                         .append(Component.text(" Jobs ", NamedTextColor.GOLD))
                         .append(Component.text("are repeatable tasks you can get from folks within the"))
-                .append(Component.text(" Yard", NamedTextColor.GOLD))
+                        .append(Component.text(" Yard", NamedTextColor.GOLD))
                         .append(Component.text("!")),
                 Component.text(prefix + "Your ")
                         .color(NamedTextColor.GREEN)
@@ -474,8 +475,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                         .append(Component.text("to return back to your private house!")),
         };
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            for (Player player : Bukkit.getOnlinePlayers()){
-                if (player.hasPermission("tips")){
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("tips")) {
                     int lastTips = new Random().nextInt(tipList.length);
                     player.sendMessage(tipList[lastTips]);
                 }

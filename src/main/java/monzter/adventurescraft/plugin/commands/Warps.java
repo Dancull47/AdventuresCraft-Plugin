@@ -39,7 +39,7 @@ public class Warps implements TabExecutor {
             Player player = ((Player) sender).getPlayer();
             if (args.length == 0) {
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Map " + player.getName()); // Adds to Total Blocks
-            } else if (args[0].equals("setwarp")) {
+            } else if (args[0].toLowerCase().equals("setwarp")) {
                 if (player.isOp()) {
                     switch (args.length) {
                         default:

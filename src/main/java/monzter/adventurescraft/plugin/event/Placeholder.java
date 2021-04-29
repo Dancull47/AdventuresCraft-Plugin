@@ -28,6 +28,8 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.Point;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -206,8 +208,13 @@ public class Placeholder extends PlaceholderExpansion {
                 return String.valueOf(calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
             case "Stat_Weight":
-                String currentWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Weight.amount%");
-                return currentWeight;
+                final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
+                for (final Point point : points) {
+                    if (point.getCategory().equalsIgnoreCase("items.Weight")) {
+                        return String.valueOf(point.getCount());
+                    }
+                }
+                return "0";
             case "Stat_Weight_formatted":
                 return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Weight%")));
             case "Stat_Pet_EXPAmount":
@@ -246,38 +253,38 @@ public class Placeholder extends PlaceholderExpansion {
             case "Enchantment_Randomizer":
                 return String.valueOf(calculateEnchantments(player, "Randomizer"));
             case "Enchantment_Randomizer_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer")+1)*3500);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
             case "Enchantment_Randomizer_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Randomizer")+1)*3500);
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
             case "Enchantment_Randomizer_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer"))+1);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer")) + 1);
 
             case "Enchantment_Midas_Touch":
                 return String.valueOf(calculateEnchantments(player, "Midas Touch"));
             case "Enchantment_Midas_Touch_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch")+1)*3500);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
             case "Enchantment_Midas_Touch_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Midas Touch")+1)*3500);
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
             case "Enchantment_Midas_Touch_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch"))+1);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch")) + 1);
 
             case "Enchantment_Treasurer":
                 return String.valueOf(calculateEnchantments(player, "Treasurer"));
             case "Enchantment_Treasurer_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer")+1)*3500);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
             case "Enchantment_Treasurer_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Treasurer")+1)*3500);
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
             case "Enchantment_Treasurer_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer"))+1);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer")) + 1);
 
             case "Enchantment_Explosive_Chance":
                 return String.valueOf(calculateEnchantments(player, "Explosive Chance"));
             case "Enchantment_Explosive_Chance_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")+1)*3500);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
             case "Enchantment_Explosive_Chance_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")+1)*3500);
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
             case "Enchantment_Explosive_Chance_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance"))+1);
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")) + 1);
 
             case "Enchantment_Experience":
                 return String.valueOf(calculateEnchantments(player, "Experience"));
@@ -303,28 +310,28 @@ public class Placeholder extends PlaceholderExpansion {
                 seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
                 StringBuilder sb = new StringBuilder();
                 sb.append(hours);
-                if (hours > 1){
+                if (hours > 1) {
                     sb.append(" Hours ");
-                } else if (hours == 1){
+                } else if (hours == 1) {
                     sb.append(" Hour ");
                 }
                 sb.append(minutes);
-                if (minutes > 1){
+                if (minutes > 1) {
                     sb.append(" Minutes ");
-                } else if (minutes == 1){
+                } else if (minutes == 1) {
                     sb.append(" Minute ");
                 }
-                if (hours < 1 && seconds > 1){
+                if (hours < 1 && seconds > 1) {
                     sb.append(seconds);
                     sb.append(" Seconds ");
-                } else if (hours < 1 && seconds < 1){
+                } else if (hours < 1 && seconds < 1) {
                     sb.append(seconds);
                     sb.append(" Second ");
                 }
-                if (hours < 1 && minutes < 1 && seconds < 1){
+                if (hours < 1 && minutes < 1 && seconds < 1) {
                     sb.append("NOW");
                 }
-                    return (sb.toString());
+                return (sb.toString());
 
             default:
                 return null;
@@ -402,7 +409,7 @@ public class Placeholder extends PlaceholderExpansion {
 
     private int calculateEnchantments(OfflinePlayer player, String enchantment) {
         if (player.isOnline()) {
-            if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null){
+            if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null) {
                 Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
                 if (!enchantmentMap.isEmpty()) {
 //                System.out.println(enchantmentMap + "TEST");

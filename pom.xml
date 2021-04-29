@@ -42,6 +42,10 @@
                             <pattern>co.aikar.locales</pattern>
                             <shadedPattern>monzter.adventurescraft.plugin.locales</shadedPattern> <!-- Replace this -->
                         </relocation>
+                        <relocation>
+                            <pattern>com.github.stefvanschie.inventoryframework</pattern>
+                            <shadedPattern>monzter.adventurescraft.plugin.inventoryframework</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -198,6 +202,12 @@
             <artifactId>betonquest</artifactId>
             <version>1.12.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.stefvanschie.inventoryframework</groupId>
+            <artifactId>IF</artifactId>
+            <version>0.9.5</version>
+        </dependency>
+
     </dependencies>
 
 
