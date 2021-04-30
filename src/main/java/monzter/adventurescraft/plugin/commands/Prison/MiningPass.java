@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.commands;
+package monzter.adventurescraft.plugin.commands.Prison;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
@@ -19,12 +19,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class MiningPas extends BaseCommand {
+public class MiningPass extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
 
-    public MiningPas(AdventuresCraft plugin) {
+    public MiningPass(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 

@@ -20,12 +20,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 @CommandAlias("DropTableViewer")
-public class DropTableInvs extends BaseCommand {
+public class DropTablesView extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
 
-    public DropTableInvs(AdventuresCraft plugin) {
+    public DropTablesView(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 

@@ -18,12 +18,12 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
-public class Drops extends BaseCommand {
+public class DropTablesGive extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
 
-    public Drops(AdventuresCraft plugin) {
+    public DropTablesGive(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 

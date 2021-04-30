@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.event;
+package monzter.adventurescraft.plugin.event.utilities;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import net.Indyuce.mmocore.api.player.PlayerData;

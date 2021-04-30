@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.event;
+package monzter.adventurescraft.plugin.event.mining;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;

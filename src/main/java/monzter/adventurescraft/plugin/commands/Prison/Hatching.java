@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.commands;
+package monzter.adventurescraft.plugin.commands.Prison;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;

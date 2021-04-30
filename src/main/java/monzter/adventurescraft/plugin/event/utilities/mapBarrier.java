@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.event;
+package monzter.adventurescraft.plugin.event.utilities;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
@@ -22,10 +22,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class Regions implements Listener {
+public class mapBarrier implements Listener {
     private final AdventuresCraft plugin;
 
-    public Regions(AdventuresCraft plugin) {
+    public mapBarrier(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 

