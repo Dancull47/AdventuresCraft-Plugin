@@ -7,7 +7,7 @@
 //import monzter.adventurescraft.plugin.AdventuresCraft;
 //import monzter.adventurescraft.plugin.commands.dropTables.testDrop;
 //import monzter.adventurescraft.plugin.utilities.acUtils;
-////import monzter.adventurescraft.plugin.commands.dropTables.CommonPetEgg;
+////import monzter.adventurescraft.plugin.commands.dropTables.Eggs.CommonPetEgg;
 //import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 //import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 //import org.bukkit.*;

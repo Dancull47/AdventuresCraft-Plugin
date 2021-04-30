@@ -1,7 +1,6 @@
 package monzter.adventurescraft.plugin.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.PaperCommandManager;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
@@ -14,28 +13,16 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.commands.dropTables.CommonPetEgg;
-import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
+import monzter.adventurescraft.plugin.commands.dropTables.Eggs.CommonPetEgg;
 import monzter.adventurescraft.plugin.utilities.acUtils;
 import net.Indyuce.mmoitems.MMOItems;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.*;
-import org.bukkit.command.*;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.Optional;
 
 public class AdminCommands extends BaseCommand {
 

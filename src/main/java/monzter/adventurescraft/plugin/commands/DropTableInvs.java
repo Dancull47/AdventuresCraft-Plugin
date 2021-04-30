@@ -2,29 +2,22 @@ package monzter.adventurescraft.plugin.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.commands.dropTables.CommonPetEgg;
+import monzter.adventurescraft.plugin.commands.dropTables.Eggs.CommonPetEgg;
 import monzter.adventurescraft.plugin.commands.dropTables.LootLlama;
-import monzter.adventurescraft.plugin.utilities.acUtils;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
-import java.util.Random;
 
 @CommandAlias("DropTableViewer")
 public class DropTableInvs extends BaseCommand {
@@ -52,7 +45,7 @@ public class DropTableInvs extends BaseCommand {
         previousPageItem.setItemMeta(previousPageItemMeta);
         nextPageItem.setItemMeta(nextPageItemMeta);
 
-        ChestGui gui = new ChestGui(6, "Lootbox Loot Table");
+        ChestGui gui = new ChestGui(6, "Common Pet Egg");
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
@@ -101,10 +94,10 @@ public class DropTableInvs extends BaseCommand {
             lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight * 10 + "%");
             itemStack.setLore(lore);
             if (i < 28) {
-                display.addItem(new GuiItem(itemStack));
+                display.addItem(new GuiItem(itemStack.asQuantity(item.getAmount())));
                 i++;
             } else {
-                display2.addItem(new GuiItem(itemStack));
+                display2.addItem(new GuiItem(itemStack.asQuantity(item.getAmount())));
             }
         }
         gui.addPane(page);
