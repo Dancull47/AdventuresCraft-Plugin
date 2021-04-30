@@ -8,6 +8,7 @@ import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.commands.dropTables.CommonPetEgg;
 //import monzter.adventurescraft.plugin.event.TestInv;
+import monzter.adventurescraft.plugin.commands.dropTables.LootLlama;
 import monzter.adventurescraft.plugin.utilities.acUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,25 +28,32 @@ public class Drops extends BaseCommand {
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
+    @CommandCompletion("* eggcommon|llama")
     public void dropTable(OnlinePlayer player, String table) {
         dropTable(player, table, 1);
     }
-
+/*
+*
+*       Could create a "Inventory Full" system, give player points, run CLAIM command to redeem points?
+*
+*/
     @CommandAlias("DropTable")
     @CommandPermission("*")
-    @CommandCompletion("* eggcommon")
+    @CommandCompletion("* eggcommon|llama")
     public void dropTable(OnlinePlayer player, String table, int amount) {
         double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
                 case "EGGCOMMON":
-                    RandomSelector<CommonPetEgg> selector = RandomSelector.weighted(Arrays.asList(CommonPetEgg.values()));
-                    CommonPetEgg reward = selector.pick();
-                    giveReward(player.getPlayer(), reward.displayName, reward.type, reward.id, reward.getWeight());
+                    RandomSelector<CommonPetEgg> commonPetEgg = RandomSelector.weighted(Arrays.asList(CommonPetEgg.values()));
+                    CommonPetEgg commonPetEggReward = commonPetEgg.pick();
+                    giveReward(player.getPlayer(), commonPetEggReward.displayName, commonPetEggReward.type, commonPetEggReward.id, commonPetEggReward.getWeight());
                     break;
-//                case "TEST":
-//                    TestInv gui = new TestInv(player);
-//                    gui.open();
+                case "LLAMA":
+                    RandomSelector<LootLlama> lootLlama = RandomSelector.weighted(Arrays.asList(LootLlama.values()));
+                    LootLlama lootLlamaReward = lootLlama.pick();
+                    giveReward(player.getPlayer(), lootLlamaReward.displayName, lootLlamaReward.type, lootLlamaReward.id, lootLlamaReward.getWeight());
+                    break;
             }
         }
     }

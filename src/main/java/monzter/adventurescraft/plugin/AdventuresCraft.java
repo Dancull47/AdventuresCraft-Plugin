@@ -79,6 +79,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new AdminCommands(this));
         manager.registerCommand(new GeneralCommands(this));
+        manager.registerCommand(new DropTableInvs(this));
         manager.registerCommand(new Donate(this));
         manager.registerCommand(new Hatching(this));
         manager.registerCommand(new MineTeleport(this));
