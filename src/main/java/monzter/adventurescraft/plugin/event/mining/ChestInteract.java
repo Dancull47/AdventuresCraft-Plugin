@@ -53,7 +53,7 @@ public class ChestInteract implements Listener {
         }
     }
 
-    private final boolean inRegion(RegionQuery query, Location location) {
+    private boolean inRegion(RegionQuery query, Location location) {
         if (query.testState(location, null, prisonMineFlag)) {
             return true;
         }

@@ -29,7 +29,7 @@ public class Enchanting extends BaseCommand {
     }
 
     @CommandAlias("enchants")
-    private final void enchant(Player player, String enchantment, @Optional String upgradeAmount) {
+    private void enchant(Player player, String enchantment, @Optional String upgradeAmount) {
         final String enchantmentPlaceholder = "%ac_Enchantment_" + enchantment + "%";
         if (upgradeAmount == null){
             if (enoughPoints(player, enchantmentPlaceholder)) {
@@ -46,7 +46,7 @@ public class Enchanting extends BaseCommand {
         }
     }
 
-    private final boolean enoughPoints(Player player, String enchantment) {
+    private boolean enoughPoints(Player player, String enchantment) {
         final String exp = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount%");
         String cost = PlaceholderAPI.setPlaceholders(player, enchantment);
         cost = String.valueOf((Integer.valueOf(cost)+1) * 3500);

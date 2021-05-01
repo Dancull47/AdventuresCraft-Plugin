@@ -44,7 +44,7 @@ public class Voting extends BaseCommand implements Listener {
     }
 
     @EventHandler
-    private final void vote(VotifierEvent event) {
+    private void vote(VotifierEvent event) {
 //        String address = vote.getAddress();
 //        System.out.println(address);
 //        System.out.println(vote.toString());
@@ -73,7 +73,7 @@ public class Voting extends BaseCommand implements Listener {
 //        voteAnnounce(name);
 //    }
 
-    private final void voteAnnounce(String playerName) {
+    private void voteAnnounce(String playerName) {
         final Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             final TextComponent voteAnnounceNull = Component.text(ChatColor.YELLOW + "Someone" + ChatColor.GREEN + " just voted and received awesome rewards! ")
@@ -99,7 +99,7 @@ public class Voting extends BaseCommand implements Listener {
     }
 
     @CommandAlias("VoteClaim")
-    private final void voteClaimCommand(Player player, String arg) {
+    private void voteClaimCommand(Player player, String arg) {
         final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
         for (VoteRewardList reward: VoteRewardList.values()){
             if (arg.equals(reward.getId())){

@@ -40,7 +40,7 @@ public class BeachEvent implements Listener {
     }
 
     @EventHandler
-    private final void beachTracker(BlockBreakEvent event) {
+    private void beachTracker(BlockBreakEvent event) {
         if (max == 0) {
             max = generateMax();
         } else {
@@ -60,7 +60,7 @@ public class BeachEvent implements Listener {
             }
         }
     }
-    private final void alert(String reward) {
+    private void alert(String reward) {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             player.sendMessage(
                     Component.text("The ").color(NamedTextColor.GREEN)
@@ -87,16 +87,16 @@ public class BeachEvent implements Listener {
                 break;
         }
     }
-    private final void booster(){
+    private void booster(){
         consoleCommand.consoleCommand("randomBooster");
         alert(ChatColor.GOLD.toString() + ChatColor.BOLD + "GLOBAL BOOSTER");
     }
-    private final void lootLLama(){
+    private void lootLLama(){
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "LOOT_LLAMA");
         alert(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "LOOT LLAMA");
     }
 
-    private final void favorFish(){
+    private void favorFish(){
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH");
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH");
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH2");

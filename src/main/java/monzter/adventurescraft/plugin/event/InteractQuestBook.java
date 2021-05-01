@@ -19,7 +19,7 @@ public class InteractQuestBook implements Listener {
     }
 
     @EventHandler
-    private final void questBook(PlayerInteractEvent event) {
+    private void questBook(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
         final ItemStack itemStack = event.getItem();
         if (event.getHand() == EquipmentSlot.HAND) {

@@ -403,7 +403,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        }, 420000L);
 //    }
 
-    private final void tipsMessage() {
+    private void tipsMessage() {
         String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "♦" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
         TextComponent[] tipList = new TextComponent[]{
                 Component.text(prefix + "Join our ")

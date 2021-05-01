@@ -36,7 +36,7 @@ public class Join implements Listener {
     }
 
     @EventHandler
-    private final void onJoin(PlayerJoinEvent event) {
+    private void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         player.setCollidable(true);
         if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {

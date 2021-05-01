@@ -32,7 +32,7 @@ public class Sell extends BaseCommand {
     }
 
     @CommandAlias("Sell|SellAll")
-    private final void donate(Player player) {
+    private void donate(Player player) {
         if (player.hasPermission("SELL.ALL")){
             sell(player);
         } else {
@@ -48,7 +48,7 @@ public class Sell extends BaseCommand {
     }
 
 
-    private final void sell(Player player) {
+    private void sell(Player player) {
         double counter = 0;
         for (WeightPrices material : WeightPrices.values()) {
             final int materialAmount = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point." + material.material.toString() + ".amount%"));

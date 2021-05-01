@@ -96,13 +96,13 @@ public class Warps implements TabExecutor {
         return false;
     }
 
-    private final void sendToLocation(Player player, Location location, String name) {
+    private void sendToLocation(Player player, Location location, String name) {
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1);
         player.sendMessage(ChatColor.GREEN + "You've traveled to " + ChatColor.YELLOW + name + ChatColor.GREEN + "!");
         player.teleport(location);
     }
 
-    private final void sendToLocation(Player player, Location location, String name, String permission, String lockedMessage) {
+    private void sendToLocation(Player player, Location location, String name, String permission, String lockedMessage) {
         if (player.hasPermission(permission)) {
             sendToLocation(player, location, name);
         } else {
@@ -115,11 +115,11 @@ public class Warps implements TabExecutor {
         }
     }
 
-    private final void setWarp(Player player, String id, String name, Location location) {
+    private void setWarp(Player player, String id, String name, Location location) {
         setWarp(player, id, name, "", "", location);
     }
 
-    private final void setWarp(Player player, String id, String name, String permission, String lockedMessage, Location location) {
+    private void setWarp(Player player, String id, String name, String permission, String lockedMessage, Location location) {
         warps.set(id, id);
         warps.set(id + ".Name", name.replace("-", " "));
         if (!permission.isEmpty()) {

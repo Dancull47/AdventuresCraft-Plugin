@@ -23,7 +23,7 @@ public class InteractPetEgg implements Listener {
     }
 
     @EventHandler
-    private final void petEgg(PlayerInteractEvent event) {
+    private void petEgg(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
         final ItemStack itemStack = event.getItem();
         final NBTItem nbtItem = NBTItem.get(itemStack);
@@ -45,12 +45,12 @@ public class InteractPetEgg implements Listener {
         }
     }
 
-    private final void readyToHatch(Player player, int playerPetEXP) {
+    private void readyToHatch(Player player, int playerPetEXP) {
         player.sendMessage(ChatColor.GREEN + "You have " + playerPetEXP + ChatColor.LIGHT_PURPLE + " Pet EXP," + ChatColor.GREEN
                 + " bring this egg to Sarah at" + ChatColor.YELLOW + " /warp Pets " + ChatColor.GREEN + "to hatch it!");
     }
 
-    private final void notReadyToHatch(Player player, int playerPetEXP, int amountToHatch) {
+    private void notReadyToHatch(Player player, int playerPetEXP, int amountToHatch) {
         player.sendMessage(ChatColor.GREEN + "You have " + ChatColor.YELLOW + playerPetEXP + "/" + amountToHatch
                 + ChatColor.LIGHT_PURPLE + " Pet EXP" + ChatColor.GREEN + "!");
     }

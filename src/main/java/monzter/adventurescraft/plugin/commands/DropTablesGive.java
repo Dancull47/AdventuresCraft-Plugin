@@ -36,7 +36,7 @@ public class DropTablesGive extends BaseCommand {
     @CommandAlias("DropTable")
     @CommandPermission("*")
     @CommandCompletion("* eggcommon|llama")
-    private final void dropTable(OnlinePlayer player, String table) {
+    private void dropTable(OnlinePlayer player, String table) {
         dropTable(player, table, 1);
     }
 /*
@@ -47,7 +47,7 @@ public class DropTablesGive extends BaseCommand {
     @CommandAlias("DropTable")
     @CommandPermission("*")
     @CommandCompletion("* eggcommon|egguncommon|eggrare|egglegendary|eggexotic|lootbox|lootbox2|lootbox3|lootbox4|lootbox5|lootbox6|lootbox7|llama|vote")
-    private final void dropTable(OnlinePlayer player, String table, int amount) {
+    private void dropTable(OnlinePlayer player, String table, int amount) {
         final double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {

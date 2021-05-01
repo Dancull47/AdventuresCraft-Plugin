@@ -44,7 +44,7 @@ public class BlockBreakMining implements Listener {
     }
 
     @EventHandler
-    private final void mine(BlockBreakEvent event) {
+    private void mine(BlockBreakEvent event) {
         Player player = event.getPlayer();
 //        plugin.data.savePlayer(player, event.getBlock().getType().name(), 1);
 //        plugin.data.setPointAmount(player.getUniqueId(), event.getBlock().getType().name(), 1);
@@ -114,7 +114,7 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    private final void minedBlock(Player player, Material material, int amount, int weight) {
+    private void minedBlock(Player player, Material material, int amount, int weight) {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalBlocks 1"); // Adds to Total Blocks
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.Weight " + weight); // Adds to current Weight
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items." + material.toString() // Adds to individual item for Sell
@@ -209,20 +209,20 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    private final void tooHeavy(Player player) {
+    private void tooHeavy(Player player) {
         player.sendMessage(ChatColor.RED + "You're too heavy, go sell your items by using "
                 + ChatColor.YELLOW + "/Sell" + ChatColor.RED + "!");
         soundManager.soundNo(player, 1);
     }
 
-    private final static boolean inRegion(RegionQuery query, Location location) {
+    private static boolean inRegion(RegionQuery query, Location location) {
         if (query.testState(location, null, prisonMineFlag)) {
             return true;
         }
         return false;
     }
 
-    private final static Material getRandom(Material[] array) {
+    private static Material getRandom(Material[] array) {
         return array[new Random().nextInt(array.length)];
     }
 

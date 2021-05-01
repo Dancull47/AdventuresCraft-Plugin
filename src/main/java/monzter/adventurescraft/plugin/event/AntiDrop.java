@@ -35,7 +35,7 @@ public class AntiDrop implements Listener {
     }
 
     @EventHandler
-    private final void cancelDrop(PlayerDropItemEvent event) {
+    private void cancelDrop(PlayerDropItemEvent event) {
         final Player player = event.getPlayer();
         final ItemStack droppedItem = event.getItemDrop().getItemStack();
         final NBTItem nbtItem = NBTItem.get(droppedItem);

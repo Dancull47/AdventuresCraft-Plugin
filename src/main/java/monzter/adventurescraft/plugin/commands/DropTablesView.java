@@ -41,42 +41,42 @@ public class DropTablesView extends BaseCommand {
     private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
     @Subcommand("CommonPetEgg")
-    private final void commonPetEgg(Player player) {
+    private void commonPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Common Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.COMMON);
         createMenu(gui, guiContents);
         gui.show(player);
     }
     @Subcommand("UncommonPetEgg")
-    private final void uncommonPetEgg(Player player) {
+    private void uncommonPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Uncommon Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.UNCOMMON);
         createMenu(gui, guiContents);
         gui.show(player);
     }
     @Subcommand("RarePetEgg")
-    private final void rarePetEgg(Player player) {
+    private void rarePetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Rare Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.RARE);
         createMenu(gui, guiContents);
         gui.show(player);
     }
     @Subcommand("LegendaryPetEgg")
-    private final void legendaryPetEgg(Player player) {
+    private void legendaryPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Legendary Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.LEGENDARY);
         createMenu(gui, guiContents);
         gui.show(player);
     }
     @Subcommand("ExoticPetEgg")
-    private final void exoticPetEgg(Player player) {
+    private void exoticPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Exotic Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.EXOTIC);
         createMenu(gui, guiContents);
         gui.show(player);
     }
     @Subcommand("Lootbox")
-    private final void Lootbox(Player player) {
+    private void Lootbox(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
         final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.COMMON);
         createMenu(gui, guiContents);
@@ -147,7 +147,7 @@ public class DropTablesView extends BaseCommand {
     }
 
     @Subcommand("Llama")
-    private final void llama(Player player) {
+    private void llama(Player player) {
         backgroundItemMeta.setDisplayName(" ");
         previousPageItemMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
         nextPageItemMeta.setDisplayName(ChatColor.GREEN + "Next Page");

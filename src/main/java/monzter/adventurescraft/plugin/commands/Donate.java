@@ -33,7 +33,7 @@ public class Donate extends BaseCommand {
     }
 
     @CommandAlias("DonationRewards|DonationReward")
-    private final void donate(Player player, String reward) {
+    private void donate(Player player, String reward) {
         int adventureCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins%"));
         if (!fullInventory(player)) {
             for (DonationRewardList donationReward : DonationRewardList.values()) {
@@ -233,7 +233,7 @@ public class Donate extends BaseCommand {
     }
 
 
-    private final boolean fullInventory(Player player) {
+    private boolean fullInventory(Player player) {
         if (player.getInventory().firstEmpty() == -1) {
             player.sendMessage(ChatColor.RED + "You're inventory is full! Try again once you have at least one available slot!");
             soundManager.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f ,1f);
@@ -242,7 +242,7 @@ public class Donate extends BaseCommand {
         return false;
     }
 
-    private final boolean priceCheck(Player player, int coins, int cost) {
+    private boolean priceCheck(Player player, int coins, int cost) {
         if (coins >= cost) {
             return true;
         }
@@ -251,7 +251,7 @@ public class Donate extends BaseCommand {
         return false;
     }
 
-    private final boolean soldOut(Player player, String itemID, String itemName) {
+    private boolean soldOut(Player player, String itemID, String itemName) {
         if (itemID.equals("PetSlot") && player.hasPermission("DONATE.PET.SLOT.2") ||
                 itemID.equals("UnlimitedWeight") && player.hasPermission("DONATE.UNLIMITED.WEIGHT")) {
             player.sendMessage(ChatColor.RED + "You already purchased the max amount of " + ChatColor.GOLD + itemName + ChatColor.RED + " you can buy!");
@@ -261,11 +261,11 @@ public class Donate extends BaseCommand {
         return false;
     }
 
-    private final void donationPoint(Player player, String itemName) {
+    private void donationPoint(Player player, String itemName) {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add donate." + itemName + " 1");
     }
 
-    private final void purchaseItem(Player player, int price, String itemName) {
+    private void purchaseItem(Player player, int price, String itemName) {
         hologram(player);
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.AdventureCoin -" + price);
         player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + itemName + ChatColor.GREEN + ", thanks for supporting us!");
@@ -283,7 +283,7 @@ public class Donate extends BaseCommand {
         }, 5L);
     }
 
-    private final void hologram(Player player) {
+    private void hologram(Player player) {
         final Hologram hologram = HologramsAPI.createHologram(plugin, player.getLocation().add(0.0, 2.0, 0.0));
         hologram.appendItemLine(new ItemStack(Material.BEACON));
         hologram.appendTextLine(ChatColor.RED.toString() + ChatColor.MAGIC + "|" + ChatColor.GOLD + ChatColor.BOLD + " DONATED " + ChatColor.RED.toString() + ChatColor.MAGIC + "|");
