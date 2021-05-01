@@ -1,16 +1,12 @@
-package monzter.adventurescraft.plugin.commands.dropTables.Eggs;
+package monzter.adventurescraft.plugin.commands.dropTables;
 
 import me.lucko.helper.random.Weighted;
-import me.lucko.helper.text.format.TextColor;
 import monzter.adventurescraft.plugin.utilities.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.stat.Lore;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;

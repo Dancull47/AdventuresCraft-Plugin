@@ -25,12 +25,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import java.util.Random;
 
 public class BeachEvent implements Listener {
+    private final AdventuresCraft plugin;
     private static int blocksBroken = 0;
     private static int max = 0;
-    private final AdventuresCraft plugin;
+    private final int[] maxList = new int[]{250, 500, 750, 1000, 1250, 1500, 1750, 2000};
     private final ConsoleCommand consoleCommand;
     private final MythicMobsSpawn mythicMobsSpawn;
     private final org.bukkit.Location mobSpawnLocation = new org.bukkit.Location(Bukkit.getWorld("World"), 1180, 209, 2419);
+
 
     public BeachEvent(AdventuresCraft plugin, ConsoleCommand consoleCommand, MythicMobsSpawn mythicMobsSpawn) {
         this.plugin = plugin;
@@ -39,14 +41,14 @@ public class BeachEvent implements Listener {
     }
 
     @EventHandler
-    public void beachTracker(BlockBreakEvent event) {
+    private final void beachTracker(BlockBreakEvent event) {
         if (max == 0) {
             max = generateMax();
         } else {
-            Location location = BukkitAdapter.adapt(event.getBlock().getLocation());
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
+            final Location location = BukkitAdapter.adapt(event.getBlock().getLocation());
+            final RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            final RegionQuery query = container.createQuery();
+            final ApplicableRegionSet set = query.getApplicableRegions(location);
             for (ProtectedRegion region : set) {
                 if (region.getId().equals("mine_zone_beach")) {
                     blocksBroken++;
@@ -59,8 +61,7 @@ public class BeachEvent implements Listener {
             }
         }
     }
-
-    private void alert(String reward) {
+    private final void alert(String reward) {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             player.sendMessage(
                     Component.text("The ").color(NamedTextColor.GREEN)
@@ -72,6 +73,7 @@ public class BeachEvent implements Listener {
                     .append(Component.text(" was found!")));
         }
     }
+
     private void eventChooser(){
         int event = new Random().nextInt(3);
         switch (event){
@@ -86,16 +88,16 @@ public class BeachEvent implements Listener {
                 break;
         }
     }
-
-    private void booster(){
+    private final void booster(){
         consoleCommand.consoleCommand("randomBooster");
         alert(ChatColor.GOLD.toString() + ChatColor.BOLD + "GLOBAL BOOSTER");
     }
-    private void lootLLama(){
+    private final void lootLLama(){
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "LOOT_LLAMA");
         alert(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "LOOT LLAMA");
     }
-    private void favorFish(){
+
+    private final void favorFish(){
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH");
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH");
         mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH2");
@@ -110,9 +112,7 @@ public class BeachEvent implements Listener {
         return blocksBroken;
     }
 
-    private int[] maxList = new int[]{250, 500, 750, 1000, 1250, 1500, 1750, 2000};
-
-    private int generateMax() {
+    private final int generateMax() {
         int randomDuration = new Random().nextInt(maxList.length);
         return maxList[randomDuration];
     }

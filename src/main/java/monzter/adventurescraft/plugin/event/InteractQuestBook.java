@@ -12,19 +12,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 public class InteractQuestBook implements Listener {
-    private AdventuresCraft plugin;
+    private final AdventuresCraft plugin;
 
     public InteractQuestBook(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void questBook(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        ItemStack itemStack = event.getItem();
+    private final void questBook(PlayerInteractEvent event) {
+        final Player player = event.getPlayer();
+        final ItemStack itemStack = event.getItem();
         if (event.getHand() == EquipmentSlot.HAND) {
             if (itemStack != null && itemStack.getType().equals(Material.WRITTEN_BOOK)) {
-                BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
+                final BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
                 if (bookMeta.getTitle() != null) {
                     if (bookMeta.getTitle().equals("Quest Journal")) {
                         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "rpgmenu open default-Menus-menu.active " + player.getName());

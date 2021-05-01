@@ -28,9 +28,9 @@ public class ChestInteract implements Listener {
     @EventHandler
     public void mine(PlayerInteractEvent event) {
         if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.CHEST)) {
-            Player player = event.getPlayer();
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
+            final Player player = event.getPlayer();
+            final RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            final RegionQuery query = container.createQuery();
             final Location location = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
             if (inRegion(query, location)) {
                 event.getClickedBlock().setType(Material.AIR);
@@ -43,12 +43,12 @@ public class ChestInteract implements Listener {
                         event.getClickedBlock().getLocation().getY(),
                         event.getClickedBlock().getLocation().getZ(),
                         10, .5, .5, .5);
-//                acUtils.giveMMDropTable(player, "Treasure");
+                acUtils.giveMMDropTable(player, "Treasure");
             }
         }
     }
 
-    private boolean inRegion(RegionQuery query, Location location) {
+    private final boolean inRegion(RegionQuery query, Location location) {
         if (query.testState(location, null, prisonMineFlag)) {
             return true;
         }

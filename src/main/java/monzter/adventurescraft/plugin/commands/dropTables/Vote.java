@@ -11,19 +11,23 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum LootLlama implements Weighted, ItemGenerator {
+public enum Vote implements Weighted, ItemGenerator {
     //        .5 = 50%
-    Lootbox(Rarity.RARE + "Lootbox", "CONSUMABLE", "LOOTBOX3", .70,1),
-    MoneyVoucher(Rarity.RARE + "Money Voucher", "VOUCHER", "MONEY_VOUCHER3", .65,1),
-    LlamaGemStone(Rarity.COMMON + "Zebra Gem", "GEM_STONE", "LLAMA_GEM", .60,1),
-    LlamaGemStone2(Rarity.UNCOMMON + "Zebra Gem", "GEM_STONE", "LLAMA_GEM2", .50,1),
-    EXPVoucher(Rarity.LEGENDARY + "EXP Voucher", "VOUCHER", "EXP_VOUCHER4", .45,1),
-    Lootbox2(Rarity.LEGENDARY + "Lootbox", "CONSUMABLE", "LOOTBOX4", .4,1),
-    LlamaGemStone3(Rarity.RARE + "Zebra Gem", "GEM_STONE", "LLAMA_GEM3", .4,1),
-    Lootbox3(Rarity.EXOTIC + "Lootbox", "CONSUMABLE", "LOOTBOX5", .25,1),
-    LlamaGemStone4(Rarity.LEGENDARY + "Zebra Gem", "GEM_STONE", "LLAMA_GEM4", .25,1),
-    PetEXPVoucher(Rarity.LEGENDARY + "Pet EXP Voucher", "VOUCHER", "PET_EXP_VOUCHER5", .1,1),
-    LlamaGemStone5(Rarity.EXOTIC + "Zebra Gem", "GEM_STONE", "LLAMA_GEM5", .05,1);
+    MoneyVoucher2(Rarity.UNCOMMON + "Money Voucher", "VOUCHER", "MONEY_VOUCHER2", .5,1),
+    EXPVoucher2(Rarity.UNCOMMON + "EXP Voucher", "VOUCHER", "EXP_VOUCHER2", .5,1),
+    PetEXPVoucher2(Rarity.UNCOMMON + "Pet EXP Voucher", "VOUCHER", "PET_EXP_VOUCHER2", .5,1),
+
+    SellBooster2(Rarity.UNCOMMON + "Sell Booster", "BOOSTER", "SELL_BOOSTER2", .15,1),
+    EXPBooster2(Rarity.UNCOMMON + "EXP Booster", "BOOSTER", "EXP_BOOSTER2", .15,1),
+    PetEXPBooster2(Rarity.UNCOMMON + "Pet EXP Booster", "BOOSTER", "PET_EXP_BOOSTER2", .15,1),
+
+    PetEgg2(Rarity.UNCOMMON + "Pet Egg", "PET", "PET_EGG2", .15,1),
+
+    PetEgg3(Rarity.RARE + "Pet Egg", "PET", "PET_EGG3", .1,1),
+
+    PetEgg4(Rarity.LEGENDARY + "Pet Egg", "PET", "PET_EGG4", .05,1),
+
+    LootBox5(Rarity.EXOTIC + "LootBox", "CONSUMABLE", "CONSUMABLE_LOOTBOX5", .01,1);
 
 
     public final String displayName;
@@ -32,7 +36,7 @@ public enum LootLlama implements Weighted, ItemGenerator {
     public final double weight;
     public final int amount;
 
-    LootLlama(String displayName, String type, String id, double weight, int amount) {
+    Vote(String displayName, String type, String id, double weight, int amount) {
         this.id = id;
         this.type = type;
         this.displayName = displayName;
@@ -55,7 +59,6 @@ public enum LootLlama implements Weighted, ItemGenerator {
     public String getDisplayName() {
         return displayName;
     }
-
     public int getAmount() {
         return amount;
     }

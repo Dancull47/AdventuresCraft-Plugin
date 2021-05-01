@@ -17,7 +17,7 @@ public class MiningEnchantments implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof ConsoleCommandSender) {
             if (sender != null) {
-                Player targetPlayer = Bukkit.getPlayer(args[1]);
+                final Player targetPlayer = Bukkit.getPlayer(args[1]);
                 switch (command.getName()) {
                     case "EnchantReward":
                         switch (args[0].toLowerCase()) {

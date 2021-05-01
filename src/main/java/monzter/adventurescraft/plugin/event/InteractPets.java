@@ -22,9 +22,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Set;
 
 public class InteractPets implements Listener, CommandExecutor {
-    private AdventuresCraft plugin;
+    private final AdventuresCraft plugin;
     private final YamlConfiguration petsFile;
-    private String[] tierList = new String[]{"COMMON", "UNCOMMON", "RARE", "LEGENDARY", "EXOTIC", "MYTHICAL", "GODLY", "GODLY_PHOENIX"};
+    private final String[] tierList = new String[]{"COMMON", "UNCOMMON", "RARE", "LEGENDARY", "EXOTIC", "MYTHICAL", "GODLY", "GODLY_PHOENIX"};
 
     public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile) {
         this.plugin = plugin;
@@ -33,14 +33,14 @@ public class InteractPets implements Listener, CommandExecutor {
 
     @EventHandler
     public void petEgg(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        ItemStack itemStack = event.getItem();
-        NBTItem nbtItem = NBTItem.get(itemStack);
-        String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
-        String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
+        final Player player = event.getPlayer();
+        final ItemStack itemStack = event.getItem();
+        final NBTItem nbtItem = NBTItem.get(itemStack);
+        final String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
+        final String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
         if (event.getHand() == EquipmentSlot.HAND) {
             if (id != null) {
-                Set<String> petNames = petsFile.getKeys(false);
+                final Set<String> petNames = petsFile.getKeys(false);
                 for (String currentPetName : petNames) {
                     if (id.contains("PET_" + currentPetName)) {
                         if (maxPetCheck(player)) {

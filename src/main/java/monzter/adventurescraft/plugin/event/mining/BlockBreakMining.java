@@ -29,10 +29,10 @@ public class BlockBreakMining implements Listener {
     private static SoundManager soundManager;
     private static ConsoleCommand consoleCommand;
 
-    private AdventuresCraft plugin;
+    private final AdventuresCraft plugin;
     private static StateFlag prisonMineFlag;
 
-    private static Material[] blocks = new Material[]{Material.SEA_LANTERN, Material.GREEN_STAINED_GLASS, Material.BLUE_STAINED_GLASS,
+    private final static Material[] blocks = new Material[]{Material.SEA_LANTERN, Material.GREEN_STAINED_GLASS, Material.BLUE_STAINED_GLASS,
             Material.YELLOW_STAINED_GLASS, Material.RED_STAINED_GLASS, Material.ORANGE_STAINED_GLASS, Material.DIAMOND_BLOCK,
             Material.DIAMOND_ORE, Material.EMERALD_BLOCK, Material.EMERALD_ORE, Material.REDSTONE_BLOCK, Material.REDSTONE_ORE};
 
@@ -45,23 +45,22 @@ public class BlockBreakMining implements Listener {
     }
 
     @EventHandler
-    public void mine(BlockBreakEvent event) {
+    private final void mine(BlockBreakEvent event) {
         Player player = event.getPlayer();
 //        plugin.data.savePlayer(player, event.getBlock().getType().name(), 1);
 //        plugin.data.setPointAmount(player.getUniqueId(), event.getBlock().getType().name(), 1);
-        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-        RegionQuery query = container.createQuery();
+        final RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        final RegionQuery query = container.createQuery();
         final Location location = BukkitAdapter.adapt(event.getBlock().getLocation());
         if (inRegion(query, location)) {
-            int enchantmentExplosive = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Explosive%"));
+            final int enchantmentExplosive = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Explosive%"));
             if (enchantmentExplosive < 1) {
                 player.sendMessage("Explosive Passed");
                 event.setDropItems(false);
                 event.setExpToDrop(0);
-                double currentWeight = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Weight%"));
-                double maxWeight = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeight%"));
-                int blockMultiplier = (int) Math.floor(Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_BlockMultiplier%")));
-
+                final double currentWeight = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Weight%"));
+                final double maxWeight = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeight%"));
+                final int blockMultiplier = (int) Math.floor(Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_BlockMultiplier%")));
                 for (WeightPrices material : WeightPrices.values()) { // Loops over block list to validate block
                     if (material.material.equals(event.getBlock().getType())) {
                         if ((material.weight * blockMultiplier) + currentWeight <= maxWeight) { // Checks if player can hold the block's weight
@@ -116,7 +115,7 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    private void minedBlock(Player player, Material material, int amount, int weight) {
+    private final void minedBlock(Player player, Material material, int amount, int weight) {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalBlocks 1"); // Adds to Total Blocks
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.Weight " + weight); // Adds to current Weight
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items." + material.toString() // Adds to individual item for Sell
@@ -125,7 +124,7 @@ public class BlockBreakMining implements Listener {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalModifierBlocks " + amount); // I forget
     }
 
-    public static void enchantmentLuck(Player player) {
+    public final static void enchantmentLuck(Player player) {
         double luckMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_LuckMultiplier%")) * .25;
         if (chanceCheck.chanceCheck(.005 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX5 " + player.getName() + " 1");
@@ -144,18 +143,18 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    public static void enchantmentExperience(Player player) {
+    public final static void enchantmentExperience(Player player) {
         double expMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPMultiplier%"));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.Experience " + (int) expMultiplier);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .5f, 1f);
     }
 
-    public static void enchantmentPetExperience(Player player) {
+    public final static void enchantmentPetExperience(Player player) {
         double petExpMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPMultiplier%"));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.PetExperience " + (int) petExpMultiplier);
     }
 
-    public static void enchantmentTreasurer(Player player) {
+    public final static void enchantmentTreasurer(Player player) {
         double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Treasurer%"))*.0005;
         if (enchantmentLevel > 0) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
@@ -172,7 +171,7 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    public static void enchantmentMidasTouch(Player player) {
+    public final static void enchantmentMidasTouch(Player player) {
         double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Midas_Touch%"))*.0005;
         if (enchantmentLevel > 0) {
             Random r = new Random();
@@ -185,7 +184,7 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    public static void enchantmentRandomizer(Player player) {
+    public final static void enchantmentRandomizer(Player player) {
         double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Randomizer%"))*.0005;
         if (enchantmentLevel > 0) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
@@ -211,20 +210,20 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    private void tooHeavy(Player player) {
+    private final void tooHeavy(Player player) {
         player.sendMessage(ChatColor.RED + "You're too heavy, go sell your items by using "
                 + ChatColor.YELLOW + "/Sell" + ChatColor.RED + "!");
         soundManager.soundNo(player, 1);
     }
 
-    private static boolean inRegion(RegionQuery query, Location location) {
+    private final static boolean inRegion(RegionQuery query, Location location) {
         if (query.testState(location, null, prisonMineFlag)) {
             return true;
         }
         return false;
     }
 
-    public static Material getRandom(Material[] array) {
+    private final static Material getRandom(Material[] array) {
         return array[new Random().nextInt(array.length)];
     }
 

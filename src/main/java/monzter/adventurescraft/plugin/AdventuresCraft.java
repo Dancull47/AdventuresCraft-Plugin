@@ -96,7 +96,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         }
         Plugin mmoItems = Bukkit.getPluginManager().getPlugin("MMOItems");
         if (mmoItems == null){
-            getLogger().log(Level.WARNING, "BetonQuest not found!");
+            getLogger().log(Level.WARNING, "MMOItems not found!");
             mmoItemsGiveItem = new NullMMOItemsGiveItem();
         } else {
             mmoItemsGiveItem = new MMOItemsGiveItemImpl((MMOItems) mmoItems);

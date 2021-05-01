@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EnchantingTableInteraction implements Listener {
-    private AdventuresCraft plugin;
+    private final AdventuresCraft plugin;
     private final List<Material> tools = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
             Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL,
             Material.IRON_AXE, Material.IRON_HOE, Material.IRON_PICKAXE, Material.IRON_SHOVEL,
@@ -35,8 +35,8 @@ public class EnchantingTableInteraction implements Listener {
     @EventHandler
     public void enchantingTable(PlayerInteractEvent event) {
         if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
-            Player player = event.getPlayer();
-            ItemStack itemStack = event.getItem();
+            final Player player = event.getPlayer();
+            final ItemStack itemStack = event.getItem();
             if (itemStack != null) {
                 if (tools.contains(itemStack.getType())) {
                     event.setCancelled(true);

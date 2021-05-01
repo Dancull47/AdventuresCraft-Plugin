@@ -44,14 +44,14 @@ public class Voting extends BaseCommand implements Listener {
     }
 
     @EventHandler
-    public void vote(VotifierEvent event) {
+    private final void vote(VotifierEvent event) {
 //        String address = vote.getAddress();
 //        System.out.println(address);
 //        System.out.println(vote.toString());
 //        System.out.println(serviceName);
-        Vote vote = event.getVote();
-        Player player = Bukkit.getPlayer(vote.getUsername());
-        String serviceName = vote.getServiceName();
+        final Vote vote = event.getVote();
+        final Player player = Bukkit.getPlayer(vote.getUsername());
+        final String serviceName = vote.getServiceName();
         switch (serviceName) {
             case "minestatus.net":
             case "MinecraftServers.org":
@@ -73,16 +73,16 @@ public class Voting extends BaseCommand implements Listener {
 //        voteAnnounce(name);
 //    }
 
-    public void voteAnnounce(String playerName) {
-        Player player = Bukkit.getPlayer(playerName);
+    private final void voteAnnounce(String playerName) {
+        final Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
-            TextComponent voteAnnounceNull = Component.text(ChatColor.YELLOW + "Someone" + ChatColor.GREEN + " just voted and received awesome rewards! ")
+            final TextComponent voteAnnounceNull = Component.text(ChatColor.YELLOW + "Someone" + ChatColor.GREEN + " just voted and received awesome rewards! ")
                     .color(NamedTextColor.GREEN)
                     .hoverEvent(Component.text("Click to visit Voting Guide!", NamedTextColor.GREEN))
                     .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"));
             Bukkit.getServer().broadcast(voteAnnounceNull, "");
         } else {
-            TextComponent voteAnnounce = Component.text(ChatColor.YELLOW + player.getName() + ChatColor.GREEN + " just voted and received awesome rewards! ")
+            final TextComponent voteAnnounce = Component.text(ChatColor.YELLOW + player.getName() + ChatColor.GREEN + " just voted and received awesome rewards! ")
                     .color(NamedTextColor.GREEN)
                     .hoverEvent(Component.text("Click to visit Voting Guide!", NamedTextColor.GREEN))
                     .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"));
@@ -99,8 +99,8 @@ public class Voting extends BaseCommand implements Listener {
     }
 
     @CommandAlias("VoteClaim")
-    public void voteClaimCommand(Player player, String arg) {
-        Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
+    private final void voteClaimCommand(Player player, String arg) {
+        final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
         for (VoteRewardList reward: VoteRewardList.values()){
             if (arg.equals(reward.getId())){
                 if (voteCoins >= reward.getPrice()){

@@ -3,15 +3,14 @@ package monzter.adventurescraft.plugin.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import com.vexsoftware.votifier.model.Vote;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.commands.dropTables.Eggs.*;
 //import monzter.adventurescraft.plugin.event.TestInv;
-import monzter.adventurescraft.plugin.commands.dropTables.Eggs.Lootbox;
 import monzter.adventurescraft.plugin.commands.dropTables.LootLlama;
-import monzter.adventurescraft.plugin.commands.dropTables.Lootboxes.*;
+import monzter.adventurescraft.plugin.commands.dropTables.Lootbox;
+import monzter.adventurescraft.plugin.commands.dropTables.PetEgg;
+import monzter.adventurescraft.plugin.commands.dropTables.Vote;
 import monzter.adventurescraft.plugin.utilities.MMOItemsGiveItem;
 import monzter.adventurescraft.plugin.utilities.Rarity;
 import monzter.adventurescraft.plugin.utilities.SoundManager;
@@ -38,7 +37,7 @@ public class DropTablesGive extends BaseCommand {
     @CommandAlias("DropTable")
     @CommandPermission("*")
     @CommandCompletion("* eggcommon|llama")
-    public void dropTable(OnlinePlayer player, String table) {
+    private final void dropTable(OnlinePlayer player, String table) {
         dropTable(player, table, 1);
     }
 /*
@@ -49,8 +48,8 @@ public class DropTablesGive extends BaseCommand {
     @CommandAlias("DropTable")
     @CommandPermission("*")
     @CommandCompletion("* eggcommon|egguncommon|eggrare|egglegendary|eggexotic|lootbox|lootbox2|lootbox3|lootbox4|lootbox5|lootbox6|lootbox7|llama|vote")
-    public void dropTable(OnlinePlayer player, String table, int amount) {
-        double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
+    private final void dropTable(OnlinePlayer player, String table, int amount) {
+        final double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
                 case "EGGCOMMON":
@@ -125,23 +124,23 @@ public class DropTablesGive extends BaseCommand {
                     giveReward(player.getPlayer(), lootbox7Reward.getDisplayName(), lootbox7Reward.getType(), lootbox7Reward.getId(), lootbox7Reward.getWeight());
                     break;
 
-//                case "VOTE":
-//                    RandomSelector<Vote> vote = RandomSelector.weighted(Arrays.asList(Vote.values()));
-//                    Vote voteReward = vote.pick();
-//                    giveReward(player.getPlayer(), voteReward.getDisplayName(), voteReward.getType(), voteReward.id, voteReward.getWeight());
-//                    break;
-//
-//                case "LLAMA":
-//                    RandomSelector<LootLlama> lootLlama = RandomSelector.weighted(Arrays.asList(LootLlama.values()));
-//                    LootLlama lootLlamaReward = lootLlama.pick();
-//                    giveReward(player.getPlayer(), lootLlamaReward.getDisplayName(), lootLlamaReward.getType(), lootLlamaReward.id, lootLlamaReward.getWeight());
-//                    break;
+                case "VOTE":
+                    RandomSelector<Vote> vote = RandomSelector.weighted(Arrays.asList(Vote.values()));
+                    Vote voteReward = vote.pick();
+                    giveReward(player.getPlayer(), voteReward.getDisplayName(), voteReward.getType(), voteReward.id, voteReward.getWeight());
+                    break;
+
+                case "LLAMA":
+                    RandomSelector<LootLlama> lootLlama = RandomSelector.weighted(Arrays.asList(LootLlama.values()));
+                    LootLlama lootLlamaReward = lootLlama.pick();
+                    giveReward(player.getPlayer(), lootLlamaReward.getDisplayName(), lootLlamaReward.getType(), lootLlamaReward.id, lootLlamaReward.getWeight());
+                    break;
             }
         }
     }
 
-    private void giveReward(Player player, String displayName, String rewardType, String rewardName, double chance) {
-        double multipliedChance = chance*100;
+    private final void giveReward(Player player, String displayName, String rewardType, String rewardName, double chance) {
+        final double multipliedChance = chance*100;
         player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
         mmoItemsGiveItem.giveMMOItem(player, rewardType, rewardName);
         if (multipliedChance < 50 && multipliedChance >= 25) {

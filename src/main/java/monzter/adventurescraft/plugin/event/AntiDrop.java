@@ -35,25 +35,25 @@ public class AntiDrop implements Listener {
     }
 
     @EventHandler
-    public void cancelDrop(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-        ItemStack droppedItem = event.getItemDrop().getItemStack();
-        NBTItem nbtItem = NBTItem.get(droppedItem);
-        String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
+    private final void cancelDrop(PlayerDropItemEvent event) {
+        final Player player = event.getPlayer();
+        final ItemStack droppedItem = event.getItemDrop().getItemStack();
+        final NBTItem nbtItem = NBTItem.get(droppedItem);
+        final String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
         if (id != null){
-            ItemTier tier = MMOItems.plugin.getTiers().findTier(new LiveMMOItem(droppedItem));
+            final ItemTier tier = MMOItems.plugin.getTiers().findTier(new LiveMMOItem(droppedItem));
             for (DropTier dropTier : TIERS) {
                 if (dropTier.getTier() == tier && player.hasPermission(dropTier.getPermission())) {
                     if (!player.hasMetadata("LAST_DROP"))
                         player.setMetadata("LAST_DROP", new FixedMetadataValue(plugin, Instant.now().getEpochSecond()));
 
-                    long lastDrop = player.getMetadata("LAST_DROP").get(0).asLong();
+                    final long lastDrop = player.getMetadata("LAST_DROP").get(0).asLong();
 
                     if (!player.hasMetadata("DROP_TIMES") || Instant.now().getEpochSecond() - lastDrop > TIMEOUT) {
                         player.setMetadata("DROP_TIMES", new FixedMetadataValue(plugin, 0));
                         player.setMetadata("LAST_DROP", new FixedMetadataValue(MMOItems.plugin, Instant.now().getEpochSecond()));
                     }
-                    int times = player.getMetadata("DROP_TIMES").get(0).asInt() + 1;
+                    final int times = player.getMetadata("DROP_TIMES").get(0).asInt() + 1;
 
                     if (times > dropTier.getMax() || player.getInventory().firstEmpty() == -1) {
                         player.setMetadata("DROP_TIMES", new FixedMetadataValue(plugin, 0));

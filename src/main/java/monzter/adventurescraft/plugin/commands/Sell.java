@@ -35,14 +35,14 @@ public class Sell extends BaseCommand {
     }
 
     @CommandAlias("Sell|SellAll")
-    public void donate(Player player) {
+    private final void donate(Player player) {
         if (player.hasPermission("SELL.ALL")){
             sell(player);
         } else {
-            Location location = BukkitAdapter.adapt(player.getLocation());
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
+            final Location location = BukkitAdapter.adapt(player.getLocation());
+            final RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            final RegionQuery query = container.createQuery();
+            final ApplicableRegionSet set = query.getApplicableRegions(location);
             if (!set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player), sellLocationFlag).equals(null)) {
                 player.teleport(BukkitAdapter.adapt(set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player), sellLocationFlag)));
                 sell(player);
@@ -51,13 +51,13 @@ public class Sell extends BaseCommand {
     }
 
 
-    private void sell(Player player) {
+    private final void sell(Player player) {
         double counter = 0;
         for (WeightPrices material : WeightPrices.values()) {
-            int materialAmount = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point." + material.material.toString() + ".amount%"));
-            double sellMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_SellMultiplier%"));
+            final int materialAmount = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point." + material.material.toString() + ".amount%"));
+            final double sellMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_SellMultiplier%"));
             if (materialAmount > 0) {
-                double calculation = (material.getPrice() * sellMultiplier) * materialAmount;
+                final double calculation = (material.getPrice() * sellMultiplier) * materialAmount;
                 counter += calculation;
                 player.sendMessage(ChatColor.GREEN + "You sold " + ChatColor.GOLD + materialAmount + "x " + material.getMaterial().toString() + ChatColor.GREEN + " for $"
                         + ChatColor.YELLOW + calculation + ChatColor.GREEN + "!");

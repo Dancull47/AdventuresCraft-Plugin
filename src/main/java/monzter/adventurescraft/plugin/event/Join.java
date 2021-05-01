@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Join implements Listener {
-    private AdventuresCraft plugin;
+    private final AdventuresCraft plugin;
     private final MMOItemsGiveItem mmoItemsGiveItem;
     private final PermissionsFacade permissionsFacade;
     private final TextComponent mining = Component.text("You can start mining by using ")
@@ -36,11 +36,11 @@ public class Join implements Listener {
     }
 
     @EventHandler
-    private void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
+    private final void onJoin(PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
         player.setCollidable(true);
         if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
-            ItemStack book = player.getInventory().getItem(8);
+            final ItemStack book = player.getInventory().getItem(8);
             if (book != null || book.getType() == Material.WRITTEN_BOOK) {
                 player.openBook(book);
             }

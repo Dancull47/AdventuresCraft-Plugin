@@ -25,7 +25,7 @@ public class GeneralCommands extends BaseCommand {
     }
 
     @CommandAlias("vote")
-    public void voteCommand(Player player) {
+    private final void voteCommand(Player player) {
         final TextComponent vote = Component.text("You can")
                 .color(NamedTextColor.GREEN)
                 .append(Component.text(" Vote ", NamedTextColor.GOLD))
@@ -36,7 +36,7 @@ public class GeneralCommands extends BaseCommand {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Vote " + player.getName());
     }
     @CommandAlias("discord")
-    public void discordCommand(Player player) {
+    private final void discordCommand(Player player) {
         final TextComponent discord = Component.text("Join our ")
                 .color(NamedTextColor.GREEN)
                 .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
@@ -48,7 +48,7 @@ public class GeneralCommands extends BaseCommand {
         player.sendMessage(discord);
     }
     @CommandAlias("bank")
-    public void bankCommand(Player player) {
+    private final void bankCommand(Player player) {
         if (player.hasPermission("bank.open.command")) {
             player.performCommand("banks open");
         } else {
@@ -63,7 +63,7 @@ public class GeneralCommands extends BaseCommand {
     }
     @CommandAlias("pet")
     @CommandCompletion("summon|equip")
-    public void petCommand(Player player, String arg) {
+    private final void petCommand(Player player, String arg) {
         if (arg.isEmpty()) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
         } else if (arg.toLowerCase().contains("summon")) {
@@ -73,24 +73,24 @@ public class GeneralCommands extends BaseCommand {
         }
     }
     @CommandAlias("spawn")
-    public void spawnCommand(Player player) {
+    private final void spawnCommand(Player player) {
         sendToSpawn(player);
     }
     @CommandAlias("ActiveQuests")
-    public void activeQuestsCommand(Player player) {
+    private final void activeQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
     }
     @CommandAlias("UnclaimedQuests")
-    public void unclaimedQuestsCommand(Player player) {
+    private final void unclaimedQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
     }
     @CommandAlias("Quest")
-    public void questCommand(Player player) {
+    private final void questCommand(Player player) {
         consoleCommand.consoleCommand("dm open Quests " + player.getName());
     }
 
 
-    public void sendToSpawn(Player player) {
+    private final void sendToSpawn(Player player) {
         if (player.getWorld().getName().equals("World")) {
             player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1);
             player.sendMessage(ChatColor.GREEN + "You've traveled to the " + ChatColor.YELLOW + "Yard" + ChatColor.GREEN + "!");

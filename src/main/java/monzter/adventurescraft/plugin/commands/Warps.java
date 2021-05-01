@@ -65,8 +65,8 @@ public class Warps implements TabExecutor {
                 Set<String> warpNames = warps.getKeys(false);
                 for (String currentWarpName : warpNames) {
                     if (args[0].equalsIgnoreCase(currentWarpName)) {
-                        ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
-                        Set<String> warpKeys = warpKeysSection.getKeys(false);
+                        final ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
+                        final Set<String> warpKeys = warpKeysSection.getKeys(false);
                         for (String currentWarpKey : warpKeys) {
                             if (currentWarpKey.contains("Name")) {
                                 name = warpKeysSection.getString(currentWarpKey);
@@ -96,13 +96,13 @@ public class Warps implements TabExecutor {
         return false;
     }
 
-    private void sendToLocation(Player player, Location location, String name) {
+    private final void sendToLocation(Player player, Location location, String name) {
         player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1);
         player.sendMessage(ChatColor.GREEN + "You've traveled to " + ChatColor.YELLOW + name + ChatColor.GREEN + "!");
         player.teleport(location);
     }
 
-    private void sendToLocation(Player player, Location location, String name, String permission, String lockedMessage) {
+    private final void sendToLocation(Player player, Location location, String name, String permission, String lockedMessage) {
         if (player.hasPermission(permission)) {
             sendToLocation(player, location, name);
         } else {
@@ -115,11 +115,11 @@ public class Warps implements TabExecutor {
         }
     }
 
-    private void setWarp(Player player, String id, String name, Location location) {
+    private final void setWarp(Player player, String id, String name, Location location) {
         setWarp(player, id, name, "", "", location);
     }
 
-    private void setWarp(Player player, String id, String name, String permission, String lockedMessage, Location location) {
+    private final void setWarp(Player player, String id, String name, String permission, String lockedMessage, Location location) {
         warps.set(id, id);
         warps.set(id + ".Name", name.replace("-", " "));
         if (!permission.isEmpty()) {
@@ -140,12 +140,12 @@ public class Warps implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             String permission = null;
-            List<String> warpArray = new ArrayList<>();
-            Set<String> warpNames = warps.getKeys(false);
+            final List<String> warpArray = new ArrayList<>();
+            final Set<String> warpNames = warps.getKeys(false);
             for (String currentWarpName : warpNames) {
                 if (args[0].length() < 1 || currentWarpName.toLowerCase().contains(args[0].toLowerCase())) {
-                    ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
-                    Set<String> warpKeys = warpKeysSection.getKeys(false);
+                    final ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
+                    final Set<String> warpKeys = warpKeysSection.getKeys(false);
                     for (String currentWarpKey : warpKeys) {
                         if (currentWarpKey.contains("Permission")) {
                             permission = warpKeysSection.getString(currentWarpKey);
