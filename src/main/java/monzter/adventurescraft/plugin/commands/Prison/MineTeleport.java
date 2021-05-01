@@ -2,19 +2,9 @@ package monzter.adventurescraft.plugin.commands.Prison;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Dependency;
-import io.lumine.mythic.lib.api.item.NBTItem;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.PetEgg;
-import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
-import net.Indyuce.mmoitems.MMOItems;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class MineTeleport extends BaseCommand {
 

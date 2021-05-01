@@ -9,9 +9,9 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
-import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +34,7 @@ public class Donate extends BaseCommand {
 
     @CommandAlias("DonationRewards|DonationReward")
     private void donate(Player player, String reward) {
-        int adventureCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins%"));
+        final int adventureCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins%"));
         if (!fullInventory(player)) {
             for (DonationRewardList donationReward : DonationRewardList.values()) {
                 if (reward.contains(donationReward.id)) {

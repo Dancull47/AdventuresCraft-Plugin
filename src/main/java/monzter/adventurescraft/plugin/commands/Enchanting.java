@@ -8,9 +8,11 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
-import org.bukkit.*;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class Enchanting extends BaseCommand {

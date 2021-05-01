@@ -6,6 +6,7 @@ import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -99,6 +100,11 @@ public enum Treasure implements Weighted, ItemGenerator {
             itemStack.lore(lore);
             return itemStack.asQuantity(amount);
         }
+        return null;
+    }
+
+    @Override
+    public ItemStack generateItem(Player player) {
         return null;
     }
 }

@@ -1,7 +1,8 @@
 package monzter.adventurescraft.plugin.commands.Prison;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Dependency;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;

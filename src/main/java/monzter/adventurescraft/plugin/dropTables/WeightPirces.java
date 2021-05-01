@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public enum Lootbox implements Weighted, ItemGenerator {
+public enum WeightPirces implements Weighted, ItemGenerator {
     // Common
     MoneyVoucherC(Rarity.COMMON,Rarity.COMMON,"Money Voucher", "VOUCHER", "MONEY_VOUCHER", .5, 1),
     EXPVoucherC(Rarity.COMMON,Rarity.COMMON,"EXP Voucher", "VOUCHER", "EXP_VOUCHER", .5, 1),
@@ -172,10 +172,10 @@ public enum Lootbox implements Weighted, ItemGenerator {
 
     PetEgg6G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG6", .01, 1),
     PetEgg7G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG5", .01,1);
-    
-    private static final Map<Rarity, List<Lootbox>> RARITY_LISTS = new EnumMap<>(Rarity.class);
 
-    public static List<Lootbox> getLootbox(Rarity rarity) {
+    private static final Map<Rarity, List<WeightPirces>> RARITY_LISTS = new EnumMap<>(Rarity.class);
+
+    public static List<WeightPirces> getLootbox(Rarity rarity) {
         return RARITY_LISTS.computeIfAbsent(rarity, key -> Arrays.stream(values())
                 .filter(lootbox -> lootbox.getLootboxRarity() == key)
                 .collect(Collectors.toList()));
@@ -190,7 +190,7 @@ public enum Lootbox implements Weighted, ItemGenerator {
     private final double weight;
     private final int amount;
 
-    Lootbox(Rarity lootboxRarity, Rarity lootRarity, String displayName, String type, String id, double weight, int amount) {
+    WeightPirces(Rarity lootboxRarity, Rarity lootRarity, String displayName, String type, String id, double weight, int amount) {
         this.lootboxRarity = lootboxRarity;
         this.lootRarity = lootRarity;
         this.id = id;

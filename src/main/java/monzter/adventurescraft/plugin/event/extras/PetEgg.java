@@ -1,7 +1,5 @@
 package monzter.adventurescraft.plugin.event.extras;
 
-import java.text.DecimalFormat;
-
 public enum PetEgg {
     COMMON("PET_EGG", 100),
     UNCOMMON("PET_EGG2", 500),

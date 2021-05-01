@@ -2,14 +2,11 @@ package monzter.adventurescraft.plugin.mySQL;
 
 import com.zaxxer.hikari.HikariDataSource;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
-import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 
 public class MySQL {
