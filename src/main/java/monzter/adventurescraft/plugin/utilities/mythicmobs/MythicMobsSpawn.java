@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.mythicmobs;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

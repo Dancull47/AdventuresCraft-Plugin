@@ -1,12 +1,12 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.beton;
 
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
 
-public class BetonPointsManagerImplemt implements BetonPointsManager {
+public class BetonPointsManagerImpl implements BetonPointsManager {
     private final BetonQuest betonQuest;
 
-    public BetonPointsManagerImplemt(BetonQuest betonQuest) {
+    public BetonPointsManagerImpl(BetonQuest betonQuest) {
         this.betonQuest = betonQuest;
     }
 

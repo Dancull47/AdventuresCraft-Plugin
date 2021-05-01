@@ -1,13 +1,14 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.general;
 
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class ChanceCheckImpl implements ChanceCheck {
-    private final MMOItemsGiveItem mmoItemsGiveItem;
+    private final MMOItemsGive mmoItemsGive;
 
-    public ChanceCheckImpl(MMOItemsGiveItem mmoItemsGiveItem) {
-        this.mmoItemsGiveItem = mmoItemsGiveItem;
+    public ChanceCheckImpl(MMOItemsGive mmoItemsGive) {
+        this.mmoItemsGive = mmoItemsGive;
     }
 
     @Override
@@ -18,7 +19,7 @@ public class ChanceCheckImpl implements ChanceCheck {
     @Override
     public boolean chanceCheck(double chance, Player player, int amount, String type, String id, String displayName) {
         if (Math.random() <= chance) {
-            mmoItemsGiveItem.giveMMOItem(player, type, id, amount);
+            mmoItemsGive.giveMMOItem(player, type, id, amount);
             player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
             player.sendMessage(displayName + " " + ChatColor.GOLD + chance * 10 + "%");
             return true;
@@ -29,7 +30,7 @@ public class ChanceCheckImpl implements ChanceCheck {
     @Override
     public boolean chanceCheck(double chance, Player player, int amount, String type, String id, String displayName, boolean silent) {
         if (Math.random() <= chance) {
-            mmoItemsGiveItem.giveMMOItem(player, type, id, amount, silent);
+            mmoItemsGive.giveMMOItem(player, type, id, amount, silent);
             player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
             player.sendMessage(displayName + " " + ChatColor.GOLD + chance + "%");
             return true;

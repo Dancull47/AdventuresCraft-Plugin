@@ -1,9 +1,9 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.bukkit;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class BukkitSoundManager implements SoundManager {
+public class SoundManagerImpl implements SoundManager {
     @Override
     public void playSound(Player player, Sound sound, float volume, float pitch) {
         player.getWorld().playSound(player.getLocation(), sound, volume, pitch);

@@ -1,7 +1,7 @@
 package monzter.adventurescraft.plugin.commands.dropTables;
 
 import me.lucko.helper.random.Weighted;
-import monzter.adventurescraft.plugin.utilities.Rarity;
+import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

@@ -1,8 +1,8 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.mmoitems;
 
 import org.bukkit.entity.Player;
 
-public class NullMMOItemsGiveItem implements MMOItemsGiveItem {
+public class MMOItemsGiveNull implements MMOItemsGive {
     @Override
     public void giveMMOItem(Player player, String type, String id) {
     }

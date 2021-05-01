@@ -6,23 +6,26 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
-import me.clip.placeholderapi.PlaceholderAPI;
+import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.WeightPrices;
+import monzter.adventurescraft.plugin.commands.dropTables.Treasure;
+import monzter.adventurescraft.plugin.utilities.enums.Rarity;
+import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ChestInteract implements Listener {
     private final AdventuresCraft plugin;
     private final StateFlag prisonMineFlag;
+    private final DropTablesDelivery dropTablesDelivery;
 
-    public ChestInteract(AdventuresCraft plugin, StateFlag prisonMineFlag) {
+    public ChestInteract(AdventuresCraft plugin, StateFlag prisonMineFlag, DropTablesDelivery dropTablesDelivery) {
         this.plugin = plugin;
         this.prisonMineFlag = prisonMineFlag;
+        this.dropTablesDelivery = dropTablesDelivery;
     }
 
     @EventHandler
@@ -43,7 +46,9 @@ public class ChestInteract implements Listener {
                         event.getClickedBlock().getLocation().getY(),
                         event.getClickedBlock().getLocation().getZ(),
                         10, .5, .5, .5);
-                acUtils.giveMMDropTable(player, "Treasure");
+                RandomSelector<Treasure> commonTreasureChest = RandomSelector.weighted((Treasure.getTreasure(Rarity.COMMON)));
+                Treasure commonTreasureReward = commonTreasureChest.pick();
+                dropTablesDelivery.giveReward(player.getPlayer(), commonTreasureReward.getDisplayName(), commonTreasureReward.getType(), commonTreasureReward.getId(), commonTreasureReward.getWeight());
             }
         }
     }

@@ -1,7 +1,7 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.vault;
 
 import org.bukkit.entity.Player;
 
-public interface EconomyFacade {
+public interface Economy {
     void money(Player player, double amount);
 }

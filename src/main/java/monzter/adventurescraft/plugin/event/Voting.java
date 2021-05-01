@@ -7,9 +7,9 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.VoteRewardList;
-import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.MMOItemsGiveItem;
-import monzter.adventurescraft.plugin.utilities.SoundManager;
+import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class Voting extends BaseCommand implements Listener {
     private final AdventuresCraft plugin;
     private final ConsoleCommand consoleCommand;
-    private final MMOItemsGiveItem mmoItemsGiveItem;
+    private final MMOItemsGive mmoItemsGive;
     private final SoundManager soundManager;
     private final HashMap<Player, Long> cooldown = new HashMap<>();
 //    private final TextComponent vote = Component.text("Thanks for voting, claim your reward by using ")
@@ -36,10 +36,10 @@ public class Voting extends BaseCommand implements Listener {
 //            .clickEvent(ClickEvent.runCommand("/Vote"))
 //            .append(Component.text("! You can vote again every 24 hours."));
 
-    public Voting(AdventuresCraft plugin, ConsoleCommand consoleCommand, MMOItemsGiveItem mmoItemsGiveItem, SoundManager soundManager) {
+    public Voting(AdventuresCraft plugin, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, SoundManager soundManager) {
         this.plugin = plugin;
         this.consoleCommand = consoleCommand;
-        this.mmoItemsGiveItem = mmoItemsGiveItem;
+        this.mmoItemsGive = mmoItemsGive;
         this.soundManager = soundManager;
     }
 
@@ -104,7 +104,7 @@ public class Voting extends BaseCommand implements Listener {
         for (VoteRewardList reward: VoteRewardList.values()){
             if (arg.equals(reward.getId())){
                 if (voteCoins >= reward.getPrice()){
-                    mmoItemsGiveItem.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
+                    mmoItemsGive.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
                     consoleCommand.consoleCommand("q point " + player.getName() + " add items.Vote -" + reward.getPrice());
                     soundManager.soundYes(player,2);
                     Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {

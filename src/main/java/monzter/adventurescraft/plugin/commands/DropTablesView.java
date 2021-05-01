@@ -13,7 +13,7 @@ import monzter.adventurescraft.plugin.commands.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.commands.dropTables.LootLlama;
 import monzter.adventurescraft.plugin.commands.dropTables.Lootbox;
 import monzter.adventurescraft.plugin.commands.dropTables.PetEgg;
-import monzter.adventurescraft.plugin.utilities.Rarity;
+import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.*;
 import org.bukkit.entity.Player;

@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.text;
 
 import org.bukkit.entity.Player;
 

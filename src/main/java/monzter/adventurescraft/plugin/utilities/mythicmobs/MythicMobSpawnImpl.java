@@ -1,13 +1,11 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.mythicmobs;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 
-public class MythicMobSpawnManager implements MythicMobsSpawn {
+public class MythicMobSpawnImpl implements MythicMobsSpawn {
 
     @Override
     public void spawnMob(Location location, String mobName) {

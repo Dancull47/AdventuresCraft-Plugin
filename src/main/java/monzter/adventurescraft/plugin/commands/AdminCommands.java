@@ -3,18 +3,11 @@ package monzter.adventurescraft.plugin.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
-import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
-import com.github.stefvanschie.inventoryframework.pane.Pane;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.MMOItemsGiveItem;
-import net.Indyuce.mmoitems.MMOItems;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,10 +20,10 @@ public class AdminCommands extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
-    private final MMOItemsGiveItem mmoItemsGiveItem;
-    public AdminCommands(AdventuresCraft plugin, MMOItemsGiveItem mmoItemsGiveItem) {
+    private final MMOItemsGive mmoItemsGive;
+    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive) {
         this.plugin = plugin;
-        this.mmoItemsGiveItem = mmoItemsGiveItem;
+        this.mmoItemsGive = mmoItemsGive;
     }
 
     @CommandAlias("stat")
@@ -39,7 +32,7 @@ public class AdminCommands extends BaseCommand {
     @CommandCompletion("* maxweightm|blockm|sellm|luckm|expm|petexpm|maxweight|weight|exp|pets|maxpets|ac|miningpass|all")
     public void statCommand(Player player, OnlinePlayer targetPlayer, String stat) {
         statsCommand(player, stat, targetPlayer.getPlayer());
-        mmoItemsGiveItem.giveMMOItem(player, "MATERIAL", "NULL", 1, false);
+        mmoItemsGive.giveMMOItem(player, "MATERIAL", "NULL", 1, false);
     }
 
 

@@ -1,17 +1,19 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.mmoitems;
 
 import io.lumine.mythic.lib.api.util.SmartGive;
+import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class MMOItemsGiveItemImpl implements MMOItemsGiveItem {
+public class MMOItemsGiveImpl implements MMOItemsGive {
     private final MMOItems mmoItems;
-
-    public MMOItemsGiveItemImpl(MMOItems mmoItems) {
+    private final SoundManager soundManager;
+    public MMOItemsGiveImpl(MMOItems mmoItems, SoundManager soundManager) {
         this.mmoItems = mmoItems;
+        this.soundManager = soundManager;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class MMOItemsGiveItemImpl implements MMOItemsGiveItem {
         new SmartGive(player).give(itemStack);
         if (!silent) {
             player.sendMessage(ChatColor.YELLOW + "You received " + ChatColor.GOLD + amount + ChatColor.YELLOW + "x " + itemStack.getItemMeta().getDisplayName() + ChatColor.YELLOW + "!");
-//            playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
+            soundManager.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         }
     }
 }

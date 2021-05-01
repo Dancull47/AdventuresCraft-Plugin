@@ -1,11 +1,11 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.bukkit;
 
 import org.bukkit.Server;
 
-public class BukkitConsoleCommand implements ConsoleCommand {
+public class ConsoleCommandImpl implements ConsoleCommand {
     private final Server server;
 
-    public BukkitConsoleCommand(Server server) {
+    public ConsoleCommandImpl(Server server) {
         this.server = server;
     }
 

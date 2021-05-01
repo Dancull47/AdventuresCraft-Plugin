@@ -7,10 +7,9 @@ import co.aikar.commands.annotation.Optional;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
-import monzter.adventurescraft.plugin.utilities.BukkitConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.NumberFormat;
-import monzter.adventurescraft.plugin.utilities.SoundManager;
+import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 

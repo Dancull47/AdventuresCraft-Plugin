@@ -1,7 +1,7 @@
 package monzter.adventurescraft.plugin.commands.dropTables;
 
 import me.lucko.helper.random.Weighted;
-import monzter.adventurescraft.plugin.utilities.Rarity;
+import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -176,7 +176,7 @@ public enum Lootbox implements Weighted, ItemGenerator {
 
     public static List<Lootbox> getLootbox(Rarity rarity) {
         return RARITY_LISTS.computeIfAbsent(rarity, key -> Arrays.stream(values())
-                .filter(egg -> egg.getEggRarity() == key)
+                .filter(lootbox -> lootbox.getLootboxRarity() == key)
                 .collect(Collectors.toList()));
     }
 
@@ -224,7 +224,7 @@ public enum Lootbox implements Weighted, ItemGenerator {
         return lootRarity;
     }
 
-    public Rarity getEggRarity() {
+    public Rarity getLootboxRarity() {
         return lootboxRarity;
     }
 

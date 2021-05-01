@@ -1,8 +1,8 @@
-package monzter.adventurescraft.plugin.utilities;
+package monzter.adventurescraft.plugin.utilities.beton;
 
 import org.bukkit.entity.Player;
 
-public class NullPointsManager implements BetonPointsManager {
+public class BetonPointsManagerNull implements BetonPointsManager {
     @Override
     public void givePoint(Player player, String path, int amount) {
 
