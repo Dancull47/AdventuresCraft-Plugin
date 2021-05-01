@@ -1,7 +1,5 @@
 package monzter.adventurescraft.plugin.event.mining;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
@@ -11,32 +9,39 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.ChanceCheck;
+import monzter.adventurescraft.plugin.utilities.BukkitConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.SoundManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class BlockBreakMining implements Listener {
+    private static ChanceCheck chanceCheck;
+    private static SoundManager soundManager;
+    private static ConsoleCommand consoleCommand;
+
     private AdventuresCraft plugin;
     private static StateFlag prisonMineFlag;
+
     private static Material[] blocks = new Material[]{Material.SEA_LANTERN, Material.GREEN_STAINED_GLASS, Material.BLUE_STAINED_GLASS,
             Material.YELLOW_STAINED_GLASS, Material.RED_STAINED_GLASS, Material.ORANGE_STAINED_GLASS, Material.DIAMOND_BLOCK,
             Material.DIAMOND_ORE, Material.EMERALD_BLOCK, Material.EMERALD_ORE, Material.REDSTONE_BLOCK, Material.REDSTONE_ORE};
 
-    public BlockBreakMining(AdventuresCraft plugin, StateFlag prisonMineFlag) {
+    public BlockBreakMining(AdventuresCraft plugin, StateFlag prisonMineFlag, SoundManager soundManager, ChanceCheck chanceCheck, ConsoleCommand consoleCommand) {
         this.plugin = plugin;
         this.prisonMineFlag = prisonMineFlag;
+        this.soundManager = soundManager;
+        this.chanceCheck = chanceCheck;
+        this.consoleCommand = consoleCommand;
     }
 
     @EventHandler
@@ -122,19 +127,19 @@ public class BlockBreakMining implements Listener {
 
     public static void enchantmentLuck(Player player) {
         double luckMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_LuckMultiplier%")) * .25;
-        if (acUtils.chanceCheck(.005 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(.005 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX5 " + player.getName() + " 1");
         }
-        if (acUtils.chanceCheck(.008 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(.008 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX4 " + player.getName() + " 1");
         }
-        if (acUtils.chanceCheck(.01 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(.01 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX3 " + player.getName() + " 1");
         }
-        if (acUtils.chanceCheck(.03 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(.03 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX2 " + player.getName() + " 1");
         }
-        if (acUtils.chanceCheck(.05 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(.05 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX " + player.getName() + " 1");
         }
     }
@@ -158,9 +163,9 @@ public class BlockBreakMining implements Listener {
             final org.bukkit.Location originalLocation = new org.bukkit.Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
             Location convertedLocation = BukkitAdapter.adapt(originalLocation);
             if (inRegion(query, convertedLocation)) {
-                if (acUtils.chanceCheck(.0025 + enchantmentLevel)) {
+                if (chanceCheck.chanceCheck(.0025 + enchantmentLevel)) {
                     originalLocation.getBlock().setType(Material.CHEST);
-                    acUtils.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                    soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                     player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
                 }
             }
@@ -172,9 +177,9 @@ public class BlockBreakMining implements Listener {
         if (enchantmentLevel > 0) {
             Random r = new Random();
             int result = r.nextInt(250000-50000) + 10;
-                if (acUtils.chanceCheck(.0025 + enchantmentLevel)) {
-                    acUtils.consoleCommand("money give " + player.getName() + " " + result);
-                    acUtils.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                if (chanceCheck.chanceCheck(.0025 + enchantmentLevel)) {
+                    consoleCommand.consoleCommand("money give " + player.getName() + " " + result);
+                    soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                     player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
                 }
         }
@@ -188,10 +193,10 @@ public class BlockBreakMining implements Listener {
             final org.bukkit.Location originalLocation = new org.bukkit.Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY()+2, player.getLocation().getZ());
             Location convertedLocation = BukkitAdapter.adapt(player.getEyeLocation());
             if (inRegion(query, convertedLocation)) {
-                if (acUtils.chanceCheck(.0025 + enchantmentLevel)) {
+                if (chanceCheck.chanceCheck(.0025 + enchantmentLevel)) {
 //                    player.getEyeLocation().getBlock().setType(getRandom(blocks));
                     originalLocation.getBlock().setType(getRandom(blocks));
-                    acUtils.playSound(player, Sound.ENTITY_ARROW_HIT, 1, 2);
+                    soundManager.playSound(player, Sound.ENTITY_ARROW_HIT, 1, 2);
                     String message = "Randomized";
                     StringBuilder sb = new StringBuilder();
                     Random random = new Random();
@@ -209,7 +214,7 @@ public class BlockBreakMining implements Listener {
     private void tooHeavy(Player player) {
         player.sendMessage(ChatColor.RED + "You're too heavy, go sell your items by using "
                 + ChatColor.YELLOW + "/Sell" + ChatColor.RED + "!");
-        acUtils.soundNo(player, 1);
+        soundManager.soundNo(player, 1);
     }
 
     private static boolean inRegion(RegionQuery query, Location location) {

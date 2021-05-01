@@ -9,7 +9,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
-import monzter.adventurescraft.plugin.utilities.acUtils;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

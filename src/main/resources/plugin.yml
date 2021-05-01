@@ -11,7 +11,7 @@ commands:
   Discord:
   Pet:
   Bank:
-    aliases: [Enderchest, Vault]
+    aliases: [Enderchest, EconomyFacade]
   Warp:
     aliases: [Travel]
   Mine:

@@ -25,6 +25,8 @@ import monzter.adventurescraft.plugin.event.utilities.ProjectileCancelArrowDrop;
 import monzter.adventurescraft.plugin.event.utilities.mapBarrier;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import monzter.adventurescraft.plugin.utilities.*;
+import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -39,8 +41,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.betoncraft.betonquest.BetonQuest;
 
 import java.io.File;
 import java.util.HashSet;
@@ -58,6 +62,15 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private StringFlag displayNameFlag;
     private LocationFlag sellLocationFlag;
     private long restartTime;
+    private SoundManager soundManager;
+    private BetonPointsManager betonPointsManager;
+    private MMOItemsGiveItem mmoItemsGiveItem;
+    private FullInventory fullInventory;
+    private ConsoleCommand consoleCommand;
+    private PermissionsFacade permissionsFacade;
+    private NumberFormat numberFormat;
+    private ChanceCheck chanceCheck;
+    private MythicMobsSpawn mythicMobsSpawn;
 
     @Override
     public void onLoad() {
@@ -74,28 +87,49 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
+        if (betonQuest == null){
+            getLogger().log(Level.WARNING, "BetonQuest not found!");
+            betonPointsManager = new NullPointsManager();
+        } else {
+            betonPointsManager = new BetonPointsManagerImplemt((BetonQuest) betonQuest);
+        }
+        Plugin mmoItems = Bukkit.getPluginManager().getPlugin("MMOItems");
+        if (mmoItems == null){
+            getLogger().log(Level.WARNING, "BetonQuest not found!");
+            mmoItemsGiveItem = new NullMMOItemsGiveItem();
+        } else {
+            mmoItemsGiveItem = new MMOItemsGiveItemImpl((MMOItems) mmoItems);
+        }
+        soundManager = new BukkitSoundManager();
+        fullInventory = new FullInventoryImpl();
+        consoleCommand = new BukkitConsoleCommand(getServer());
+        permissionsFacade = new VaultHandler(econ, perms, getLogger());
+        numberFormat = new NumberFormatImpl();
+        chanceCheck = new ChanceCheckImpl(mmoItemsGiveItem);
+        mythicMobsSpawn = new MythicMobSpawnManager();
 //        this.SQL = new MySQL(this);
 //        this.data = new SQLGetter(this, SQL);
         restartTime = System.currentTimeMillis() + 21600000;
 //        restart();
         tipsMessage();
-        if (!setupEconomy()) {
-            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            this.setEnabled(false);
-            return;
-        }
+//        if (!setupEconomy()) {
+//            getLogger().severe(String.format("[%s] - Disabled due to no Economy dependency found!", getDescription().getName()));
+//            this.setEnabled(false);
+//            return;
+//        }
         PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new AdminCommands(this));
-        manager.registerCommand(new GeneralCommands(this));
+        manager.registerCommand(new AdminCommands(this, mmoItemsGiveItem));
+        manager.registerCommand(new GeneralCommands(this, consoleCommand));
         manager.registerCommand(new Security(this));
-        manager.registerCommand(new MiningPass(this));
+        manager.registerCommand(new MiningPass(this, consoleCommand, soundManager));
         manager.registerCommand(new DropTablesView(this));
-        manager.registerCommand(new Donate(this));
-        manager.registerCommand(new Hatching(this));
+        manager.registerCommand(new Donate(this, mmoItemsGiveItem, soundManager, permissionsFacade));
+        manager.registerCommand(new Hatching(this, soundManager, consoleCommand));
         manager.registerCommand(new MineTeleport(this));
-        manager.registerCommand(new DropTablesGive(this));
-        manager.registerCommand(new Voting(this));
-        manager.registerCommand(new Enchanting(this));
+        manager.registerCommand(new DropTablesGive(this, mmoItemsGiveItem, soundManager));
+        manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGiveItem, soundManager));
+        manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand));
         manager.registerCommand(new Sell(this, sellLocationFlag));
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
@@ -103,16 +137,16 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig()), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new enchantingTableInteraction(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join(this, mmoItemsGiveItem, permissionsFacade), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGiveItem, soundManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
         getCommand("PetUnequip").setExecutor(new InteractPets(this, loadPetsConfig()));
         getCommand("EnchantReward").setExecutor(new MiningEnchantments(this));
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
@@ -136,7 +170,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+        if (getServer().getPluginManager().getPlugin("EconomyFacade") == null) {
             return false;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);

@@ -2,22 +2,20 @@ package monzter.adventurescraft.plugin.event;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 import monzter.adventurescraft.plugin.event.extras.VoteRewardList;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.MMOItemsGiveItem;
+import monzter.adventurescraft.plugin.utilities.SoundManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +25,9 @@ import java.util.HashMap;
 //https://github.com/NuVotifier/NuVotifier/wiki/Developer-Documentation
 public class Voting extends BaseCommand implements Listener {
     private final AdventuresCraft plugin;
+    private final ConsoleCommand consoleCommand;
+    private final MMOItemsGiveItem mmoItemsGiveItem;
+    private final SoundManager soundManager;
     private final HashMap<Player, Long> cooldown = new HashMap<>();
 //    private final TextComponent vote = Component.text("Thanks for voting, claim your reward by using ")
 //            .color(NamedTextColor.GREEN)
@@ -35,8 +36,11 @@ public class Voting extends BaseCommand implements Listener {
 //            .clickEvent(ClickEvent.runCommand("/Vote"))
 //            .append(Component.text("! You can vote again every 24 hours."));
 
-    public Voting(AdventuresCraft plugin) {
+    public Voting(AdventuresCraft plugin, ConsoleCommand consoleCommand, MMOItemsGiveItem mmoItemsGiveItem, SoundManager soundManager) {
         this.plugin = plugin;
+        this.consoleCommand = consoleCommand;
+        this.mmoItemsGiveItem = mmoItemsGiveItem;
+        this.soundManager = soundManager;
     }
 
     @EventHandler
@@ -55,7 +59,7 @@ public class Voting extends BaseCommand implements Listener {
             case "Minecraft-MP.com":
 //                voteReward(player, vote.getUsername());
                 voteAnnounce(vote.getUsername());
-                acUtils.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
+                consoleCommand.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
         }
     }
 
@@ -100,15 +104,15 @@ public class Voting extends BaseCommand implements Listener {
         for (VoteRewardList reward: VoteRewardList.values()){
             if (arg.equals(reward.getId())){
                 if (voteCoins >= reward.getPrice()){
-                    acUtils.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
-                    acUtils.consoleCommand("q point " + player.getName() + " add items.Vote -" + reward.getPrice());
-                    acUtils.soundYes(player,2);
+                    mmoItemsGiveItem.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
+                    consoleCommand.consoleCommand("q point " + player.getName() + " add items.Vote -" + reward.getPrice());
+                    soundManager.soundYes(player,2);
                     Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
                         player.sendMessage(ChatColor.GREEN + "Your purchase was successful and you now have " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%") + ChatColor.GREEN + " Vote Coins remaining!");
                     }, 5L);
                 } else {
                     player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + voteCoins + ChatColor.RED + "/" + ChatColor.GOLD + reward.getPrice() + ChatColor.RED + " Vote Coins!");
-                    acUtils.soundNo(player, 1);
+                    soundManager.soundNo(player, 1);
                 }
             }
         }

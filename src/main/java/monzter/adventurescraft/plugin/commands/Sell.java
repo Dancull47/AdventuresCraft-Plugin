@@ -18,7 +18,6 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
-import monzter.adventurescraft.plugin.utilities.acUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

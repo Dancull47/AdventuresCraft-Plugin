@@ -2,12 +2,9 @@ package monzter.adventurescraft.plugin.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.BukkitConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -15,15 +12,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class GeneralCommands extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
+    private final ConsoleCommand consoleCommand;
 
-    public GeneralCommands(AdventuresCraft plugin) {
+    public GeneralCommands(AdventuresCraft plugin, ConsoleCommand consoleCommand) {
         this.plugin = plugin;
+        this.consoleCommand = consoleCommand;
     }
 
     @CommandAlias("vote")
@@ -80,15 +78,15 @@ public class GeneralCommands extends BaseCommand {
     }
     @CommandAlias("ActiveQuests")
     public void activeQuestsCommand(Player player) {
-        acUtils.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
+        consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
     }
     @CommandAlias("UnclaimedQuests")
     public void unclaimedQuestsCommand(Player player) {
-        acUtils.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
+        consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
     }
     @CommandAlias("Quest")
     public void questCommand(Player player) {
-        acUtils.consoleCommand("dm open Quests " + player.getName());
+        consoleCommand.consoleCommand("dm open Quests " + player.getName());
     }
 
 

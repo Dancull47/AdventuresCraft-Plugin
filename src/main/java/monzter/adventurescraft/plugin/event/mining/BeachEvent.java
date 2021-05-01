@@ -8,7 +8,9 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.BukkitConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.MythicMobsSpawn;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -26,10 +28,14 @@ public class BeachEvent implements Listener {
     private static int blocksBroken = 0;
     private static int max = 0;
     private final AdventuresCraft plugin;
+    private final ConsoleCommand consoleCommand;
+    private final MythicMobsSpawn mythicMobsSpawn;
     private final org.bukkit.Location mobSpawnLocation = new org.bukkit.Location(Bukkit.getWorld("World"), 1180, 209, 2419);
 
-    public BeachEvent(AdventuresCraft plugin) {
+    public BeachEvent(AdventuresCraft plugin, ConsoleCommand consoleCommand, MythicMobsSpawn mythicMobsSpawn) {
         this.plugin = plugin;
+        this.consoleCommand = consoleCommand;
+        this.mythicMobsSpawn = mythicMobsSpawn;
     }
 
     @EventHandler
@@ -82,17 +88,17 @@ public class BeachEvent implements Listener {
     }
 
     private void booster(){
-        acUtils.consoleCommand("randomBooster");
+        consoleCommand.consoleCommand("randomBooster");
         alert(ChatColor.GOLD.toString() + ChatColor.BOLD + "GLOBAL BOOSTER");
     }
     private void lootLLama(){
-        acUtils.spawnMob(mobSpawnLocation, "LOOT_LLAMA");
+        mythicMobsSpawn.spawnMob(mobSpawnLocation, "LOOT_LLAMA");
         alert(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "LOOT LLAMA");
     }
     private void favorFish(){
-        acUtils.spawnMob(mobSpawnLocation, "FAVOR_FISH");
-        acUtils.spawnMob(mobSpawnLocation, "FAVOR_FISH");
-        acUtils.spawnMob(mobSpawnLocation, "FAVOR_FISH2");
+        mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH");
+        mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH");
+        mythicMobsSpawn.spawnMob(mobSpawnLocation, "FAVOR_FISH2");
         alert(ChatColor.AQUA.toString() + ChatColor.BOLD + "FAVOR FISH");
     }
 

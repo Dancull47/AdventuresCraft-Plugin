@@ -2,7 +2,6 @@ package monzter.adventurescraft.plugin.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Dependency;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -10,7 +9,10 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.MMOItemsGiveItem;
+import monzter.adventurescraft.plugin.utilities.PermissionsFacade;
+import monzter.adventurescraft.plugin.utilities.SoundManager;
+import monzter.adventurescraft.plugin.utilities.VaultHandler;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,9 +22,15 @@ public class Donate extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
+    private final MMOItemsGiveItem mmoItemsGiveItem;
+    private final SoundManager soundManager;
+    private final PermissionsFacade permissionsFacade;
 
-    public Donate(AdventuresCraft plugin) {
+    public Donate(AdventuresCraft plugin, MMOItemsGiveItem mmoItemsGiveItem, SoundManager soundManager, PermissionsFacade permissionsFacade) {
         this.plugin = plugin;
+        this.mmoItemsGiveItem = mmoItemsGiveItem;
+        this.soundManager = soundManager;
+        this.permissionsFacade = permissionsFacade;
     }
 
     @CommandAlias("DonationRewards|DonationReward")
@@ -39,9 +47,9 @@ public class Donate extends BaseCommand {
                                     donationPoint(player, donationReward.id);
                                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.MaxPetAmount 1");
                                     if (player.hasPermission("DONATE.PET.SLOT.1")) {
-                                        acUtils.givePermission(player, "DONATE.PET.SLOT.2");
+                                        permissionsFacade.givePermission(player, "DONATE.PET.SLOT.2");
                                     } else {
-                                        acUtils.givePermission(player, "DONATE.PET.SLOT.1");
+                                        permissionsFacade.givePermission(player, "DONATE.PET.SLOT.1");
                                     }
                                     break;
                                 }
@@ -54,7 +62,7 @@ public class Donate extends BaseCommand {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
                                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.MaxWeight 999999999");
-                                    acUtils.givePermission(player, "DONATE.UNLIMITED.WEIGHT");
+                                    permissionsFacade.givePermission(player, "DONATE.UNLIMITED.WEIGHT");
                                     break;
                                 }
                             }
@@ -64,7 +72,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5", 5);
                                     break;
                                 }
                             }
@@ -74,7 +82,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5", 10);
                                     break;
                                 }
                             }
@@ -84,7 +92,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "CONSUMABLE", "LOOTBOX6", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "CONSUMABLE", "LOOTBOX6", 5);
                                     break;
                                 }
                             }
@@ -94,7 +102,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "CONSUMABLE", "LOOTBOX6", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "CONSUMABLE", "LOOTBOX6", 10);
                                     break;
                                 }
                             }
@@ -104,7 +112,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "CONSUMABLE", "LOOTBOX7", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "CONSUMABLE", "LOOTBOX7", 5);
                                     break;
                                 }
                             }
@@ -114,7 +122,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "CONSUMABLE", "LOOTBOX7", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "CONSUMABLE", "LOOTBOX7", 10);
                                     break;
                                 }
                             }
@@ -124,7 +132,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PET_EGG5", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PET_EGG5", 5);
                                     break;
                                 }
                             }
@@ -134,7 +142,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PET_EGG5", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PET_EGG5", 10);
                                     break;
                                 }
                             }
@@ -144,7 +152,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PET_EGG6", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PET_EGG6", 5);
                                     break;
                                 }
                             }
@@ -154,7 +162,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PET_EGG6", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PET_EGG6", 10);
                                     break;
                                 }
                             }
@@ -164,7 +172,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PET_EGG7", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PET_EGG7", 5);
                                     break;
                                 }
                             }
@@ -174,7 +182,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PET_EGG7", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PET_EGG7", 10);
                                     break;
                                 }
                             }
@@ -184,7 +192,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "DRAGON_EGG4", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "DRAGON_EGG4", 5);
                                     break;
                                 }
                             }
@@ -194,7 +202,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "DRAGON_EGG4", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "DRAGON_EGG4", 10);
                                     break;
                                 }
                             }
@@ -204,7 +212,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PHOENIX_EGG4", 5);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PHOENIX_EGG4", 5);
                                     break;
                                 }
                             }
@@ -214,7 +222,7 @@ public class Donate extends BaseCommand {
                                 if (!soldOut(player, donationReward.id, donationReward.displayName)) {
                                     purchaseItem(player, donationReward.price, donationReward.displayName);
                                     donationPoint(player, donationReward.id);
-                                    acUtils.giveMMOItem(player, "PET", "PHOENIX_EGG4", 10);
+                                    mmoItemsGiveItem.giveMMOItem(player, "PET", "PHOENIX_EGG4", 10);
                                     break;
                                 }
                             }
@@ -229,6 +237,7 @@ public class Donate extends BaseCommand {
     public boolean fullInventory(Player player) {
         if (player.getInventory().firstEmpty() == -1) {
             player.sendMessage(ChatColor.RED + "You're inventory is full! Try again once you have at least one available slot!");
+            soundManager.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f ,1f);
             return true;
         }
         return false;

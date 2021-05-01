@@ -9,7 +9,6 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
-import monzter.adventurescraft.plugin.utilities.acUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,7 +43,7 @@ public class ChestInteract implements Listener {
                         event.getClickedBlock().getLocation().getY(),
                         event.getClickedBlock().getLocation().getZ(),
                         10, .5, .5, .5);
-                acUtils.giveMMDropTable(player, "Treasure");
+//                acUtils.giveMMDropTable(player, "Treasure");
             }
         }
     }

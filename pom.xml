@@ -35,12 +35,16 @@
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>monzter.adventurescraft.plugin.hikari</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>co.aikar.commands</pattern>
-                            <shadedPattern>monzter.adventurescraft.plugin.acf</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>monzter.adventurescraft.plugin.acf</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>co.aikar.locales</pattern>
-                            <shadedPattern>monzter.adventurescraft.plugin.locales</shadedPattern> <!-- Replace this -->
+                            <shadedPattern>monzter.adventurescraft.plugin.locales</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.github.stefvanschie.inventoryframework</pattern>
@@ -190,17 +194,14 @@
         </dependency>
         <dependency>
             <groupId>co.aikar</groupId>
-            <artifactId>acf-paper</artifactId> <!-- Don't forget to replace this -->
-            <version>0.5.0-SNAPSHOT</version> <!-- Replace this as well -->
-            <!-- Example Platform/Version
             <artifactId>acf-paper</artifactId>
             <version>0.5.0-SNAPSHOT</version>
-            -->
         </dependency>
         <dependency>
             <groupId>pl.betoncraft</groupId>
             <artifactId>betonquest</artifactId>
             <version>1.12.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.stefvanschie.inventoryframework</groupId>

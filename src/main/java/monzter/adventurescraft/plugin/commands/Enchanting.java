@@ -4,26 +4,29 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Dependency;
 import co.aikar.commands.annotation.Optional;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.BukkitConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.NumberFormat;
+import monzter.adventurescraft.plugin.utilities.SoundManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class Enchanting extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
+    private final NumberFormat numberFormat;
+    private final SoundManager soundManager;
+    private final ConsoleCommand consoleCommand;
 
-    public Enchanting(AdventuresCraft plugin) {
+    public Enchanting(AdventuresCraft plugin, NumberFormat numberFormat, SoundManager soundManager, ConsoleCommand consoleCommand) {
         this.plugin = plugin;
+        this.numberFormat = numberFormat;
+        this.soundManager = soundManager;
+        this.consoleCommand = consoleCommand;
     }
 
     @CommandAlias("enchants")
@@ -49,12 +52,12 @@ public class Enchanting extends BaseCommand {
         String cost = PlaceholderAPI.setPlaceholders(player, enchantment);
         cost = String.valueOf((Integer.valueOf(cost)+1) * 3500);
         if (Integer.valueOf(exp) < Integer.valueOf(cost)) {
-            player.sendMessage(ChatColor.RED + "This enchantment costs " + ChatColor.GOLD + acUtils.numberFormat(Integer.valueOf(cost)) + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED
-                    + " and you only have " + ChatColor.GOLD + acUtils.numberFormat(Integer.valueOf(exp)) + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
-            acUtils.soundNo(player, 1);
+            player.sendMessage(ChatColor.RED + "This enchantment costs " + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(cost)) + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED
+                    + " and you only have " + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(exp)) + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+            soundManager.soundNo(player, 1);
             return false;
         }
-        acUtils.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+        soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
         return true;
     }
 
@@ -66,7 +69,7 @@ public class Enchanting extends BaseCommand {
         } finally {
             player.setOp(previousOp);
         }
-        acUtils.consoleCommand("q point " + player.getName() + " add items.Experience -" + Integer.valueOf((enchantmentPlaceholder)*3500));
+        consoleCommand.consoleCommand("q point " + player.getName() + " add items.Experience -" + Integer.valueOf((enchantmentPlaceholder)*3500));
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             String exp = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount_formatted%");
             player.sendMessage(ChatColor.GREEN.toString() + "You now have " + ChatColor.GOLD + exp + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + " left!");
@@ -80,7 +83,7 @@ public class Enchanting extends BaseCommand {
 //        } finally {
 //            player.setOp(previousOp);
 //        }
-//        acUtils.consoleCommand("q point " + player.getName() + " add items.Experience -" + Integer.valueOf((enchantmentPlaceholder)*3500));
+//        consoleCommand.consoleCommand("q point " + player.getName() + " add items.Experience -" + Integer.valueOf((enchantmentPlaceholder)*3500));
 //        if (upgradeAmount == 1){
 //            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
 //                String exp = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount_formatted%");

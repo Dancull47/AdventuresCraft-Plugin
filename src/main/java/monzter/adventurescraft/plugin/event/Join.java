@@ -1,7 +1,8 @@
 package monzter.adventurescraft.plugin.event;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.acUtils;
+import monzter.adventurescraft.plugin.utilities.MMOItemsGiveItem;
+import monzter.adventurescraft.plugin.utilities.PermissionsFacade;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -19,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class Join implements Listener {
     private AdventuresCraft plugin;
+    private final MMOItemsGiveItem mmoItemsGiveItem;
+    private final PermissionsFacade permissionsFacade;
     private final TextComponent mining = Component.text("You can start mining by using ")
             .color(NamedTextColor.GREEN)
             .append(Component.text("/Mine", NamedTextColor.GOLD, TextDecoration.BOLD))
@@ -26,8 +29,10 @@ public class Join implements Listener {
             .clickEvent(ClickEvent.runCommand("/Mine"))
             .append(Component.text("!"));
 
-    public Join(AdventuresCraft plugin) {
+    public Join(AdventuresCraft plugin, MMOItemsGiveItem mmoItemsGiveItem, PermissionsFacade permissionsFacade) {
         this.plugin = plugin;
+        this.mmoItemsGiveItem = mmoItemsGiveItem;
+        this.permissionsFacade = permissionsFacade;
     }
 
     @EventHandler
@@ -60,12 +65,12 @@ public class Join implements Listener {
             player.sendMessage(mining);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {
-            acUtils.givePermission(player, "KIT.RECEIVED");
-            acUtils.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
-            acUtils.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
-            acUtils.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
-            acUtils.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
-            acUtils.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
+            permissionsFacade.givePermission(player, "KIT.RECEIVED");
+            mmoItemsGiveItem.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
+            mmoItemsGiveItem.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
+            mmoItemsGiveItem.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
+            mmoItemsGiveItem.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
+            mmoItemsGiveItem.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
         }
     }
 }

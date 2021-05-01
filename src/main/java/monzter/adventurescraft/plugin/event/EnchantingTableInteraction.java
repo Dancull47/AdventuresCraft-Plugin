@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-public class enchantingTableInteraction implements Listener {
+public class EnchantingTableInteraction implements Listener {
     private AdventuresCraft plugin;
     private final List<Material> tools = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
             Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL,
@@ -28,7 +28,7 @@ public class enchantingTableInteraction implements Listener {
             Material.DIAMOND_AXE, Material.DIAMOND_HOE, Material.DIAMOND_PICKAXE, Material.DIAMOND_SHOVEL,
             Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL);
 
-    public enchantingTableInteraction(AdventuresCraft plugin) {
+    public EnchantingTableInteraction(AdventuresCraft plugin) {
         this.plugin = plugin;
     }
 

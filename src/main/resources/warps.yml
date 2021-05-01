@@ -1,4 +1,3 @@
-# Should arrows be despawned after hitting an enemy, rather than remaining on the ground
 A:
   Name: Mine A
   Permission: mines.tp.a
