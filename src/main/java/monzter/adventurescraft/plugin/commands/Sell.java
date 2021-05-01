@@ -3,8 +3,6 @@ package monzter.adventurescraft.plugin.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Dependency;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
@@ -15,23 +13,22 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
-import monzter.adventurescraft.plugin.event.extras.StatsDisplay;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
+import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class Sell extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
     private final LocationFlag sellLocationFlag;
+    private final Economy economy;
 
-    public Sell(AdventuresCraft plugin, LocationFlag sellLocationFlag) {
+    public Sell(AdventuresCraft plugin, LocationFlag sellLocationFlag, Economy economy) {
         this.plugin = plugin;
         this.sellLocationFlag = sellLocationFlag;
+        this.economy = economy;
     }
 
     @CommandAlias("Sell|SellAll")
@@ -63,7 +60,7 @@ public class Sell extends BaseCommand {
                         + ChatColor.YELLOW + calculation + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " del items." + material.toString());
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " del items.Weight");
-                plugin.money(player, calculation);
+                economy.money(player, calculation);
             }
         }
         player.sendMessage(ChatColor.GREEN + "You made " + ChatColor.GOLD + counter + ChatColor.GREEN + "!");

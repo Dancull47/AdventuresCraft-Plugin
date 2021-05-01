@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.commands.dropTables;
+package monzter.adventurescraft.plugin.dropTables;
 
 import me.lucko.helper.random.Weighted;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;

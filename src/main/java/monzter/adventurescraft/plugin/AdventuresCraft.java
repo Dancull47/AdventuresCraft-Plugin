@@ -46,7 +46,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -101,39 +100,16 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
-        if (betonQuest == null){
-            getLogger().log(Level.WARNING, "BetonQuest not found!");
-            betonPointsManager = new BetonPointsManagerNull();
-        } else {
-            betonPointsManager = new BetonPointsManagerImpl((BetonQuest) betonQuest);
-        }
-        final Plugin mmoItems = Bukkit.getPluginManager().getPlugin("MMOItems");
-        if (mmoItems == null){
-            getLogger().log(Level.WARNING, "MMOItems not found!");
-            mmoItemsGive = new MMOItemsGiveNull();
-        } else {
-            mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
-        }
-        soundManager = new SoundManagerImpl();
-        fullInventory = new FullInventoryImpl();
-        consoleCommand = new ConsoleCommandImpl(getServer());
-        permission = new PermissionImpl(perms, getLogger());
-        numberFormat = new NumberFormatImpl();
-        chanceCheck = new ChanceCheckImpl(mmoItemsGive);
-        mythicMobsSpawn = new MythicMobSpawnImpl();
-        economy = new EconomyImpl(econ, this);
-        dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive,soundManager);
 //        this.SQL = new MySQL(this);
 //        this.data = new SQLGetter(this, SQL);
         restartTime = System.currentTimeMillis() + 21600000;
-//        restart();
+        initialize();
         tipsMessage();
-//        if (!setupEconomy()) {
-//            getLogger().severe(String.format("[%s] - Disabled due to no Economy dependency found!", getDescription().getName()));
-//            this.setEnabled(false);
-//            return;
-//        }
+        if (!setupEconomy()) {
+            getLogger().severe(String.format("[%s] - Disabled due to no Economy dependency found!", getDescription().getName()));
+            this.setEnabled(false);
+            return;
+        }
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
@@ -146,7 +122,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand));
-        manager.registerCommand(new Sell(this, sellLocationFlag));
+        manager.registerCommand(new Sell(this, sellLocationFlag, economy));
         setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
@@ -184,9 +160,34 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        SQL.disconnect();
     }
 
+    private void initialize(){
+        final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
+        if (betonQuest == null){
+            getLogger().log(Level.WARNING, "BetonQuest not found!");
+            betonPointsManager = new BetonPointsManagerNull();
+        } else {
+            betonPointsManager = new BetonPointsManagerImpl((BetonQuest) betonQuest);
+        }
+        final Plugin mmoItems = Bukkit.getPluginManager().getPlugin("MMOItems");
+        if (mmoItems == null){
+            getLogger().log(Level.WARNING, "MMOItems not found!");
+            mmoItemsGive = new MMOItemsGiveNull();
+        } else {
+            mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
+        }
+        soundManager = new SoundManagerImpl();
+        fullInventory = new FullInventoryImpl();
+        consoleCommand = new ConsoleCommandImpl(getServer());
+        permission = new PermissionImpl(perms, getLogger());
+        numberFormat = new NumberFormatImpl();
+        chanceCheck = new ChanceCheckImpl(mmoItemsGive);
+        mythicMobsSpawn = new MythicMobSpawnImpl();
+        economy = new EconomyImpl(econ, this);
+        dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive,soundManager);
+    }
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Economy") == null) {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -197,45 +198,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         return econ != null;
     }
 
-    public void money(Player player, double amount) {
-        EconomyResponse r = econ.depositPlayer(player, amount);
-        if (!r.transactionSuccess()) {
-            player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!");
-            getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
-        }
-    }
-
     private void setupPermissions() {
         perms = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
     }
-
-//    public void loadLang() throws IOException {
-//        File language = new File(getDataFolder(), "language.yml");
-//        if (!language.exists()) {
-//            language.createNewFile();
-//            InputStream defConfigStream = this.getResource("language.yml");
-//            if (defConfigStream != null) {
-//                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(language);
-//                defConfig.save(language);
-//                Language.setFile(defConfig);
-//            }
-//        }
-//        YamlConfiguration conf = YamlConfiguration.loadConfiguration(language);
-//        for (Language item : Language.values()) {
-//            if (conf.getString(item.getPath()) == null) {
-//                conf.set(item.getPath(), item.getDefault());
-//            }
-//        }
-//        Language.setFile(conf);
-//        this.LANGUAGE = conf;
-//        this.LANGUAGE_FILE = language;
-//        try {
-//            conf.save(getLangFile());
-//        } catch (IOException e) {
-//            getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Failed to save lang.yml." + "\n"
-//                    + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
-//        }
-//    }
 
     private Set<Pet> loadPets() {
         File petsFile = new File(getDataFolder(), "pets.yml");
@@ -438,7 +403,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        }, 420000L);
 //    }
 
-    public void tipsMessage() {
+    private final void tipsMessage() {
         String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "♦" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
         TextComponent[] tipList = new TextComponent[]{
                 Component.text(prefix + "Join our ")

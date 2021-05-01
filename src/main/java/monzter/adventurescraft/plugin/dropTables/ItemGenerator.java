@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.commands.dropTables;
+package monzter.adventurescraft.plugin.dropTables;
 
 import org.bukkit.inventory.ItemStack;
 
