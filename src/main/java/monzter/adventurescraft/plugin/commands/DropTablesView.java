@@ -10,6 +10,7 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.dropTables.LootLlama;
@@ -40,9 +41,9 @@ public class DropTablesView extends BaseCommand {
 
     private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
     private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private final ItemStack previousPageItem = new ItemStack(Material.ARROW);
+    private final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
     private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
-    private final ItemStack nextPageItem = new ItemStack(Material.ARROW);
+    private final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
     private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
     @Subcommand("backpack")
@@ -138,17 +139,16 @@ public class DropTablesView extends BaseCommand {
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
-        StaticPane pageSelection = new StaticPane(0, 0, 9, 6);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
 
         page.addPane(0, background);
         page.addPane(0, display);
+        page.addPane(1, background);
+        page.addPane(1, display2);
 
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
-
-        pageSelection.addItem(new GuiItem(new ItemStack(Material.ARROW)), 0, 6);
 
         int i = 0;
 
@@ -179,8 +179,6 @@ public class DropTablesView extends BaseCommand {
                 gui.update();
             }), 0, 0);
         }
-        page.addPane(1, background);
-        page.addPane(1, display2);
 
         gui.addPane(page);
         gui.addPane(back);
@@ -200,7 +198,6 @@ public class DropTablesView extends BaseCommand {
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
-        StaticPane pageSelection = new StaticPane(0, 0, 9, 6);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
 
@@ -209,30 +206,8 @@ public class DropTablesView extends BaseCommand {
         page.addPane(1, background);
         page.addPane(1, display2);
 
-
-        back.addItem(new GuiItem((previousPageItem), event -> {
-            page.setPage(page.getPage() - 1);
-            if (page.getPage() == 0) {
-                back.setVisible(false);
-            }
-            forward.setVisible(true);
-            gui.update();
-        }), 0, 0);
-        back.setVisible(false);
-        forward.addItem(new GuiItem((nextPageItem), event -> {
-            page.setPage(page.getPage() + 1);
-            if (page.getPage() == page.getPages() - 1) {
-                forward.setVisible(false);
-            }
-            back.setVisible(true);
-            gui.update();
-        }), 0, 0);
-
-
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
-
-        pageSelection.addItem(new GuiItem(new ItemStack(Material.ARROW)), 0, 6);
 
         int i = 0;
 
@@ -244,6 +219,27 @@ public class DropTablesView extends BaseCommand {
                 display2.addItem(new GuiItem(item.generateItem(player)));
             }
         }
+
+        if (!display2.getItems().isEmpty()){
+            back.addItem(new GuiItem((previousPageItem), event -> {
+                page.setPage(page.getPage() - 1);
+                if (page.getPage() == 0) {
+                    back.setVisible(false);
+                }
+                forward.setVisible(true);
+                gui.update();
+            }), 0, 0);
+            back.setVisible(false);
+            forward.addItem(new GuiItem((nextPageItem), event -> {
+                page.setPage(page.getPage() + 1);
+                if (page.getPage() == page.getPages() - 1) {
+                    forward.setVisible(false);
+                }
+                back.setVisible(true);
+                gui.update();
+            }), 0, 0);
+        }
+
         gui.addPane(page);
         gui.addPane(back);
         gui.addPane(forward);

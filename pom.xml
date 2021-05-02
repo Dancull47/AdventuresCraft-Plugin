@@ -105,6 +105,10 @@
             <id>betonquest-repo</id>
             <url>https://betonquest.org/nexus/repository/betonquest/</url>
         </repository>
+        <repository>
+            <id>skullcreator-repo</id>
+            <url>https://dl.bintray.com/deanveloper/SkullCreator</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -228,6 +232,12 @@
             <systemPath>
                 C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MysqlPlayerDataBridge-v3.35.1.jar
             </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>dev.dbassett</groupId>
+            <artifactId>skullcreator</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
