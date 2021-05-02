@@ -109,9 +109,9 @@ public enum Lootbox implements Weighted, ItemGenerator {
 
     PetEgg5L(Rarity.LEGENDARY,Rarity.EXOTIC,"Pet Egg", "PET", "PET_EGG5", .01, 1),
     BlockGem6L(Rarity.LEGENDARY,Rarity.MYTHICAL,"Block Gem", "GEM_STONE", "BLOCK_GEM6", .01, 1),
-    LootBox4L(Rarity.LEGENDARY,Rarity.LEGENDARY,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX4", .01, 1),
+    LootBox4L(Rarity.LEGENDARY,Rarity.LEGENDARY,"Lootbox", "CONSUMABLE", "LOOTBOX4", .01, 1),
 
-    LootBox5L(Rarity.LEGENDARY,Rarity.EXOTIC,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX5", .001, 1),
+    LootBox5L(Rarity.LEGENDARY,Rarity.EXOTIC,"Lootbox", "CONSUMABLE", "LOOTBOX5", .001, 1),
     //  EXOTIC
     MoneyVoucher5E(Rarity.EXOTIC,Rarity.EXOTIC,"Money Voucher", "VOUCHER", "MONEY_VOUCHER5", .5, 1),
     EXPVoucher5E(Rarity.EXOTIC,Rarity.EXOTIC,"EXP Voucher", "VOUCHER", "EXP_VOUCHER5", .5, 1),
@@ -133,14 +133,14 @@ public enum Lootbox implements Weighted, ItemGenerator {
 
     PetEgg5E(Rarity.EXOTIC,Rarity.EXOTIC,"Pet Egg", "PET", "PET_EGG5", .05, 1),
 
-    LootBox5E(Rarity.EXOTIC,Rarity.EXOTIC,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX5", .05, 5),
+    LootBox5E(Rarity.EXOTIC,Rarity.EXOTIC,"Lootbox", "CONSUMABLE", "LOOTBOX5", .05, 5),
 
     BreakingGem7E(Rarity.EXOTIC,Rarity.GODLY,"Breaking Gem", "GEM_STONE", "BREAKING_GEM7", .01, 1),
     BlockGem7E(Rarity.EXOTIC,Rarity.GODLY,"Block Gem", "GEM_STONE", "BLOCK_GEM7", .01, 1),
 
-    LootBox6E(Rarity.EXOTIC,Rarity.MYTHICAL,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX6", .002, 1),
+    LootBox6E(Rarity.EXOTIC,Rarity.MYTHICAL,"Lootbox", "CONSUMABLE", "LOOTBOX6", .002, 1),
 
-    LootBox7E(Rarity.EXOTIC,Rarity.GODLY,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX7", .0001, 1),
+    LootBox7E(Rarity.EXOTIC,Rarity.GODLY,"Lootbox", "CONSUMABLE", "LOOTBOX7", .0001, 1),
     // MYTHICAL
     MoneyVoucher6M(Rarity.MYTHICAL,Rarity.MYTHICAL,"Money Voucher", "VOUCHER", "MONEY_VOUCHER6", .3, 1),
     EXPVoucher6M(Rarity.MYTHICAL,Rarity.MYTHICAL,"EXP Voucher", "VOUCHER", "EXP_VOUCHER6", .3, 1),
@@ -154,9 +154,9 @@ public enum Lootbox implements Weighted, ItemGenerator {
 
     PetEgg5M(Rarity.MYTHICAL,Rarity.EXOTIC,"Pet Egg", "PET", "PET_EGG5", .15, 1),
 
-    LootBox6M(Rarity.MYTHICAL,Rarity.MYTHICAL,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX6", .15, 1),
+    LootBox6M(Rarity.MYTHICAL,Rarity.MYTHICAL,"Lootbox", "CONSUMABLE", "LOOTBOX6", .15, 1),
 
-    LootBox7M(Rarity.MYTHICAL,Rarity.GODLY,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX7", .1, 1),
+    LootBox7M(Rarity.MYTHICAL,Rarity.GODLY,"Lootbox", "CONSUMABLE", "LOOTBOX7", .1, 1),
     // GODLY
     SellBooster6G(Rarity.GODLY,Rarity.MYTHICAL,"Sell Booster", "BOOSTER", "SELL_BOOSTER6", .3, 1),
     EXPBooster6G(Rarity.GODLY,Rarity.MYTHICAL,"EXP Booster", "BOOSTER", "EXP_BOOSTER6", .3, 1),
@@ -166,9 +166,9 @@ public enum Lootbox implements Weighted, ItemGenerator {
 
     PetEgg5G(Rarity.GODLY,Rarity.EXOTIC,"Pet Egg", "PET", "PET_EGG5", .2, 1),
 
-    LootBox6G(Rarity.GODLY,Rarity.MYTHICAL,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX6", .15, 3),
+    LootBox6G(Rarity.GODLY,Rarity.MYTHICAL,"Lootbox", "CONSUMABLE", "LOOTBOX6", .15, 3),
 
-    LootBox7G(Rarity.GODLY,Rarity.GODLY,"Lootbox", "CONSUMABLE", "CONSUMABLE_LOOTBOX7", .1, 2),
+    LootBox7G(Rarity.GODLY,Rarity.GODLY,"Lootbox", "CONSUMABLE", "LOOTBOX7", .1, 2),
 
     PetEgg6G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG6", .01, 1),
     PetEgg7G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG5", .01,1);

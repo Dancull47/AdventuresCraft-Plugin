@@ -9,7 +9,13 @@ public enum Rarity {
     LEGENDARY(ChatColor.DARK_PURPLE),
     EXOTIC(ChatColor.YELLOW),
     MYTHICAL(ChatColor.LIGHT_PURPLE),
-    GODLY(ChatColor.RED);
+    GODLY(ChatColor.RED),
+
+    PHOENIX(ChatColor.BLUE),
+    PHOENIX2(ChatColor.DARK_PURPLE),
+
+    DRAGON(ChatColor.BLUE),
+    DRAGON2(ChatColor.DARK_PURPLE);
 
     private final ChatColor color;
 

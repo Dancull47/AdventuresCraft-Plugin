@@ -89,6 +89,13 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+    @Subcommand("PhoenixPetEgg")
+    private void phoenixPetEgg(Player player) {
+        final ChestGui gui = new ChestGui(6, "Phoenix Pet Egg");
+        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.EXOTIC);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
     @Subcommand("Lootbox")
     private void lootbox(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
