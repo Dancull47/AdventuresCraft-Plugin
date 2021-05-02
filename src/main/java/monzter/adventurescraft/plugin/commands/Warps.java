@@ -68,7 +68,7 @@ public class Warps implements TabExecutor {
                             if (currentWarpKey.contains("Name")) {
                                 name = warpKeysSection.getString(currentWarpKey);
                             }
-                            if (currentWarpKey.contains("Permission")) {
+                            if (currentWarpKey.contains("PermissionLP")) {
                                 permission = warpKeysSection.getString(currentWarpKey);
                             }
                             if (currentWarpKey.contains("LockedMessage")) {
@@ -120,7 +120,7 @@ public class Warps implements TabExecutor {
         warps.set(id, id);
         warps.set(id + ".Name", name.replace("-", " "));
         if (!permission.isEmpty()) {
-            warps.set(id + ".Permission", permission);
+            warps.set(id + ".PermissionLP", permission);
             warps.set(id + ".LockedMessage", lockedMessage.replace("-", " "));
         }
         warps.set(id + ".Location", location);
@@ -144,7 +144,7 @@ public class Warps implements TabExecutor {
                     final ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
                     final Set<String> warpKeys = warpKeysSection.getKeys(false);
                     for (String currentWarpKey : warpKeys) {
-                        if (currentWarpKey.contains("Permission")) {
+                        if (currentWarpKey.contains("PermissionLP")) {
                             permission = warpKeysSection.getString(currentWarpKey);
                         }
                     }

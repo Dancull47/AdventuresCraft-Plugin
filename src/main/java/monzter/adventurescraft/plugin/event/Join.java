@@ -1,9 +1,12 @@
 package monzter.adventurescraft.plugin.event;
 
+import io.lumine.mythic.utils.Schedulers;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
 import net.Indyuce.mmocore.api.player.PlayerData;
+import net.craftersland.data.bridge.PD;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -21,7 +24,8 @@ import org.bukkit.inventory.ItemStack;
 public class Join implements Listener {
     private final AdventuresCraft plugin;
     private final MMOItemsGive mmoItemsGive;
-    private final Permission permission;
+    private final PermissionLP permissionLP;
+
     private final TextComponent mining = Component.text("You can start mining by using ")
             .color(NamedTextColor.GREEN)
             .append(Component.text("/Mine", NamedTextColor.GOLD, TextDecoration.BOLD))
@@ -29,10 +33,10 @@ public class Join implements Listener {
             .clickEvent(ClickEvent.runCommand("/Mine"))
             .append(Component.text("!"));
 
-    public Join(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, Permission permission) {
+    public Join(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
-        this.permission = permission;
+        this.permissionLP = permissionLP;
     }
 
     @EventHandler
@@ -65,12 +69,16 @@ public class Join implements Listener {
             player.sendMessage(mining);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {
-            permission.givePermission(player, "KIT.RECEIVED");
-            mmoItemsGive.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
-            mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
-            mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
-            mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
-            mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
+            Schedulers.async().runLater(() -> {
+                if (PD.api.isInventoryArmorSyncComplete(player)){
+                    permissionLP.givePermission(player, "KIT.RECEIVED");
+                    mmoItemsGive.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
+                }
+            },60);
         }
     }
 }

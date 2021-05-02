@@ -25,6 +25,8 @@ import monzter.adventurescraft.plugin.event.utilities.ProjectileCancelArrowDrop;
 import monzter.adventurescraft.plugin.event.utilities.mapBarrier;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import monzter.adventurescraft.plugin.utilities.luckperms.PermissionImplLP;
+import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerImpl;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerNull;
@@ -46,6 +48,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -84,7 +87,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private MythicMobsSpawn mythicMobsSpawn;
     private Economy economy;
     private DropTablesDelivery dropTablesDelivery;
-
+    private PermissionLP permissionLP;
     @Override
     public void onLoad() {
         try {
@@ -103,6 +106,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        this.SQL = new MySQL(this);
 //        this.data = new SQLGetter(this, SQL);
         restartTime = System.currentTimeMillis() + 21600000;
+        setupPermissions();
         initialize();
         tipsMessage();
         if (!setupEconomy()) {
@@ -123,7 +127,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand));
         manager.registerCommand(new Sell(this, sellLocationFlag, economy));
-        setupPermissions();
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
@@ -131,7 +134,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join(this, mmoItemsGive, permission), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand), this);
@@ -161,6 +164,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     private void initialize(){
+        economy = new EconomyImpl(econ, this);
+        permissionLP = new PermissionImplLP(LuckPermsProvider.get());
+        permission = new PermissionImpl(perms, getLogger());
+        soundManager = new SoundManagerImpl();
+        fullInventory = new FullInventoryImpl();
+        consoleCommand = new ConsoleCommandImpl(getServer());
+        numberFormat = new NumberFormatImpl();
+        mythicMobsSpawn = new MythicMobSpawnImpl();
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
         if (betonQuest == null){
             getLogger().log(Level.WARNING, "BetonQuest not found!");
@@ -175,15 +186,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         } else {
             mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
         }
-        soundManager = new SoundManagerImpl();
-        fullInventory = new FullInventoryImpl();
-        consoleCommand = new ConsoleCommandImpl(getServer());
-        permission = new PermissionImpl(perms, getLogger());
-        numberFormat = new NumberFormatImpl();
-        chanceCheck = new ChanceCheckImpl(mmoItemsGive);
-        mythicMobsSpawn = new MythicMobSpawnImpl();
-        economy = new EconomyImpl(econ, this);
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive,soundManager);
+        chanceCheck = new ChanceCheckImpl(mmoItemsGive);
     }
 
     private boolean setupEconomy() {

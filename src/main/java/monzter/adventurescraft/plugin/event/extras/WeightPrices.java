@@ -102,7 +102,7 @@ public enum WeightPrices implements ItemGenerator {
         final int pointAmount = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:" + pointJoiner + "%"));
         if (itemStack != null) {
             ItemMeta itemMeta = itemStack.getItemMeta();
-            itemMeta.setDisplayName(ChatColor.GREEN + getName() + ChatColor.GRAY + " - " + ChatColor.YELLOW + pointAmount + ChatColor.GRAY + " Stored!");
+            itemMeta.setDisplayName(ChatColor.GREEN + getName() + ChatColor.GRAY + " - " + ChatColor.YELLOW + pointAmount + ChatColor.GRAY + " Stored");
             List<Component> lore = new ArrayList<>();
             lore.add(Component.empty());
             lore.add(Component.text(ChatColor.GRAY + "Item Info:"));

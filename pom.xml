@@ -208,7 +208,27 @@
             <artifactId>IF</artifactId>
             <version>0.9.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>MysqlPlayerDataBridge-v3.35.1</groupId>
+            <artifactId>net.craftersland.data</artifactId>
+            <version>3.35.1</version>
+            <scope>system</scope>
+            <systemPath>
+                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MysqlPlayerDataBridge-v3.35.1.jar
+            </systemPath>
+        </dependency>
     </dependencies>
 
 

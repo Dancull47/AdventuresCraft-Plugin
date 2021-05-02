@@ -7,6 +7,6 @@ Captcha-Length: 5
 # This is the permission which is required to use most Commands
 Admin-Permission: "CAPTCHA.ADMIN"
 
-# Permission given to Player once they enter a Valid captcha.
+# PermissionLP given to Player once they enter a Valid captcha.
 # This permission prevents user from being required to enter another captcha.
 Given-Permission: "CAPTCHA.VERIFIED"

@@ -20,6 +20,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Prison_v3.2.6-alpha.4" level="project" />
+    <orderEntry type="library" name="MysqlPlayerDataBridge-v3.35.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.kyori:adventure-api:4.7.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.kyori:adventure-key:4.7.0" level="project" />
@@ -139,5 +140,15 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-io:commons-io:2.8.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20160212" level="project" />
     <orderEntry type="library" name="Maven: com.github.stefvanschie.inventoryframework:IF:0.9.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.luckperms:api:5.3" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: MysqlPlayerDataBridge-v3.35.1:net.craftersland.data:3.35.1">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/.idea/libraries/MysqlPlayerDataBridge-v3.35.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
