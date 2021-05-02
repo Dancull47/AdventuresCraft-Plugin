@@ -106,9 +106,9 @@ public enum WeightPrices implements ItemGenerator {
             List<Component> lore = new ArrayList<>();
             lore.add(Component.empty());
             lore.add(Component.text(ChatColor.GRAY + "Item Info:"));
-            lore.add(Component.text(ChatColor.GOLD + "Mining Speed: " + ChatColor.YELLOW + getMiningSpeed() + "secs"));
-            lore.add(Component.text(ChatColor.YELLOW + "Sell Price: " + ChatColor.YELLOW + getPrice()));
-            lore.add(Component.text(ChatColor.BLUE + "Weight: " + ChatColor.BLUE + getWeight()));
+            lore.add(Component.text(ChatColor.GOLD + "⛏ Mining Speed: " + ChatColor.YELLOW + getMiningSpeed() + "secs"));
+            lore.add(Component.text(ChatColor.YELLOW + "⛂ Sell Price: " + ChatColor.YELLOW + getPrice()));
+            lore.add(Component.text(ChatColor.BLUE + "❂ Weight: " + ChatColor.BLUE + getWeight()));
             itemStack.setItemMeta(itemMeta);
             itemStack.lore(lore);
             return itemStack;

@@ -46,6 +46,7 @@ public class DropTablesView extends BaseCommand {
     private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
     @Subcommand("backpack")
+    @CommandAlias("Backpack")
     private void backpack(Player player) {
         final ChestGui gui = new ChestGui(6, "Backpack");
         final List<WeightPrices> guiContents = Arrays.asList(WeightPrices.values());
@@ -88,9 +89,37 @@ public class DropTablesView extends BaseCommand {
         gui.show(player);
     }
     @Subcommand("Lootbox")
-    private void Lootbox(Player player) {
+    private void lootbox(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
         final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.COMMON);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
+    @Subcommand("Lootbox2")
+    private void lootbox2(Player player) {
+        final ChestGui gui = new ChestGui(6, "Lootbox");
+        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.UNCOMMON);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
+    @Subcommand("Lootbox3")
+    private void lootbox3(Player player) {
+        final ChestGui gui = new ChestGui(6, "Lootbox");
+        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.RARE);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
+    @Subcommand("Lootbox4")
+    private void lootbox4(Player player) {
+        final ChestGui gui = new ChestGui(6, "Lootbox");
+        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.LEGENDARY);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
+    @Subcommand("Lootbox5")
+    private void lootbox5(Player player) {
+        final ChestGui gui = new ChestGui(6, "Lootbox");
+        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.EXOTIC);
         createMenu(gui, guiContents);
         gui.show(player);
     }
@@ -115,28 +144,6 @@ public class DropTablesView extends BaseCommand {
 
         page.addPane(0, background);
         page.addPane(0, display);
-        page.addPane(1, background);
-        page.addPane(1, display2);
-
-
-        back.addItem(new GuiItem((previousPageItem), event -> {
-            page.setPage(page.getPage() - 1);
-            if (page.getPage() == 0) {
-                back.setVisible(false);
-            }
-            forward.setVisible(true);
-            gui.update();
-        }), 0, 0);
-        back.setVisible(false);
-        forward.addItem(new GuiItem((nextPageItem), event -> {
-            page.setPage(page.getPage() + 1);
-            if (page.getPage() == page.getPages() - 1) {
-                forward.setVisible(false);
-            }
-            back.setVisible(true);
-            gui.update();
-        }), 0, 0);
-
 
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
@@ -153,6 +160,28 @@ public class DropTablesView extends BaseCommand {
                 display2.addItem(new GuiItem(item.generateItem()));
             }
         }
+        if (!display2.getItems().isEmpty()){
+            back.addItem(new GuiItem((previousPageItem), event -> {
+                page.setPage(page.getPage() - 1);
+                if (page.getPage() == 0) {
+                    back.setVisible(false);
+                }
+                forward.setVisible(true);
+                gui.update();
+            }), 0, 0);
+            back.setVisible(false);
+            forward.addItem(new GuiItem((nextPageItem), event -> {
+                page.setPage(page.getPage() + 1);
+                if (page.getPage() == page.getPages() - 1) {
+                    forward.setVisible(false);
+                }
+                back.setVisible(true);
+                gui.update();
+            }), 0, 0);
+        }
+        page.addPane(1, background);
+        page.addPane(1, display2);
+
         gui.addPane(page);
         gui.addPane(back);
         gui.addPane(forward);
