@@ -20,11 +20,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Join implements Listener {
     private final AdventuresCraft plugin;
     private final MMOItemsGive mmoItemsGive;
     private final PermissionLP permissionLP;
+    private int tries = 0;
 
     private final TextComponent mining = Component.text("You can start mining by using ")
             .color(NamedTextColor.GREEN)
@@ -69,16 +71,25 @@ public class Join implements Listener {
             player.sendMessage(mining);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {
-            Schedulers.async().runLater(() -> {
-                if (PD.api.isInventoryArmorSyncComplete(player)){
-                    permissionLP.givePermission(player, "KIT.RECEIVED");
-                    mmoItemsGive.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
-                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
-                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
-                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
-                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
+            Schedulers.async().runRepeating(new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (PD.api.isInventoryArmorSyncComplete(player)) {
+                        permissionLP.givePermission(player, "KIT.RECEIVED");
+                        mmoItemsGive.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
+                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
+                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
+                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
+                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
+                        cancel();
+                    }
+                    if (tries == 10) {
+                        player.sendMessage(ChatColor.RED + "We were unable to give your starting Miner Items. Please rejoin the server and we will try again! If you have tried this multiple times, please PM an Admin on Discord, or ask for help in chat!");
+                        cancel();
+                    }
+                    tries++;
                 }
-            },60);
+            }, 20, 60);
         }
     }
 }
