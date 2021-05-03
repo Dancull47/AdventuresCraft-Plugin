@@ -216,7 +216,25 @@ public enum PetEgg implements Weighted, ItemGenerator {
     LionPet6E(Rarity.EXOTIC, Rarity.MYTHICAL, "Lion Pet", "PET", "PET_LION6", .000001, 1),
 
     PandaPet6E(Rarity.EXOTIC, Rarity.MYTHICAL, "Panda Pet", "PET", "PET_PANDA6", .0000005, 1),
-    PenguinPet6E(Rarity.EXOTIC, Rarity.MYTHICAL, "Penguin Pet", "PET", "PET_PENGUIN6", .0000005, 1);
+    PenguinPet6E(Rarity.EXOTIC, Rarity.MYTHICAL, "Penguin Pet", "PET", "PET_PENGUIN6", .0000005, 1),
+
+    PhoenixPet3P(Rarity.PHOENIX, Rarity.RARE, "Baby Phoenix Pet", "PET", "PET_PHOENIX3", .95, 1),
+    PhoenixPet4P(Rarity.PHOENIX, Rarity.LEGENDARY,"Baby Phoenix Pet", "PET", "PET_PHOENIX4", .045, 1),
+    PhoenixPet5P(Rarity.PHOENIX, Rarity.EXOTIC,"Adult Phoenix Pet", "PET", "PET_PHOENIX5", .005,1 ),
+
+    PhoenixPet3P2(Rarity.PHOENIX2, Rarity.RARE, "Baby Phoenix Pet", "PET", "PET_PHOENIX3", .925, 1),
+    PhoenixPet4P2(Rarity.PHOENIX2, Rarity.LEGENDARY,"Baby Phoenix Pet", "PET", "PET_PHOENIX4", .0675, 1),
+    PhoenixPet5P2(Rarity.PHOENIX2, Rarity.EXOTIC,"Adult Phoenix Pet", "PET", "PET_PHOENIX5", .0075,1 ),
+
+    DragonPet3D(Rarity.DRAGON, Rarity.RARE, "Baby Dragon Pet", "PET", "PET_DRAGON3", .95, 1),
+    DragonPet4D(Rarity.DRAGON, Rarity.LEGENDARY,"Baby Dragon Pet", "PET", "PET_DRAGON4", .045, 1),
+    DragonPet5D(Rarity.DRAGON, Rarity.EXOTIC,"Juvenile Dragon Pet", "PET", "PET_DRAGON5", .005,1 ),
+
+    DragonPet3D2(Rarity.DRAGON2, Rarity.RARE, "Baby Dragon Pet", "PET", "PET_DRAGON3", .925, 1),
+    DragonPet4D2(Rarity.DRAGON2, Rarity.LEGENDARY,"Baby Dragon Pet", "PET", "PET_DRAGON4", .0675, 1),
+    DragonPet5D2(Rarity.DRAGON2, Rarity.EXOTIC,"Juvenile Dragon Pet", "PET", "PET_DRAGON5", .0075,1 ),
+
+    ;
 
     private static final Map<Rarity, List<PetEgg>> RARITY_LISTS = new EnumMap<>(Rarity.class);
 

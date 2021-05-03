@@ -14,7 +14,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.event.extras.Pet;
-import monzter.adventurescraft.plugin.event.extras.PetEgg;
+import monzter.adventurescraft.plugin.event.extras.PetEggList;
 import monzter.adventurescraft.plugin.event.extras.Stats;
 import monzter.adventurescraft.plugin.event.mining.BeachEvent;
 import net.milkbowl.vault.permission.Permission;
@@ -107,42 +107,42 @@ public class Placeholder extends PlaceholderExpansion {
 //                }
 //                return ranks;
 
-            case "PetEgg":
-                return String.valueOf(PetEgg.COMMON.expToHatch);
+            case "PetEggList":
+                return String.valueOf(PetEggList.COMMON.expToHatch);
             case "PetEgg_formatted":
-                return numberFormat(PetEgg.COMMON.expToHatch);
+                return numberFormat(PetEggList.COMMON.expToHatch);
             case "PetEgg2":
-                return String.valueOf(PetEgg.UNCOMMON.expToHatch);
+                return String.valueOf(PetEggList.UNCOMMON.expToHatch);
             case "PetEgg2_formatted":
-                return numberFormat(PetEgg.UNCOMMON.expToHatch);
+                return numberFormat(PetEggList.UNCOMMON.expToHatch);
             case "PetEgg3":
-                return String.valueOf(PetEgg.RARE.expToHatch);
+                return String.valueOf(PetEggList.RARE.expToHatch);
             case "PetEgg3_formatted":
-                return numberFormat(PetEgg.RARE.expToHatch);
+                return numberFormat(PetEggList.RARE.expToHatch);
             case "PetEgg4":
-                return String.valueOf(PetEgg.LEGENDARY.expToHatch);
+                return String.valueOf(PetEggList.LEGENDARY.expToHatch);
             case "PetEgg4_formatted":
-                return numberFormat(PetEgg.LEGENDARY.expToHatch);
+                return numberFormat(PetEggList.LEGENDARY.expToHatch);
             case "PetEgg5":
-                return String.valueOf(PetEgg.EXOTIC.expToHatch);
+                return String.valueOf(PetEggList.EXOTIC.expToHatch);
             case "PetEgg5_formatted":
-                return numberFormat(PetEgg.EXOTIC.expToHatch);
+                return numberFormat(PetEggList.EXOTIC.expToHatch);
             case "PetEggPhoenix":
-                return String.valueOf(PetEgg.PHOENIX.expToHatch);
+                return String.valueOf(PetEggList.PHOENIX.expToHatch);
             case "PetEggPhoenix_formatted":
-                return numberFormat(PetEgg.PHOENIX.expToHatch);
+                return numberFormat(PetEggList.PHOENIX.expToHatch);
             case "PetEggPhoenix2":
-                return String.valueOf(PetEgg.PHOENIX2.expToHatch);
+                return String.valueOf(PetEggList.PHOENIX2.expToHatch);
             case "PetEggPhoenix2_formatted":
-                return numberFormat(PetEgg.PHOENIX2.expToHatch);
+                return numberFormat(PetEggList.PHOENIX2.expToHatch);
             case "PetEggDragon":
-                return String.valueOf(PetEgg.DRAGON.expToHatch);
+                return String.valueOf(PetEggList.DRAGON.expToHatch);
             case "PetEggDragon_formatted":
-                return numberFormat(PetEgg.DRAGON.expToHatch);
+                return numberFormat(PetEggList.DRAGON.expToHatch);
             case "PetEggDragon2":
-                return String.valueOf(PetEgg.DRAGON2.expToHatch);
+                return String.valueOf(PetEggList.DRAGON2.expToHatch);
             case "PetEggDragon2_formatted":
-                return numberFormat(PetEgg.DRAGON2.expToHatch);
+                return numberFormat(PetEggList.DRAGON2.expToHatch);
 
             case "Donation_PetSlot":
                 return numberFormat(DonationRewardList.PetSlot.price);

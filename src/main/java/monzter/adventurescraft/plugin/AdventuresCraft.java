@@ -121,7 +121,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MiningPass(this, consoleCommand, soundManager));
         manager.registerCommand(new DropTablesView(this));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
-        manager.registerCommand(new Hatching(this, soundManager, consoleCommand));
+        manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery));
         manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager));
@@ -129,6 +129,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Sell(this, sellLocationFlag, economy));
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig()), this);
@@ -165,7 +166,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void initialize(){
         economy = new EconomyImpl(econ, this);
-        permissionLP = new PermissionImplLP(LuckPermsProvider.get());
+        permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);
         permission = new PermissionImpl(perms, getLogger());
         soundManager = new SoundManagerImpl();
         fullInventory = new FullInventoryImpl();

@@ -1,6 +1,6 @@
 package monzter.adventurescraft.plugin.event.extras;
 
-public enum PetEgg {
+public enum PetEggList {
     COMMON("PET_EGG", 100),
     UNCOMMON("PET_EGG2", 500),
     RARE("PET_EGG3", 1000),
@@ -14,7 +14,7 @@ public enum PetEgg {
     public final String name;
     public final int expToHatch;
 
-    PetEgg(String name, int expToHatch) {
+    PetEggList(String name, int expToHatch) {
         this.name = name;
         this.expToHatch = expToHatch;
     }
