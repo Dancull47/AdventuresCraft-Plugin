@@ -27,7 +27,7 @@ public class PermissionImplLP implements PermissionLP {
     @Override
     public void takePermission(Player player, String permission) {
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-        user.data().remove(Node.builder(permission).build());
+        user.data().add(Node.builder(permission).value(false).build()); // Sets permission to false, instead of literally removing it
         luckPerms.getUserManager().saveUser(user);
         plugin.getLogger().info(permission + ChatColor.GREEN + " has been removed for " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + "!");
     }
