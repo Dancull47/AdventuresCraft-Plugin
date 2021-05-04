@@ -39,6 +39,7 @@ public class GeneralCommands extends BaseCommand {
         player.sendMessage(vote);
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Vote " + player.getName());
     }
+
     @CommandAlias("discord")
     private void discordCommand(Player player) {
         final TextComponent discord = Component.text("Join our ")
@@ -51,6 +52,19 @@ public class GeneralCommands extends BaseCommand {
                 .append(Component.text("!"));
         player.sendMessage(discord);
     }
+
+    @CommandAlias("donate")
+    private void donateCommand(Player player) {
+        final TextComponent donate = Component.text("You can donate to get epic rewards from our")
+                .color(NamedTextColor.GREEN)
+                .append(Component.text(" Store", NamedTextColor.GOLD))
+                .append(Component.text("!"))
+                .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
+                .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
+                .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
+        player.sendMessage(donate);
+    }
+
     @CommandAlias("bank")
     private void bankCommand(Player player) {
         if (player.hasPermission("bank.open.command")) {
@@ -65,6 +79,7 @@ public class GeneralCommands extends BaseCommand {
             player.sendMessage(bankDeny);
         }
     }
+
     @CommandAlias("pet")
     @CommandCompletion("summon|equip")
     private void petCommand(Player player, String arg) {
@@ -76,18 +91,22 @@ public class GeneralCommands extends BaseCommand {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
         }
     }
+
     @CommandAlias("spawn")
     private void spawnCommand(Player player) {
         sendToSpawn(player);
     }
+
     @CommandAlias("ActiveQuests")
     private void activeQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
     }
+
     @CommandAlias("UnclaimedQuests")
     private void unclaimedQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
     }
+
     @CommandAlias("Quest")
     private void questCommand(Player player) {
         consoleCommand.consoleCommand("dm open Quests " + player.getName());

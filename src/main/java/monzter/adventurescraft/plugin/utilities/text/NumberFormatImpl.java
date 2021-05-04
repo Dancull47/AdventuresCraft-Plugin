@@ -8,4 +8,9 @@ public class NumberFormatImpl implements NumberFormat {
         DecimalFormat format = new DecimalFormat("###,###,###");
         return format.format(number);
     }
+    @Override
+    public String numberFormat(double number) {
+        DecimalFormat format = new DecimalFormat("###,###,###");
+        return format.format(number);
+    }
 }

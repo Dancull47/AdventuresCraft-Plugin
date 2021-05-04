@@ -12,15 +12,21 @@ import monzter.adventurescraft.plugin.event.extras.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.tags.CustomItemTagContainer;
+import org.bukkit.inventory.meta.tags.ItemTagType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BlockBreakMining implements Listener {
@@ -70,6 +76,7 @@ public class BlockBreakMining implements Listener {
                             enchantmentTreasurer(player);
                             enchantmentRandomizer(player);
                             enchantmentMidasTouch(player);
+                            statTrack(player);
                             event.setCancelled(false);
                         } else {
                             tooHeavy(player);
@@ -123,7 +130,7 @@ public class BlockBreakMining implements Listener {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalModifierBlocks " + amount); // I forget
     }
 
-    public final static void enchantmentLuck(Player player) {
+    public static void enchantmentLuck(Player player) {
         double luckMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_LuckMultiplier%")) * .25;
         if (chanceCheck.chanceCheck(.005 * luckMultiplier)) {
             Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX5 " + player.getName() + " 1");
@@ -142,26 +149,26 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    public final static void enchantmentExperience(Player player) {
+    public static void enchantmentExperience(Player player) {
         double expMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPMultiplier%"));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.Experience " + (int) expMultiplier);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .5f, 1f);
     }
 
-    public final static void enchantmentPetExperience(Player player) {
+    public static void enchantmentPetExperience(Player player) {
         double petExpMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPMultiplier%"));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.PetExperience " + (int) petExpMultiplier);
     }
 
-    public final static void enchantmentTreasurer(Player player) {
-        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Treasurer%"))*.0005;
+    public static void enchantmentTreasurer(Player player) {
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Treasurer%"));
         if (enchantmentLevel > 0) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query = container.createQuery();
             final org.bukkit.Location originalLocation = new org.bukkit.Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() - 1, player.getLocation().getZ());
             Location convertedLocation = BukkitAdapter.adapt(originalLocation);
             if (inRegion(query, convertedLocation)) {
-                if (chanceCheck.chanceCheck(.0025 + enchantmentLevel)) {
+                if (chanceCheck.chanceCheck(.0025 + (enchantmentLevel * .0005))) {
                     originalLocation.getBlock().setType(Material.CHEST);
                     soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
                     player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
@@ -170,34 +177,34 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    public final static void enchantmentMidasTouch(Player player) {
-        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Midas_Touch%"))*.0005;
+    public static void enchantmentMidasTouch(Player player) {
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Midas_Touch%"));
         if (enchantmentLevel > 0) {
             Random r = new Random();
-            int result = r.nextInt(250000-50000) + 10;
-                if (chanceCheck.chanceCheck(.0025 + enchantmentLevel)) {
-                    consoleCommand.consoleCommand("money give " + player.getName() + " " + result);
-                    soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
-                    player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
-                }
+            int result = r.nextInt(250000 - 50000) + 10;
+            if (chanceCheck.chanceCheck(.0025 + (enchantmentLevel * .0005))) {
+                consoleCommand.consoleCommand("money give " + player.getName() + " " + result);
+                soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+                player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
+            }
         }
     }
 
-    public final static void enchantmentRandomizer(Player player) {
-        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Randomizer%"))*.0005;
+    public static void enchantmentRandomizer(Player player) {
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Randomizer%"));
         if (enchantmentLevel > 0) {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query = container.createQuery();
-            final org.bukkit.Location originalLocation = new org.bukkit.Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY()+2, player.getLocation().getZ());
+            final org.bukkit.Location originalLocation = new org.bukkit.Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY() + 2, player.getLocation().getZ());
             Location convertedLocation = BukkitAdapter.adapt(player.getEyeLocation());
             if (inRegion(query, convertedLocation)) {
-                if (chanceCheck.chanceCheck(.0025 + enchantmentLevel)) {
+                if (chanceCheck.chanceCheck(.0025 + (enchantmentLevel * .0005))) {
 //                    player.getEyeLocation().getBlock().setType(getRandom(blocks));
                     originalLocation.getBlock().setType(getRandom(blocks));
                     soundManager.playSound(player, Sound.ENTITY_ARROW_HIT, 1, 2);
-                    String message = "Randomized";
-                    StringBuilder sb = new StringBuilder();
-                    Random random = new Random();
+                    final String message = "Randomized";
+                    final StringBuilder sb = new StringBuilder();
+                    final Random random = new Random();
                     for (Character character : message.toCharArray()) {
                         sb.append(ChatColor.getByChar(Integer.toHexString(random
                                 .nextInt(message.length()))));
@@ -205,6 +212,30 @@ public class BlockBreakMining implements Listener {
                     }
                     player.sendMessage(ChatColor.GREEN + "The block above you has been " + sb.toString() + ChatColor.GREEN + "!");
                 }
+            }
+        }
+    }
+
+    public void statTrack(Player player) {
+        ItemStack itemStack = player.getItemInHand();
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Stat_Tracker%"));
+        if (enchantmentLevel > 0) {
+            if (itemStack != null) {
+                final NamespacedKey key = new NamespacedKey(plugin, "stat-track");
+                final ItemMeta itemMeta = itemStack.getItemMeta();
+                CustomItemTagContainer tagContainer = itemMeta.getCustomTagContainer();
+                List<Component> lore = itemStack.lore();
+                if (tagContainer.hasCustomTag(key, ItemTagType.INTEGER)) {
+                    int foundValue = tagContainer.getCustomTag(key, ItemTagType.INTEGER);
+                    lore.set(lore.size() - 3, Component.text(ChatColor.GREEN + "Blocks Mined: " + ChatColor.YELLOW + Integer.valueOf(foundValue + 1)));
+                    itemMeta.getCustomTagContainer().setCustomTag(key, ItemTagType.INTEGER, Integer.valueOf(1 + foundValue));
+                } else {
+                    itemMeta.getCustomTagContainer().setCustomTag(key, ItemTagType.INTEGER, 1);
+                    lore.add(lore.size() - 2, Component.text(""));
+                    lore.add(lore.size() - 2, Component.text(ChatColor.GREEN + "Blocks Mined: " + ChatColor.YELLOW + 1));
+                }
+                itemStack.setItemMeta(itemMeta);
+                itemStack.lore(lore);
             }
         }
     }

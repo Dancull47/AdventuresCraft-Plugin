@@ -126,7 +126,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand));
-        manager.registerCommand(new Sell(this, sellLocationFlag, economy));
+        manager.registerCommand(new Sell(this, sellLocationFlag, economy, numberFormat, soundManager));
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
@@ -165,7 +165,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     private void initialize(){
-        economy = new EconomyImpl(econ, this);
+        RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        economy = new EconomyImpl(rsp.getProvider(), this);
         permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);
         permission = new PermissionImpl(perms, getLogger());
         soundManager = new SoundManagerImpl();
@@ -464,6 +465,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 Component.text(prefix + "You can donate to get epic rewards from our")
                         .color(NamedTextColor.GREEN)
                         .append(Component.text(" Store", NamedTextColor.GOLD))
+                        .append(Component.text("!"))
                         .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
                         .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"))
                         .append(Component.text("!")),

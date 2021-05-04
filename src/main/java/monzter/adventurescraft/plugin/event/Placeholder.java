@@ -297,6 +297,8 @@ public class Placeholder extends PlaceholderExpansion {
                 return String.valueOf(calculateEnchantments(player, "Explosive"));
             case "Enchantment_Luck":
                 return String.valueOf(calculateEnchantments(player, "Luck"));
+            case "Enchantment_Stat_Tracker":
+                return String.valueOf(calculateEnchantments(player, "Stat Tracker"));
 
             case "Location":
                 return location(player);
