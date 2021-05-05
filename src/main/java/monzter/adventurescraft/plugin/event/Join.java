@@ -35,6 +35,12 @@ public class Join implements Listener {
             .hoverEvent(Component.text("Click to visit your latest Mine!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.runCommand("/Mine"))
             .append(Component.text("!"));
+    private final TextComponent tutorial = Component.text("You should checkout our ")
+            .color(NamedTextColor.GREEN)
+            .append(Component.text("Tutorial", NamedTextColor.GOLD, TextDecoration.BOLD))
+            .hoverEvent(Component.text("Click to visit the Tutorial!", NamedTextColor.GREEN))
+            .clickEvent(ClickEvent.runCommand("/warp Tutorial"))
+            .append(Component.text(" to learn about all the unique features of our Prison!"));
 
     public Join(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP) {
         this.plugin = plugin;
@@ -70,6 +76,9 @@ public class Join implements Listener {
         }
         if (!player.hasPermission("mines.tp.m")) {
             player.sendMessage(mining);
+        }
+        if (!player.hasPermission("cmi.hologram.tutorial_pickaxe") || !player.hasPermission("mines.tp.d")) {
+            player.sendMessage(tutorial);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {
             Schedulers.async().runRepeating(new BukkitRunnable() {

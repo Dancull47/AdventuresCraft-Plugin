@@ -30,21 +30,22 @@ public class Tutorial implements Listener {
     @EventHandler
     public void click(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (event.getClickedBlock().getLocation().serialize().equals(pickaxe.serialize())) {
-            if (player.hasPermission("cmi.hologram.tutorial_pickaxe")) {
-                mmoItemsGive.giveMMOItem(player, "TOOL", "TUTORIAL_PICKAXE");
-                permissionLP.takePermission(player, "cmi.hologram.tutorial_pickaxe");
-            }
-        }
-        else if (event.getClickedBlock().getLocation().serialize().equals(gem.serialize())) {
-            if (player.hasPermission("cmi.hologram.tutorial_gem")) {
-                mmoItemsGive.giveMMOItem(player, "GEM_STONE", "TUTORIAL_GEM");
-                permissionLP.takePermission(player, "cmi.hologram.tutorial_gem");
+        if (event.getClickedBlock() != null) {
+            if (event.getClickedBlock().getLocation().serialize().equals(pickaxe.serialize())) {
+                if (player.hasPermission("cmi.hologram.tutorial_pickaxe")) {
+                    mmoItemsGive.giveMMOItem(player, "TOOL", "TUTORIAL_PICKAXE");
+                    permissionLP.takePermission(player, "cmi.hologram.tutorial_pickaxe");
+                }
+            } else if (event.getClickedBlock().getLocation().serialize().equals(gem.serialize())) {
+                if (player.hasPermission("cmi.hologram.tutorial_gem")) {
+                    mmoItemsGive.giveMMOItem(player, "GEM_STONE", "TUTORIAL_GEM");
+                    permissionLP.takePermission(player, "cmi.hologram.tutorial_gem");
+                }
             }
         }
     }
 
-    public void spawnHolo(Location location){
+    public void spawnHolo(Location location) {
         Hologram hologram = HologramsAPI.createHologram(plugin, location);
         VisibilityManager visibilityManager = hologram.getVisibilityManager();
         visibilityManager.setVisibleByDefault(true);
