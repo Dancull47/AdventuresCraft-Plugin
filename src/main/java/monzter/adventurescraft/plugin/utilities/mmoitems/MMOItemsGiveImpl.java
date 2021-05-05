@@ -31,7 +31,7 @@ public class MMOItemsGiveImpl implements MMOItemsGive {
         final ItemStack itemStack = mmoItems.getItem(type, id).asQuantity(amount);
         new SmartGive(player).give(itemStack);
         if (!silent) {
-            player.sendMessage(ChatColor.YELLOW + "You received " + ChatColor.GOLD + amount + ChatColor.YELLOW + "x " + itemStack.getItemMeta().displayName() + ChatColor.YELLOW + "!");
+            player.sendMessage(ChatColor.YELLOW + "You received " + ChatColor.GOLD + amount + ChatColor.YELLOW + "x " + itemStack.getItemMeta().getDisplayName() + ChatColor.YELLOW + "!");
             soundManager.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
         }
     }

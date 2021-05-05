@@ -129,6 +129,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MiningPass(this, consoleCommand, soundManager));
         manager.registerCommand(new DropTablesView(this));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
+        manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery));
         manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));

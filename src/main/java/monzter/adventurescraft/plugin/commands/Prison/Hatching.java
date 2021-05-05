@@ -165,7 +165,7 @@ public class Hatching extends BaseCommand {
                 return true;
             }
         }
-        player.sendMessage(ChatColor.RED + "You don't have a " + MMOItems.plugin.getItem("PET", itemID).getItemMeta().displayName() + ChatColor.RED + " in your inventory!");
+        player.sendMessage(ChatColor.RED + "You don't have a " + MMOItems.plugin.getItem("PET", itemID).getItemMeta().getDisplayName() + ChatColor.RED + " in your inventory!");
         soundManager.soundNo(player, 1);
         return false;
     }
