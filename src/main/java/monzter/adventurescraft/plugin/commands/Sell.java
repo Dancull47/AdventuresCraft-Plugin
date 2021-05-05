@@ -73,7 +73,7 @@ public class Sell extends BaseCommand {
                 economy.money(player, calculation);
             }
         }
-        player.sendMessage(ChatColor.GREEN + "You made " + "⛂ " + ChatColor.YELLOW + numberFormat.numberFormat(counter) + ChatColor.GREEN + "!");
+        player.sendMessage(ChatColor.GREEN + "You made " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(counter) + ChatColor.GREEN + "!");
     }
 }
 

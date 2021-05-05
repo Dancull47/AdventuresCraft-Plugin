@@ -19,6 +19,7 @@ import monzter.adventurescraft.plugin.dropTables.PetEgg;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -154,9 +155,9 @@ public class DropTablesView extends BaseCommand {
     }
 
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents) {
-        backgroundItemMeta.setDisplayName(" ");
-        previousPageItemMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
-        nextPageItemMeta.setDisplayName(ChatColor.GREEN + "Next Page");
+        backgroundItemMeta.displayName(Component.text(" "));
+        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
+        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
         backgroundItem.setItemMeta(backgroundItemMeta);
         previousPageItem.setItemMeta(previousPageItemMeta);
         nextPageItem.setItemMeta(nextPageItemMeta);
@@ -213,9 +214,9 @@ public class DropTablesView extends BaseCommand {
         gui.addPane(forward);
     }
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player) {
-        backgroundItemMeta.setDisplayName(" ");
-        previousPageItemMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
-        nextPageItemMeta.setDisplayName(ChatColor.GREEN + "Next Page");
+        backgroundItemMeta.displayName(Component.text(" "));
+        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
+        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
         backgroundItem.setItemMeta(backgroundItemMeta);
         previousPageItem.setItemMeta(previousPageItemMeta);
         nextPageItem.setItemMeta(nextPageItemMeta);
@@ -275,9 +276,9 @@ public class DropTablesView extends BaseCommand {
 
     @Subcommand("Llama")
     private void llama(Player player) {
-        backgroundItemMeta.setDisplayName(" ");
-        previousPageItemMeta.setDisplayName(ChatColor.GREEN + "Previous Page");
-        nextPageItemMeta.setDisplayName(ChatColor.GREEN + "Next Page");
+        backgroundItemMeta.displayName(Component.text(" "));
+        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
+        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
         backgroundItem.setItemMeta(backgroundItemMeta);
 
         ChestGui gui = new ChestGui(6, "Loot Llama Loot Table");

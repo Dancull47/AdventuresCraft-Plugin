@@ -1,5 +1,9 @@
 package monzter.adventurescraft.plugin.event.mining;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
@@ -24,6 +28,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.tags.CustomItemTagContainer;
 import org.bukkit.inventory.meta.tags.ItemTagType;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,21 +222,21 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-    public void statTrack(Player player) {
-        ItemStack itemStack = player.getItemInHand();
+        public void statTrack(Player player) {
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
         double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Stat_Tracker%"));
         if (enchantmentLevel > 0) {
             if (itemStack != null) {
                 final NamespacedKey key = new NamespacedKey(plugin, "stat-track");
                 final ItemMeta itemMeta = itemStack.getItemMeta();
-                CustomItemTagContainer tagContainer = itemMeta.getCustomTagContainer();
+                PersistentDataContainer tagContainer = itemMeta.getPersistentDataContainer();
                 List<Component> lore = itemStack.lore();
-                if (tagContainer.hasCustomTag(key, ItemTagType.INTEGER)) {
-                    int foundValue = tagContainer.getCustomTag(key, ItemTagType.INTEGER);
+                if (tagContainer.has(key, PersistentDataType.INTEGER)) {
+                    int foundValue = tagContainer.get(key, PersistentDataType.INTEGER);
                     lore.set(lore.size() - 3, Component.text(ChatColor.GREEN + "Blocks Mined: " + ChatColor.YELLOW + Integer.valueOf(foundValue + 1)));
-                    itemMeta.getCustomTagContainer().setCustomTag(key, ItemTagType.INTEGER, Integer.valueOf(1 + foundValue));
+                    itemMeta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, Integer.valueOf(1 + foundValue));
                 } else {
-                    itemMeta.getCustomTagContainer().setCustomTag(key, ItemTagType.INTEGER, 1);
+                    itemMeta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
                     lore.add(lore.size() - 2, Component.text(""));
                     lore.add(lore.size() - 2, Component.text(ChatColor.GREEN + "Blocks Mined: " + ChatColor.YELLOW + 1));
                 }

@@ -1,6 +1,11 @@
 package monzter.adventurescraft.plugin;
 
 import co.aikar.commands.PaperCommandManager;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.LocationFlag;
@@ -88,6 +93,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private Economy economy;
     private DropTablesDelivery dropTablesDelivery;
     private PermissionLP permissionLP;
+    private ProtocolManager protocolManager;
+
     @Override
     public void onLoad() {
         try {
@@ -105,6 +112,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public void onEnable() {
 //        this.SQL = new MySQL(this);
 //        this.data = new SQLGetter(this, SQL);
+        protocolManager = ProtocolLibrary.getProtocolManager();
         restartTime = System.currentTimeMillis() + 21600000;
         setupPermissions();
         initialize();
@@ -164,7 +172,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        SQL.disconnect();
     }
 
-    private void initialize(){
+    private void initialize() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         economy = new EconomyImpl(rsp.getProvider(), this);
         permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);
@@ -175,20 +183,20 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         numberFormat = new NumberFormatImpl();
         mythicMobsSpawn = new MythicMobSpawnImpl();
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
-        if (betonQuest == null){
+        if (betonQuest == null) {
             getLogger().log(Level.WARNING, "BetonQuest not found!");
             betonPointsManager = new BetonPointsManagerNull();
         } else {
             betonPointsManager = new BetonPointsManagerImpl((BetonQuest) betonQuest);
         }
         final Plugin mmoItems = Bukkit.getPluginManager().getPlugin("MMOItems");
-        if (mmoItems == null){
+        if (mmoItems == null) {
             getLogger().log(Level.WARNING, "MMOItems not found!");
             mmoItemsGive = new MMOItemsGiveNull();
         } else {
             mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
         }
-        dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive,soundManager);
+        dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
     }
 

@@ -1,6 +1,7 @@
 package monzter.adventurescraft.plugin.event.utilities;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import net.kyori.adventure.text.Component;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,14 +17,14 @@ public class Join_LeaveMessage implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        event.setJoinMessage("");
+        event.joinMessage(Component.text(""));
     }
     @EventHandler
     public void onKick(PlayerKickEvent event) {
-        event.setLeaveMessage("");
+        event.leaveMessage(Component.text(""));
     }
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        event.setQuitMessage("");
+        event.quitMessage(Component.text(""));
     }
 }

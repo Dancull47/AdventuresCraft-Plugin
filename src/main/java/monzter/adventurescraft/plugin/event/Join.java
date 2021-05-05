@@ -15,6 +15,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,7 +54,7 @@ public class Join implements Listener {
         }
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             PlayerData playerData = PlayerData.get(player.getUniqueId());
-            player.setHealth(player.getMaxHealth());
+            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
             playerData.giveMana(999);
             if (player.getWorld().getName().equals("World")) {
                 player.performCommand("spawn");
