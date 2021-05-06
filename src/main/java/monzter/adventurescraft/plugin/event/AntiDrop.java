@@ -27,7 +27,6 @@ public class AntiDrop implements Listener {
             new DropTier("MYTHIC", "DropPerm6", 4),
             new DropTier("GODLY", "DropPerm7", 4)
     };
-
     private static final int TIMEOUT = 5;
 
     public AntiDrop(AdventuresCraft plugin) {

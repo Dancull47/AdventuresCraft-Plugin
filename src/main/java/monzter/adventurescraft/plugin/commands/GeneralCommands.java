@@ -65,7 +65,7 @@ public class GeneralCommands extends BaseCommand {
         player.sendMessage(donate);
     }
 
-    @CommandAlias("bank")
+    @CommandAlias("bank|vault|ec|echest|enderchest")
     private void bankCommand(Player player) {
         if (player.hasPermission("bank.open.command")) {
             player.performCommand("banks open");
@@ -92,7 +92,7 @@ public class GeneralCommands extends BaseCommand {
         }
     }
 
-    @CommandAlias("spawn")
+    @CommandAlias("spawn|yard")
     private void spawnCommand(Player player) {
         sendToSpawn(player);
     }

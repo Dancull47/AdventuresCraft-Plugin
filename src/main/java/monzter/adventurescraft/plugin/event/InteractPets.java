@@ -1,16 +1,18 @@
 package monzter.adventurescraft.plugin.event;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,14 +23,20 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
 
-public class InteractPets implements Listener, CommandExecutor {
+public class InteractPets extends BaseCommand implements Listener {
     private final AdventuresCraft plugin;
     private final YamlConfiguration petsFile;
     private final String[] tierList = new String[]{"COMMON", "UNCOMMON", "RARE", "LEGENDARY", "EXOTIC", "MYTHICAL", "GODLY", "GODLY_PHOENIX"};
+    private final MMOItemsGive mmoItemsGive;
+    private final PermissionLP permissionLP;
+    private final BetonPointsManager betonPointsManager;
 
-    public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile) {
+    public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager) {
         this.plugin = plugin;
         this.petsFile = petsFile;
+        this.mmoItemsGive = mmoItemsGive;
+        this.permissionLP = permissionLP;
+        this.betonPointsManager = betonPointsManager;
     }
 
     @EventHandler
@@ -78,53 +86,49 @@ public class InteractPets implements Listener, CommandExecutor {
 
 
     public void equipPet(Player player, String name, String tier) {
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.PetAmount " + "1");
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + player.getName() + " permission set " + String.join(".", "PET", name, tier) + " true");
+        betonPointsManager.givePoint(player, "items.PetAmount", 1);
+        permissionLP.givePermission(player, String.join(".", "PET", name, tier));
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mpet pet " + name + " " + player.getName());
         player.sendMessage(ChatColor.GREEN + "You equipped a " + ChatColor.GOLD + WordUtils.capitalizeFully(name) + ChatColor.GREEN + " Pet!");
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = ((Player) sender).getPlayer();
-            if (player.getInventory().firstEmpty() != -1 && args.length > 0) {
-                String permission = String.join(".", "PET", args[0], args[1]).toUpperCase();
+    @CommandAlias("petunequip")
+    private void voteCommand(Player player, String petName, String tier) {
+            if (player.getInventory().firstEmpty() != -1) {
+                String permission = String.join(".", "PET", petName, tier).toUpperCase();
                 if (player.hasPermission(permission)) {
-                    player.sendMessage(ChatColor.GREEN + "Your " + WordUtils.capitalizeFully(args[0]) + " pet has been unequipped and put inside your inventory!");
-                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " false");
-                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.PetAmount " + "-1");
+                    player.sendMessage(ChatColor.GREEN + "Your " + WordUtils.capitalizeFully(petName) + " pet has been unequipped and put inside your inventory!");
+                    permissionLP.takePermission(player, permission);
+                    betonPointsManager.takePoint(player, "items.PetAmount", 1);
                     player.performCommand("mpet remove");
-                    String itemName = "PET_" + args[0];
-                    switch (args[1].toUpperCase()) {
+                    String itemName = "PET_" + petName;
+                    switch (tier.toUpperCase()) {
                         case "COMMON":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + " " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName, 1, true);
                             break;
                         case "UNCOMMON":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "2 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"2", 1, true);
                             break;
                         case "RARE":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "3 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"3", 1, true);
                             break;
                         case "LEGENDARY":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "4 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"4", 1, true);
                             break;
                         case "EXOTIC":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "5 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"5", 1, true);
                             break;
                         case "MYTHICAL":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "6 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"6", 1, true);
                             break;
                         case "GODLY":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "7 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"7", 1, true);
                             break;
                         case "GODLY_PHOENIX":
-                            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give PET " + itemName + "8 " + player.getName() + " 1 0 100 0 s");
+                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"8", 1, true);
                             break;
                     }
                 }
             }
         }
-        return false;
     }
-}

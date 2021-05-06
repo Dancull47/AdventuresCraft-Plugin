@@ -183,7 +183,9 @@ public class Placeholder extends PlaceholderExpansion {
 
             // STATS
             case "Stat_TotalMined":
-                return String.valueOf(Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.TotalBlocks.amount%")));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.TotalBlocks"))
+                        return (numberFormat(point.getCount()));
             case "Stat_MiningSpeed":
                 String miningSpeed = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_faction_damage_breakingspeed%");
                 return miningSpeed;
@@ -206,11 +208,9 @@ public class Placeholder extends PlaceholderExpansion {
                 return String.valueOf(calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
             case "Stat_Weight":
-                for (final Point point : points) {
-                    if (point.getCategory().equalsIgnoreCase("items.Weight")) {
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.Weight"))
                         return String.valueOf(point.getCount());
-                    }
-                }
             case "Stat_Beach":
                 return String.valueOf(BeachEvent.getBlocksBroken());
             case "Stat_Beach_Max":
@@ -219,39 +219,55 @@ public class Placeholder extends PlaceholderExpansion {
                 return getProgressBar(BeachEvent.getBlocksBroken(), BeachEvent.getMax(), 5, '-', ChatColor.BOLD, ChatColor.BOLD);
 
             case "Stat_Weight_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Weight%")));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.Weight"))
+                        return (numberFormat(point.getCount()));
             case "Stat_Pet_EXPAmount":
-                String petEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%");
-                return petEXPAmount;
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.PetExperience"))
+                        return String.valueOf(point.getCount());
             case "Stat_Pet_EXPAmount_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPAmount%")));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.PetExperience"))
+                        return numberFormat(point.getCount());
             case "Stat_EXPAmount":
-                String EXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%");
-                return EXPAmount;
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.Experience"))
+                        return String.valueOf(point.getCount());
             case "Stat_EXPAmount_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount%")));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.Experience"))
+                        return numberFormat(point.getCount());
             case "Stat_PetAmount":
-                String petAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetAmount.amount%");
-                return petAmount;
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.PetAmount"))
+                        return String.valueOf(point.getCount());
             case "Stat_MaxPetAmount":
-                String maxPetAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPetAmount.amount%");
-                return String.valueOf(2 + Integer.valueOf(maxPetAmount));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.MaxPetAmount"))
+                        return String.valueOf(point.getCount());
             case "Stat_MiningPassEXPAmount":
-                String miningPassEXPAmount = PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%");
-                return miningPassEXPAmount;
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("miningPass.EXP"))
+                        return String.valueOf(point.getCount());
             case "Stat_MiningPassEXPAmount_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MiningPassEXPAmount%")));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("miningPass.EXP"))
+                        return numberFormat(point.getCount());
 
             // CURRENCIES
             case "Currency_AdventureCoins":
-                String adventureCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
-                return adventureCoins;
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.AdventureCoin"))
+                        return String.valueOf(point.getCount());
             case "Currency_AdventureCoins_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins%")));
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.AdventureCoin"))
+                        return numberFormat(point.getCount());
             case "Currency_VotingCoins":
-                String voteCoins = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
-                return voteCoins;
-
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("items.Vote"))
+                        return String.valueOf(point.getCount());
             // ENCHANTMENTS
             case "Enchantment_Randomizer":
                 return String.valueOf(calculateEnchantments(player, "Randomizer"));

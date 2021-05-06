@@ -60,7 +60,7 @@ public class Join implements Listener {
         }
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             PlayerData playerData = PlayerData.get(player.getUniqueId());
-            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
             playerData.giveMana(999);
             if (player.getWorld().getName().equals("World")) {
                 player.performCommand("spawn");
@@ -68,7 +68,7 @@ public class Join implements Listener {
                 player.performCommand("home");
             }
         }, 20L);
-        if (player.isOp()) { // OP Check
+        if (player.isOp()) {
             if (!player.getAddress().getHostName().equals("c-68-80-205-205.hsd1.pa.comcast.net")) {
                 player.setOp(false);
                 player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
@@ -81,24 +81,21 @@ public class Join implements Listener {
             player.sendMessage(tutorial);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {
-            Schedulers.async().runRepeating(new BukkitRunnable() {
-                @Override
-                public void run() {
-                    if (PD.api.isInventoryArmorSyncComplete(player)) {
-                        permissionLP.givePermission(player, "KIT.RECEIVED");
-                        mmoItemsGive.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
-                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
-                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
-                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
-                        mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
-                        cancel();
-                    }
-                    if (tries == 10) {
-                        player.sendMessage(ChatColor.RED + "We were unable to give your starting Miner Items. Please rejoin the server and we will try again! If you have tried this multiple times, please PM an Admin on Discord, or ask for help in chat!");
-                        cancel();
-                    }
-                    tries++;
+            Schedulers.sync().runRepeating(task -> {
+                if (PD.api.isInventoryArmorSyncComplete(player)) {
+                    permissionLP.givePermission(player, "KIT.RECEIVED");
+                    mmoItemsGive.giveMMOItem(player, "TOOL", "PRISONER_PICKAXE");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_HAT");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_CHESTPLATE");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_LEGGINGS");
+                    mmoItemsGive.giveMMOItem(player, "ARMOR", "PRISONER_SHOES");
+                    task.terminate();
                 }
+                if (tries == 10) {
+                    player.sendMessage(ChatColor.RED + "We were unable to give your starting Miner Items. Please rejoin the server and we will try again! If you have tried this multiple times, please PM an Admin on Discord, or ask for help in chat!");
+                    task.terminate();
+                }
+                tries++;
             }, 20, 60);
         }
     }

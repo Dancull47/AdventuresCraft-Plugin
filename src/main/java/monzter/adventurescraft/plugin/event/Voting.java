@@ -7,6 +7,7 @@ import com.vexsoftware.votifier.model.VotifierEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.VoteRewardList;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
@@ -28,6 +29,7 @@ public class Voting extends BaseCommand implements Listener {
     private final ConsoleCommand consoleCommand;
     private final MMOItemsGive mmoItemsGive;
     private final SoundManager soundManager;
+    private final BetonPointsManager betonPointsManager;
     private final HashMap<Player, Long> cooldown = new HashMap<>();
 //    private final TextComponent vote = Component.text("Thanks for voting, claim your reward by using ")
 //            .color(NamedTextColor.GREEN)
@@ -36,11 +38,12 @@ public class Voting extends BaseCommand implements Listener {
 //            .clickEvent(ClickEvent.runCommand("/Vote"))
 //            .append(Component.text("! You can vote again every 24 hours."));
 
-    public Voting(AdventuresCraft plugin, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, SoundManager soundManager) {
+    public Voting(AdventuresCraft plugin, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, SoundManager soundManager, BetonPointsManager betonPointsManager) {
         this.plugin = plugin;
         this.consoleCommand = consoleCommand;
         this.mmoItemsGive = mmoItemsGive;
         this.soundManager = soundManager;
+        this.betonPointsManager = betonPointsManager;
     }
 
     @EventHandler
@@ -101,12 +104,12 @@ public class Voting extends BaseCommand implements Listener {
     @CommandAlias("VoteClaim")
     private void voteClaimCommand(Player player, String arg) {
         final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
-        for (VoteRewardList reward: VoteRewardList.values()){
-            if (arg.equals(reward.getId())){
-                if (voteCoins >= reward.getPrice()){
+        for (VoteRewardList reward : VoteRewardList.values()) {
+            if (arg.equals(reward.getId())) {
+                if (voteCoins >= reward.getPrice()) {
                     mmoItemsGive.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
-                    consoleCommand.consoleCommand("q point " + player.getName() + " add items.Vote -" + reward.getPrice());
-                    soundManager.soundYes(player,2);
+                    betonPointsManager.takePoint(player, "items.Vote", reward.getPrice());
+                    soundManager.soundYes(player, 2);
                     Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
                         player.sendMessage(ChatColor.GREEN + "Your purchase was successful and you now have " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%") + ChatColor.GREEN + " Vote Coins remaining!");
                     }, 5L);
@@ -115,11 +118,6 @@ public class Voting extends BaseCommand implements Listener {
                     soundManager.soundNo(player, 1);
                 }
             }
-        }
-
-        if (arg.isEmpty()) {
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Pets " + player.getName());
-
         }
     }
 }

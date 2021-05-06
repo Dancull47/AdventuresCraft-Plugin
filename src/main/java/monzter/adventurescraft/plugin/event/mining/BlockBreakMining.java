@@ -13,9 +13,11 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.event.extras.WeightPrices;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
 import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -39,7 +41,8 @@ public class BlockBreakMining implements Listener {
     private static ChanceCheck chanceCheck;
     private static SoundManager soundManager;
     private static ConsoleCommand consoleCommand;
-
+    private static MMOItemsGive mmoItemsGive;
+    private static BetonPointsManager betonPointsManager;
     private final AdventuresCraft plugin;
     private static StateFlag prisonMineFlag;
 
@@ -47,12 +50,14 @@ public class BlockBreakMining implements Listener {
             Material.YELLOW_STAINED_GLASS, Material.RED_STAINED_GLASS, Material.ORANGE_STAINED_GLASS, Material.DIAMOND_BLOCK,
             Material.DIAMOND_ORE, Material.EMERALD_BLOCK, Material.EMERALD_ORE, Material.REDSTONE_BLOCK, Material.REDSTONE_ORE};
 
-    public BlockBreakMining(AdventuresCraft plugin, StateFlag prisonMineFlag, SoundManager soundManager, ChanceCheck chanceCheck, ConsoleCommand consoleCommand) {
+    public BlockBreakMining(AdventuresCraft plugin, StateFlag prisonMineFlag, SoundManager soundManager, ChanceCheck chanceCheck, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, BetonPointsManager betonPointsManager) {
         this.plugin = plugin;
         this.prisonMineFlag = prisonMineFlag;
         this.soundManager = soundManager;
         this.chanceCheck = chanceCheck;
         this.consoleCommand = consoleCommand;
+        this.mmoItemsGive = mmoItemsGive;
+        this.betonPointsManager = betonPointsManager;
     }
 
     @EventHandler
@@ -128,42 +133,41 @@ public class BlockBreakMining implements Listener {
     }
 
     private void minedBlock(Player player, Material material, int amount, int weight) {
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalBlocks 1"); // Adds to Total Blocks
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.Weight " + weight); // Adds to current Weight
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items." + material.toString() // Adds to individual item for Sell
-                + " " + amount);
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add blocks." + material.toString() + " 1"); // Gives a point for each specific block mined, used for Achievements
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.TotalModifierBlocks " + amount); // I forget
+        betonPointsManager.givePoint(player, "items.TotalBlocks", 1); // Adds to Total Blocks
+        betonPointsManager.givePointWeight(player, weight); // Adds to current Weight
+        betonPointsManager.givePoint(player, "items." + material.toString(), amount); // Adds to individual item for Sell
+        betonPointsManager.givePoint(player, "blocks." + material.toString(), 1); // Gives a point for each specific block mined, used for Achievements
+        betonPointsManager.givePoint(player, "items.TotalModifierBlocks", amount); // I forget
     }
 
     public static void enchantmentLuck(Player player) {
         double luckMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_LuckMultiplier%")) * .25;
         if (chanceCheck.chanceCheck(.005 * luckMultiplier)) {
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX5 " + player.getName() + " 1");
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5");
         }
         if (chanceCheck.chanceCheck(.008 * luckMultiplier)) {
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX4 " + player.getName() + " 1");
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX4");
         }
         if (chanceCheck.chanceCheck(.01 * luckMultiplier)) {
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX3 " + player.getName() + " 1");
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX3");
         }
         if (chanceCheck.chanceCheck(.03 * luckMultiplier)) {
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX2 " + player.getName() + " 1");
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX2");
         }
         if (chanceCheck.chanceCheck(.05 * luckMultiplier)) {
-            Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mmoitems give CONSUMABLE LOOTBOX " + player.getName() + " 1");
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
         }
     }
 
     public static void enchantmentExperience(Player player) {
         double expMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPMultiplier%"));
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.Experience " + (int) expMultiplier);
+        betonPointsManager.givePointEXP(player, (int) expMultiplier);
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .5f, 1f);
     }
 
     public static void enchantmentPetExperience(Player player) {
         double petExpMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPMultiplier%"));
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.PetExperience " + (int) petExpMultiplier);
+        betonPointsManager.givePointPetEXP(player, (int) petExpMultiplier);
     }
 
     public static void enchantmentTreasurer(Player player) {
@@ -191,7 +195,6 @@ public class BlockBreakMining implements Listener {
             if (chanceCheck.chanceCheck(.0025 + (enchantmentLevel * .0005))) {
                 consoleCommand.consoleCommand("money give " + player.getName() + " " + result);
                 soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
-                player.sendMessage(ChatColor.GREEN + "You found a hidden" + ChatColor.GOLD + " Treasure Chest" + ChatColor.GREEN + "!");
             }
         }
     }
