@@ -91,17 +91,20 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private DropTablesDelivery dropTablesDelivery;
     private PermissionLP permissionLP;
     private ProtocolManager protocolManager;
+    private PaperCommandManager manager;
 
     @Override
     public void onLoad() {
-        try {
-            prisonMineFlag = registerStateFlag();
-            displayNameFlag = registerStringFlag();
-            sellLocationFlag = registerLocationFlag();
-        } catch (IllegalStateException e) {
-            getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n"
-                    + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
-            this.setEnabled(false);
+        if (getConfig().getString("Server").equals("Prison")) {
+            try {
+                prisonMineFlag = registerStateFlag();
+                displayNameFlag = registerStringFlag();
+                sellLocationFlag = registerLocationFlag();
+            } catch (IllegalStateException e) {
+                getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n"
+                        + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
+                this.setEnabled(false);
+            }
         }
     }
 
@@ -109,17 +112,25 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public void onEnable() {
 //        this.SQL = new MySQL(this);
 //        this.data = new SQLGetter(this, SQL);
+        manager = new PaperCommandManager(this);
+
         protocolManager = ProtocolLibrary.getProtocolManager();
         restartTime = System.currentTimeMillis() + 21600000;
-        setupPermissions();
-        initialize();
         tipsMessage();
+
+        setupPermissions();
+
+        initializeDependencies();
+
+        if (getConfig().getString("Server").equals("Prison")) {
+            this.getLogger().info(getConfig().getString("Server") + " Started!");
+            prisonLoad();
+        }
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Economy dependency found!", getDescription().getName()));
             this.setEnabled(false);
             return;
         }
-        PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
         manager.registerCommand(new Security(this));
@@ -128,32 +139,22 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery));
-        manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand));
-        manager.registerCommand(new Sell(this, sellLocationFlag, economy, numberFormat, soundManager));
         manager.registerCommand(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager));
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join(this, mmoItemsGive, permissionLP), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
-        getCommand("EnchantReward").setExecutor(new MiningEnchantments(this));
-        getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
-        getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
+
         saveDefaultConfig();
+
         new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime).register();
         getLogger().info(TITLE + ChatColor.GREEN + "has started!");
 
@@ -170,7 +171,23 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        SQL.disconnect();
     }
 
-    private void initialize() {
+    private void prisonLoad() {
+        getLogger().info("Prison Loaded");
+        manager.registerCommand(new MineTeleport(this));
+        manager.registerCommand(new Sell(this, sellLocationFlag, economy, numberFormat, soundManager));
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join(this, mmoItemsGive, permissionLP), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
+        getCommand("EnchantReward").setExecutor(new MiningEnchantments(this));
+        getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
+        getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
+    }
+
+    private void initializeDependencies() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         economy = new EconomyImpl(rsp.getProvider(), this);
         permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);

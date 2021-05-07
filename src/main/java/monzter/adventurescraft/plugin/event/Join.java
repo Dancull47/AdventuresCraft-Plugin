@@ -77,7 +77,7 @@ public class Join implements Listener {
         if (!player.hasPermission("mines.tp.m")) {
             player.sendMessage(mining);
         }
-        if (!player.hasPermission("cmi.hologram.tutorial_pickaxe") || !player.hasPermission("mines.tp.d")) {
+        if (!player.hasPermission("cmi.hologram.tutorial_pickaxe")) {
             player.sendMessage(tutorial);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {

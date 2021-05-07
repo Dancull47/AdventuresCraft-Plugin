@@ -28,6 +28,10 @@ public class GeneralCommands extends BaseCommand {
         this.consoleCommand = consoleCommand;
     }
 
+    @CommandAlias("Lobby|Hub")
+    private void lobbyCommand(Player player){
+        player.performCommand("/server Lobby");
+    }
     @CommandAlias("vote")
     private void voteCommand(Player player) {
         final TextComponent vote = Component.text("You can")
