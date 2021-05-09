@@ -10,21 +10,17 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.dropTables.LootLlama;
-import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
-import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
-import net.Indyuce.mmoitems.MMOItems;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.database.objects.Island;
-import world.bentobox.bentobox.lists.Flags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +84,14 @@ public class CellGUI extends BaseCommand {
 
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.GRAY + item.getInfo());
+            String[] lines = item.getInfo().split("&n ");
+            if (lines.length > 1) {
+                for (String line: lines){
+                    lore.add(ChatColor.GRAY + ChatColor.translateAlternateColorCodes('&', line));
+                }
+            } else {
+                lore.add(ChatColor.GRAY + item.getInfo());
+            }
             lore.add("");
             lore.add(ChatColor.GRAY + "Allowed For:");
             switch (Integer.valueOf(island.getFlag(item.getFlag()))) {
@@ -156,22 +159,27 @@ public class CellGUI extends BaseCommand {
                         case 0:
                             island.setFlag(item.getFlag(), 200);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
                             break;
                         case 200:
                             island.setFlag(item.getFlag(), 400);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1.5f);
                             break;
                         case 400:
                             island.setFlag(item.getFlag(), 500);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                             break;
                         case 500:
                             island.setFlag(item.getFlag(), 900);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, .5f);
                             break;
                         case 900:
                             island.setFlag(item.getFlag(), 1000);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, -1);
                             break;
                     }
                 } else if (event.getClick().isRightClick()) {
@@ -179,22 +187,27 @@ public class CellGUI extends BaseCommand {
                         case 200:
                             island.setFlag(item.getFlag(), 0);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
                             break;
                         case 400:
                             island.setFlag(item.getFlag(), 200);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1.5f);
                             break;
                         case 500:
                             island.setFlag(item.getFlag(), 400);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                             break;
                         case 900:
                             island.setFlag(item.getFlag(), 500);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, .5f);
                             break;
                         case 1000:
                             island.setFlag(item.getFlag(), 900);
                             hatchCommand(player);
+                            soundManager.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, -1);
                             break;
                     }
                 }

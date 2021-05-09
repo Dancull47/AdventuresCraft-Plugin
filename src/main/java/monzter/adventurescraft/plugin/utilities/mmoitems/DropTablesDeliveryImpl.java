@@ -1,6 +1,6 @@
 package monzter.adventurescraft.plugin.utilities.mmoitems;
 
-import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;

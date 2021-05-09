@@ -13,7 +13,7 @@ import monzter.adventurescraft.plugin.shared.dropTables.LootLlama;
 import monzter.adventurescraft.plugin.shared.dropTables.Lootbox;
 import monzter.adventurescraft.plugin.shared.dropTables.PetEgg;
 import monzter.adventurescraft.plugin.shared.dropTables.Vote;
-import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;

@@ -1,7 +1,7 @@
 package monzter.adventurescraft.plugin.utilities.mmoitems;
 
 import io.lumine.mythic.lib.api.util.SmartGive;
-import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;

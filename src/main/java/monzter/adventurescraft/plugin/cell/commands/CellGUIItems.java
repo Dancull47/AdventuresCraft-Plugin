@@ -7,7 +7,8 @@ import world.bentobox.bentobox.lists.Flags;
 
 public enum CellGUIItems {
     Anvil(Material.ANVIL, Flags.ANVIL, ChatColor.GREEN + "Anvil Usage", "Allow others to interact with Anvils."),
-    Boats(Material.OAK_BOAT, Flags.BOAT, ChatColor.GREEN + "Boats", "Place, Break, or Ride Boats.")
+    Boats(Material.OAK_BOAT, Flags.BOAT, ChatColor.GREEN + "Boats", "Place, Break, or Ride Boats."),
+    ArmorStands(Material.ARMOR_STAND, Flags.ARMOR_STAND, ChatColor.GREEN + "Armor Stand Interaction", "Allow others to make changes &n by clicking on Armor Stands."),
     ;
 
     private final Material material;

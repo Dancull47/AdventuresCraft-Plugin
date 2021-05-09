@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Dependency;
 import co.aikar.commands.annotation.Subcommand;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.bukkit.SoundManager;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
 import net.kyori.adventure.text.Component;

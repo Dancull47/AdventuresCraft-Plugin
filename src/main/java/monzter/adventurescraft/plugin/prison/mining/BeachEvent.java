@@ -8,7 +8,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.bukkit.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobsSpawn;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
