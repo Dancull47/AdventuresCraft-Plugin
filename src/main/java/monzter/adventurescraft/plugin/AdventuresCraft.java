@@ -10,7 +10,8 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
-import monzter.adventurescraft.plugin.cell.commands.CellGUI;
+import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
+import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.events.JoinCell;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
@@ -153,6 +154,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             getLogger().log(Level.WARNING, "HolographicDisplays is NOT installed!");
         }
         getLogger().info(TITLE + ChatColor.GREEN + "has started!");
+
     }
 
 
@@ -179,7 +181,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void cellLoad() {
         getLogger().info("Cell Loaded");
         Bukkit.getServer().getPluginManager().registerEvents(new JoinCell(this, mmoItemsGive, permissionLP, BentoBox.getInstance()), this);
-        manager.registerCommand(new CellGUI(this, soundManager, BentoBox.getInstance()));
+        manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
+        manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance()));
     }
     private void sharedLoad(){
         getLogger().info("Shared Loaded");

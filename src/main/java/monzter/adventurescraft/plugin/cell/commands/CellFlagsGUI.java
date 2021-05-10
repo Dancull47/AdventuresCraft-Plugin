@@ -25,14 +25,16 @@ import world.bentobox.bentobox.database.objects.Island;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CellGUI extends BaseCommand {
+public class CellFlagsGUI extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final BentoBox bentoBox;
 
-    public CellGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox) {
+    private final String prefix = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» ";
+
+    public CellFlagsGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.bentoBox = bentoBox;
@@ -47,7 +49,7 @@ public class CellGUI extends BaseCommand {
 
     private final ItemStack anvil = new ItemStack(Material.ANVIL);
 
-    @CommandAlias("CellGUI")
+    @CommandAlias("CellFlagsGUI")
     public void hatchCommand(Player player) {
         Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
 
@@ -76,7 +78,7 @@ public class CellGUI extends BaseCommand {
   #   SUB-OWNER = 900
   #   OWNER     = 1000
 */
-        for (CellGUIItems item : CellGUIItems.values()) {
+        for (CellFlagsGUIItems item : CellFlagsGUIItems.values()) {
             final ItemStack itemStack = new ItemStack(item.getMaterial());
             final ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -96,59 +98,59 @@ public class CellGUI extends BaseCommand {
             lore.add(ChatColor.GRAY + "Allowed For:");
             switch (Integer.valueOf(island.getFlag(item.getFlag()))) {
                 case 1000:
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Visitor");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Coop");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Trusted");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Member");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Sub-Owner");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.DARK_GREEN + "Owner");
+                    lore.add(prefix + ChatColor.RED + "Visitor");
+                    lore.add(prefix + ChatColor.RED + "Coop");
+                    lore.add(prefix + ChatColor.RED + "Trusted");
+                    lore.add(prefix + ChatColor.RED + "Member");
+                    lore.add(prefix + ChatColor.RED + "Sub-Owner");
+                    lore.add(prefix + ChatColor.DARK_GREEN + "Owner");
                     break;
                 case 900:
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Visitor");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Coop");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Trusted");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Member");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.DARK_GREEN + "Sub-Owner");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Owner");
+                    lore.add(prefix + ChatColor.RED + "Visitor");
+                    lore.add(prefix + ChatColor.RED + "Coop");
+                    lore.add(prefix + ChatColor.RED + "Trusted");
+                    lore.add(prefix + ChatColor.RED + "Member");
+                    lore.add(prefix + ChatColor.DARK_GREEN + "Sub-Owner");
+                    lore.add(prefix + ChatColor.GREEN + "Owner");
                     break;
                 case 500:
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Visitor");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Coop");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Trusted");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.DARK_GREEN + "Member");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Sub-Owner");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Owner");
+                    lore.add(prefix + ChatColor.RED + "Visitor");
+                    lore.add(prefix + ChatColor.RED + "Coop");
+                    lore.add(prefix + ChatColor.RED + "Trusted");
+                    lore.add(prefix + ChatColor.DARK_GREEN + "Member");
+                    lore.add(prefix + ChatColor.GREEN + "Sub-Owner");
+                    lore.add(prefix + ChatColor.GREEN + "Owner");
                     break;
                 case 400:
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Visitor");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Coop");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.DARK_GREEN + "Trusted");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Member");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Sub-Owner");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Owner");
+                    lore.add(prefix + ChatColor.RED + "Visitor");
+                    lore.add(prefix + ChatColor.RED + "Coop");
+                    lore.add(prefix + ChatColor.DARK_GREEN + "Trusted");
+                    lore.add(prefix + ChatColor.GREEN + "Member");
+                    lore.add(prefix + ChatColor.GREEN + "Sub-Owner");
+                    lore.add(prefix + ChatColor.GREEN + "Owner");
                     break;
                 case 200:
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.RED + "Visitor");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.DARK_GREEN + "Coop");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Trusted");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Member");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Sub-Owner");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Owner");
+                    lore.add(prefix + ChatColor.RED + "Visitor");
+                    lore.add(prefix + ChatColor.DARK_GREEN + "Coop");
+                    lore.add(prefix + ChatColor.GREEN + "Trusted");
+                    lore.add(prefix + ChatColor.GREEN + "Member");
+                    lore.add(prefix + ChatColor.GREEN + "Sub-Owner");
+                    lore.add(prefix + ChatColor.GREEN + "Owner");
                     break;
                 case 0:
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.DARK_GREEN + "Visitor");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Coop");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Trusted");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Member");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Sub-Owner");
-                    lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.GREEN + "Owner");
+                    lore.add(prefix + ChatColor.DARK_GREEN + "Visitor");
+                    lore.add(prefix + ChatColor.GREEN + "Coop");
+                    lore.add(prefix + ChatColor.GREEN + "Trusted");
+                    lore.add(prefix + ChatColor.GREEN + "Member");
+                    lore.add(prefix + ChatColor.GREEN + "Sub-Owner");
+                    lore.add(prefix + ChatColor.GREEN + "Owner");
                     break;
 
 
             }
             lore.add("");
-            lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.YELLOW + "Left-Click to Decrease Allowance");
-            lore.add(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» " + ChatColor.YELLOW + "Right-Click to Increase Allowance");
+            lore.add(prefix + ChatColor.YELLOW + "Left-Click to Decrease Allowance");
+            lore.add(prefix + ChatColor.YELLOW + "Right-Click to Increase Allowance");
 
             itemStack.setItemMeta(itemMeta);
             itemStack.setLore(lore);
@@ -213,11 +215,15 @@ public class CellGUI extends BaseCommand {
                 }
             }));
             gui.addPane(page);
-            gui.show(player);
         }
-
+        gui.show(player);
     }
 
+    public void color(int amount){
+        for (int i = 0; i < amount; i++){
+
+        }
+    }
 
 }
 

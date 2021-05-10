@@ -71,7 +71,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-io:2.5.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-services:2.5.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.java.truecommons:truecommons-logging:2.5.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpclient:4.5.10" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-codec:commons-codec:1.11" level="project" />
@@ -164,5 +163,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.mongodb:bson:3.8.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.mongodb:mongodb-driver-core:3.8.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.200" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.plan-player-analytics:Plan:5.3.1284" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.dagger:dagger:2.35.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.inject:javax.inject:1" level="project" />
   </component>
 </module>
