@@ -1,22 +1,31 @@
 package monzter.adventurescraft.plugin.cell.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
+import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
+import io.lumine.mythic.utils.Schedulers;
+import me.lucko.helper.Events;
+import me.lucko.helper.event.filter.EventFilters;
+import me.lucko.helper.metadata.Metadata;
+import me.lucko.helper.metadata.MetadataKey;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import world.bentobox.bentobox.BentoBox;
 import world.bentobox.bentobox.api.localization.TextVariables;
 import world.bentobox.bentobox.api.user.User;
@@ -31,6 +40,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@CommandAlias("Cells")
 public class CellDisplayGUI extends BaseCommand {
 
     @Dependency
@@ -38,7 +48,12 @@ public class CellDisplayGUI extends BaseCommand {
     private final SoundManager soundManager;
     private final BentoBox bentoBox;
 
-    private final String prefix = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» ";
+    private final String PREFIX = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» ";
+    private final String COOP = ChatColor.DARK_GREEN + "Coop";
+    private final String TRUSTED = ChatColor.DARK_AQUA + "Trusted";
+    private final String MEMBER = ChatColor.AQUA + "Member";
+    private final String SUBOWNER = ChatColor.GOLD + "Sub-Owner";
+    private final String OWNER = ChatColor.RED + "Owner";
 
     public CellDisplayGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox) {
         this.plugin = plugin;
@@ -48,29 +63,50 @@ public class CellDisplayGUI extends BaseCommand {
 
     private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
     private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
-    private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
-    private final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
-    private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
-    private final ItemStack cell = new ItemStack(Material.IRON_BARS);
-    final ItemMeta cellItemMeta = cell.getItemMeta();
+    private final ItemStack backButton = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
+    private final ItemMeta backButtonItemMeta = backButton.getItemMeta();
 
-    @CommandAlias("cellManager")
-    public void hatchCommand(Player player) {
-        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
+    private final ItemStack viewTeamManager = new ItemStack(Material.TOTEM_OF_UNDYING);
+    private final ItemMeta viewTeamManagerItemMeta = viewTeamManager.getItemMeta();
+
+    private final ItemStack viewCellSettings = new ItemStack(Material.CAULDRON);
+    private final ItemMeta viewCellSettingsItemMeta = viewCellSettings.getItemMeta();
+
+    @Default
+    @Subcommand("Menu")
+    @CommandAlias("CellMenu")
+    public void teamMenu(Player player) {
 
         backgroundItemMeta.displayName(Component.text(" "));
-        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
-        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
         backgroundItem.setItemMeta(backgroundItemMeta);
 
-        ChestGui gui = new ChestGui(6, "Cell Manager");
+        viewTeamManagerItemMeta.displayName(Component.text(ChatColor.GREEN + "Team Manager"));
+        viewTeamManager.setItemMeta(viewTeamManagerItemMeta);
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Manage the " + MEMBER + "s");
+        lore.add(ChatColor.GRAY + "within your Cell!");
+        lore.add("");
+        lore.add(PREFIX + ChatColor.YELLOW + "Click to View");
+        viewTeamManager.setLore(lore);
+
+        viewCellSettingsItemMeta.displayName(Component.text(ChatColor.GREEN + "Setting Manager"));
+        viewCellSettings.setItemMeta(viewCellSettingsItemMeta);
+        List<String> lore2 = new ArrayList<>();
+        lore2.add("");
+        lore2.add(ChatColor.GRAY + "Manage the " + ChatColor.GREEN + "Settings");
+        lore2.add(ChatColor.GRAY + "within your Cell!");
+        lore2.add("");
+        lore2.add(PREFIX + ChatColor.YELLOW + "Click to View");
+        viewCellSettings.setLore(lore2);
+
+        ChestGui gui = new ChestGui(4, "Cell Manager");
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
-        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+        PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
+        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(1, 1, 7, 4, Pane.Priority.LOW);
 
         page.addPane(0, background);
         page.addPane(0, display);
@@ -78,43 +114,108 @@ public class CellDisplayGUI extends BaseCommand {
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
 
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.WHITE + "Created: " + ChatColor.GREEN + creationDate(island.getCreatedDate()));
-        if (island.getName() != null) {
-            lore.add(ChatColor.WHITE + "Name: " + ChatColor.GREEN + island.getName());
-        } else {
-            lore.add(ChatColor.WHITE + "Name: " + ChatColor.GREEN + "Not Set!");
-        }
-//        + ChatColor.GREEN + island.getMembers().size()
-        lore.add(ChatColor.WHITE + "Members: ");
-        for (UUID playerUUID : island.getMemberSet()) {
-            switch (island.getRank(playerUUID)){
-                case 1000:
-                    lore.add(ChatColor.GREEN + Bukkit.getPlayer(playerUUID).getName() + ChatColor.RED + " Owner");
-                    break;
-                case 900:
-                    lore.add(ChatColor.GREEN + Bukkit.getPlayer(playerUUID).getName() + ChatColor.GOLD + " Sub-Owner");
-                    break;
-                case 500:
-                    lore.add(ChatColor.GREEN + Bukkit.getPlayer(playerUUID).getName() + ChatColor.GREEN + " Member");
-                    break;
-            }
-        }
-        lore.add("");
-        lore.add(prefix + ChatColor.YELLOW + "Left-Click to Decrease Allowance");
-        lore.add(prefix + ChatColor.YELLOW + "Right-Click to Increase Allowance");
+        display.addItem(new GuiItem(viewTeamManager, e -> cellManager(player)), 3, 0);
+        display.addItem(new GuiItem(viewCellSettings, e -> player.performCommand("CellSettings")), 5, 0);
 
-        cellItemMeta.setDisplayName(ChatColor.GOLD + player.getName() + "'s" + ChatColor.GREEN + " Cell");
-        cell.setItemMeta(cellItemMeta);
-        cell.setLore(lore);
-
-        display.addItem(new GuiItem((cell)));
         gui.addPane(page);
         gui.show(player);
     }
 
-    @CommandAlias("cellTestCommand")
+    @Subcommand("TeamManager")
+    @CommandAlias("CellTeamManager")
+    public void cellManager(Player player) {
+        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
+
+        backgroundItemMeta.displayName(Component.text(" "));
+        backgroundItem.setItemMeta(backgroundItemMeta);
+
+        backButtonItemMeta.displayName(Component.text(ChatColor.GREEN + "Go Back"));
+        backButton.setItemMeta(backButtonItemMeta);
+
+        ChestGui gui = new ChestGui(6, "Cell Team Manager");
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
+        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(1, 1, 7, 4, Pane.Priority.LOW);
+        StaticPane back = new StaticPane(4, 5, 1, 1);
+        page.addPane(0, background);
+        page.addPane(0, display);
+        page.addPane(0, back);
+
+        background.addItem(new GuiItem(backgroundItem));
+        background.setRepeat(true);
+
+        back.addItem(new GuiItem(backButton, e -> teamMenu(player)), 0, 0);
+
+        display.addItem(new GuiItem(mainCell(island, player), e -> {
+            if (e.getClick().isLeftClick())
+                if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK)
+                    changeName(island, player);
+        }), 3, 0);
+        display.addItem(new GuiItem(coopMembers(island)), 1, 1);
+        display.addItem(new GuiItem(trustedMembers(island)), 2, 1);
+        display.addItem(new GuiItem(memberMembers(island)), 3, 1);
+        display.addItem(new GuiItem(subOwners(island)), 4, 1);
+        display.addItem(new GuiItem(owners(island)), 5, 1);
+        display.addItem(new GuiItem(ranking(island, player)), 1, 2);
+        display.addItem(new GuiItem(invite(island, player), e -> {
+            if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK)
+                player.performCommand("CellSettings");
+        }), 2, 2);
+        display.addItem(new GuiItem(promote()), 4, 2);
+
+        gui.addPane(page);
+        gui.show(player);
+    }
+
+    @Subcommand("Viewer")
+    @CommandAlias("CellViewer")
+    @CommandCompletion("*")
+    public void cellViewer(Player player, @Optional OnlinePlayer target) {
+        Island island = null;
+        Player mainTarget = null;
+        if (target == null) {
+            plugin.getLogger().info("Empty");
+
+            if (bentoBox.getIslands().getIslandAt(player.getLocation()) != null) {
+                island = bentoBox.getIslands().getIslandAt(player.getLocation()).get();
+                mainTarget = player;
+            }
+        } else {
+            plugin.getLogger().info("Got Target");
+            island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), target.player.getUniqueId());
+            mainTarget = target.player;
+        }
+        if (island != null) {
+            backgroundItemMeta.displayName(Component.text(" "));
+            backgroundItem.setItemMeta(backgroundItemMeta);
+
+            ChestGui gui = new ChestGui(6, "Cell Team Manager");
+            gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+            PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
+            OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+            StaticPane display = new StaticPane(1, 1, 7, 4, Pane.Priority.LOW);
+
+            page.addPane(0, background);
+            page.addPane(0, display);
+
+            background.addItem(new GuiItem(backgroundItem));
+            background.setRepeat(true);
+
+            display.addItem(new GuiItem(mainCell(island, mainTarget)), 3, 0);
+            display.addItem(new GuiItem(coopMembers(island)), 1, 1);
+            display.addItem(new GuiItem(trustedMembers(island)), 2, 1);
+            display.addItem(new GuiItem(memberMembers(island)), 3, 1);
+            display.addItem(new GuiItem(subOwners(island)), 4, 1);
+            display.addItem(new GuiItem(owners(island)), 5, 1);
+            gui.addPane(page);
+            gui.show(player);
+        }
+    }
+
+    @CommandAlias("cellTeamDetails")
     public void cell(Player player) {
         showMembers(bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId()), bentoBox.getPlayers().getUser(player.getUniqueId()));
     }
@@ -203,8 +304,237 @@ public class CellDisplayGUI extends BaseCommand {
         return dateFormat.format(date);
     }
 
-    private GuiItem main(Island island, Player player){
-        return null;
+
+    private ItemStack mainCell(Island island, Player player) {
+        final ItemStack cell = new ItemStack(SkullCreator.itemFromUuid(player.getUniqueId()));
+        final ItemMeta cellItemMeta = cell.getItemMeta();
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (island.getName() != null) {
+            lore.add(ChatColor.GRAY + "Name: " + ChatColor.GREEN + island.getName());
+        } else {
+            lore.add(ChatColor.GRAY + "Name: " + ChatColor.GREEN + "Not Set!");
+        }
+        lore.add(ChatColor.GRAY + "Created: " + ChatColor.GREEN + creationDate(island.getCreatedDate()));
+        lore.add(ChatColor.GRAY + "Visitors: " + ChatColor.GREEN + island.getVisitors().size());
+        lore.add(ChatColor.GRAY + "Likes: " + ChatColor.GREEN + island.getVisitors().size());
+        if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
+            lore.add(" ");
+            lore.add(PREFIX + ChatColor.YELLOW + "Left-Click to Rename Cell");
+        }
+
+        cellItemMeta.setDisplayName(ChatColor.GOLD + player.getName() + "'s" + ChatColor.GREEN + " Cell");
+        cell.setItemMeta(cellItemMeta);
+        cell.setLore(lore);
+        return cell;
     }
+
+    final ItemStack coop = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjFlOTMxZGRjMTk3OTMxOTFlM2JiMzgxYzg0ZTZlZDY5NTVjZDkzNTM2YmE3YmUxMDhkNzg2NGUzOWFkYmRlIn19fQ=="));
+    final ItemMeta coopItemMeta = coop.getItemMeta();
+
+    private ItemStack coopMembers(Island island) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (UUID playerUUID : island.getMemberSet())
+            if (island.getRank(playerUUID) >= 200)
+                lore.add(PREFIX + ChatColor.DARK_GREEN + Bukkit.getPlayer(playerUUID).getName());
+        coopItemMeta.setDisplayName(ChatColor.GREEN + "Coop Members " + ChatColor.YELLOW + island.getMemberSet(RanksManager.COOP_RANK).size());
+        coop.setItemMeta(coopItemMeta);
+        coop.setLore(lore);
+        return coop;
+    }
+
+    final ItemStack trusted = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWZkZWY2OTI5ZWJhZjM5NGJjZTJlZTdlYTJhZGJiYjVjODNkN2NlMTdlM2I4NjE1YTkyOGFlZmFiZjg1YiJ9fX0="));
+    final ItemMeta trustedItemMeta = trusted.getItemMeta();
+
+    private ItemStack trustedMembers(Island island) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (UUID playerUUID : island.getMemberSet())
+            if (island.getRank(playerUUID) >= RanksManager.TRUSTED_RANK)
+                lore.add(PREFIX + ChatColor.DARK_AQUA + Bukkit.getPlayer(playerUUID).getName());
+        trustedItemMeta.setDisplayName(ChatColor.GREEN + "Trusted Members " + ChatColor.YELLOW + island.getMemberSet(RanksManager.TRUSTED_RANK).size());
+        trusted.setItemMeta(trustedItemMeta);
+        trusted.setLore(lore);
+        return trusted;
+    }
+
+    final ItemStack member = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmZiM2RiMTAzMjg1ZTkyNTg4OTg0Yjg3MWQ4ZjViMTljODlmNGUyOTVjOTkyNjA4MDhhNjBlNDNmOGJkM2QifX19"));
+    final ItemMeta memberItemMeta = member.getItemMeta();
+
+    private ItemStack memberMembers(Island island) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (UUID playerUUID : island.getMemberSet())
+            if (island.getRank(playerUUID) >= RanksManager.MEMBER_RANK)
+                lore.add(PREFIX + ChatColor.AQUA + Bukkit.getPlayer(playerUUID).getName());
+        memberItemMeta.setDisplayName(ChatColor.GREEN + "Members " + ChatColor.YELLOW + island.getMemberSet(RanksManager.MEMBER_RANK).size());
+        member.setItemMeta(memberItemMeta);
+        member.setLore(lore);
+        return member;
+    }
+
+    final ItemStack subOwner = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmM0ODg2ZWYzNjJiMmM4MjNhNmFhNjUyNDFjNWM3ZGU3MWM5NGQ4ZWM1ODIyYzUxZTk2OTc2NjQxZjUzZWEzNSJ9fX0="));
+    final ItemMeta subOwnerItemMeta = subOwner.getItemMeta();
+
+    private ItemStack subOwners(Island island) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (UUID playerUUID : island.getMemberSet())
+            if (island.getRank(playerUUID) >= RanksManager.SUB_OWNER_RANK)
+                lore.add(PREFIX + ChatColor.GOLD + Bukkit.getPlayer(playerUUID).getName());
+        subOwnerItemMeta.setDisplayName(ChatColor.GREEN + "Sub-Owners " + ChatColor.YELLOW + island.getMemberSet(RanksManager.SUB_OWNER_RANK).size());
+        subOwner.setItemMeta(subOwnerItemMeta);
+        subOwner.setLore(lore);
+        return subOwner;
+    }
+
+    final ItemStack owner = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZkZTNiZmNlMmQ4Y2I3MjRkZTg1NTZlNWVjMjFiN2YxNWY1ODQ2ODRhYjc4NTIxNGFkZDE2NGJlNzYyNGIifX19"));
+    final ItemMeta ownerItemMeta = owner.getItemMeta();
+
+    private ItemStack owners(Island island) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (UUID playerUUID : island.getMemberSet())
+            if (island.getRank(playerUUID) >= RanksManager.OWNER_RANK)
+                lore.add(PREFIX + ChatColor.RED + Bukkit.getPlayer(playerUUID).getName());
+        ownerItemMeta.setDisplayName(ChatColor.GREEN + "Owners " + ChatColor.YELLOW + island.getMemberSet(RanksManager.OWNER_RANK).size());
+        owner.setItemMeta(ownerItemMeta);
+        owner.setLore(lore);
+        return owner;
+    }
+
+//            #   VISITOR   = 0
+//            #   COOP      = 200
+//            #   TRUSTED   = 400
+//            #   MEMBER    = 500
+//            #   SUB-OWNER = 900
+//            #   OWNER     = 1000
+
+    final ItemStack ranking = new ItemStack(Material.LADDER);
+    final ItemMeta rankingItemMeta = ranking.getItemMeta();
+
+    private ItemStack ranking(Island island, Player player) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Each Cell has its own Ranking system");
+        lore.add(ChatColor.GRAY + "to restrict what each player is");
+        lore.add(ChatColor.GRAY + "capable of doing in your Cell!");
+        lore.add("");
+        lore.add(ChatColor.WHITE.toString() + ChatColor.BOLD + "Ranks:");
+        lore.add(PREFIX + COOP);
+        lore.add(PREFIX + TRUSTED);
+        lore.add(PREFIX + MEMBER);
+        lore.add(PREFIX + SUBOWNER);
+        lore.add(PREFIX + OWNER);
+        if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
+            lore.add(" ");
+            lore.add(PREFIX + ChatColor.YELLOW + "Click to View Settings");
+        }
+        rankingItemMeta.setDisplayName(ChatColor.GREEN + "Member Ranking System");
+        ranking.setItemMeta(rankingItemMeta);
+        ranking.setLore(lore);
+        return ranking;
+    }
+
+    final ItemStack invite = new ItemStack(Material.TOTEM_OF_UNDYING);
+    final ItemMeta inviteItemMeta = invite.getItemMeta();
+
+    private ItemStack invite(Island island, Player player) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "You can use:");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Coop <Player>");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Trust <Player>");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "To give the Player the");
+        lore.add(ChatColor.GRAY + "privileges of a " + COOP + ChatColor.GRAY + " or " + TRUSTED);
+        lore.add(ChatColor.GRAY + "Member of your Cell!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "You can use:");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Invite <Player>");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "To invite the Player to");
+        lore.add(ChatColor.GRAY + "your Cell, which will");
+        lore.add(ChatColor.GRAY + "make them a " + MEMBER + ChatColor.GRAY + "!");
+        lore.add("");
+        lore.add(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "WARNING: " + ChatColor.RED + "You should verify your");
+        lore.add(ChatColor.RED + "Cell Settings before trusting, cooping,");
+        lore.add(ChatColor.RED + "or inviting another player!");
+        if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
+            lore.add(" ");
+            lore.add(PREFIX + ChatColor.YELLOW + "Click to View Settings");
+        }
+
+        inviteItemMeta.setDisplayName(ChatColor.GREEN + "Invite Members");
+        invite.setItemMeta(inviteItemMeta);
+        invite.setLore(lore);
+        return invite;
+    }
+
+    final ItemStack promote = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0MGZlODM2YTZjMmZiZDJjN2E5YzhlYzZiZTUxNzRmZGRmMWFjMjBmNTVlMzY2MTU2ZmE1ZjcxMmUxMCJ9fX0="));
+    final ItemMeta promoteItemMeta = promote.getItemMeta();
+
+    private ItemStack promote() {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "You can use:");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Demote <Player>");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Promote <Player>");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "To increase or decrease");
+        lore.add(ChatColor.GRAY + "the Rank of a " + MEMBER);
+        lore.add(ChatColor.GRAY + "currently in your Cell!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "You can use:");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Uncoop <Player>");
+        lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Untrust <Player>");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "To remove a " + COOP + ChatColor.DARK_GRAY + " or a ");
+        lore.add(TRUSTED + ChatColor.GRAY + " member from your Cell!");
+
+        promoteItemMeta.setDisplayName(ChatColor.GREEN + "Promote & Demote Members");
+        promote.setItemMeta(promoteItemMeta);
+        promote.setLore(lore);
+        return promote;
+    }
+
+    public static final MetadataKey<Boolean> ISLAND_TO_RENAME = MetadataKey.createBooleanKey("CELL-NAME");
+
+    private void changeName(Island island, Player player) {
+        if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
+            player.closeInventory();
+            player.sendMessage(ChatColor.GREEN + "Type the new name of your Cell in chat: ");
+            soundManager.playSound(player, Sound.ENTITY_ARROW_HIT, 1, 1);
+            Metadata.provideForPlayer(player).put(ISLAND_TO_RENAME, true);
+
+            Events.subscribe(AsyncPlayerChatEvent.class, EventPriority.LOWEST)
+                    .filter(EventFilters.playerHasMetadata(ISLAND_TO_RENAME))
+                    .expireAfter(1)
+                    .handler(e -> {
+                        Metadata.provideForPlayer(player).remove(ISLAND_TO_RENAME);
+                        island.setName(e.getMessage());
+                        for (UUID memberUUID : island.getMemberSet(RanksManager.COOP_RANK)) {
+                            final Player member = Bukkit.getPlayer(memberUUID);
+                            if (member.isOnline()) {
+                                member.sendMessage(ChatColor.GREEN + "The Cell name has been changed to " + ChatColor.YELLOW + e.getMessage() + ChatColor.GREEN + ", by " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + "!");
+                                soundManager.soundYes(player, 1);
+                            }
+                        }
+                        e.setCancelled(true);
+                    });
+            Schedulers.sync().runLater(new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (Metadata.getForPlayer(player).get().has(ISLAND_TO_RENAME)) {
+                        Metadata.provideForPlayer(player).remove(ISLAND_TO_RENAME);
+                        player.sendMessage(ChatColor.RED + "You took too long to set the name!");
+                        soundManager.soundNo(player, 1);
+                    }
+                }
+            }, 100);
+        }
+    }
+
 }
 
