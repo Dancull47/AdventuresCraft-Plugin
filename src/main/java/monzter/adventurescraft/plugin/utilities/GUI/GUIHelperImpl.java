@@ -35,7 +35,7 @@ public class GUIHelperImpl implements GUIHelper {
         final ItemStack backButton = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
         final ItemMeta backButtonItemMeta = backButton.getItemMeta();
 
-        backButtonItemMeta.displayName(Component.text(" "));
+        backButtonItemMeta.displayName(Component.text(ChatColor.GREEN + "Go Back"));
         backButton.setItemMeta(backButtonItemMeta);
         return backButton;
     }

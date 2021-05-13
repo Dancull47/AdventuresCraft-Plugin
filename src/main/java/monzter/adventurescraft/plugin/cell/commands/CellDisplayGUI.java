@@ -79,7 +79,7 @@ public class CellDisplayGUI extends BaseCommand {
 
     @Default
     @Subcommand("Menu")
-    @CommandAlias("CellMenu")
+    @CommandAlias("CellMenu|CellManager")
     public void cellMenu(Player player) {
         Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
 

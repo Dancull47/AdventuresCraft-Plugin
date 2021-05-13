@@ -58,14 +58,16 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(map(player), e -> player.performCommand("map")), 4, 1);
         display.addItem(new GuiItem(cell(player), e -> {
             if (e.isLeftClick())
-                player.performCommand("cellManager");
-            if (e.isRightClick())
                 player.performCommand("home");
+            if (plugin.getConfig().getString("Server").equals("Cell")) {
+                if (e.isRightClick())
+                    player.performCommand("cellmenu");
+            }
         }), 5, 1);
 
         display.addItem(new GuiItem(backpack(player), e -> player.performCommand("backpack")), 2, 2);
         display.addItem(new GuiItem(prestiges(player), e -> player.performCommand("prestiges")), 3, 2);
-        display.addItem(new GuiItem(profile(player), e -> player.performCommand("profile")), 4, 2);
+        display.addItem(new GuiItem(profile(player), e -> player.performCommand("profiles")), 4, 2);
         display.addItem(new GuiItem(quests(player), e -> {
             if (e.isLeftClick())
                 player.performCommand("quest");
@@ -79,7 +81,7 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
         display.addItem(new GuiItem(settings(player), e -> player.performCommand("settings")), 4, 3);
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank")), 5, 3);
-        display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpgmenu")), 6, 3);
+        display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpginv")), 6, 3);
 
         display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 3, 4);
         display.addItem(new GuiItem(donationPerks(player), e -> player.performCommand("donate")), 4, 4);
@@ -226,7 +228,7 @@ public class MainMenu extends BaseCommand {
         lore.add(StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount_formatted"));
         lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted"));
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View Profile");
+        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Profile");
 
         profile.setItemMeta(profileItemMeta);
         profile.setLore(lore);
