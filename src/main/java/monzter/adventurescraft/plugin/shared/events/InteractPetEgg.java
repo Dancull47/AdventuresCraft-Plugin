@@ -3,7 +3,7 @@ package monzter.adventurescraft.plugin.shared.events;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.events.extras.PetEggList;
+import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

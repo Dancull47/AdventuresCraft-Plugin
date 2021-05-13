@@ -14,7 +14,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.shared.events.extras.Pet;
-import monzter.adventurescraft.plugin.shared.events.extras.PetEggList;
+import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.prison.mining.BeachEvent;
 import net.milkbowl.vault.permission.Permission;

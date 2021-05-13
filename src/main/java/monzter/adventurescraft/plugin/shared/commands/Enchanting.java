@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.Dependency;
 import co.aikar.commands.annotation.Optional;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.events.extras.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;

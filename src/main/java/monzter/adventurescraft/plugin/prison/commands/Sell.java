@@ -13,7 +13,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.events.extras.WeightPrices;
+import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;

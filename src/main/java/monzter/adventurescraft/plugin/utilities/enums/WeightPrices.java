@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.shared.events.extras;
+package monzter.adventurescraft.plugin.utilities.enums;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.shared.dropTables.ItemGenerator;

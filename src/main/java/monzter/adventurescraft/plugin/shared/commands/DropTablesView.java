@@ -16,7 +16,7 @@ import monzter.adventurescraft.plugin.shared.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.shared.dropTables.LootLlama;
 import monzter.adventurescraft.plugin.shared.dropTables.Lootbox;
 import monzter.adventurescraft.plugin.shared.dropTables.PetEgg;
-import monzter.adventurescraft.plugin.shared.events.extras.WeightPrices;
+import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;

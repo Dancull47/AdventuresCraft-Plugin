@@ -12,6 +12,7 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
 import io.lumine.mythic.utils.Schedulers;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucko.helper.Events;
 import me.lucko.helper.event.filter.EventFilters;
 import me.lucko.helper.metadata.Metadata;
@@ -73,10 +74,14 @@ public class CellDisplayGUI extends BaseCommand {
     private final ItemStack viewCellSettings = new ItemStack(Material.CAULDRON);
     private final ItemMeta viewCellSettingsItemMeta = viewCellSettings.getItemMeta();
 
+    private final ItemStack setHome = new ItemStack(Material.OAK_DOOR);
+    private final ItemMeta setHomeItemMeta = setHome.getItemMeta();
+
     @Default
     @Subcommand("Menu")
     @CommandAlias("CellMenu")
-    public void teamMenu(Player player) {
+    public void cellMenu(Player player) {
+        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
 
         backgroundItemMeta.displayName(Component.text(" "));
         backgroundItem.setItemMeta(backgroundItemMeta);
@@ -101,6 +106,7 @@ public class CellDisplayGUI extends BaseCommand {
         lore2.add(PREFIX + ChatColor.YELLOW + "Click to View");
         viewCellSettings.setLore(lore2);
 
+
         ChestGui gui = new ChestGui(4, "Cell Manager");
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -114,7 +120,20 @@ public class CellDisplayGUI extends BaseCommand {
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(viewTeamManager, e -> cellManager(player)), 3, 0);
+        for (UUID playerUUID : island.getMemberSet()) {
+            if (island.getRank(playerUUID) >= RanksManager.OWNER_RANK) {
+                setHomeItemMeta.displayName(Component.text(ChatColor.GREEN + "Set Home"));
+                setHome.setItemMeta(setHomeItemMeta);
+                List<String> lore3 = new ArrayList<>();
+                lore3.add("");
+                lore3.add(ChatColor.GRAY + "You can set your spawn");
+                lore3.add(ChatColor.GRAY + "by using " + ChatColor.GOLD + "/cell sethome" + ChatColor.GRAY + "!");
+                setHome.setLore(lore3);
+                display.addItem(new GuiItem(setHome, e -> player.performCommand("cell sethome")), 1, 0);
+            }
+        }
+
+        display.addItem(new GuiItem(viewTeamManager, e -> cellTeamManager(player)), 3, 0);
         display.addItem(new GuiItem(viewCellSettings, e -> player.performCommand("CellSettings")), 5, 0);
 
         gui.addPane(page);
@@ -123,9 +142,8 @@ public class CellDisplayGUI extends BaseCommand {
 
     @Subcommand("TeamManager")
     @CommandAlias("CellTeamManager")
-    public void cellManager(Player player) {
+    public void cellTeamManager(Player player) {
         Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
-
         backgroundItemMeta.displayName(Component.text(" "));
         backgroundItem.setItemMeta(backgroundItemMeta);
 
@@ -146,7 +164,7 @@ public class CellDisplayGUI extends BaseCommand {
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
 
-        back.addItem(new GuiItem(backButton, e -> teamMenu(player)), 0, 0);
+        back.addItem(new GuiItem(backButton, e -> cellMenu(player)), 0, 0);
 
         display.addItem(new GuiItem(mainCell(island, player), e -> {
             if (e.getClick().isLeftClick())
@@ -176,14 +194,11 @@ public class CellDisplayGUI extends BaseCommand {
         Island island = null;
         Player mainTarget = null;
         if (target == null) {
-            plugin.getLogger().info("Empty");
-
             if (bentoBox.getIslands().getIslandAt(player.getLocation()) != null) {
                 island = bentoBox.getIslands().getIslandAt(player.getLocation()).get();
                 mainTarget = player;
             }
         } else {
-            plugin.getLogger().info("Got Target");
             island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), target.player.getUniqueId());
             mainTarget = target.player;
         }
@@ -216,7 +231,7 @@ public class CellDisplayGUI extends BaseCommand {
     }
 
     @CommandAlias("cellTeamDetails")
-    public void cell(Player player) {
+    public void cellTeamDeatils(Player player) {
         showMembers(bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId()), bentoBox.getPlayers().getUser(player.getUniqueId()));
     }
 
@@ -317,7 +332,7 @@ public class CellDisplayGUI extends BaseCommand {
         }
         lore.add(ChatColor.GRAY + "Created: " + ChatColor.GREEN + creationDate(island.getCreatedDate()));
         lore.add(ChatColor.GRAY + "Visitors: " + ChatColor.GREEN + island.getVisitors().size());
-        lore.add(ChatColor.GRAY + "Likes: " + ChatColor.GREEN + island.getVisitors().size());
+        lore.add(ChatColor.GRAY + "Likes: " + ChatColor.GREEN + PlaceholderAPI.setPlaceholders(player, "%bskyblock_likes_addon_island_likes_count%"));
         if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
             lore.add(" ");
             lore.add(PREFIX + ChatColor.YELLOW + "Left-Click to Rename Cell");
@@ -336,8 +351,9 @@ public class CellDisplayGUI extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         for (UUID playerUUID : island.getMemberSet())
-            if (island.getRank(playerUUID) >= 200)
-                lore.add(PREFIX + ChatColor.DARK_GREEN + Bukkit.getPlayer(playerUUID).getName());
+            if (island.getRank(playerUUID) >= 200) {
+                lore.add(PREFIX + ChatColor.DARK_GREEN + Bukkit.getOfflinePlayer(playerUUID).getName());
+            }
         coopItemMeta.setDisplayName(ChatColor.GREEN + "Coop Members " + ChatColor.YELLOW + island.getMemberSet(RanksManager.COOP_RANK).size());
         coop.setItemMeta(coopItemMeta);
         coop.setLore(lore);
@@ -352,7 +368,7 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add("");
         for (UUID playerUUID : island.getMemberSet())
             if (island.getRank(playerUUID) >= RanksManager.TRUSTED_RANK)
-                lore.add(PREFIX + ChatColor.DARK_AQUA + Bukkit.getPlayer(playerUUID).getName());
+                lore.add(PREFIX + ChatColor.DARK_AQUA + Bukkit.getOfflinePlayer(playerUUID).getName());
         trustedItemMeta.setDisplayName(ChatColor.GREEN + "Trusted Members " + ChatColor.YELLOW + island.getMemberSet(RanksManager.TRUSTED_RANK).size());
         trusted.setItemMeta(trustedItemMeta);
         trusted.setLore(lore);
@@ -367,7 +383,7 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add("");
         for (UUID playerUUID : island.getMemberSet())
             if (island.getRank(playerUUID) >= RanksManager.MEMBER_RANK)
-                lore.add(PREFIX + ChatColor.AQUA + Bukkit.getPlayer(playerUUID).getName());
+                lore.add(PREFIX + ChatColor.AQUA + Bukkit.getOfflinePlayer(playerUUID).getName());
         memberItemMeta.setDisplayName(ChatColor.GREEN + "Members " + ChatColor.YELLOW + island.getMemberSet(RanksManager.MEMBER_RANK).size());
         member.setItemMeta(memberItemMeta);
         member.setLore(lore);
@@ -382,7 +398,7 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add("");
         for (UUID playerUUID : island.getMemberSet())
             if (island.getRank(playerUUID) >= RanksManager.SUB_OWNER_RANK)
-                lore.add(PREFIX + ChatColor.GOLD + Bukkit.getPlayer(playerUUID).getName());
+                lore.add(PREFIX + ChatColor.GOLD + Bukkit.getOfflinePlayer(playerUUID).getName());
         subOwnerItemMeta.setDisplayName(ChatColor.GREEN + "Sub-Owners " + ChatColor.YELLOW + island.getMemberSet(RanksManager.SUB_OWNER_RANK).size());
         subOwner.setItemMeta(subOwnerItemMeta);
         subOwner.setLore(lore);
@@ -397,19 +413,12 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add("");
         for (UUID playerUUID : island.getMemberSet())
             if (island.getRank(playerUUID) >= RanksManager.OWNER_RANK)
-                lore.add(PREFIX + ChatColor.RED + Bukkit.getPlayer(playerUUID).getName());
+                lore.add(PREFIX + ChatColor.RED + Bukkit.getOfflinePlayer(playerUUID).getName());
         ownerItemMeta.setDisplayName(ChatColor.GREEN + "Owners " + ChatColor.YELLOW + island.getMemberSet(RanksManager.OWNER_RANK).size());
         owner.setItemMeta(ownerItemMeta);
         owner.setLore(lore);
         return owner;
     }
-
-//            #   VISITOR   = 0
-//            #   COOP      = 200
-//            #   TRUSTED   = 400
-//            #   MEMBER    = 500
-//            #   SUB-OWNER = 900
-//            #   OWNER     = 1000
 
     final ItemStack ranking = new ItemStack(Material.LADDER);
     final ItemMeta rankingItemMeta = ranking.getItemMeta();
@@ -499,10 +508,10 @@ public class CellDisplayGUI extends BaseCommand {
         return promote;
     }
 
-    public static final MetadataKey<Boolean> ISLAND_TO_RENAME = MetadataKey.createBooleanKey("CELL-NAME");
+    private final MetadataKey<Boolean> ISLAND_TO_RENAME = MetadataKey.createBooleanKey("CELL-NAME");
 
     private void changeName(Island island, Player player) {
-        if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
+        if (island.getRank(player.getUniqueId()) == RanksManager.OWNER_RANK) {
             player.closeInventory();
             player.sendMessage(ChatColor.GREEN + "Type the new name of your Cell in chat: ");
             soundManager.playSound(player, Sound.ENTITY_ARROW_HIT, 1, 1);
@@ -516,9 +525,9 @@ public class CellDisplayGUI extends BaseCommand {
                         island.setName(e.getMessage());
                         for (UUID memberUUID : island.getMemberSet(RanksManager.COOP_RANK)) {
                             final Player member = Bukkit.getPlayer(memberUUID);
-                            if (member.isOnline()) {
+                            if (member != null) {
                                 member.sendMessage(ChatColor.GREEN + "The Cell name has been changed to " + ChatColor.YELLOW + e.getMessage() + ChatColor.GREEN + ", by " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + "!");
-                                soundManager.soundYes(player, 1);
+                                soundManager.soundYes(member, 1);
                             }
                         }
                         e.setCancelled(true);

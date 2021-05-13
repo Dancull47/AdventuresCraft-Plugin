@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.shared.events.extras;
+package monzter.adventurescraft.plugin.utilities.enums;
 
 public enum PetEggList {
     COMMON("PET_EGG", 100),

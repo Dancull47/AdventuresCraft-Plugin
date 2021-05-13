@@ -8,7 +8,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.shared.events.extras.DonationRewardList;
-import monzter.adventurescraft.plugin.shared.events.extras.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;

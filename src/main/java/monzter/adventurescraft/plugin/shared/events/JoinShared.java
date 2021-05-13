@@ -36,10 +36,12 @@ public class JoinShared implements Listener {
     private void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         player.setCollidable(true);
-        if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
-            final ItemStack book = player.getInventory().getItem(8);
-            if (book != null || book.getType() == Material.WRITTEN_BOOK) {
-                player.openBook(book);
+        if (player.getInventory().getItem(8).getType() != null) {
+            if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
+                final ItemStack book = player.getInventory().getItem(8);
+                if (book != null || book.getType() == Material.WRITTEN_BOOK) {
+                    player.openBook(book);
+                }
             }
         }
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {

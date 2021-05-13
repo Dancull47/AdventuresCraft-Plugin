@@ -13,6 +13,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.events.JoinCell;
+import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
@@ -34,6 +35,8 @@ import monzter.adventurescraft.plugin.prison.utilities.ProjectileCancelArrowDrop
 import monzter.adventurescraft.plugin.prison.utilities.mapBarrier;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
 import monzter.adventurescraft.plugin.utilities.general.*;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionImplLP;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
@@ -98,6 +101,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PermissionLP permissionLP;
     private ProtocolManager protocolManager;
     private PaperCommandManager manager;
+    private GUIHelper guiHelper;
 
     @Override
     public void onLoad() {
@@ -196,6 +200,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
+        manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
         manager.registerCommand(new Security(this));
@@ -221,6 +226,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         consoleCommand = new ConsoleCommandImpl(getServer());
         numberFormat = new NumberFormatImpl();
         mythicMobsSpawn = new MythicMobSpawnImpl();
+        guiHelper = new GUIHelperImpl();
+
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
         if (betonQuest == null) {
             getLogger().log(Level.WARNING, "BetonQuest not found!");

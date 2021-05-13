@@ -1,9 +1,9 @@
-package monzter.adventurescraft.plugin.shared.events.extras;
+package monzter.adventurescraft.plugin.utilities.enums;
 
 import org.bukkit.ChatColor;
 
 public enum StatsDisplay {
-    HP(ChatColor.RED + "❤ HP"),
+    HP(ChatColor.GREEN + "❤ HP"),
     MANA(ChatColor.AQUA + "⭐ Mana"),
     DAMAGE(ChatColor.RED + "✜ Damage"),
     SPEED(ChatColor.DARK_GREEN + "✤ Speed"),
@@ -15,9 +15,10 @@ public enum StatsDisplay {
     EXPERIENCE_MULTIPLIER(ChatColor.GREEN + "۞ Experience Multiplier"),
     PET_EXPERIENCE_MULTIPLIER(ChatColor.AQUA + "❉ Pet Experience Multiplier"),
 
+    MONEY_AMOUNT(ChatColor.YELLOW + "⛂ Money"),
     EXPERIENCE_AMOUNT(ChatColor.GREEN + "۞ Experience"),
     PET_EXPERIENCE_AMOUNT(ChatColor.AQUA + "❉ Pet Experience"),
-    BATTLE_PASS_EXPERIENCE(ChatColor.DARK_PURPLE + "♦ Battle Pass Experience"),
+    MINING_PASS_EXPERIENCE(ChatColor.DARK_PURPLE + "♦ Mining Pass Experience"),
     ADVENTURE_COINS(ChatColor.RED + "◎ Adventure Coins"),
     ;
 
