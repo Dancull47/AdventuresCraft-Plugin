@@ -120,7 +120,7 @@ public class ProfileMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " is used to progress");
-        lore.add(ChatColor.GRAY + "through " + ChatColor.GREEN + "Ranks " + ChatColor.GRAY + "and " + ChatColor.BLUE + "Prestiges" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "through " + ChatColor.GREEN + "Prestiges " + ChatColor.GRAY + "and " + ChatColor.BLUE + "Prestiges" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " can be earned from selling");
         lore.add(ChatColor.GRAY + "resources you collect while mining,");

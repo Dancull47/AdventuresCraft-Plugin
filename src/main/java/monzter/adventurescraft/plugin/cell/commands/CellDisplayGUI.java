@@ -430,7 +430,7 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add(ChatColor.GRAY + "to restrict what each player is");
         lore.add(ChatColor.GRAY + "capable of doing in your Cell!");
         lore.add("");
-        lore.add(ChatColor.WHITE.toString() + ChatColor.BOLD + "Ranks:");
+        lore.add(ChatColor.WHITE.toString() + ChatColor.BOLD + "Prestiges:");
         lore.add(PREFIX + COOP);
         lore.add(PREFIX + TRUSTED);
         lore.add(PREFIX + MEMBER);
