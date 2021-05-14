@@ -102,10 +102,10 @@ public class Voting extends BaseCommand implements Listener {
     }
 
     @CommandAlias("VoteClaim")
-    private void voteClaimCommand(Player player, String arg) {
+    private void voteClaimCommand(Player player, String rewardName) {
         final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
         for (VoteRewardList reward : VoteRewardList.values()) {
-            if (arg.equals(reward.getId())) {
+            if (rewardName.equalsIgnoreCase(reward.getId())) {
                 if (voteCoins >= reward.getPrice()) {
                     mmoItemsGive.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
                     betonPointsManager.takePoint(player, "items.Vote", reward.getPrice());

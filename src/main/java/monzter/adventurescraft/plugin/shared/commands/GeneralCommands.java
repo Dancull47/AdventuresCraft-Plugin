@@ -32,21 +32,10 @@ public class GeneralCommands extends BaseCommand {
     private void lobbyCommand(Player player){
         player.performCommand("/server Lobby");
     }
-    @CommandAlias("vote")
-    private void voteCommand(Player player) {
-        final TextComponent vote = Component.text("You can")
-                .color(NamedTextColor.GREEN)
-                .append(Component.text(" Vote ", NamedTextColor.GOLD))
-                .hoverEvent(Component.text("Click to visit Voting Guide!", NamedTextColor.GREEN))
-                .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"))
-                .append(Component.text("for our Server, to receive awesome rewards every day!"));
-        player.sendMessage(vote);
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Vote " + player.getName());
-    }
 
     @CommandAlias("discord")
     private void discordCommand(Player player) {
-        final TextComponent discord = Component.text("JoinCell our ")
+        final TextComponent discord = Component.text("Join our ")
                 .color(NamedTextColor.GREEN)
                 .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
                 .hoverEvent(Component.text("Click to join the Discord!", NamedTextColor.GREEN))

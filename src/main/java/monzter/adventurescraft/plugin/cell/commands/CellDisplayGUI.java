@@ -18,6 +18,7 @@ import me.lucko.helper.event.filter.EventFilters;
 import me.lucko.helper.metadata.Metadata;
 import me.lucko.helper.metadata.MetadataKey;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -48,6 +49,7 @@ public class CellDisplayGUI extends BaseCommand {
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final BentoBox bentoBox;
+    private final GUIHelper guiHelper;
 
     private final String PREFIX = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» ";
     private final String COOP = ChatColor.DARK_GREEN + "Coop";
@@ -56,10 +58,11 @@ public class CellDisplayGUI extends BaseCommand {
     private final String SUBOWNER = ChatColor.GOLD + "Sub-Owner";
     private final String OWNER = ChatColor.RED + "Owner";
 
-    public CellDisplayGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox) {
+    public CellDisplayGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox, GUIHelper guiHelper) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.bentoBox = bentoBox;
+        this.guiHelper = guiHelper;
     }
 
     private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -112,7 +115,7 @@ public class CellDisplayGUI extends BaseCommand {
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(1, 1, 7, 4, Pane.Priority.LOW);
+        StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
 
         page.addPane(0, background);
         page.addPane(0, display);
@@ -129,12 +132,14 @@ public class CellDisplayGUI extends BaseCommand {
                 lore3.add(ChatColor.GRAY + "You can set your spawn");
                 lore3.add(ChatColor.GRAY + "by using " + ChatColor.GOLD + "/cell sethome" + ChatColor.GRAY + "!");
                 setHome.setLore(lore3);
-                display.addItem(new GuiItem(setHome, e -> player.performCommand("cell sethome")), 1, 0);
+                display.addItem(new GuiItem(setHome, e -> player.performCommand("cell sethome")), 2, 1);
             }
         }
 
-        display.addItem(new GuiItem(viewTeamManager, e -> cellTeamManager(player)), 3, 0);
-        display.addItem(new GuiItem(viewCellSettings, e -> player.performCommand("CellSettings")), 5, 0);
+        display.addItem(new GuiItem(viewTeamManager, e -> cellTeamManager(player)), 4, 1);
+        display.addItem(new GuiItem(viewCellSettings, e -> player.performCommand("CellSettings")), 6, 1);
+
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
 
         gui.addPane(page);
         gui.show(player);

@@ -15,9 +15,7 @@ import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.events.JoinCell;
 import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.ProfileMenu;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.Backpack;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.Map;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.Quests;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.*;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.commands.*;
@@ -192,7 +190,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getLogger().info("Cell Loaded");
         Bukkit.getServer().getPluginManager().registerEvents(new JoinCell(this, mmoItemsGive, permissionLP, BentoBox.getInstance()), this);
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
-        manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance()));
+        manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
     }
     private void sharedLoad(){
         getLogger().info("Shared Loaded");
@@ -212,6 +210,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new RankMap(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new PrestigeMap(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Leaderboards(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
