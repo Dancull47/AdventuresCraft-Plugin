@@ -188,7 +188,10 @@
             <groupId>com.vexsoftware</groupId>
             <artifactId>nuvotifier-universal</artifactId>
             <version>2.6.0</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>
+                ${basedir}/.idea/libraries/nuvotifier-2.7.2.jar
+            </systemPath>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -249,7 +252,10 @@
             <groupId>dev.dbassett</groupId>
             <artifactId>skullcreator</artifactId>
             <version>3.0.0</version>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <systemPath>
+                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/skullcreator-3.0.1.jar
+            </systemPath>
         </dependency>
         <dependency>
             <groupId>net.citizensnpcs</groupId>

@@ -7,5 +7,9 @@ public interface GUIHelper {
     ItemStack background();
     ItemStack background(Material material);
     ItemStack backButton();
+    ItemStack nextPageButton();
+    ItemStack previousPageButton();
+    ItemStack firstPageButton();
+    ItemStack lastPageButton();
     String guiName(String name);
 }

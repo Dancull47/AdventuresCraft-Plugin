@@ -218,18 +218,63 @@ public enum PetEgg implements Weighted, ItemGenerator {
     PandaPet6E(Rarity.EXOTIC, Rarity.MYTHICAL, "Panda Pet", "PET", "PET_PANDA6", .0000005, 1),
     PenguinPet6E(Rarity.EXOTIC, Rarity.MYTHICAL, "Penguin Pet", "PET", "PET_PENGUIN6", .0000005, 1),
 
+    // MYTHICAL
+    GiraffePet3M(Rarity.MYTHICAL, Rarity.RARE, "Giraffe Pet", "PET", "PET_GIRAFFE3", .70, 1),
+    TurtlePet3M(Rarity.MYTHICAL, Rarity.RARE, "Turtle Pet", "PET", "PET_TURTLE3", .70, 1),
+    ElephantPet3M(Rarity.MYTHICAL, Rarity.RARE, "Elephant Pet", "PET", "PET_ELEPHANT3", .70, 1),
+    ChimpPet3M(Rarity.MYTHICAL, Rarity.RARE, "Chimp Pet", "PET", "PET_CHIMP3", .70, 1),
+    FrogPet3M(Rarity.MYTHICAL, Rarity.RARE, "Frog Pet", "PET", "PET_FROG3", .70, 1),
+    LionPet3M(Rarity.MYTHICAL, Rarity.RARE, "Lion Pet", "PET", "PET_LION3", .70, 1),
+
+    PenguinPet3M(Rarity.MYTHICAL, Rarity.RARE, "Penguin Pet", "PET", "PET_PENGUIN3", .35, 1),
+    PandaPet3M(Rarity.MYTHICAL, Rarity.RARE, "Panda Pet", "PET", "PET_PANDA3", .35, 1),
+
+    GiraffePet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Giraffe Pet", "PET", "PET_GIRAFFE4", .25, 1),
+    TurtlePet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Turtle Pet", "PET", "PET_TURTLE4", .25, 1),
+    ElephantPet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Elephant Pet", "PET", "PET_ELEPHANT4", .25, 1),
+    ChimpPet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Chimp Pet", "PET", "PET_CHIMP4", .25, 1),
+    FrogPet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Frog Pet", "PET", "PET_FROG4", .25, 1),
+    LionPet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Lion Pet", "PET", "PET_LION4", .25, 1),
+
+    PenguinPet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Penguin Pet", "PET", "PET_PENGUIN4", .125, 1),
+    PandaPet4M(Rarity.MYTHICAL, Rarity.LEGENDARY, "Panda Pet", "PET", "PET_PANDA4", .125, 1),
+
+    GiraffePet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Giraffe Pet", "PET", "PET_GIRAFFE5", .05, 1),
+    TurtlePet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Turtle Pet", "PET", "PET_TURTLE5", .05, 1),
+    ElephantPet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Elephant Pet", "PET", "PET_ELEPHANT5", .05, 1),
+    ChimpPet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Chimp Pet", "PET", "PET_CHIMP5", .05, 1),
+    FrogPetM(Rarity.MYTHICAL, Rarity.EXOTIC, "Frog Pet", "PET", "PET_FROG5", .05, 1),
+    LionPet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Lion Pet", "PET", "PET_LION5", .05, 1),
+
+    PandaPet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Panda Pet", "PET", "PET_PANDA5", .025, 1),
+    PenguinPet5M(Rarity.MYTHICAL, Rarity.EXOTIC, "Penguin Pet", "PET", "PET_PENGUIN5", .025, 1),
+
+    GiraffePet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Giraffe Pet", "PET", "PET_GIRAFFE6", .000001, 1),
+    TurtlePet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Turtle Pet", "PET", "PET_TURTLE6", .000001, 1),
+    ElephantPet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Elephant Pet", "PET", "PET_ELEPHANT6", .000001, 1),
+    ChimpPet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Chimp Pet", "PET", "PET_CHIMP6", .000001, 1),
+    FrogPet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Frog Pet", "PET", "PET_FROG6", .000001, 1),
+    LionPet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Lion Pet", "PET", "PET_LION6", .000001, 1),
+
+    PandaPet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Panda Pet", "PET", "PET_PANDA6", .0000005, 1),
+    PenguinPet6M(Rarity.MYTHICAL, Rarity.MYTHICAL, "Penguin Pet", "PET", "PET_PENGUIN6", .0000005, 1),
+
+    // Phoenix Rare
     PhoenixPet3P(Rarity.PHOENIX, Rarity.RARE, "Baby Phoenix Pet", "PET", "PET_PHOENIX3", .95, 1),
     PhoenixPet4P(Rarity.PHOENIX, Rarity.LEGENDARY,"Baby Phoenix Pet", "PET", "PET_PHOENIX4", .045, 1),
     PhoenixPet5P(Rarity.PHOENIX, Rarity.EXOTIC,"Adult Phoenix Pet", "PET", "PET_PHOENIX5", .005,1 ),
 
+    // Phoenix Legendary
     PhoenixPet3P2(Rarity.PHOENIX2, Rarity.RARE, "Baby Phoenix Pet", "PET", "PET_PHOENIX3", .925, 1),
     PhoenixPet4P2(Rarity.PHOENIX2, Rarity.LEGENDARY,"Baby Phoenix Pet", "PET", "PET_PHOENIX4", .0675, 1),
     PhoenixPet5P2(Rarity.PHOENIX2, Rarity.EXOTIC,"Adult Phoenix Pet", "PET", "PET_PHOENIX5", .0075,1 ),
 
+    // Dragon Rare
     DragonPet3D(Rarity.DRAGON, Rarity.RARE, "Baby Dragon Pet", "PET", "PET_DRAGON3", .95, 1),
     DragonPet4D(Rarity.DRAGON, Rarity.LEGENDARY,"Baby Dragon Pet", "PET", "PET_DRAGON4", .045, 1),
     DragonPet5D(Rarity.DRAGON, Rarity.EXOTIC,"Juvenile Dragon Pet", "PET", "PET_DRAGON5", .005,1 ),
 
+    // Dragon Legendary
     DragonPet3D2(Rarity.DRAGON2, Rarity.RARE, "Baby Dragon Pet", "PET", "PET_DRAGON3", .925, 1),
     DragonPet4D2(Rarity.DRAGON2, Rarity.LEGENDARY,"Baby Dragon Pet", "PET", "PET_DRAGON4", .0675, 1),
     DragonPet5D2(Rarity.DRAGON2, Rarity.EXOTIC,"Juvenile Dragon Pet", "PET", "PET_DRAGON5", .0075,1 ),

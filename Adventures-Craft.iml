@@ -22,6 +22,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Prison_v3.2.6-alpha.4" level="project" />
     <orderEntry type="library" name="MysqlPlayerDataBridge-v3.35.1" level="project" />
+    <orderEntry type="library" name="nuvotifier-2.7.2" level="project" />
+    <orderEntry type="library" name="java" level="project" />
+    <orderEntry type="library" name="skullcreator-3.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.kyori:adventure-api:4.7.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.kyori:adventure-key:4.7.0" level="project" />
@@ -111,18 +114,15 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.7" level="project" />
     <orderEntry type="library" name="Maven: com.elmakers.mine.bukkit:EffectLib:9.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.gmail.filoghost.holographicdisplays:holographicdisplays-api:2.4.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-universal:2.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bukkit:2.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-common:2.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-handler:4.1.32.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-buffer:4.1.32.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-common:4.1.32.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-transport:4.1.32.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-resolver:4.1.32.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-codec:4.1.32.Final" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-bungeecord:2.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-sponge:2.6.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.vexsoftware:nuvotifier-velocity:2.6.0" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: com.vexsoftware:nuvotifier-universal:2.6.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/.idea/libraries/nuvotifier-2.7.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:4.0.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.lucko:helper:5.6.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: me.lucko:shadow-bukkit:1.6" level="project" />
@@ -150,7 +150,15 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Maven: dev.dbassett:skullcreator:3.0.0" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: dev.dbassett:skullcreator:3.0.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/.idea/libraries/skullcreator-3.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.citizensnpcs:citizens-main:2.0.27-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.sf.trove4j:trove4j:3.0.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.citizensnpcs:citizensapi:2.0.27-SNAPSHOT" level="project" />

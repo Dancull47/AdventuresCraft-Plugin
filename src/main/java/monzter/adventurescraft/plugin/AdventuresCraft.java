@@ -16,6 +16,7 @@ import monzter.adventurescraft.plugin.cell.events.JoinCell;
 import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.ProfileMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.*;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.commands.*;
@@ -213,6 +214,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Leaderboards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));

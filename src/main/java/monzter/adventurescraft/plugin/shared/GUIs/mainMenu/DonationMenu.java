@@ -48,12 +48,12 @@ public class DonationMenu extends BaseCommand {
             .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
 
-    final TextComponent miningPass = Component.text("You can donate to get epic rewards from our")
+    final TextComponent miningPass = Component.text("Earn ")
             .color(NamedTextColor.GREEN)
-            .append(Component.text(" Store", NamedTextColor.GOLD))
-            .append(Component.text("!"))
+            .append(Component.text(" Special Rewards ", NamedTextColor.GOLD))
+            .append(Component.text("while mining through the Prison!"))
             .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
+            .hoverEvent(Component.text("Click to visit the Store's Battle Pass!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
 
     public DonationMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
@@ -63,7 +63,7 @@ public class DonationMenu extends BaseCommand {
         this.consoleCommand = consoleCommand;
     }
 
-    @CommandAlias("donate|donationRewards")
+    @CommandAlias("donate|donationRewards|donationMenu")
     public void donate(Player player) {
         player.sendMessage(donate);
 
@@ -127,8 +127,8 @@ public class DonationMenu extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Use your " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " to");
-        lore.add(ChatColor.GRAY + "purchase unique " + ChatColor.GREEN + "Items" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "Use your " + StatsDisplay.ADVENTURE_COINS.getName());
+        lore.add(ChatColor.GRAY + "to purchase unique " + ChatColor.GREEN + "Items" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
 
