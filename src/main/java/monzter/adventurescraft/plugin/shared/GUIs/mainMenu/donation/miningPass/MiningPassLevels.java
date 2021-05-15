@@ -16,20 +16,20 @@ public enum MiningPassLevels {
     Level10("1", 500, new ItemStack[]{MMOItems.plugin.getItem("CONSUMABLE", "LOOTBOX"), MMOItems.plugin.getItem("CONSUMABLE", "LOOTBOX2")}, new int[]{1,5}),
     Level11("1", 500, new ItemStack[]{MMOItems.plugin.getItem("CONSUMABLE", "LOOTBOX"), MMOItems.plugin.getItem("CONSUMABLE", "LOOTBOX2")}, new int[]{1,5}),
     ;
-    private String name;
+    private String level;
     private int price;
     private ItemStack[] rewards;
     private int[] rewardAmount;
 
-    MiningPassLevels(String name, int price, ItemStack[] rewards, int[] rewardAmount) {
-        this.name = name;
+    MiningPassLevels(String level, int price, ItemStack[] rewards, int[] rewardAmount) {
+        this.level = level;
         this.price = price;
         this.rewards = rewards;
         this.rewardAmount = rewardAmount;
     }
 
-    public String getName() {
-        return name;
+    public String getLevel() {
+        return level;
     }
 
     public int getPrice() {

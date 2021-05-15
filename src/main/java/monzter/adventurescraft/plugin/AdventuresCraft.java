@@ -215,7 +215,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
