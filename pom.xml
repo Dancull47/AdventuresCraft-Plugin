@@ -275,6 +275,11 @@
             <version>5.3.1284</version> <!-- Add the version number here -->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId> <!-- Usage: Iterating Backwards -->
+            <artifactId>guava</artifactId>
+            <version>30.1.1-jre</version>
+        </dependency>
     </dependencies>
 
 

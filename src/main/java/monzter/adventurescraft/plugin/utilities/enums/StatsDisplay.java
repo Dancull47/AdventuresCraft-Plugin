@@ -20,7 +20,7 @@ public enum StatsDisplay {
     MONEY_AMOUNT(ChatColor.YELLOW + "⛂ Money"),
     EXPERIENCE_AMOUNT(ChatColor.GREEN + "۞ Experience"),
     PET_EXPERIENCE_AMOUNT(ChatColor.AQUA + "❉ Pet Experience"),
-    MINING_PASS_EXPERIENCE(ChatColor.DARK_PURPLE + "♦ Mining Pass Experience"),
+    MINING_PASS_EXPERIENCE(ChatColor.YELLOW + "♦ Mining Pass Experience"),
     ADVENTURE_COINS(ChatColor.RED + "◎ Adventure Coins"),
     ;
 

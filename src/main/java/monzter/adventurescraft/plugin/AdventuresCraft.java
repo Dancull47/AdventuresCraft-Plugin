@@ -200,7 +200,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
@@ -215,7 +215,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));

@@ -4,6 +4,7 @@ import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -15,9 +16,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class InteractPetEgg implements Listener {
     private final AdventuresCraft plugin;
+    private final NumberFormat numberFormat;
 
-    public InteractPetEgg(AdventuresCraft plugin) {
+    public InteractPetEgg(AdventuresCraft plugin, NumberFormat numberFormat) {
         this.plugin = plugin;
+        this.numberFormat = numberFormat;
     }
 
     @EventHandler
@@ -27,7 +30,7 @@ public class InteractPetEgg implements Listener {
         final NBTItem nbtItem = NBTItem.get(itemStack);
         //String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
         final String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
-        if (event.getHand() == EquipmentSlot.HAND) {
+        if (event.getHand() == EquipmentSlot.HAND && !player.getOpenInventory().equals(null)) {
             if (id != null) {
                 for (PetEggList egg : PetEggList.values()) {
                     if (egg.name.equals(id)) {
@@ -44,12 +47,12 @@ public class InteractPetEgg implements Listener {
     }
 
     private void readyToHatch(Player player, int playerPetEXP) {
-        player.sendMessage(ChatColor.GREEN + "You have " + playerPetEXP + ChatColor.LIGHT_PURPLE + " Pet EXP," + ChatColor.GREEN
+        player.sendMessage(ChatColor.GREEN + "You have " + numberFormat.numberFormat(playerPetEXP) + ChatColor.LIGHT_PURPLE + " Pet EXP," + ChatColor.GREEN
                 + " bring this egg to Sarah at" + ChatColor.YELLOW + " /warp Pets " + ChatColor.GREEN + "to hatch it!");
     }
 
     private void notReadyToHatch(Player player, int playerPetEXP, int amountToHatch) {
-        player.sendMessage(ChatColor.GREEN + "You have " + ChatColor.YELLOW + playerPetEXP + "/" + amountToHatch
+        player.sendMessage(ChatColor.GREEN + "You have " + ChatColor.YELLOW + numberFormat.numberFormat(playerPetEXP) + "/" + numberFormat.numberFormat(amountToHatch)
                 + ChatColor.LIGHT_PURPLE + " Pet EXP" + ChatColor.GREEN + "!");
     }
 }

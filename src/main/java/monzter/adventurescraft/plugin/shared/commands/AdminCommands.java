@@ -7,6 +7,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -76,16 +77,16 @@ public class AdminCommands extends BaseCommand {
         switch (stat.toLowerCase()) {
             case "petexperience":
             case "petexp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + ChatColor.AQUA + "❉ Pet Experience" + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.PET_EXPERIENCE_AMOUNT + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add items.PetExperience " + amount);
                 break;
             case "experience":
             case "exp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + ChatColor.GREEN + "۞ Experience" + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.EXPERIENCE_AMOUNT + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add items.Experience " + amount);
                 break;
             case "miningpass":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + ChatColor.DARK_PURPLE + "♦ Mining Pass Experience" + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add miningPass.EXP " + amount);
                 break;
         }

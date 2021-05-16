@@ -1,6 +1,7 @@
 package monzter.adventurescraft.plugin.shared.events;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
@@ -12,6 +13,8 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.miningPass.MiningPassLevels;
 import monzter.adventurescraft.plugin.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
@@ -26,10 +29,7 @@ import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.Point;
 
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalDouble;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Placeholder extends PlaceholderExpansion {
@@ -39,6 +39,7 @@ public class Placeholder extends PlaceholderExpansion {
     private final Set<Pet> pets;
     private final StringFlag displayNameFlag;
     private long restartTime;
+    private final List<MiningPassLevels> reversedList = Lists.reverse(Arrays.asList(MiningPassLevels.values()));
 //    List<Point> global = BetonQuest.getInstance().getGlobalData().getPoints();
 
     public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets, StringFlag displayNameFlag, long restartTime) {
@@ -250,12 +251,33 @@ public class Placeholder extends PlaceholderExpansion {
                 for (final Point point : points)
                     if (point.getCategory().equalsIgnoreCase("miningPass.EXP"))
                         return String.valueOf(point.getCount());
+            case "Stat_MiningPassNextLevelEXPAmount":
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("miningPass.EXP")) {
+                        int i = 0;
+                        for (MiningPassLevels cost : reversedList) {
+                            if (point.getCount() >= cost.getPrice()) {
+                                if (cost.getLevel().equals("50")) {
+                                    return "Max";
+                                } else {
+                                    return String.valueOf(reversedList.get(i - 1).getPrice());
+                                }
+                            }
+                            i++;
+                        }
+                    }
+            case "Stat_MiningPassLevel":
+                for (final Point point : points)
+                    if (point.getCategory().equalsIgnoreCase("miningPass.EXP"))
+                        for (MiningPassLevels cost : reversedList)
+                            if (point.getCount() >= cost.getPrice())
+                                return String.valueOf(cost.getLevel());
             case "Stat_MiningPassEXPAmount_formatted":
                 for (final Point point : points)
                     if (point.getCategory().equalsIgnoreCase("miningPass.EXP"))
                         return numberFormat(point.getCount());
 
-            // CURRENCIES
+                // CURRENCIES
             case "Currency_AdventureCoins":
                 for (final Point point : points)
                     if (point.getCategory().equalsIgnoreCase("items.AdventureCoin"))
@@ -268,7 +290,7 @@ public class Placeholder extends PlaceholderExpansion {
                 for (final Point point : points)
                     if (point.getCategory().equalsIgnoreCase("items.Vote"))
                         return String.valueOf(point.getCount());
-            // ENCHANTMENTS
+                // ENCHANTMENTS
             case "Enchantment_Randomizer":
                 return String.valueOf(calculateEnchantments(player, "Randomizer"));
             case "Enchantment_Randomizer_math":
@@ -459,4 +481,5 @@ public class Placeholder extends PlaceholderExpansion {
             return this.permission.playerHas(plugin.getServer().getWorlds().get(0).getName(), player, permission);
         }
     }
+
 }
