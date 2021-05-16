@@ -79,7 +79,7 @@ public class MainMenu extends BaseCommand {
 
         display.addItem(new GuiItem(pets(player), e -> player.performCommand("pets")), 2, 3);
         display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
-        display.addItem(new GuiItem(settings(player), e -> player.performCommand("settings")), 4, 3);
+        display.addItem(new GuiItem(settings(player), e -> player.performCommand("settingmenu")), 4, 3);
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank")), 5, 3);
         display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpginv")), 6, 3);
 
@@ -342,7 +342,7 @@ public class MainMenu extends BaseCommand {
         final ItemStack settings = new ItemStack(Material.ANVIL);
         final ItemMeta settingsItemMeta = settings.getItemMeta();
 
-        settingsItemMeta.displayName(Component.text(ChatColor.GREEN + "Settings"));
+        settingsItemMeta.displayName(Component.text(ChatColor.GREEN + "SafeDrop"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");

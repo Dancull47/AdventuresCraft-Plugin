@@ -19,6 +19,7 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.*;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
@@ -215,6 +216,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
+        manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
+        manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
