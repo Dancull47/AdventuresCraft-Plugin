@@ -75,19 +75,19 @@ public class Backpack extends BaseCommand {
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+        StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane backButton = new StaticPane(4, 5, 1, 1, Pane.Priority.HIGHEST);
-        StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
 
         page.addPane(0, background);
         page.addPane(0, display);
+        page.addPane(0, backButton);
         page.addPane(1, background);
         page.addPane(1, display2);
+        page.addPane(1, backButton);
 
         background.addItem(new GuiItem(backgroundItem));
         background.setRepeat(true);
-
-        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 0, 0);
 
         int i = 0;
 
@@ -120,10 +120,12 @@ public class Backpack extends BaseCommand {
             }), 0, 0);
         }
 
-        gui.addPane(backButton);
+        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 0, 0);
+
         gui.addPane(page);
         gui.addPane(back);
         gui.addPane(forward);
+        gui.addPane(backButton);
     }
 }
 

@@ -342,7 +342,7 @@ public class MainMenu extends BaseCommand {
         final ItemStack settings = new ItemStack(Material.ANVIL);
         final ItemMeta settingsItemMeta = settings.getItemMeta();
 
-        settingsItemMeta.displayName(Component.text(ChatColor.GREEN + "SafeDrop"));
+        settingsItemMeta.displayName(Component.text(ChatColor.GREEN + "Settings"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
