@@ -19,7 +19,7 @@ public enum PremiumMiningPassLevels {
     Level13("13", 16000, new ItemStack[]{MMOItems.plugin.getItem("VOUCHER", "MONEY_VOUCHER3")}, new int[]{1}, false, 0),
     Level14("14", 17500, new ItemStack[]{MMOItems.plugin.getItem("BOOSTER", "BLOCK_BOOSTER3")}, new int[]{1}, false, 0),
     Level15("15", 19000, new ItemStack[]{MMOItems.plugin.getItem("ACCESSORY", "PRISONER_TOOTH2")}, new int[]{1}, false, 0),
-    Level16("16", 20500, new ItemStack[]{MMOItems.plugin.getItem("CONSUMABLE", "LOOTBOX4")}, new int[]{1}, false, 0),
+    Level16("16", 20500, new ItemStack[]{MMOItems.plugin.getItem("CONSUMABLE", "LOOTBOX4")}, new int[]{10}, false, 0),
     Level17("17", 22000, new ItemStack[]{MMOItems.plugin.getItem("BOOSTER", "PET_EXP_BOOSTER4")}, new int[]{1}, false, 0),
     Level18("18", 23500, new ItemStack[]{MMOItems.plugin.getItem("VOUCHER", "EXP_VOUCHER4")}, new int[]{1}, false, 0),
     Level19("19", 25000, new ItemStack[]{MMOItems.plugin.getItem("VOUCHER", "MONEY_VOUCHER4")}, new int[]{1}, false, 0),

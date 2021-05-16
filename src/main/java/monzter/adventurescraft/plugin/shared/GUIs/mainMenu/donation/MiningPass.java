@@ -74,12 +74,11 @@ public class MiningPass extends BaseCommand {
         this.betonPointsManager = betonPointsManager;
     }
 
-    @CommandAlias("miningPassMenus")
+    @CommandAlias("miningPassMenu|miningpass|mp|battlepass")
     public void donate(Player player) {
         donate(player, 0);
     }
 
-    @CommandAlias("miningPassMenus")
     public void donate(Player player, int openPage) {
         int miningPassEXP = Integer.valueOf(parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount"));
         int miningPassLevel = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MiningPassLevel%"));
@@ -151,6 +150,8 @@ public class MiningPass extends BaseCommand {
             List<String> lore = new ArrayList<>();
             lore.add(" ");
             lore.add(REWARD);
+            if (reward.isAdventureCoinReward())
+                lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + reward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
             for (ItemStack itemStack1 : reward.getRewards()) {
                 lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + reward.getRewardAmount()[amount] + "x " + itemStack1.getItemMeta().getDisplayName());
                 amount++;
@@ -173,7 +174,6 @@ public class MiningPass extends BaseCommand {
 
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
-            plugin.getLogger().info("miningPassClaimReward " + reward.getLevel());
 
             if (i < 10) {
                 freeDisplayP1.addItem(new GuiItem(itemStack, e -> {
@@ -195,6 +195,16 @@ public class MiningPass extends BaseCommand {
                     player.performCommand("miningPassClaimReward " + reward.getLevel());
                     donate(player, 3);
                 }));
+            } else if (i - 1 > 36 && i - 1 < 46) {
+                freeDisplayP5.addItem(new GuiItem(itemStack, e -> {
+                    player.performCommand("miningPassClaimReward " + reward.getLevel());
+                    donate(player, 4);
+                }));
+            } else if (i - 1 > 45 && i - 1 < 55) {
+                freeDisplayP6.addItem(new GuiItem(itemStack, e -> {
+                    player.performCommand("miningPassClaimReward " + reward.getLevel());
+                    donate(player, 5);
+                }));
             }
             i++;
 
@@ -210,7 +220,7 @@ public class MiningPass extends BaseCommand {
                     itemStack = new ItemStack(Material.CHEST_MINECART);
                 else if (miningPassEXP >= premiumReward.getPrice())
                     itemStack = new ItemStack(Material.HOPPER_MINECART);
-                
+
             final ItemMeta itemMeta = itemStack.getItemMeta();
 
             List<String> lore = new ArrayList<>();
@@ -219,7 +229,6 @@ public class MiningPass extends BaseCommand {
             if (premiumReward.isAdventureCoinReward())
                 lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + premiumReward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
             for (ItemStack itemStack1 : premiumReward.getRewards()) {
-                plugin.getLogger().info(premiumReward.getLevel());
                 lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + premiumReward.getRewardAmount()[amount2] + "x " + itemStack1.getItemMeta().getDisplayName());
                 amount2++;
             }
@@ -349,13 +358,9 @@ public class MiningPass extends BaseCommand {
         int i = 0;
         for (MiningPassLevels miningPassReward : MiningPassLevels.values()) {
             if (reward.equals(String.valueOf(miningPassReward.getLevel()))) {
-                plugin.getLogger().info("EQUAL");
                 if (levelCheck(player, miningPassEXP, miningPassReward.getPrice())) {
-                    plugin.getLogger().info("LEVEL");
                     if (claimedCheck(player, miningPassReward.getLevel(), "REWARD")) {
-                        plugin.getLogger().info("Claimed");
                         if (!fullInventory.fullInventory(player)) {
-                            plugin.getLogger().info("Full Inv");
                             if (miningPassReward.isAdventureCoinReward())
                                 rewardAdventureCoins(player, miningPassReward.getCoins());
                             for (ItemStack itemStack : miningPassReward.getRewards()) {

@@ -77,16 +77,16 @@ public class AdminCommands extends BaseCommand {
         switch (stat.toLowerCase()) {
             case "petexperience":
             case "petexp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.PET_EXPERIENCE_AMOUNT + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add items.PetExperience " + amount);
                 break;
             case "experience":
             case "exp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.EXPERIENCE_AMOUNT + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add items.Experience " + amount);
                 break;
             case "miningpass":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.GREEN + "!");
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add miningPass.EXP " + amount);
                 break;
         }

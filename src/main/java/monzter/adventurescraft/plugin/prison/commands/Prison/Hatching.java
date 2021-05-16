@@ -4,8 +4,15 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Dependency;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
+import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.lucko.helper.Events;
+import me.lucko.helper.event.filter.EventFilters;
+import me.lucko.helper.metadata.Metadata;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.shared.dropTables.PetEgg;
@@ -16,11 +23,17 @@ import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
 import net.Indyuce.mmoitems.MMOItems;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import world.bentobox.bentobox.managers.RanksManager;
+
+import java.util.UUID;
 
 public class Hatching extends BaseCommand {
 
@@ -29,6 +42,7 @@ public class Hatching extends BaseCommand {
     private final SoundManager soundManager;
     private final ConsoleCommand consoleCommand;
     private final DropTablesDelivery dropTablesDelivery;
+
     public Hatching(AdventuresCraft plugin, SoundManager soundManager, ConsoleCommand consoleCommand, DropTablesDelivery dropTablesDelivery) {
         this.plugin = plugin;
         this.soundManager = soundManager;
@@ -49,6 +63,7 @@ public class Hatching extends BaseCommand {
                         RandomSelector<PetEgg> commonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.COMMON)));
                         PetEgg commonPetEggListReward = commonPetEgg.pick();
                         dropTablesDelivery.giveReward(player.getPlayer(), commonPetEggListReward.getDisplayName(), commonPetEggListReward.getType(), commonPetEggListReward.getId(), commonPetEggListReward.getWeight());
+                        hatchingHologram(MMOItems.plugin.getItem(commonPetEggListReward.getType(), commonPetEggListReward.getId()), player);
                         break;
                     }
                 }
@@ -248,5 +263,38 @@ public class Hatching extends BaseCommand {
         return false;
     }
 
+    private void hatchingHologram(ItemStack itemStack, Player player) {
+        Location loc = player.getLocation().add(
+                player.getLocation().getDirection().multiply(2).getX(),
+                player.getLocation().getDirection().getY() + 2,
+                player.getLocation().getDirection().multiply(2).getZ());
+        final Hologram hologram = HologramsAPI.createHologram(plugin, loc);
+
+        Events.subscribe(EntityDamageByBlockEvent.class, EventPriority.LOWEST)
+                .expireAfter(1)
+                .handler(e -> {
+                    if (e.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION))
+                        if (e.getDamager() == null)
+                            e.setCancelled(true);
+                });
+
+        loc.createExplosion(4, false, false);
+
+
+        hologram.appendTextLine(itemStack.getItemMeta().getDisplayName() + " Pet");
+        hologram.appendItemLine(itemStack);
+        new BukkitRunnable() {
+            int ticksRun;
+
+            @Override
+            public void run() {
+                ticksRun++;
+                if (ticksRun > 100) {
+                    hologram.delete();
+                    cancel();
+                }
+            }
+        }.runTaskTimer(plugin, 1L, 1L);
+    }
 }
 
