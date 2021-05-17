@@ -4,4 +4,5 @@ import org.bukkit.entity.Player;
 
 public interface Economy {
     void money(Player player, double amount);
-}
+    double getBalance(Player player);
+    }

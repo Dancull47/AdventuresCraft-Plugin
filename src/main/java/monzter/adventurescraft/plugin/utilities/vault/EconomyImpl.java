@@ -23,4 +23,8 @@ public class EconomyImpl implements Economy {
             plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
         }
     }
+    @Override
+    public double getBalance(Player player) {
+        return econ.getBalance(player);
+    }
 }
