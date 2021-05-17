@@ -214,7 +214,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new PrestigeMap(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Leaderboards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Pets(this, soundManager, guiHelper, consoleCommand, loadPetsConfig()));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new PetUnequip(this, mmoItemsGive, soundManager, permissionLP, betonPointsManager));
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
         manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
