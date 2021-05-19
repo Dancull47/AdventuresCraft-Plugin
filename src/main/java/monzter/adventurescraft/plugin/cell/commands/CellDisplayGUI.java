@@ -435,8 +435,8 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add(ChatColor.GRAY + "to restrict what each player is");
         lore.add(ChatColor.GRAY + "capable of doing in your Cell!");
         lore.add("");
-        lore.add(ChatColor.WHITE.toString() + ChatColor.BOLD + "Prestiges:");
-        lore.add(PREFIX + COOP);
+        lore.add(ChatColor.WHITE.toString() + ChatColor.BOLD + "Ranks:");
+        lore.add(PREFIX + COOP + ChatColor.DARK_GRAY + " (Temporary)");
         lore.add(PREFIX + TRUSTED);
         lore.add(PREFIX + MEMBER);
         lore.add(PREFIX + SUBOWNER);
@@ -459,11 +459,17 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "You can use:");
         lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Coop <Player>");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "To " + ChatColor.GREEN + "temporarily " + ChatColor.GRAY + "increase the");
+        lore.add(ChatColor.GRAY + "privileges of another " + ChatColor.GREEN + "Prisoner" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.YELLOW + "Privileges " + ChatColor.DARK_GRAY + "are revoked upon");
+        lore.add(ChatColor.DARK_GRAY + "the " + ChatColor.RED + "Owner " + ChatColor.DARK_GRAY + "logging out!");
+        lore.add("");
+        lore.add(ChatColor.GRAY + "You can use:");
         lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Trust <Player>");
         lore.add("");
-        lore.add(ChatColor.GRAY + "To give the Player the");
-        lore.add(ChatColor.GRAY + "privileges of a " + COOP + ChatColor.GRAY + " or " + TRUSTED);
-        lore.add(ChatColor.GRAY + "Member of your Cell!");
+        lore.add(ChatColor.GRAY + "To give the Player the privileges");
+        lore.add(ChatColor.GRAY + "of a " + TRUSTED + ChatColor.GRAY + " Member of your Cell!");
         lore.add("");
         lore.add(ChatColor.GRAY + "You can use:");
         lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Invite <Player>");
@@ -504,7 +510,7 @@ public class CellDisplayGUI extends BaseCommand {
         lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Uncoop <Player>");
         lore.add(PREFIX + ChatColor.YELLOW + "/Cell Team Untrust <Player>");
         lore.add("");
-        lore.add(ChatColor.GRAY + "To remove a " + COOP + ChatColor.DARK_GRAY + " or a ");
+        lore.add(ChatColor.GRAY + "To remove a " + COOP + ChatColor.GRAY + " or a ");
         lore.add(TRUSTED + ChatColor.GRAY + " member from your Cell!");
 
         promoteItemMeta.setDisplayName(ChatColor.GREEN + "Promote & Demote Members");

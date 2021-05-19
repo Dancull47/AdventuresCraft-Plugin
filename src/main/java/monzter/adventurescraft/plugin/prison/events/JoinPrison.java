@@ -4,30 +4,27 @@ import io.lumine.mythic.utils.Schedulers;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
-import monzter.adventurescraft.plugin.utilities.vault.Permission;
-import net.Indyuce.mmocore.api.player.PlayerData;
 import net.craftersland.data.bridge.PD;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Set;
 
 public class JoinPrison implements Listener {
     private final AdventuresCraft plugin;
     private final MMOItemsGive mmoItemsGive;
     private final PermissionLP permissionLP;
     private int tries = 0;
+    private final YamlConfiguration warps;
 
     private final TextComponent mining = Component.text("You can start mining by using ")
             .color(NamedTextColor.GREEN)
@@ -42,10 +39,11 @@ public class JoinPrison implements Listener {
             .clickEvent(ClickEvent.runCommand("/warp Tutorial"))
             .append(Component.text(" to learn about all the unique features of our Prison!"));
 
-    public JoinPrison(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP) {
+    public JoinPrison(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, YamlConfiguration warps) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
+        this.warps = warps;
     }
 
     @EventHandler
@@ -74,6 +72,16 @@ public class JoinPrison implements Listener {
                 }
                 tries++;
             }, 20, 60);
+        }
+
+        if (!player.isOp()) {
+            Set<String> warpNames = warps.getKeys(false);
+            for (String currentWarpName : warpNames) {
+                if (player.hasPermission("CELL.WARP." + currentWarpName)) {
+                    player.performCommand("warp " + currentWarpName);
+                    break;
+                }
+            }
         }
     }
 }

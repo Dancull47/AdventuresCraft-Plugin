@@ -74,7 +74,7 @@ public class MainMenu extends BaseCommand {
             if (e.isRightClick())
                 player.performCommand("journal");
         }), 5, 2);
-        display.addItem(new GuiItem(miningPass(player), e -> player.performCommand("miningpass")), 6, 2);
+        display.addItem(new GuiItem(miningPass(player), e -> player.performCommand("miningpassmenu")), 6, 2);
         display.addItem(new GuiItem(leaderboards(player), e -> player.performCommand("leaderboards")), 7, 2);
 
         display.addItem(new GuiItem(pets(player), e -> player.performCommand("pets")), 2, 3);
@@ -84,7 +84,12 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpginv")), 6, 3);
 
         display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 3, 4);
-        display.addItem(new GuiItem(donationPerks(player), e -> player.performCommand("donate")), 4, 4);
+        display.addItem(new GuiItem(donationPerks(player), e -> {
+            if (e.isRightClick())
+            player.performCommand("donate");
+            if (e.isLeftClick())
+            player.performCommand("donationmenu");
+        }), 4, 4);
         display.addItem(new GuiItem(social(player), e -> player.performCommand("social")), 5, 4);
 
         display.addItem(new GuiItem(lobby(player), e -> player.performCommand("lobby")), 8, 5);

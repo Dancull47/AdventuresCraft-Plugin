@@ -12,6 +12,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
+import monzter.adventurescraft.plugin.cell.commands.Warp;
 import monzter.adventurescraft.plugin.cell.events.JoinCell;
 import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.ProfileMenu;
@@ -25,7 +26,6 @@ import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
-import monzter.adventurescraft.plugin.prison.commands.Prison.MiningPass;
 import monzter.adventurescraft.plugin.shared.events.*;
 import monzter.adventurescraft.plugin.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
@@ -182,7 +182,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Sell(this, sellLocationFlag, economy, numberFormat, soundManager));
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
@@ -195,6 +195,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new JoinCell(this, mmoItemsGive, permissionLP, BentoBox.getInstance()), this);
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
+        manager.registerCommand(new Warp(this, mmoItemsGive, soundManager, permissionLP, loadWarps()));
     }
     private void sharedLoad(){
         getLogger().info("Shared Loaded");
@@ -230,7 +231,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
         manager.registerCommand(new Security(this));
-        manager.registerCommand(new MiningPass(this, consoleCommand, soundManager));
         manager.registerCommand(new DropTablesView(this));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));

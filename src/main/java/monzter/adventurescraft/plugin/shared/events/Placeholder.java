@@ -82,7 +82,6 @@ public class Placeholder extends PlaceholderExpansion {
      */
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
-        final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
 
         switch (identifier) {
 

@@ -130,7 +130,7 @@ public class MiningPass extends BaseCommand {
 
         backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("donationMenu")), 0, 0);
         miningPassExplanation.addItem(new GuiItem(miningPassExplanation(player, miningPassLevel, miningPassEXP), e -> {
-            if (player.hasPermission("MININGPASS.PREMIUM.PURCHASED"))
+            if (!player.hasPermission("MININGPASS.PREMIUM.PURCHASED"))
                 player.sendMessage(miningPass);
         }), 0, 0);
 
@@ -430,7 +430,10 @@ public class MiningPass extends BaseCommand {
         }
         lore.add("");
         if (!nextLevelEXPAmount.equals("Max")) {
-            lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "Progress to " + ChatColor.YELLOW + ChatColor.BOLD + "Level " + ChatColor.GOLD + ChatColor.BOLD + Integer.valueOf(miningPassLevel + 1) + ": " + ChatColor.YELLOW + Integer.valueOf(Integer.valueOf(nextLevelEXPAmount) / expAmount) + "%");
+            if (expAmount != 0)
+                lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "Progress to " + ChatColor.YELLOW + ChatColor.BOLD + "Level " + ChatColor.GOLD + ChatColor.BOLD + Integer.valueOf(miningPassLevel + 1) + ": " + ChatColor.YELLOW + Integer.valueOf(Integer.valueOf(nextLevelEXPAmount) / expAmount) + "%");
+            else
+                lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "Progress to " + ChatColor.YELLOW + ChatColor.BOLD + "Level " + ChatColor.GOLD + ChatColor.BOLD + Integer.valueOf(miningPassLevel + 1) + ": " + ChatColor.YELLOW + 0 + "%");
             lore.add(getProgressBar(expAmount, Integer.valueOf(nextLevelEXPAmount), 19, '-', ChatColor.YELLOW, ChatColor.BOLD) + " " + ChatColor.YELLOW + numberFormat.numberFormat(expAmount) + "/" + numberFormat.numberFormat(Integer.valueOf(nextLevelEXPAmount)) + " Experience");
         } else {
             lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "MAX LEVEL REACHED");
