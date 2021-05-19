@@ -78,16 +78,16 @@ public class DropTablesGive extends BaseCommand {
                     PetEgg exoticPetEggReward = exoticPetEgg.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), exoticPetEggReward.getDisplayName(), exoticPetEggReward.getType(), exoticPetEggReward.getId(), exoticPetEggReward.getWeight());
                     break;
-//                case "EGGMYTHICAL":
-//                    RandomSelector<mythicalPetEgg> mythicalPetEgg = RandomSelector.weighted(Arrays.asList(mythicalPetEgg.values()));
-//                    mythicalPetEgg mythicalPetEggReward = mythicalPetEgg.pick();
-//                    dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggReward.getDisplayName(), mythicalPetEggReward.getType(), mythicalPetEggReward.getId(), mythicalPetEggReward.getWeight());
-//                    break;
-//                case "EGGGODLY":
-//                    RandomSelector<godlyPetEgg> godlyPetEgg = RandomSelector.weighted(Arrays.asList(godlyPetEgg.values()));
-//                    godlyPetEgg godlyPetEggReward = godlyPetEgg.pick();
-//                    dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggReward.getDisplayName(), godlyPetEggReward.getType(), godlyPetEggReward.getId(), godlyPetEggReward.getWeight());
-//                    break;
+                case "EGGMYTHICAL":
+                    RandomSelector<PetEgg> mythicalPetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.MYTHICAL));
+                    PetEgg mythicalPetEggReward = mythicalPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggReward.getDisplayName(), mythicalPetEggReward.getType(), mythicalPetEggReward.getId(), mythicalPetEggReward.getWeight());
+                    break;
+                case "EGGGODLY":
+                    RandomSelector<PetEgg> godlyPetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.GODLY));
+                    PetEgg godlyPetEggReward = godlyPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggReward.getDisplayName(), godlyPetEggReward.getType(), godlyPetEggReward.getId(), godlyPetEggReward.getWeight());
+                    break;
 
                 case "LOOTBOX":
                     RandomSelector<Lootbox> lootbox = RandomSelector.weighted(Lootbox.getLootbox(Rarity.COMMON));

@@ -59,60 +59,63 @@ public class Weight extends BaseCommand {
 
     @CommandAlias("weightShop")
     public void pets(Player player) {
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Weight Shop"));
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
+        if (player.hasPermission("SHOPS")) {
 
-        PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
-        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+            ChestGui gui = new ChestGui(4, guiHelper.guiName("Weight Shop"));
+            gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        page.addPane(0, background);
-        page.addPane(0, display);
+            PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
+            OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
+            OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
 
-        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
-        background.setRepeat(true);
+            page.addPane(0, background);
+            page.addPane(0, display);
 
-        for (WeightList weight : WeightList.values()) {
-            if (player.hasPermission("WEIGHT.STORE.UPGRADE." + weight.getId() + ".PURCHASED")) {
+            background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
+            background.setRepeat(true);
 
-                ItemStack weightItem = new ItemStack(Material.ENCHANTED_BOOK);
-                final ItemMeta weightItemItemMeta = weightItem.getItemMeta();
+            for (WeightList weight : WeightList.values()) {
+                if (player.hasPermission("WEIGHT.STORE.UPGRADE." + weight.getId() + ".PURCHASED")) {
 
-                weightItemItemMeta.setDisplayName(ChatColor.GOLD + "+" + numberFormat.numberFormat(weight.getWeight()) + " Max Weight Increase " + ChatColor.YELLOW + ChatColor.BOLD + "PURCHASED");
+                    ItemStack weightItem = new ItemStack(Material.ENCHANTED_BOOK);
+                    final ItemMeta weightItemItemMeta = weightItem.getItemMeta();
 
-                List<Component> lore = new ArrayList<>();
-                lore.add(Component.text(""));
-                lore.add(Component.text(ChatColor.GRAY + "Increase the amount of " + ChatColor.BLUE + "Weight"));
-                lore.add(Component.text(ChatColor.GRAY + "you can hold by " + ChatColor.GOLD + numberFormat.numberFormat(weight.getWeight()) + ChatColor.GRAY + "!"));
-                lore.add(Component.text(""));
-                lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(weight.getPrice())));
-                weightItemItemMeta.lore(lore);
-                weightItem.setItemMeta(weightItemItemMeta);
-                display.addItem(new GuiItem(weightItem));
-            } else {
-                ItemStack weightItem = new ItemStack(Material.BOOK);
-                final ItemMeta weightItemItemMeta = weightItem.getItemMeta();
+                    weightItemItemMeta.setDisplayName(ChatColor.GOLD + "+" + numberFormat.numberFormat(weight.getWeight()) + " Max Weight Increase " + ChatColor.YELLOW + ChatColor.BOLD + "PURCHASED");
 
-                weightItemItemMeta.setDisplayName(ChatColor.GOLD + "+" + numberFormat.numberFormat(weight.getWeight()) + " Max Weight Increase");
-
-                List<Component> lore = new ArrayList<>();
-                lore.add(Component.text(""));
-                lore.add(Component.text(ChatColor.GRAY + "Increase the amount of " + ChatColor.BLUE + "Weight"));
-                lore.add(Component.text(ChatColor.GRAY + "you can hold by " + ChatColor.GOLD + numberFormat.numberFormat(weight.getWeight()) + ChatColor.GRAY + "!"));
-                lore.add(Component.text(""));
-                lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(weight.getPrice())));
-                if (economy.getBalance(player) >= weight.getPrice()) {
+                    List<Component> lore = new ArrayList<>();
                     lore.add(Component.text(""));
-                    lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                    lore.add(Component.text(ChatColor.GRAY + "Increase the amount of " + ChatColor.BLUE + "Weight"));
+                    lore.add(Component.text(ChatColor.GRAY + "you can hold by " + ChatColor.GOLD + numberFormat.numberFormat(weight.getWeight()) + ChatColor.GRAY + "!"));
+                    lore.add(Component.text(""));
+                    lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(weight.getPrice())));
+                    weightItemItemMeta.lore(lore);
+                    weightItem.setItemMeta(weightItemItemMeta);
+                    display.addItem(new GuiItem(weightItem));
+                } else {
+                    ItemStack weightItem = new ItemStack(Material.BOOK);
+                    final ItemMeta weightItemItemMeta = weightItem.getItemMeta();
+
+                    weightItemItemMeta.setDisplayName(ChatColor.GOLD + "+" + numberFormat.numberFormat(weight.getWeight()) + " Max Weight Increase");
+
+                    List<Component> lore = new ArrayList<>();
+                    lore.add(Component.text(""));
+                    lore.add(Component.text(ChatColor.GRAY + "Increase the amount of " + ChatColor.BLUE + "Weight"));
+                    lore.add(Component.text(ChatColor.GRAY + "you can hold by " + ChatColor.GOLD + numberFormat.numberFormat(weight.getWeight()) + ChatColor.GRAY + "!"));
+                    lore.add(Component.text(""));
+                    lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(weight.getPrice())));
+                    if (economy.getBalance(player) >= weight.getPrice()) {
+                        lore.add(Component.text(""));
+                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                    }
+                    weightItemItemMeta.lore(lore);
+                    weightItem.setItemMeta(weightItemItemMeta);
+                    display.addItem(new GuiItem(weightItem, e -> purchase(player, weight.getWeight(), weight.getPrice(), weight.getId())));
                 }
-                weightItemItemMeta.lore(lore);
-                weightItem.setItemMeta(weightItemItemMeta);
-                display.addItem(new GuiItem(weightItem, e -> purchase(player, weight.getWeight(), weight.getPrice(), weight.getId())));
             }
+            gui.addPane(background);
+            gui.addPane(display);
+            gui.show(player);
         }
-        gui.addPane(background);
-        gui.addPane(display);
-        gui.show(player);
     }
 
     private void purchase(Player player, int weight, int price, int weightID) {

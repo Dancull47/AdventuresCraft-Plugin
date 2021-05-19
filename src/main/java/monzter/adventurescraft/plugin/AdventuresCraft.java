@@ -21,7 +21,7 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.Tools;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.Armor;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
@@ -210,7 +210,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new RankMap(this, soundManager, guiHelper, consoleCommand));
@@ -223,7 +225,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
         manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
-        manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
+        manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Weight(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, betonPointsManager, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));

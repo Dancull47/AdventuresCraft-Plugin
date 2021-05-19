@@ -8,8 +8,6 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
@@ -53,45 +51,46 @@ public class Tools extends BaseCommand {
         this.numberFormat = numberFormat;
     }
 
-
     @CommandAlias("toolShop")
     public void pets(Player player) {
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Tool Shop"));
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
+        if (player.hasPermission("SHOPS")) {
+            ChestGui gui = new ChestGui(4, guiHelper.guiName("Tool Shop"));
+            gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
-        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+            PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
+            OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
+            OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
 
-        page.addPane(0, background);
-        page.addPane(0, display);
+            page.addPane(0, background);
+            page.addPane(0, display);
 
-        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
-        background.setRepeat(true);
+            background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
+            background.setRepeat(true);
 
-        for (ToolList tool : ToolList.values()) {
-            ItemStack toolItem = MMOItems.plugin.getItem("TOOL", tool.getId());
-            final ItemMeta toolItemItemMeta = toolItem.getItemMeta();
-            if (toolItem != null) {
-                List<Component> lore = toolItem.lore();
-                if (lore == null) {
-                    lore = new ArrayList<>();
-                } else if (!lore.isEmpty()) {
-                    lore.add(Component.empty());
+            for (ArmorList tool : ArmorList.values()) {
+                ItemStack toolItem = MMOItems.plugin.getItem("TOOL", tool.getId());
+                final ItemMeta toolItemItemMeta = toolItem.getItemMeta();
+                if (toolItem != null) {
+                    List<Component> lore = toolItem.lore();
+                    if (lore == null) {
+                        lore = new ArrayList<>();
+                    } else if (!lore.isEmpty()) {
+                        lore.add(Component.empty());
+                    }
+                    lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(tool.getPrice())));
+                    if (economy.getBalance(player) >= tool.getPrice()) {
+                        lore.add(Component.text(""));
+                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                    }
+                    toolItemItemMeta.lore(lore);
+                    toolItem.setItemMeta(toolItemItemMeta);
+                    display.addItem(new GuiItem(toolItem, e -> purchase(player, tool.getId(), tool.getPrice())));
                 }
-                lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(tool.getPrice())));
-                if (economy.getBalance(player) >= tool.getPrice()) {
-                    lore.add(Component.text(""));
-                    lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
-                }
-                toolItemItemMeta.lore(lore);
-                toolItem.setItemMeta(toolItemItemMeta);
-                display.addItem(new GuiItem(toolItem, e -> purchase(player, tool.getId(), tool.getPrice())));
             }
+            gui.addPane(background);
+            gui.addPane(display);
+            gui.show(player);
         }
-        gui.addPane(background);
-        gui.addPane(display);
-        gui.show(player);
     }
 
     private void purchase(Player player, String itemID, int price) {
