@@ -20,6 +20,8 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.Tools;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
@@ -220,7 +222,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
         manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
+        manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
+        manager.registerCommand(new Weight(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, betonPointsManager, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
@@ -240,7 +244,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
     private void initializeDependencies() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        economy = new EconomyImpl(rsp.getProvider(), this);
+        economy = new EconomyImpl(rsp.getProvider(), this, numberFormat, soundManager);
         permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);
         permission = new PermissionImpl(perms, getLogger());
         soundManager = new SoundManagerImpl();

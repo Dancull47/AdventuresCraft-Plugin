@@ -14,7 +14,10 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
@@ -35,127 +38,100 @@ public class Tools extends BaseCommand {
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
     private final Economy economy;
+    private final FullInventory fullInventory;
+    private final MMOItemsGive mmoItemsGive;
+    private final NumberFormat numberFormat;
 
-    public Tools(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Economy economy) {
+    public Tools(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Economy economy, FullInventory fullInventory, MMOItemsGive mmoItemsGive, NumberFormat numberFormat) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
         this.economy = economy;
+        this.fullInventory = fullInventory;
+        this.mmoItemsGive = mmoItemsGive;
+        this.numberFormat = numberFormat;
     }
 
-    String rarity;
 
     @CommandAlias("toolShop")
     public void pets(Player player) {
-        final int petAmount = Integer.valueOf(parsePlaceholder(player, "ac_Stat_PetAmount"));
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Pets"));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Tool Shop"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(2, 1, 4, 1, Pane.Priority.LOW);
-        StaticPane emptySlot = new StaticPane(2, 1, 5, 1, Pane.Priority.HIGHEST);
-        StaticPane backButton = new StaticPane(4, 3, 1, 1, Pane.Priority.HIGHEST);
+        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
 
         page.addPane(0, background);
-        page.addPane(0, emptySlot);
         page.addPane(0, display);
-        page.addPane(0, backButton);
 
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
-        plugin.getLogger().info(String.valueOf(petAmount));
 
-
-        if (petAmount < 1)
-            emptySlot.addItem(new GuiItem(empty(player)), 0, 0);
-        if (petAmount < 2)
-            emptySlot.addItem(new GuiItem(empty(player)), 1, 0);
-        if (petAmount < 3)
-            emptySlot.addItem(new GuiItem(locked(player)), 2, 0);
-        if (petAmount < 4)
-            emptySlot.addItem(new GuiItem(locked(player)), 3, 0);
-        if (petAmount < 5)
-            emptySlot.addItem(new GuiItem(locked(player)), 4, 0);
-        if (player.hasPermission("DONATE.PET.SLOT.1"))
-            emptySlot.addItem(new GuiItem(empty(player)), 2, 0);
-        if (player.hasPermission("DONATE.PET.SLOT.2"))
-            emptySlot.addItem(new GuiItem(empty(player)), 3, 0);
-        if (player.hasPermission("DONATE.PET.SLOT.2"))
-            emptySlot.addItem(new GuiItem(empty(player)), 4, 0);
-
-            for (ToolList tool : ToolList.values()) {
-                    ItemStack pet = MMOItems.plugin.getItem("TOOL", tool.getId());
-                    final ItemMeta petItemMeta = pet.getItemMeta();
-
-                    if (pet != null) {
-                        List<Component> lore = pet.lore();
-                        if (lore == null) {
-                            lore = new ArrayList<>();
-                        } else if (!lore.isEmpty()) {
-                            lore.add(Component.empty());
-                        }
-                        if (economy.getBalance(player) >= tool.getPrice()) {
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Purchase 1"));
-                    }
-                        petItemMeta.lore(lore);
-                        pet.setItemMeta(petItemMeta);
-                    display.addItem(new GuiItem(pet, e -> {
-                        player.performCommand("petUnequip " + "PET." + currentPetName + "." + currentRarity + " " + currentPetName + rarity);
-                        pets(player);
-                    }));
+        for (ToolList tool : ToolList.values()) {
+            ItemStack toolItem = MMOItems.plugin.getItem("TOOL", tool.getId());
+            final ItemMeta toolItemItemMeta = toolItem.getItemMeta();
+            if (toolItem != null) {
+                List<Component> lore = toolItem.lore();
+                if (lore == null) {
+                    lore = new ArrayList<>();
+                } else if (!lore.isEmpty()) {
+                    lore.add(Component.empty());
                 }
+                lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(tool.getPrice())));
+                if (economy.getBalance(player) >= tool.getPrice()) {
+                    lore.add(Component.text(""));
+                    lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                }
+                toolItemItemMeta.lore(lore);
+                toolItem.setItemMeta(toolItemItemMeta);
+                display.addItem(new GuiItem(toolItem, e -> purchase(player, tool.getId(), tool.getPrice())));
             }
         }
-        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 0, 0);
-
         gui.addPane(background);
-        gui.addPane(backButton);
-        gui.addPane(emptySlot);
         gui.addPane(display);
         gui.show(player);
     }
 
-    private ItemStack empty(Player player) {
-        final ItemStack empty = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-        final ItemMeta emptyItemMeta = empty.getItemMeta();
+    private void purchase(Player player, String itemID, int price) {
+        if (economy.hasMoney(player, price)) {
+            if (!fullInventory.fullInventory(player)) {
+                economy.takeMoney(player, price);
+                mmoItemsGive.giveMMOItem(player, "TOOL", itemID);
+            }
+        }
+    }
+}
 
-        emptyItemMeta.displayName(Component.text(ChatColor.RED + "Empty Pet Slot"));
+enum ToolList {
+    TOOL2("PRISONER_PICKAXE2", 15),
+    TOOL3("PRISONER_PICKAXE3", 60),
+    TOOL4("PRISONER_PICKAXE4", 240),
+    TOOL5("PRISONER_PICKAXE5", 960),
+    TOOL6("PRISONER_PICKAXE6", 3840),
+    TOOL7("PRISONER_PICKAXE7", 15000),
+    TOOL8("PRISONER_PICKAXE8", 61500),
+    TOOL9("PRISONER_PICKAXE9", 246000),
+    TOOL10("PRISONER_PICKAXE10", 1000000),
+    TOOL11("PRISONER_PICKAXE11", 3900000),
+    TOOL12("PRISONER_PICKAXE12", 15800000),
+    TOOL13("PRISONER_PICKAXE13", 63000000),
+    ;
+    private String id;
+    private int price;
 
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "This slot can be filled with a " + ChatColor.GREEN + "Pet" + ChatColor.GRAY + "!");
-        lore.add("");
-        lore.add(ChatColor.GRAY + "You can obtain " + ChatColor.GREEN + "Pets " + ChatColor.GRAY + "by");
-        lore.add(ChatColor.GREEN + "Hatching " + ChatColor.GRAY + "them with " + ChatColor.GREEN + "Jenny" + ChatColor.GRAY + "!");
-
-        empty.setItemMeta(emptyItemMeta);
-        empty.setLore(lore);
-
-        return empty;
+    ToolList(String id, int price) {
+        this.id = id;
+        this.price = price;
     }
 
-    private ItemStack locked(Player player) {
-        final ItemStack locked = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-        final ItemMeta lockedItemMeta = locked.getItemMeta();
-
-        lockedItemMeta.displayName(Component.text(ChatColor.RED + "Locked Pet Slot"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "This slot can be " + ChatColor.GREEN + "unlocked" + ChatColor.GRAY + "!");
-
-        locked.setItemMeta(lockedItemMeta);
-        locked.setLore(lore);
-
-        return locked;
+    public String getId() {
+        return id;
     }
 
-    private String parsePlaceholder(Player player, String string) {
-        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
+    public int getPrice() {
+        return price;
     }
 
 }
-
-

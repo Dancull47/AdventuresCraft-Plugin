@@ -70,7 +70,7 @@ public class Sell extends BaseCommand {
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " del items." + material.toString());
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " del items.Weight");
                 soundManager.playSound(player, Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1);
-                economy.money(player, calculation);
+                economy.giveMoney(player, calculation);
             }
         }
         player.sendMessage(ChatColor.GREEN + "You made " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(counter) + ChatColor.GREEN + "!");
