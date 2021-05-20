@@ -22,7 +22,10 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.Prest
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Armor;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtils;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
@@ -110,6 +113,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private ProtocolManager protocolManager;
     private PaperCommandManager manager;
     private GUIHelper guiHelper;
+    private PurchaseUtils purchaseUtils;
 
     @Override
     public void onLoad() {
@@ -212,6 +216,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
@@ -255,6 +260,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         numberFormat = new NumberFormatImpl();
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl();
+        purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);
 
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
         if (betonQuest == null) {

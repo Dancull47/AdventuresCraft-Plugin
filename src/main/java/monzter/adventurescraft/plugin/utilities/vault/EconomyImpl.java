@@ -29,20 +29,20 @@ public class EconomyImpl implements Economy {
     @Override
     public void giveMoney(Player player, double amount) {
         EconomyResponse r = econ.depositPlayer(player, amount);
-        player.sendMessage(ChatColor.GREEN + "You received " + ChatColor.YELLOW + "⛂ " + amount + ChatColor.GREEN + "!");
+        player.sendMessage(ChatColor.GREEN + "You received " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(amount) + ChatColor.GREEN + "!");
         if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!" + dateFormat.format(timestamp));
-            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
+            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat.numberFormat(amount) + " to " + player);
         }
     }
 
     @Override
     public void takeMoney(Player player, double amount) {
         EconomyResponse r = econ.withdrawPlayer(player, amount);
-        player.sendMessage(ChatColor.YELLOW + "⛂ " + amount + ChatColor.RED + " has been deducted from your account!");
+        player.sendMessage(ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(amount) + ChatColor.RED + " has been deducted from your account!");
         if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!" + dateFormat.format(timestamp));
-            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + amount + " to " + player);
+            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat.numberFormat(amount) + " to " + player);
         }
     }
 
