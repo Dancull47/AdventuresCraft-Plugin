@@ -28,8 +28,7 @@ public class InteractPetEgg implements Listener {
         final Player player = event.getPlayer();
         final ItemStack itemStack = event.getItem();
         final NBTItem nbtItem = NBTItem.get(itemStack);
-        //String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
-        final String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
+        final String id = MMOItems.plugin.getID(nbtItem);
         if (event.getHand() == EquipmentSlot.HAND && !player.getOpenInventory().equals(null)) {
             if (id != null) {
                 for (PetEggList egg : PetEggList.values()) {

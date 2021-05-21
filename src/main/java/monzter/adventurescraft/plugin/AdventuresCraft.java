@@ -216,6 +216,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));

@@ -39,7 +39,10 @@ public class EconomyImpl implements Economy {
     @Override
     public void takeMoney(Player player, double amount) {
         EconomyResponse r = econ.withdrawPlayer(player, amount);
-        player.sendMessage(ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(amount) + ChatColor.RED + " has been deducted from your account!");
+        if (amount < 1_000_000_000)
+            player.sendMessage(ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(amount) + ChatColor.RED + " has been deducted from your account!");
+        else
+            player.sendMessage(ChatColor.YELLOW + "⛂ " + amount + ChatColor.RED + " has been deducted from your account!");
         if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!" + dateFormat.format(timestamp));
             plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat.numberFormat(amount) + " to " + player);

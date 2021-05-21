@@ -120,6 +120,32 @@ public class Hatching extends BaseCommand {
                     }
                 }
                 break;
+            case "MYTHICAL":
+                if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
+                    if (hasItem(player, "PET_EGG6", Rarity.MYTHICAL + "Pet Egg")) {
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.MYTHICAL + "Pet Egg" + ChatColor.GREEN + "!");
+                        hatch(player, PetEggList.MYTHICAL.expToHatch);
+                        RandomSelector<PetEgg> mythicalPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.MYTHICAL)));
+                        PetEgg mythicalPetEggListReward = mythicalPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggListReward.getDisplayName(), mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId(), mythicalPetEggListReward.getWeight());
+                        hatchingHologram(MMOItems.plugin.getItem(mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId()), player);
+                        break;
+                    }
+                }
+                break;
+            case "GODLY":
+                if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
+                    if (hasItem(player, "PET_EGG7", Rarity.GODLY + "Pet Egg")) {
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.GODLY + "Pet Egg" + ChatColor.GREEN + "!");
+                        hatch(player, PetEggList.GODLY.expToHatch);
+                        RandomSelector<PetEgg> godlyPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.GODLY)));
+                        PetEgg godlyPetEggListReward = godlyPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggListReward.getDisplayName(), godlyPetEggListReward.getType(), godlyPetEggListReward.getId(), godlyPetEggListReward.getWeight());
+                        hatchingHologram(MMOItems.plugin.getItem(godlyPetEggListReward.getType(), godlyPetEggListReward.getId()), player);
+                        break;
+                    }
+                }
+                break;
             case "PHOENIX":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PHOENIX_EGG", Rarity.RARE + "Phoenix Pet Egg")) {
