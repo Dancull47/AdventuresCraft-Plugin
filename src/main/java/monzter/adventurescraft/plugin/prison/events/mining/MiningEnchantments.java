@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.prison.mining;
+package monzter.adventurescraft.plugin.prison.events.mining;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.Bukkit;

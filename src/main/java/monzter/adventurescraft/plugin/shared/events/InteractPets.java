@@ -2,6 +2,9 @@ package monzter.adventurescraft.plugin.shared.events;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import com.kirelcodes.miniaturepets.MiniaturePets;
+import com.kirelcodes.miniaturepets.loader.PetLoader;
+import com.kirelcodes.miniaturepets.pets.PetContainer;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
@@ -30,13 +33,16 @@ public class InteractPets extends BaseCommand implements Listener {
     private final MMOItemsGive mmoItemsGive;
     private final PermissionLP permissionLP;
     private final BetonPointsManager betonPointsManager;
+    private final MiniaturePets miniaturePets;
 
-    public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager) {
+
+    public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, MiniaturePets miniaturePets) {
         this.plugin = plugin;
         this.petsFile = petsFile;
         this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
         this.betonPointsManager = betonPointsManager;
+        this.miniaturePets = miniaturePets;
     }
 
     @EventHandler
@@ -45,15 +51,16 @@ public class InteractPets extends BaseCommand implements Listener {
         final ItemStack itemStack = event.getItem();
         final NBTItem nbtItem = NBTItem.get(itemStack);
         final String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
-        final String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
+        final String id = MMOItems.plugin.getID(nbtItem);
         if (event.getHand() == EquipmentSlot.HAND) {
             if (id != null) {
                 final Set<String> petNames = petsFile.getKeys(false);
                 for (String currentPetName : petNames) {
                     if (id.contains("PET_" + currentPetName)) {
                         if (maxPetCheck(player)) {
-                            if (!hasPetEquipped(player, currentPetName)) {
-                                equipPet(player, currentPetName, tier);
+                            if (!hasPetEquipped(player, currentPetName, itemStack.getItemMeta().getDisplayName())) {
+                                equipMPet(player, id);
+                                equipPet(player, currentPetName, tier, itemStack.getItemMeta().getDisplayName());
                                 player.getInventory().removeItem(event.getItem());
                             }
                         }
@@ -61,6 +68,114 @@ public class InteractPets extends BaseCommand implements Listener {
                 }
             }
         }
+    }
+
+    private void equipMPet(Player player, String id) {
+        id = id.replace("PET_", "");
+        switch (id) {
+            case "PHOENIX3":
+            case "PHOENIX4":
+                id = "BabyPhoenix";
+                break;
+            case "PHOENIX5":
+                id = "JuvenilePhoenix";
+                break;
+            case "PHOENIX6":
+                id = "Phoenix";
+                break;
+            case "PHOENIX7":
+                id = "KingPhoenix";
+                break;
+            case "PHOENIX8":
+                id = "WaterPhoenix";
+                break;
+            case "DRAGON3":
+            case "DRAGON4":
+                id = "BabyDragon";
+                break;
+            case "DRAGON5":
+            case "DRAGON6":
+                id = "JuvenileDragon";
+                break;
+            case "DRAGON7":
+                id = "Dragon";
+                break;
+            case "GORILLA":
+            case "GORILLA2":
+            case "GORILLA3":
+            case "GORILLA4":
+            case "GORILLA5":
+            case "GORILLA6":
+            case "GORILLA7":
+                id = "GORILLA";
+                break;
+            case "TURTLE":
+            case "TURTLE2":
+            case "TURTLE3":
+            case "TURTLE4":
+            case "TURTLE5":
+            case "TURTLE6":
+            case "TURTLE7":
+                id = "TURTLE";
+                break;
+            case "ELEPHANT":
+            case "ELEPHANT2":
+            case "ELEPHANT3":
+            case "ELEPHANT4":
+            case "ELEPHANT5":
+            case "ELEPHANT6":
+            case "ELEPHANT7":
+                id = "ELEPHANT";
+                break;
+            case "GIRAFFE":
+            case "GIRAFFE2":
+            case "GIRAFFE3":
+            case "GIRAFFE4":
+            case "GIRAFFE5":
+            case "GIRAFFE6":
+            case "GIRAFFE7":
+                id = "GIRAFFE";
+                break;
+            case "PENGUIN":
+            case "PENGUIN2":
+            case "PENGUIN3":
+            case "PENGUIN4":
+            case "PENGUIN5":
+            case "PENGUIN6":
+            case "PENGUIN7":
+                id = "PENGUIN";
+                break;
+            case "FROG":
+            case "FROG2":
+            case "FROG3":
+            case "FROG4":
+            case "FROG5":
+            case "FROG6":
+            case "FROG7":
+                id = "FROG";
+                break;
+            case "LION":
+            case "LION2":
+            case "LION3":
+            case "LION4":
+            case "LION5":
+            case "LION6":
+            case "LION7":
+                id = "LION";
+                break;
+            case "RED_PANDA":
+            case "RED_PANDA2":
+            case "RED_PANDA3":
+            case "RED_PANDA4":
+            case "RED_PANDA5":
+            case "RED_PANDA6":
+            case "RED_PANDA7":
+                id = "REDPANDA";
+                break;
+        }
+        plugin.getLogger().info(id);
+        PetContainer petContainer = PetLoader.getPet(id.toLowerCase());
+        petContainer.spawnPet(player);
     }
 
     public boolean maxPetCheck(Player player) {
@@ -74,10 +189,10 @@ public class InteractPets extends BaseCommand implements Listener {
         }
     }
 
-    public boolean hasPetEquipped(Player player, String pet) {
+    public boolean hasPetEquipped(Player player, String pet, String petDisplayName) {
         for (String currentTier : tierList) {
             if (player.hasPermission(String.join(".", "PET", pet, currentTier))) {
-                player.sendMessage(ChatColor.RED + "You already have a " + ChatColor.GOLD + WordUtils.capitalizeFully(pet) + ChatColor.RED + " equipped!");
+                player.sendMessage(ChatColor.RED + "You already have a " + ChatColor.GOLD + petDisplayName + ChatColor.RED + " equipped!");
                 return true;
             }
         }
@@ -85,50 +200,9 @@ public class InteractPets extends BaseCommand implements Listener {
     }
 
 
-    public void equipPet(Player player, String name, String tier) {
+    public void equipPet(Player player, String name, String tier, String displayName) {
         betonPointsManager.givePoint(player, "items.PetAmount", 1);
         permissionLP.givePermission(player, String.join(".", "PET", name, tier));
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mpet pet " + name + " " + player.getName());
-        player.sendMessage(ChatColor.GREEN + "You equipped a " + ChatColor.GOLD + WordUtils.capitalizeFully(name) + ChatColor.GREEN + " Pet!");
+        player.sendMessage(ChatColor.GREEN + "You equipped a " + displayName + ChatColor.GREEN + " Pet!");
     }
-
-    @CommandAlias("petunequip")
-    private void voteCommand(Player player, String petName, String tier) {
-            if (player.getInventory().firstEmpty() != -1) {
-                String permission = String.join(".", "PET", petName, tier).toUpperCase();
-                if (player.hasPermission(permission)) {
-                    player.sendMessage(ChatColor.GREEN + "Your " + WordUtils.capitalizeFully(petName) + " pet has been unequipped and put inside your inventory!");
-                    permissionLP.takePermission(player, permission);
-                    betonPointsManager.takePoint(player, "items.PetAmount", 1);
-                    player.performCommand("mpet remove");
-                    String itemName = "PET_" + petName;
-                    switch (tier.toUpperCase()) {
-                        case "COMMON":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName, 1, true);
-                            break;
-                        case "UNCOMMON":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"2", 1, true);
-                            break;
-                        case "RARE":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"3", 1, true);
-                            break;
-                        case "LEGENDARY":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"4", 1, true);
-                            break;
-                        case "EXOTIC":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"5", 1, true);
-                            break;
-                        case "MYTHICAL":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"6", 1, true);
-                            break;
-                        case "GODLY":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"7", 1, true);
-                            break;
-                        case "GODLY_PHOENIX":
-                            mmoItemsGive.giveMMOItem(player, "PET", itemName+"8", 1, true);
-                            break;
-                    }
-                }
-            }
-        }
-    }
+}

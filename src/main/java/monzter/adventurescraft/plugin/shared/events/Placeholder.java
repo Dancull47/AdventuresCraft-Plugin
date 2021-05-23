@@ -13,20 +13,17 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.miningPass.MiningPassLevels;
 import monzter.adventurescraft.plugin.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
-import monzter.adventurescraft.plugin.prison.mining.BeachEvent;
+import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import pl.betoncraft.betonquest.BetonQuest;
-import pl.betoncraft.betonquest.Point;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -228,7 +225,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_PetAmount":
                 return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetAmount.amount%");
             case "Stat_MaxPetAmount":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPetAmount.amount%");
+                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPet.amount%");
             case "Stat_MiningPassEXPAmount":
                 return PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%");
             case "Stat_MiningPassNextLevelEXPAmount":
@@ -259,53 +256,6 @@ public class Placeholder extends PlaceholderExpansion {
                 return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%")));
             case "Currency_VotingCoins":
                         return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
-                // ENCHANTMENTS
-            case "Enchantment_Randomizer":
-                return String.valueOf(calculateEnchantments(player, "Randomizer"));
-            case "Enchantment_Randomizer_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
-            case "Enchantment_Randomizer_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
-            case "Enchantment_Randomizer_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer")) + 1);
-
-            case "Enchantment_Midas_Touch":
-                return String.valueOf(calculateEnchantments(player, "Midas Touch"));
-            case "Enchantment_Midas_Touch_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
-            case "Enchantment_Midas_Touch_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
-            case "Enchantment_Midas_Touch_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch")) + 1);
-
-            case "Enchantment_Treasurer":
-                return String.valueOf(calculateEnchantments(player, "Treasurer"));
-            case "Enchantment_Treasurer_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
-            case "Enchantment_Treasurer_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
-            case "Enchantment_Treasurer_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer")) + 1);
-
-            case "Enchantment_Explosive_Chance":
-                return String.valueOf(calculateEnchantments(player, "Explosive Chance"));
-            case "Enchantment_Explosive_Chance_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
-            case "Enchantment_Explosive_Chance_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
-            case "Enchantment_Explosive_Chance_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")) + 1);
-
-            case "Enchantment_Experience":
-                return String.valueOf(calculateEnchantments(player, "Experience"));
-            case "Enchantment_Pet_Experience":
-                return String.valueOf(calculateEnchantments(player, "Pet Experience"));
-            case "Enchantment_Explosive":
-                return String.valueOf(calculateEnchantments(player, "Explosive"));
-            case "Enchantment_Luck":
-                return String.valueOf(calculateEnchantments(player, "Luck"));
-            case "Enchantment_Stat_Tracker":
-                return String.valueOf(calculateEnchantments(player, "Stat Tracker"));
 
             case "Location":
                 return location(player);
@@ -433,7 +383,6 @@ public class Placeholder extends PlaceholderExpansion {
             if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null) {
                 Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
                 if (!enchantmentMap.isEmpty()) {
-//                System.out.println(enchantmentMap + "TEST");
                     if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
                         return enchantmentMap.get(Enchantment.getByName(enchantment));
                     }

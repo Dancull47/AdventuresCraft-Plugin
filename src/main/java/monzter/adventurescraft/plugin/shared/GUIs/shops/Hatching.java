@@ -69,12 +69,18 @@ public class Hatching extends BaseCommand {
             OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
             OutlinePane display = new OutlinePane(1, 1, 7, 1, Pane.Priority.LOW);
             OutlinePane display2 = new OutlinePane(1, 2, 7, 1, Pane.Priority.LOW);
-            StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
-            StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
+            OutlinePane phoenixBuy = new OutlinePane(1, 3, 2, 1, Pane.Priority.LOW);
+            OutlinePane phoenixHatch = new OutlinePane(1, 4, 2, 1, Pane.Priority.LOW);
+            OutlinePane dragonBuy = new OutlinePane(6, 3, 2, 1, Pane.Priority.LOW);
+            OutlinePane dragonHatch = new OutlinePane(6, 4, 2, 1, Pane.Priority.LOW);
 
             page.addPane(0, background);
             page.addPane(0, display);
             page.addPane(0, display2);
+            page.addPane(0, phoenixBuy);
+            page.addPane(0, phoenixHatch);
+            page.addPane(0, dragonBuy);
+            page.addPane(0, dragonHatch);
 
             background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
             background.setRepeat(true);
@@ -91,12 +97,29 @@ public class Hatching extends BaseCommand {
                             player.performCommand("droptableviewer " + hatching.getId()+"petegg");
 
                     }));
+                if (i > 13 && i < 16)
+                    phoenixBuy.addItem(new GuiItem(buyEgg(economy.getBalance(player), hatching), e -> purchase(player, hatching.getItemID(), hatching.getPrice())));
+                if (i > 15 && i < 18)
+                    phoenixHatch.addItem(new GuiItem(hatchEgg(Integer.valueOf(petExp), hatching), e -> {
+                        if (e.isLeftClick())
+                            player.performCommand("hatch " + hatching.getId());
+                        if (e.isRightClick())
+                            player.performCommand("droptableviewer " + hatching.getId()+"petegg");
+
+                    }));
+                if (i > 17 && i < 20)
+                    dragonBuy.addItem(new GuiItem(buyEgg(economy.getBalance(player), hatching), e -> purchase(player, hatching.getItemID(), hatching.getPrice())));
+                if (i > 19 && i < 22)
+                    dragonHatch.addItem(new GuiItem(hatchEgg(Integer.valueOf(petExp), hatching), e -> {
+                        if (e.isLeftClick())
+                            player.performCommand("hatch " + hatching.getId());
+                        if (e.isRightClick())
+                            player.performCommand("droptableviewer " + hatching.getId()+"petegg");
+
+                    }));
                 i++;
             }
-
             gui.addPane(page);
-            gui.addPane(back);
-            gui.addPane(forward);
             gui.show(player);
         }
     }
@@ -178,6 +201,19 @@ enum HatchingList {
     EXOTICHatch("Exotic", "PET_EGG5", PetEggList.EXOTIC.getExpToHatch()),
     MYTHICALHatch("Mythical", "PET_EGG6", PetEggList.MYTHICAL.getExpToHatch()),
     GODLYHatch("Godly", "PET_EGG7", PetEggList.GODLY.getExpToHatch()),
+
+    RAREPhoenixBuy("Phoenix", "PHOENIX_EGG", 10_000_000),
+    LEGENDARYPhoenixBuy("Phoenix2", "PHOENIX_EGG2", 100_000_000),
+
+    RAREPhoenixHatch("Phoenix", "PHOENIX_EGG", PetEggList.PHOENIX.getExpToHatch()),
+    LEGENDARYPhoenixHatch("Phoenix2", "PHOENIX_EGG2", PetEggList.PHOENIX2.getExpToHatch()),
+
+    RAREDragonBuy("Dragon", "DRAGON_EGG", 10_000_000),
+    LEGENDARYDragonBuy("Dragon2", "DRAGON_EGG2", 100_000_000),
+
+    RAREDragonHatch("Dragon", "DRAGON_EGG", PetEggList.DRAGON.getExpToHatch()),
+    LEGENDARYDragonHatch("Dragon2", "DRAGON_EGG2", PetEggList.DRAGON2.getExpToHatch()),
+
 
     ;
     private String id;

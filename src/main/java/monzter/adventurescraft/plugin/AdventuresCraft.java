@@ -3,6 +3,7 @@ package monzter.adventurescraft.plugin;
 import co.aikar.commands.PaperCommandManager;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.kirelcodes.miniaturepets.MiniaturePets;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.LocationFlag;
@@ -10,6 +11,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import io.lumine.mythicenchants.MythicEnchants;
 import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.commands.Warp;
@@ -26,6 +28,7 @@ import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtils;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
+import monzter.adventurescraft.plugin.shared.Placeholders.PlaceholderEnchanting;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
@@ -36,10 +39,10 @@ import monzter.adventurescraft.plugin.prison.events.JoinPrison;
 import monzter.adventurescraft.plugin.prison.events.Tutorial;
 import monzter.adventurescraft.plugin.prison.commands.Sell;
 import monzter.adventurescraft.plugin.prison.commands.Warps;
-import monzter.adventurescraft.plugin.prison.mining.BeachEvent;
-import monzter.adventurescraft.plugin.prison.mining.BlockBreakMining;
-import monzter.adventurescraft.plugin.prison.mining.ChestInteract;
-import monzter.adventurescraft.plugin.prison.mining.MiningEnchantments;
+import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
+import monzter.adventurescraft.plugin.prison.events.mining.BlockBreakMining;
+import monzter.adventurescraft.plugin.prison.events.mining.ChestInteract;
+import monzter.adventurescraft.plugin.prison.events.mining.MiningEnchantments;
 import monzter.adventurescraft.plugin.prison.utilities.BlockPhysics;
 import monzter.adventurescraft.plugin.shared.events.utilities.Join_LeaveMessage;
 import monzter.adventurescraft.plugin.prison.utilities.ProjectileCancelArrowDrop;
@@ -64,6 +67,7 @@ import monzter.adventurescraft.plugin.utilities.vault.EconomyImpl;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
 import monzter.adventurescraft.plugin.utilities.vault.PermissionImpl;
 import net.Indyuce.mmoitems.MMOItems;
+import net.Indyuce.mmoitems.comp.mythicenchants.MythicEnchantsSupport;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -114,6 +118,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PaperCommandManager manager;
     private GUIHelper guiHelper;
     private PurchaseUtils purchaseUtils;
+    private MythicEnchantsSupport mythicEnchantsSupport;
+
 
     @Override
     public void onLoad() {
@@ -161,6 +167,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         saveDefaultConfig();
 
         new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime).register();
+        new PlaceholderEnchanting(this, numberFormat).register();
 
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
@@ -209,7 +216,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, MiniaturePets.getInstance()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
@@ -225,9 +232,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new PrestigeMap(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Leaderboards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
-        manager.registerCommand(new Pets(this, soundManager, guiHelper, consoleCommand, loadPetsConfig()));
+        manager.registerCommand(new Pets(this, soundManager, guiHelper, consoleCommand, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, fullInventory));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
-        manager.registerCommand(new PetUnequip(this, mmoItemsGive, soundManager, permissionLP, betonPointsManager));
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
         manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
@@ -239,26 +245,26 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
         manager.registerCommand(new GeneralCommands(this, consoleCommand));
         manager.registerCommand(new Security(this));
-        manager.registerCommand(new DropTablesView(this));
+        manager.registerCommand(new DropTablesView(this, guiHelper));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager));
-        manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand));
-        manager.registerCommand(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager));
+        manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager));
+        manager.registerCommand(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, MiniaturePets.getInstance()));
         getCommand("EnchantReward").setExecutor(new MiningEnchantments(this));
 
     }
     private void initializeDependencies() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        numberFormat = new NumberFormatImpl();
+        soundManager = new SoundManagerImpl();
+        fullInventory = new FullInventoryImpl();
         economy = new EconomyImpl(rsp.getProvider(), this, numberFormat, soundManager);
         permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);
         permission = new PermissionImpl(perms, getLogger());
-        soundManager = new SoundManagerImpl();
-        fullInventory = new FullInventoryImpl();
         consoleCommand = new ConsoleCommandImpl(getServer());
-        numberFormat = new NumberFormatImpl();
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl();
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);

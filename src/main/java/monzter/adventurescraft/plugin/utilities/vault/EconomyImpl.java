@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class EconomyImpl implements Economy {
@@ -16,8 +17,8 @@ public class EconomyImpl implements Economy {
     private final AdventuresCraft plugin;
     private final NumberFormat numberFormat;
     private final SoundManager soundManager;
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
     public EconomyImpl(net.milkbowl.vault.economy.Economy econ, AdventuresCraft plugin, NumberFormat numberFormat, SoundManager soundManager) {
         this.econ = econ;
@@ -29,23 +30,20 @@ public class EconomyImpl implements Economy {
     @Override
     public void giveMoney(Player player, double amount) {
         EconomyResponse r = econ.depositPlayer(player, amount);
-        player.sendMessage(ChatColor.GREEN + "You received " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(amount) + ChatColor.GREEN + "!");
+        player.sendMessage(ChatColor.GREEN + "You received " + ChatColor.YELLOW + "⛂ " + numberFormat(amount) + ChatColor.GREEN + "!");
         if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!" + dateFormat.format(timestamp));
-            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat.numberFormat(amount) + " to " + player);
+            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat(amount) + " to " + player);
         }
     }
 
     @Override
     public void takeMoney(Player player, double amount) {
         EconomyResponse r = econ.withdrawPlayer(player, amount);
-        if (amount < 1_000_000_000)
-            player.sendMessage(ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(amount) + ChatColor.RED + " has been deducted from your account!");
-        else
-            player.sendMessage(ChatColor.YELLOW + "⛂ " + amount + ChatColor.RED + " has been deducted from your account!");
+        player.sendMessage(ChatColor.YELLOW + "⛂ " + numberFormat(amount) + ChatColor.RED + " has been deducted from your account!");
         if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!" + dateFormat.format(timestamp));
-            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat.numberFormat(amount) + " to " + player);
+            plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat(amount) + " to " + player);
         }
     }
 
@@ -60,7 +58,7 @@ public class EconomyImpl implements Economy {
         if (balance >= price)
             return true;
         else {
-            player.sendMessage(ChatColor.RED + "You only have " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(balance) + ChatColor.RED + " and this costs " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(price) + ChatColor.RED + "!");
+            player.sendMessage(ChatColor.RED + "You only have " + ChatColor.YELLOW + "⛂ " + numberFormat(balance) + ChatColor.RED + " and this costs " + ChatColor.YELLOW + "⛂ " + numberFormat(price) + ChatColor.RED + "!");
             soundManager.soundNo(player, 1);
             return false;
         }
@@ -72,10 +70,15 @@ public class EconomyImpl implements Economy {
         if (balance >= price)
             return true;
         else {
-            player.sendMessage(ChatColor.RED + "You only have " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(balance) + ChatColor.RED + " and this costs " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(price) + ChatColor.RED + "!");
+            player.sendMessage(ChatColor.RED + "You only have " + ChatColor.YELLOW + "⛂ " + numberFormat(balance) + ChatColor.RED + " and this costs " + ChatColor.YELLOW + "⛂ " + numberFormat(price) + ChatColor.RED + "!");
             soundManager.soundNo(player, 1);
             return false;
         }
+    }
+
+    public String numberFormat(double number) {
+        DecimalFormat format = new DecimalFormat("###,###,###");
+        return format.format(number);
     }
 
 }

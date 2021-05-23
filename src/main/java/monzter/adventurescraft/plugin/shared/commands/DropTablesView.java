@@ -16,6 +16,7 @@ import monzter.adventurescraft.plugin.shared.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.shared.dropTables.LootLlama;
 import monzter.adventurescraft.plugin.shared.dropTables.Lootbox;
 import monzter.adventurescraft.plugin.shared.dropTables.PetEgg;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.Indyuce.mmoitems.MMOItems;
@@ -35,9 +36,12 @@ public class DropTablesView extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
+    private final GUIHelper guiHelper;
 
-    public DropTablesView(AdventuresCraft plugin) {
+
+    public DropTablesView(AdventuresCraft plugin, GUIHelper guiHelper) {
         this.plugin = plugin;
+        this.guiHelper = guiHelper;
     }
 
     private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -55,6 +59,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents, player);
         gui.show(player);
     }
+
     @Subcommand("CommonPetEgg")
     private void commonPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Common Pet Egg");
@@ -62,6 +67,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("UncommonPetEgg")
     private void uncommonPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Uncommon Pet Egg");
@@ -69,6 +75,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("RarePetEgg")
     private void rarePetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Rare Pet Egg");
@@ -76,6 +83,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("LegendaryPetEgg")
     private void legendaryPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Legendary Pet Egg");
@@ -83,6 +91,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("ExoticPetEgg")
     private void exoticPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Exotic Pet Egg");
@@ -90,6 +99,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("MythicalPetEgg")
     private void mythicalPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Mythical Pet Egg");
@@ -97,6 +107,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("GodlyPetEgg")
     private void godlyPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Godly Pet Egg");
@@ -104,6 +115,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("PhoenixPetEgg")
     private void phoenixPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Phoenix Pet Egg");
@@ -111,13 +123,15 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
-    @Subcommand("PhoenixPetEgg2")
+
+    @Subcommand("PhoenixPetEgg2|Phoenix2PetEgg")
     private void phoenixPetEgg2(Player player) {
         final ChestGui gui = new ChestGui(6, "Phoenix Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.PHOENIX2);
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("DragonPetEgg")
     private void dragonPetEgg(Player player) {
         final ChestGui gui = new ChestGui(6, "Dragon Pet Egg");
@@ -125,13 +139,15 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
-    @Subcommand("DragonPetEgg2")
+
+    @Subcommand("DragonPetEgg2|Dragon2PetEgg")
     private void dragonPetEgg2(Player player) {
         final ChestGui gui = new ChestGui(6, "Dragon Pet Egg");
         final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.DRAGON2);
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("Lootbox")
     private void lootbox(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
@@ -139,6 +155,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("Lootbox2")
     private void lootbox2(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
@@ -146,6 +163,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("Lootbox3")
     private void lootbox3(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
@@ -153,6 +171,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("Lootbox4")
     private void lootbox4(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
@@ -160,6 +179,7 @@ public class DropTablesView extends BaseCommand {
         createMenu(gui, guiContents);
         gui.show(player);
     }
+
     @Subcommand("Lootbox5")
     private void lootbox5(Player player) {
         final ChestGui gui = new ChestGui(6, "Lootbox");
@@ -203,7 +223,7 @@ public class DropTablesView extends BaseCommand {
                 display2.addItem(new GuiItem(item.generateItem()));
             }
         }
-        if (!display2.getItems().isEmpty()){
+        if (!display2.getItems().isEmpty()) {
             back.addItem(new GuiItem((previousPageItem), event -> {
                 page.setPage(page.getPage() - 1);
                 if (page.getPage() == 0) {
@@ -227,7 +247,12 @@ public class DropTablesView extends BaseCommand {
         gui.addPane(back);
         gui.addPane(forward);
     }
+
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player) {
+        createMenu(gui, guiContents, player, "");
+    }
+
+    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player, String guiName) {
         backgroundItemMeta.displayName(Component.text(" "));
         previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
         nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
@@ -243,6 +268,7 @@ public class DropTablesView extends BaseCommand {
         OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
+        StaticPane backButton = new StaticPane(4, 5, 1, 1, Pane.Priority.HIGHEST);
 
         page.addPane(0, background);
         page.addPane(0, display);
@@ -263,7 +289,7 @@ public class DropTablesView extends BaseCommand {
             }
         }
 
-        if (!display2.getItems().isEmpty()){
+        if (!display2.getItems().isEmpty()) {
             back.addItem(new GuiItem((previousPageItem), event -> {
                 page.setPage(page.getPage() - 1);
                 if (page.getPage() == 0) {
@@ -282,11 +308,15 @@ public class DropTablesView extends BaseCommand {
                 gui.update();
             }), 0, 0);
         }
+        if (guiName.equals("PetEgg"))
+            backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("hatchingshop")), 0, 0);
 
         gui.addPane(page);
         gui.addPane(back);
+        gui.addPane(backButton);
         gui.addPane(forward);
     }
+
 
     @Subcommand("Llama")
     private void llama(Player player) {

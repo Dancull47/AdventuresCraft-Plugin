@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.prison.mining;
+package monzter.adventurescraft.plugin.prison.events.mining;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
