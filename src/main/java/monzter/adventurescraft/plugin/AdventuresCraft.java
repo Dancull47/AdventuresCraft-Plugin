@@ -214,7 +214,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this, permissionLP, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
