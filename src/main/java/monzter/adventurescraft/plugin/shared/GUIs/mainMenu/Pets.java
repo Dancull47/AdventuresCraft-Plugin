@@ -9,6 +9,8 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import com.kirelcodes.miniaturepets.loader.PetLoader;
+import com.kirelcodes.miniaturepets.pets.PetContainer;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
@@ -26,6 +28,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -63,7 +66,6 @@ public class Pets extends BaseCommand {
     }
 
     String rarity;
-
     @CommandAlias("petGUI|pet|pets|petMenu")
     public void pets(Player player) {
         final int petAmount = Integer.valueOf(parsePlaceholder(player, "ac_Stat_PetAmount"));
@@ -83,8 +85,6 @@ public class Pets extends BaseCommand {
 
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
-        plugin.getLogger().info(String.valueOf(petAmount));
-
 
         if (petAmount < 1)
             emptySlot.addItem(new GuiItem(empty(player)), 0, 0);
@@ -109,8 +109,6 @@ public class Pets extends BaseCommand {
             Set<String> rarities = rarityConfigSection.getKeys(false);
             for (String currentRarity : rarities) {
                 if (player.hasPermission("PET." + currentPetName + "." + currentRarity)) {
-                    plugin.getLogger().info(currentRarity);
-
                     switch (currentRarity.toUpperCase()) {
                         case "COMMON":
                             rarity = "";
@@ -137,7 +135,6 @@ public class Pets extends BaseCommand {
                             rarity = "8";
                             break;
                     }
-                    plugin.getLogger().info("1 " + rarity);
 
                     ItemStack pet = MMOItems.plugin.getItem("PET", "PET_" + currentPetName + rarity);
                     final ItemMeta petItemMeta = pet.getItemMeta();
@@ -149,16 +146,19 @@ public class Pets extends BaseCommand {
                         } else if (!lore.isEmpty()) {
                             lore.add(Component.empty());
                         }
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Unequip Pet"));
+                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Unequip Pet"));
+                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to Summon Pet"));
 
                         petItemMeta.lore(lore);
                     }
                     pet.setItemMeta(petItemMeta);
                     display.addItem(new GuiItem(pet, e -> {
-                        final NBTItem nbtItem = NBTItem.get(e.getCurrentItem());
-                        plugin.getLogger().info("2 " + rarity);
                         player.closeInventory();
-                        petUnequip(player, "PET." + currentPetName + "." + currentRarity, MMOItems.plugin.getItem("PET", MMOItems.plugin.getID(nbtItem)));
+                        final NBTItem nbtItem = NBTItem.get(e.getCurrentItem());
+                        if (e.isLeftClick())
+                            petUnequip(player, "PET." + currentPetName + "." + currentRarity, MMOItems.plugin.getItem("PET", MMOItems.plugin.getID(nbtItem)));
+                        if (e.isRightClick())
+                            equipMPet(player, MMOItems.plugin.getID(nbtItem), nbtItem.getItem().getItemMeta().getDisplayName());
                     }));
                 }
             }
@@ -174,14 +174,13 @@ public class Pets extends BaseCommand {
 
     private void petUnequip(Player player, String petPermission, ItemStack petItem) {
         if (player.hasPermission(petPermission)) {
-            plugin.getLogger().info("Has permission");
-
             if (!fullInventory.fullInventory(player)) {
                 betonPointsManager.givePoint(player, "items.PetAmount", -1);
                 permissionLP.takePermission(player, petPermission);
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "mpet remove " + player.getName());
                 player.sendMessage(ChatColor.RED + "Your " + petItem.getItemMeta().getDisplayName() + ChatColor.RED + " has been unequipped!");
                 player.getInventory().addItem(petItem);
+                soundManager.playSound(player, Sound.ITEM_ARMOR_EQUIP_DIAMOND, 1, 1);
             }
         }
     }
@@ -223,6 +222,115 @@ public class Pets extends BaseCommand {
 
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
+    }
+
+    private void equipMPet(Player player, String id, String displayName) {
+        id = id.replace("PET_", "");
+        switch (id) {
+            case "PHOENIX3":
+            case "PHOENIX4":
+                id = "BabyPhoenix";
+                break;
+            case "PHOENIX5":
+                id = "JuvenilePhoenix";
+                break;
+            case "PHOENIX6":
+                id = "Phoenix";
+                break;
+            case "PHOENIX7":
+                id = "KingPhoenix";
+                break;
+            case "PHOENIX8":
+                id = "WaterPhoenix";
+                break;
+            case "DRAGON3":
+            case "DRAGON4":
+                id = "BabyDragon";
+                break;
+            case "DRAGON5":
+            case "DRAGON6":
+                id = "JuvenileDragon";
+                break;
+            case "DRAGON7":
+                id = "Dragon";
+                break;
+            case "GORILLA":
+            case "GORILLA2":
+            case "GORILLA3":
+            case "GORILLA4":
+            case "GORILLA5":
+            case "GORILLA6":
+            case "GORILLA7":
+                id = "GORILLA";
+                break;
+            case "TURTLE":
+            case "TURTLE2":
+            case "TURTLE3":
+            case "TURTLE4":
+            case "TURTLE5":
+            case "TURTLE6":
+            case "TURTLE7":
+                id = "TURTLE";
+                break;
+            case "ELEPHANT":
+            case "ELEPHANT2":
+            case "ELEPHANT3":
+            case "ELEPHANT4":
+            case "ELEPHANT5":
+            case "ELEPHANT6":
+            case "ELEPHANT7":
+                id = "ELEPHANT";
+                break;
+            case "GIRAFFE":
+            case "GIRAFFE2":
+            case "GIRAFFE3":
+            case "GIRAFFE4":
+            case "GIRAFFE5":
+            case "GIRAFFE6":
+            case "GIRAFFE7":
+                id = "GIRAFFE";
+                break;
+            case "PENGUIN":
+            case "PENGUIN2":
+            case "PENGUIN3":
+            case "PENGUIN4":
+            case "PENGUIN5":
+            case "PENGUIN6":
+            case "PENGUIN7":
+                id = "PENGUIN";
+                break;
+            case "FROG":
+            case "FROG2":
+            case "FROG3":
+            case "FROG4":
+            case "FROG5":
+            case "FROG6":
+            case "FROG7":
+                id = "FROG";
+                break;
+            case "LION":
+            case "LION2":
+            case "LION3":
+            case "LION4":
+            case "LION5":
+            case "LION6":
+            case "LION7":
+                id = "LION";
+                break;
+            case "RED_PANDA":
+            case "RED_PANDA2":
+            case "RED_PANDA3":
+            case "RED_PANDA4":
+            case "RED_PANDA5":
+            case "RED_PANDA6":
+            case "RED_PANDA7":
+                id = "REDPANDA";
+                break;
+        }
+        PetContainer petContainer = PetLoader.getPet(id.toLowerCase());
+        petContainer.spawnPet(player);
+        player.sendMessage(ChatColor.GREEN + "Your " + displayName + ChatColor.GREEN + " has been summoned!");
+        soundManager.soundYes(player, 2);
     }
 
 }

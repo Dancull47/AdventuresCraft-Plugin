@@ -80,7 +80,7 @@ public class MiningPass extends BaseCommand {
         int miningPassEXP = Integer.valueOf(parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount"));
         int miningPassLevel = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MiningPassLevel%"));
 
-        ChestGui gui = new ChestGui(6, guiHelper.guiName("Adventure Store"));
+        ChestGui gui = new ChestGui(6, guiHelper.guiName("Mining Pass"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
@@ -125,7 +125,7 @@ public class MiningPass extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("donationMenu")), 0, 0);
+        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("mainMenu")), 0, 0);
         miningPassExplanation.addItem(new GuiItem(miningPassExplanation(player, miningPassLevel, miningPassEXP), e -> {
             if (!player.hasPermission("MININGPASS.PREMIUM.PURCHASED"))
                 player.sendMessage(miningPass);
@@ -420,7 +420,7 @@ public class MiningPass extends BaseCommand {
         lore.add(ChatColor.GRAY + "daily objectives for unique rewards!");
         if (!player.hasPermission("MININGPASS.PREMIUM.PURCHASED")) {
             lore.add("");
-            lore.add(ChatColor.GRAY + "You can also purchase the " + ChatColor.GOLD + ChatColor.BOLD + " Premium " + ChatColor.YELLOW + ChatColor.BOLD + "Mining Pass");
+            lore.add(ChatColor.GRAY + "You can also purchase the" + ChatColor.GOLD + ChatColor.BOLD + " Premium " + ChatColor.YELLOW + ChatColor.BOLD + "Mining Pass");
             lore.add(ChatColor.GRAY + "to receive additional rewards as you level up!");
             lore.add("");
             lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase");
@@ -428,7 +428,7 @@ public class MiningPass extends BaseCommand {
         lore.add("");
         if (!nextLevelEXPAmount.equals("Max")) {
             if (expAmount != 0)
-                lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "Progress to " + ChatColor.YELLOW + ChatColor.BOLD + "Level " + ChatColor.GOLD + ChatColor.BOLD + Integer.valueOf(miningPassLevel + 1) + ": " + ChatColor.YELLOW + Integer.valueOf(Integer.valueOf(nextLevelEXPAmount) / expAmount) + "%");
+                lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "Progress to " + ChatColor.YELLOW + ChatColor.BOLD + "Level " + ChatColor.GOLD + ChatColor.BOLD + Integer.valueOf(miningPassLevel + 1) + ": " + ChatColor.YELLOW + (((float) expAmount / Float.valueOf(nextLevelEXPAmount))*100) + "%");
             else
                 lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "Progress to " + ChatColor.YELLOW + ChatColor.BOLD + "Level " + ChatColor.GOLD + ChatColor.BOLD + Integer.valueOf(miningPassLevel + 1) + ": " + ChatColor.YELLOW + 0 + "%");
             lore.add(getProgressBar(expAmount, Integer.valueOf(nextLevelEXPAmount), 19, '-', ChatColor.YELLOW, ChatColor.BOLD) + " " + ChatColor.YELLOW + numberFormat.numberFormat(expAmount) + "/" + numberFormat.numberFormat(Integer.valueOf(nextLevelEXPAmount)) + " Experience");

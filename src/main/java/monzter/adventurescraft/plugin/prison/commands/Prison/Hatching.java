@@ -6,13 +6,9 @@ import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Dependency;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
-import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucko.helper.Events;
-import me.lucko.helper.event.filter.EventFilters;
-import me.lucko.helper.metadata.Metadata;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.shared.dropTables.PetEgg;
@@ -22,18 +18,15 @@ import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import world.bentobox.bentobox.managers.RanksManager;
-
-import java.util.UUID;
 
 public class Hatching extends BaseCommand {
 
@@ -42,12 +35,14 @@ public class Hatching extends BaseCommand {
     private final SoundManager soundManager;
     private final ConsoleCommand consoleCommand;
     private final DropTablesDelivery dropTablesDelivery;
+    private final NumberFormat numberFormat;
 
-    public Hatching(AdventuresCraft plugin, SoundManager soundManager, ConsoleCommand consoleCommand, DropTablesDelivery dropTablesDelivery) {
+    public Hatching(AdventuresCraft plugin, SoundManager soundManager, ConsoleCommand consoleCommand, DropTablesDelivery dropTablesDelivery, NumberFormat numberFormat) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.consoleCommand = consoleCommand;
         this.dropTablesDelivery = dropTablesDelivery;
+        this.numberFormat = numberFormat;
     }
 
     @CommandAlias("hatch")
@@ -225,7 +220,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.COMMON.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.COMMON.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.COMMON.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -233,7 +228,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.UNCOMMON.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.UNCOMMON.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.UNCOMMON.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -241,7 +236,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.RARE.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.RARE.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.RARE.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -249,7 +244,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.LEGENDARY.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.LEGENDARY.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.LEGENDARY.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -257,7 +252,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.EXOTIC.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.EXOTIC.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.EXOTIC.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -265,7 +260,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.PHOENIX.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.PHOENIX.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.PHOENIX.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -273,7 +268,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.PHOENIX2.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.PHOENIX2.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.PHOENIX2.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -281,7 +276,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.DRAGON.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.DRAGON.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.DRAGON.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
@@ -289,7 +284,7 @@ public class Hatching extends BaseCommand {
                 if (petEXP >= PetEggList.DRAGON2.expToHatch) {
                     return true;
                 }
-                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + petEXP + "/" + PetEggList.DRAGON2.getExpToHatch() + " " +
+                player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.DRAGON2.getExpToHatch()) + " " +
                         StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;

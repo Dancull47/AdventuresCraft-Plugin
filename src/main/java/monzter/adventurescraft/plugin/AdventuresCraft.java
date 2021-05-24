@@ -3,7 +3,6 @@ package monzter.adventurescraft.plugin;
 import co.aikar.commands.PaperCommandManager;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.kirelcodes.miniaturepets.MiniaturePets;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.LocationFlag;
@@ -17,7 +16,7 @@ import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.commands.Warp;
 import monzter.adventurescraft.plugin.cell.events.JoinCell;
 import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
-import monzter.adventurescraft.plugin.shared.GUIs.ProfileMenu;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.ProfileMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.*;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
@@ -28,7 +27,6 @@ import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtils;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
-import monzter.adventurescraft.plugin.shared.Placeholders.PlaceholderEnchanting;
 import monzter.adventurescraft.plugin.shared.commands.*;
 import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
@@ -167,7 +165,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         saveDefaultConfig();
 
         new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime).register();
-        new PlaceholderEnchanting(this, numberFormat).register();
 
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
@@ -216,7 +213,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, MiniaturePets.getInstance()), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
@@ -248,11 +245,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new DropTablesView(this, guiHelper));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));
-        manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery));
+        manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery, numberFormat));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager));
-        manager.registerCommand(new InteractPets(this, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, MiniaturePets.getInstance()));
+        manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
         getCommand("EnchantReward").setExecutor(new MiningEnchantments(this));
 
     }

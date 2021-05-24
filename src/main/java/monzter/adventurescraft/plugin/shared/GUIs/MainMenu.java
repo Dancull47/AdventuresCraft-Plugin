@@ -77,7 +77,12 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(miningPass(player), e -> player.performCommand("miningpassmenu")), 6, 2);
         display.addItem(new GuiItem(leaderboards(player), e -> player.performCommand("leaderboards")), 7, 2);
 
-        display.addItem(new GuiItem(pets(player), e -> player.performCommand("pets")), 2, 3);
+        display.addItem(new GuiItem(pets(player), e -> {
+            if (e.isLeftClick())
+                player.performCommand("pets");
+            if (e.isRightClick())
+                player.performCommand("warp Pet");
+        }), 2, 3);
         display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
         display.addItem(new GuiItem(settings(player), e -> player.performCommand("settingmenu")), 4, 3);
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank")), 5, 3);
@@ -86,9 +91,9 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 3, 4);
         display.addItem(new GuiItem(donationPerks(player), e -> {
             if (e.isRightClick())
-            player.performCommand("donate");
+                player.performCommand("donate");
             if (e.isLeftClick())
-            player.performCommand("donationmenu");
+                player.performCommand("donationmenu");
         }), 4, 4);
         display.addItem(new GuiItem(social(player), e -> player.performCommand("social")), 5, 4);
 
@@ -291,7 +296,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Check out who the most");
-        lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Leaderboards " + ChatColor.GRAY + "are!");
+        lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Prisoners " + ChatColor.GRAY + "are!");
         lore.add("");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
 
@@ -313,11 +318,8 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "stats and keep you company,");
         lore.add(ChatColor.GRAY + "while locked inside the Prison!");
         lore.add("");
-        if (Integer.valueOf(parsePlaceholder(player, "ac_Stat_PetAmount")) > 0) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View Equipped Pets");
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View Summoning Menu");
-        }
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Shift-Right-Click to Visit Pet Shop");
+        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View Your Pets");
+        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to Visit Pet Shop");
 
         pets.setItemMeta(petsItemMeta);
         pets.setLore(lore);
@@ -413,8 +415,8 @@ public class MainMenu extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GREEN + "Vote " +  ChatColor.GRAY + "every " + ChatColor.GREEN + "24 hours " +  ChatColor.GRAY + "to receive");
-        lore.add(ChatColor.GRAY + "a " + ChatColor.GREEN + "Vote Coin" +  ChatColor.GRAY + ", which can be redeemed");
+        lore.add(ChatColor.GREEN + "Vote " + ChatColor.GRAY + "every " + ChatColor.GREEN + "24 hours " + ChatColor.GRAY + "to receive");
+        lore.add(ChatColor.GRAY + "a " + ChatColor.GREEN + "Vote Coin" + ChatColor.GRAY + ", which can be redeemed");
         lore.add(ChatColor.GRAY + "for special rewards from this Shop!");
         lore.add("");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Shop");
@@ -434,7 +436,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Support our Server to");
-        lore.add(ChatColor.GRAY + "receive " + ChatColor.GREEN + "Perks " +  ChatColor.GRAY + "& " + ChatColor.GREEN + "Rewards" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "receive " + ChatColor.GREEN + "Perks " + ChatColor.GRAY + "& " + ChatColor.GREEN + "Rewards" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View Perks");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View Store");
@@ -454,7 +456,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Add and join together in parties with");
-        lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Prisoners " +  ChatColor.GRAY + "you meet!");
+        lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Prisoners " + ChatColor.GRAY + "you meet!");
         lore.add("");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
 
@@ -473,7 +475,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Return to the previous server you");
-        lore.add(ChatColor.GRAY + "were on to select another " + ChatColor.GREEN + "Gamemode" +  ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "were on to select another " + ChatColor.GREEN + "Gamemode" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Return to Lobby");
 

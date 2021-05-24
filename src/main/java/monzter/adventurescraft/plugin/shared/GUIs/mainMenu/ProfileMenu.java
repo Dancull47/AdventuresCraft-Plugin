@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.shared.GUIs;
+package monzter.adventurescraft.plugin.shared.GUIs.mainMenu;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;

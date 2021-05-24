@@ -1,20 +1,16 @@
 package monzter.adventurescraft.plugin.shared.events;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import com.kirelcodes.miniaturepets.MiniaturePets;
 import com.kirelcodes.miniaturepets.loader.PetLoader;
 import com.kirelcodes.miniaturepets.pets.PetContainer;
 import io.lumine.mythic.lib.api.item.NBTItem;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
-import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
-import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -30,19 +26,17 @@ public class InteractPets extends BaseCommand implements Listener {
     private final AdventuresCraft plugin;
     private final YamlConfiguration petsFile;
     private final String[] tierList = new String[]{"COMMON", "UNCOMMON", "RARE", "LEGENDARY", "EXOTIC", "MYTHICAL", "GODLY", "GODLY_PHOENIX"};
-    private final MMOItemsGive mmoItemsGive;
     private final PermissionLP permissionLP;
     private final BetonPointsManager betonPointsManager;
-    private final MiniaturePets miniaturePets;
+    private final SoundManager soundManager;
 
 
-    public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, MiniaturePets miniaturePets) {
+    public InteractPets(AdventuresCraft plugin, YamlConfiguration petsFile, PermissionLP permissionLP, BetonPointsManager betonPointsManager, SoundManager soundManager) {
         this.plugin = plugin;
         this.petsFile = petsFile;
-        this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
         this.betonPointsManager = betonPointsManager;
-        this.miniaturePets = miniaturePets;
+        this.soundManager = soundManager;
     }
 
     @EventHandler
@@ -173,9 +167,9 @@ public class InteractPets extends BaseCommand implements Listener {
                 id = "REDPANDA";
                 break;
         }
-        plugin.getLogger().info(id);
         PetContainer petContainer = PetLoader.getPet(id.toLowerCase());
         petContainer.spawnPet(player);
+        soundManager.soundYes(player, 2);
     }
 
     public boolean maxPetCheck(Player player) {

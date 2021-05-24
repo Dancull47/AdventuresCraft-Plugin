@@ -229,25 +229,60 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_MiningPassEXPAmount":
                 return PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%");
             case "Stat_MiningPassNextLevelEXPAmount":
-                int miningPassEXP = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%"));
-                int i = 0;
-                for (MiningPassLevels cost : reversedList) {
-                    if (miningPassEXP >= cost.getPrice()) {
-                        if (cost.getLevel().equals("50")) {
-                            return "Max";
-                        } else {
-                            return String.valueOf(reversedList.get(i - 1).getPrice());
-                        }
-                    }
-                    i++;
-                }
+                return getMiningPassNextLevelEXP(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%")));
             case "Stat_MiningPassLevel":
-                int miningPassLevel = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%"));
-                for (MiningPassLevels cost : reversedList)
-                    if (miningPassLevel >= cost.getPrice())
-                        return String.valueOf(cost.getLevel());
+                return getMiningPassLevel(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%")));
+
             case "Stat_MiningPassEXPAmount_formatted":
                 return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%")));
+
+            // ENCHANTMENTS
+            case "Enchantment_Randomizer":
+                return String.valueOf(calculateEnchantments(player, "Randomizer"));
+            case "Enchantment_Randomizer_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
+            case "Enchantment_Randomizer_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
+            case "Enchantment_Randomizer_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer")) + 1);
+
+            case "Enchantment_Midas_Touch":
+                return String.valueOf(calculateEnchantments(player, "Midas Touch"));
+            case "Enchantment_Midas_Touch_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
+            case "Enchantment_Midas_Touch_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
+            case "Enchantment_Midas_Touch_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch")) + 1);
+
+            case "Enchantment_Treasurer":
+                return String.valueOf(calculateEnchantments(player, "Treasurer"));
+            case "Enchantment_Treasurer_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
+            case "Enchantment_Treasurer_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
+            case "Enchantment_Treasurer_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer")) + 1);
+
+            case "Enchantment_Explosive_Chance":
+                return String.valueOf(calculateEnchantments(player, "Explosive Chance"));
+            case "Enchantment_Explosive_Chance_math":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
+            case "Enchantment_Explosive_Chance_math_formatted":
+                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
+            case "Enchantment_Explosive_Chance_increase":
+                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")) + 1);
+
+            case "Enchantment_Experience":
+                return String.valueOf(calculateEnchantments(player, "Experience"));
+            case "Enchantment_Pet_Experience":
+                return String.valueOf(calculateEnchantments(player, "Pet Experience"));
+            case "Enchantment_Explosive":
+                return String.valueOf(calculateEnchantments(player, "Explosive"));
+            case "Enchantment_Luck":
+                return String.valueOf(calculateEnchantments(player, "Luck"));
+            case "Enchantment_Stat_Tracker":
+                return String.valueOf(calculateEnchantments(player, "Stat Tracker"));
 
             // CURRENCIES
             case "Currency_AdventureCoins":
@@ -255,7 +290,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Currency_AdventureCoins_formatted":
                 return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%")));
             case "Currency_VotingCoins":
-                        return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
+                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
 
             case "Location":
                 return location(player);
@@ -299,6 +334,30 @@ public class Placeholder extends PlaceholderExpansion {
                 return null;
 
         }
+    }
+
+    public String getMiningPassLevel(int exp) {
+        for (MiningPassLevels cost : reversedList) {
+            if (exp >= cost.getPrice()) {
+                return String.valueOf(cost.getLevel());
+            }
+        }
+        return "0";
+    }
+
+    public String getMiningPassNextLevelEXP(int exp) {
+        int i = 0;
+        for (MiningPassLevels cost : reversedList) {
+            if (exp >= cost.getPrice()) {
+                if (cost.getLevel().equals("50")) {
+                    return "Max";
+                } else {
+                    return String.valueOf(reversedList.get(i - 1).getPrice());
+                }
+            }
+            i++;
+        }
+        return "500";
     }
 
     public String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor,
