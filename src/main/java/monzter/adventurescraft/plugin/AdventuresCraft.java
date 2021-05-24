@@ -220,7 +220,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
@@ -240,7 +240,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive));
-        manager.registerCommand(new GeneralCommands(this, consoleCommand));
+        manager.registerCommand(new GeneralCommands(this, consoleCommand, soundManager));
         manager.registerCommand(new Security(this));
         manager.registerCommand(new DropTablesView(this, guiHelper));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));

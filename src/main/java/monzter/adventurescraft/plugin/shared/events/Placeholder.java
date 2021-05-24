@@ -257,6 +257,10 @@ public class Placeholder extends PlaceholderExpansion {
 
             case "Enchantment_Treasurer":
                 return String.valueOf(calculateEnchantments(player, "Treasurer"));
+            case "Enchantment_Treasurer_multiplier":
+                return ".0005";
+//            case "Enchantment_Treasurer_multiplier_math":
+//                return String.valueOf(Double.valueOf(calculateEnchantments(player, "Treasurer") * .01));
             case "Enchantment_Treasurer_math":
                 return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
             case "Enchantment_Treasurer_math_formatted":
@@ -273,6 +277,8 @@ public class Placeholder extends PlaceholderExpansion {
             case "Enchantment_Explosive_Chance_increase":
                 return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")) + 1);
 
+            case "Enchantment_Experience_multiplier":
+                return ".01";
             case "Enchantment_Experience":
                 return String.valueOf(calculateEnchantments(player, "Experience"));
             case "Enchantment_Pet_Experience":

@@ -30,7 +30,7 @@ public class MiningEnchantments implements CommandExecutor {
                                 BlockBreakMining.enchantmentPetExperience(targetPlayer);
                                 return true;
                             case "luck":
-                                BlockBreakMining.enchantmentLuck(targetPlayer);
+                                BlockBreakMining.lootboxes(targetPlayer);
                                 return true;
                             case "treasurer":
                                 BlockBreakMining.enchantmentTreasurer(targetPlayer);

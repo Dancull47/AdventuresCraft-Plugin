@@ -3,11 +3,11 @@ package monzter.adventurescraft.plugin.shared.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Dependency;
-import co.aikar.commands.annotation.Optional;
 import io.lumine.mythicenchants.MythicEnchants;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -122,36 +122,3 @@ public class Enchanting extends BaseCommand {
 
 }
 
-enum Enchantments {
-    Enchantment1("Experience", 1_000, 1_000, .015),
-    Enchantment2("Pet_Experience", 1_000, 1_000, .015),
-    ;
-
-    private String name;
-    private int maxLevel;
-    private int price;
-    private double increase;
-
-    Enchantments(String name, int maxLevel, int price, double increase) {
-        this.name = name;
-        this.maxLevel = maxLevel;
-        this.price = price;
-        this.increase = increase;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getMaxLevel() {
-        return maxLevel;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public double getIncrease() {
-        return increase;
-    }
-}

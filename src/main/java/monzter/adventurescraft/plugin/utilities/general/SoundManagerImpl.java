@@ -28,4 +28,9 @@ public class SoundManagerImpl implements SoundManager {
     public void soundPurchase(Player player, float pitch) {
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, pitch);
     }
+
+    @Override
+    public void soundTeleport(Player player) {
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1f, 1);
+    }
 }

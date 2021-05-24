@@ -8,4 +8,5 @@ public interface SoundManager {
     void soundYes(Player player, float pitch);
     void soundYes2(Player player, float pitch);
     void soundPurchase(Player player, float pitch);
+    void soundTeleport(Player player);
 }

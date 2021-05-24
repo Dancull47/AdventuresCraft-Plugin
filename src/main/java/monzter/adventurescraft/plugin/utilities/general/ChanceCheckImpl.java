@@ -11,6 +11,8 @@ public class ChanceCheckImpl implements ChanceCheck {
         this.mmoItemsGive = mmoItemsGive;
     }
 
+//    Formula for chance % = chance * 100
+
     @Override
     public boolean chanceCheck(double chance) {
         return Math.random() <= chance;

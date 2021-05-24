@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
@@ -72,7 +73,7 @@ public class BlockBreakMining implements Listener {
                     if (material.material.equals(event.getBlock().getType())) {
                         if ((material.weight * blockMultiplier) + currentWeight <= maxWeight) { // Checks if player can hold the block's weight
                             minedBlock(player, material.material, blockMultiplier, (material.weight * blockMultiplier));
-                            enchantmentLuck(player);
+                            lootboxes(player);
                             enchantmentExperience(player);
                             enchantmentPetExperience(player);
                             enchantmentTreasurer(player);
@@ -131,23 +132,29 @@ public class BlockBreakMining implements Listener {
         betonPointsManager.givePoint(player, "items.TotalModifierBlocks", amount); // I forget
     }
 
-    public static void enchantmentLuck(Player player) {
-        double luckMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_LuckMultiplier%")) * .25;
-        if (chanceCheck.chanceCheck(.005 * luckMultiplier)) {
+    public static void lootboxes(Player player) {
+        double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Luck%"));
+        if (chanceCheck.chanceCheck(0.0020))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5");
-        }
-        if (chanceCheck.chanceCheck(.008 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(0.005))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX4");
-        }
-        if (chanceCheck.chanceCheck(.01 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(0.0075))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX3");
-        }
-        if (chanceCheck.chanceCheck(.03 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(0.0095))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX2");
-        }
-        if (chanceCheck.chanceCheck(.05 * luckMultiplier)) {
+        if (chanceCheck.chanceCheck(.01))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
-        }
+//        Enchantment
+        if (chanceCheck.chanceCheck(0.0020 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5");
+        if (chanceCheck.chanceCheck(0.005 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX4");
+        if (chanceCheck.chanceCheck(0.0075 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX3");
+        if (chanceCheck.chanceCheck(0.0095 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX2");
+        if (chanceCheck.chanceCheck(.01 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+            mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
     }
 
     public static void enchantmentExperience(Player player) {
@@ -216,7 +223,7 @@ public class BlockBreakMining implements Listener {
         }
     }
 
-        public void statTrack(Player player) {
+    public void statTrack(Player player) {
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         double enchantmentLevel = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Enchantment_Stat_Tracker%"));
         if (enchantmentLevel > 0) {

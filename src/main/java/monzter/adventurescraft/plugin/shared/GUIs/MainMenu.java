@@ -379,7 +379,7 @@ public class MainMenu extends BaseCommand {
         if (player.hasPermission("bank.open.command")) {
             lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Open");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel To Nearest");
+            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
         }
 
         bank.setItemMeta(bankItemMeta);
@@ -438,8 +438,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Support our Server to");
         lore.add(ChatColor.GRAY + "receive " + ChatColor.GREEN + "Perks " + ChatColor.GRAY + "& " + ChatColor.GREEN + "Rewards" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View Perks");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View Store");
+        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Perks");
 
         donationPerks.setItemMeta(donationPerksItemMeta);
         donationPerks.setLore(lore);
