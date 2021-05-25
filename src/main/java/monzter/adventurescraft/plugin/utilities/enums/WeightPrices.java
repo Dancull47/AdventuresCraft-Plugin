@@ -52,7 +52,6 @@ public enum WeightPrices implements ItemGenerator {
     SEA_LANTERN(Material.SEA_LANTERN, "Sea Lantern", 1000, 10000, 150);
 
     public final Material material;
-
     public final String name;
     public final int weight;
     public final double price;

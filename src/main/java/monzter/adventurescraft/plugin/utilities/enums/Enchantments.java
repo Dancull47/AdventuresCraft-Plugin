@@ -2,10 +2,14 @@ package monzter.adventurescraft.plugin.utilities.enums;
 
 public enum Enchantments {
     Experience("Experience", 250, 1_000, .01),
-    PetExperience("Pet_Experience", 250, 1_000, .01),
+    PetExperience("Pet Experience", 250, 1_000, .01),
     Luck("Luck", 250, 1_000, 0.002),
-    ExplosiveChance("ExplosiveChance", 250, 15_000, 0.005),
-    Explosive("Explosive", 2, 100_000_000, 1),
+    ExplosiveChance("Explosive Chance", 250, 15_000, 0.00030),
+    Explosive("Explosive", 5, 100_000_000, 1),
+    Randomizer("Randomizer", 250, 15_000, 0.00005),
+    Treasurer("Treasurer", 250, 15_000, 0.00005),
+    MidasTouch("Midas Touch", 250, 15_000, 0.00005),
+    StatTracker("Stat Tracker", 1, 1_000_000_000, 1),
     ;
 
     private String name;

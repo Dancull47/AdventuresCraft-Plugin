@@ -11,6 +11,7 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
+import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.commands.Warp;
@@ -40,7 +41,6 @@ import monzter.adventurescraft.plugin.prison.commands.Warps;
 import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
 import monzter.adventurescraft.plugin.prison.events.mining.BlockBreakMining;
 import monzter.adventurescraft.plugin.prison.events.mining.ChestInteract;
-import monzter.adventurescraft.plugin.prison.events.mining.MiningEnchantments;
 import monzter.adventurescraft.plugin.prison.utilities.BlockPhysics;
 import monzter.adventurescraft.plugin.shared.events.utilities.Join_LeaveMessage;
 import monzter.adventurescraft.plugin.prison.utilities.ProjectileCancelArrowDrop;
@@ -118,7 +118,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PurchaseUtils purchaseUtils;
     private MythicEnchantsSupport mythicEnchantsSupport;
 
-
     @Override
     public void onLoad() {
         if (getConfig().getString("Server").equals("Prison")) {
@@ -192,7 +191,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy), this);
         Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
@@ -212,6 +211,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this, permissionLP, soundManager), this);
@@ -250,7 +250,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager));
         manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
-        getCommand("EnchantReward").setExecutor(new MiningEnchantments(this));
 
     }
     private void initializeDependencies() {

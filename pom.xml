@@ -305,6 +305,15 @@
                 C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MythicEnchants.jar
             </systemPath>
         </dependency>
+        <dependency>
+            <groupId>monzter</groupId>
+            <artifactId>adventure.regions</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>
+                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/AdventureRegions.jar
+            </systemPath>
+        </dependency>
     </dependencies>
 
 

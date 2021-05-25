@@ -85,10 +85,10 @@ public class Enchanting extends BaseCommand {
                 background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
                 background.setRepeat(true);
                 display.addItem(new GuiItem(experience(exp, calculateEnchantments(player, "Experience") + 1), e -> player.sendMessage("1")), 1, 0);
-                display.addItem(new GuiItem(petExperience(exp, calculateEnchantments(player, "Experience") + 1), e -> player.sendMessage("1")), 2, 0);
-                display.addItem(new GuiItem(luck(exp, calculateEnchantments(player, "Experience") + 1), e -> player.sendMessage("1")), 3, 0);
-                display.addItem(new GuiItem(explosive(exp, calculateEnchantments(player, "Experience") + 1), e -> player.sendMessage("1")), 4, 0);
-                display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments(player, "Experience") + 1), e -> player.sendMessage("1")), 5, 0);
+                display.addItem(new GuiItem(petExperience(exp, calculateEnchantments(player, "Pet Experience") + 1), e -> player.sendMessage("1")), 2, 0);
+                display.addItem(new GuiItem(luck(exp, calculateEnchantments(player, "Luck") + 1), e -> player.sendMessage("1")), 3, 0);
+                display.addItem(new GuiItem(explosive(exp, calculateEnchantments(player, "Explosive") + 1), e -> player.sendMessage("1")), 4, 0);
+                display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments(player, "Explosive Chance") + 1), e -> player.sendMessage("1")), 5, 0);
 //            display2.addItem(new GuiItem(hatchEgg(Integer.valueOf(exp), enchantment), e -> {
 //                if (e.isLeftClick())
 //                    player.performCommand("hatch " + enchantment.getId());
@@ -148,6 +148,13 @@ public class Enchanting extends BaseCommand {
                 Component.text(ChatColor.GRAY + "Increase the chance of " + ChatColor.DARK_RED + "Explosive " + ChatColor.GRAY + "occurring"),
                 Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + Double.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getIncrease() * 10) + "% " + ChatColor.GRAY + "while mining with this tool!")};
         return enchantment(balance, ChatColor.RED + "Explosive Chance ", enchantmentLevel, explosiveChance, (Integer.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getPrice())));
+    }
+
+    private ItemStack randomizer(int balance, int enchantmentLevel) {
+        TextComponent[] randomizer = new TextComponent[]{
+                Component.text(ChatColor.GRAY + "Increase the chance of spawning a" + ChatColor.GOLD + "valuable block"),
+                Component.text(ChatColor.GRAY + "above you by " + ChatColor.GREEN + Double.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getIncrease() * 10) + "% " + ChatColor.GRAY + "while mining with this tool!")};
+        return enchantment(balance, ChatColor.RED + "Explosive Chance ", enchantmentLevel, randomizer, (Integer.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getPrice())));
     }
 
     private ItemStack enchantment(int balance, String enchantmentName, int enchantmentLevel, TextComponent[] enchantmentLore, int enchantmentPrice) {
