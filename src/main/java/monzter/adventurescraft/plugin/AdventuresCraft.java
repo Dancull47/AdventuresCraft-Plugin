@@ -29,6 +29,7 @@ import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Enchanter;
 import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Finubar;
 import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Joy;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Armor;
+import monzter.adventurescraft.plugin.shared.GUIs.shops.Tools;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtils;
@@ -198,7 +199,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
@@ -229,6 +230,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
+        manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
         manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
@@ -273,7 +275,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         numberFormat = new NumberFormatImpl();
         soundManager = new SoundManagerImpl();
-        fullInventory = new FullInventoryImpl();
+        fullInventory = new FullInventoryImpl(soundManager);
         economy = new EconomyImpl(rsp.getProvider(), this, numberFormat, soundManager);
         permissionLP = new PermissionImplLP(LuckPermsProvider.get(), this);
         permission = new PermissionImpl(perms, getLogger());

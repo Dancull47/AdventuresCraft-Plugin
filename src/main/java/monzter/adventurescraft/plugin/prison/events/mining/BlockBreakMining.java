@@ -7,17 +7,23 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
-import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
+import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -29,6 +35,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -41,14 +49,18 @@ public class BlockBreakMining implements Listener {
     private final AdventuresCraft plugin;
     private final StateFlag prisonMineFlag;
     private final Economy economy;
-
+    private final NumberFormat numberFormat;
 
 
     private final Material[] blocks = new Material[]{Material.SEA_LANTERN, Material.GREEN_STAINED_GLASS, Material.BLUE_STAINED_GLASS,
             Material.YELLOW_STAINED_GLASS, Material.RED_STAINED_GLASS, Material.ORANGE_STAINED_GLASS, Material.DIAMOND_BLOCK,
             Material.DIAMOND_ORE, Material.EMERALD_BLOCK, Material.EMERALD_ORE, Material.REDSTONE_BLOCK, Material.REDSTONE_ORE};
+    private static Material block = Material.STONE;
+    private static int max = 0;
+    private static int blocksBroken = 0;
+    private final int[] maxList = new int[]{5_000, 10_000, 15_000, 25_000, 30_000, 45_000, 50_000, 75_000, 100_000, 125_000};
 
-    public BlockBreakMining(AdventuresCraft plugin, StateFlag prisonMineFlag, SoundManager soundManager, ChanceCheck chanceCheck, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, BetonPointsManager betonPointsManager, Economy economy) {
+    public BlockBreakMining(AdventuresCraft plugin, StateFlag prisonMineFlag, SoundManager soundManager, ChanceCheck chanceCheck, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, BetonPointsManager betonPointsManager, Economy economy, NumberFormat numberFormat) {
         this.plugin = plugin;
         this.prisonMineFlag = prisonMineFlag;
         this.soundManager = soundManager;
@@ -57,6 +69,7 @@ public class BlockBreakMining implements Listener {
         this.mmoItemsGive = mmoItemsGive;
         this.betonPointsManager = betonPointsManager;
         this.economy = economy;
+        this.numberFormat = numberFormat;
     }
 
     @EventHandler
@@ -84,6 +97,22 @@ public class BlockBreakMining implements Listener {
                         enchantmentMidasTouch(player);
                         statTrack(player);
                         event.setCancelled(false);
+                        if (max == 0) {
+                            max = generateMax();
+                            block = generateMaterial();
+                        } else if (event.getBlock().getType() == block) {
+                            blocksBroken++;
+                            if (blocksBroken == max) {
+                                consoleCommand.consoleCommand("randomBooster");
+                                blocksBroken = 0;
+                                max = generateMax();
+                                block = generateMaterial();
+                                for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
+                                    targetPlayer.sendMessage(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "✦ " + ChatColor.RED + "Gala's " + ChatColor.GOLD + ChatColor.BOLD + "Team Task " + ChatColor.GREEN + "has been completed!");
+                                    soundManager.playSound(player, Sound.ENTITY_EVOKER_CELEBRATE, 1, 2);
+                                }
+                            }
+                        }
                     } else {
                         tooHeavy(player);
                         event.setCancelled(true);
@@ -137,13 +166,13 @@ public class BlockBreakMining implements Listener {
         if (chanceCheck.chanceCheck(.01))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
 //        Enchantment
-        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.0080))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel) - .0080))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5");
-        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.005))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel) - .005))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX4");
-        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.0025))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel) - .0025))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX3");
-        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.0005))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel) - .0005))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX2");
         if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
@@ -255,5 +284,26 @@ public class BlockBreakMining implements Listener {
         return array[new Random().nextInt(array.length)];
     }
 
+    private final int generateMax() {
+        int randomDuration = new Random().nextInt(maxList.length);
+        return maxList[randomDuration];
+    }
 
+    private final Material generateMaterial() {
+        int randomMaterial = new Random().nextInt(WeightPrices.values().length);
+        final List<WeightPrices> VALUES = Collections.unmodifiableList(Arrays.asList(WeightPrices.values()));
+        return VALUES.get(randomMaterial).getMaterial();
+    }
+
+    public static Material getBlock() {
+        return block;
+    }
+
+    public static int getMax() {
+        return max;
+    }
+
+    public static int getBlocksBroken() {
+        return blocksBroken;
+    }
 }

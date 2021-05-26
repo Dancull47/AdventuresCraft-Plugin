@@ -13,6 +13,7 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.prison.events.mining.BlockBreakMining;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.miningPass.MiningPassLevels;
 import monzter.adventurescraft.plugin.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.shared.events.extras.Pet;
@@ -21,6 +22,7 @@ import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
 import net.milkbowl.vault.permission.Permission;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
@@ -220,6 +222,23 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_Pet_EXPMultiplier":
                 return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
+            case "Gala_Block":
+                return WordUtils.capitalizeFully(BlockBreakMining.getBlock().toString().replace("_", " "));
+            case "Gala_Broken":
+                return String.valueOf(BlockBreakMining.getBlocksBroken());
+            case "Gala_Broken_formatted":
+                return numberFormat(BlockBreakMining.getBlocksBroken());
+            case "Gala_Max":
+                return String.valueOf(BlockBreakMining.getMax());
+            case "Gala_Max_formatted":
+                return numberFormat(BlockBreakMining.getMax());
+            case "Gala_Bar":
+                return getProgressBar(BlockBreakMining.getBlocksBroken(), BlockBreakMining.getMax(), 5, '-', ChatColor.BOLD, ChatColor.BOLD);
+            case "Gala_Percent":
+                if (BlockBreakMining.getMax() != 0)
+                    return String.valueOf(Math.round((float) BlockBreakMining.getBlocksBroken() / BlockBreakMining.getMax() * 100));
+                else
+                    return "0";
             case "Stat_Beach":
                 return String.valueOf(BeachEvent.getBlocksBroken());
             case "Stat_Beach_Max":

@@ -67,7 +67,7 @@ public class Tools extends BaseCommand {
             background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
             background.setRepeat(true);
 
-            for (ArmorList tool : ArmorList.values()) {
+            for (ToolList tool : ToolList.values()) {
                 ItemStack toolItem = MMOItems.plugin.getItem("TOOL", tool.getId());
                 final ItemMeta toolItemItemMeta = toolItem.getItemMeta();
                 if (toolItem != null) {

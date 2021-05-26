@@ -33,7 +33,6 @@ public class AdminCommands extends BaseCommand {
     @CommandCompletion("* maxweightm|blockm|sellm|luckm|expm|petexpm|maxweight|weight|exp|pets|maxpets|ac|miningpass|all")
     public void statCommand(Player player, OnlinePlayer targetPlayer, String stat) {
         statsCommand(player, stat, targetPlayer.getPlayer());
-        mmoItemsGive.giveMMOItem(player, "MATERIAL", "NULL", 1, false);
     }
 
 
