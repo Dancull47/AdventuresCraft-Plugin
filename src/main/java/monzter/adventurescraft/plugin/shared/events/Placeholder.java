@@ -16,6 +16,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.miningPass.MiningPassLevels;
 import monzter.adventurescraft.plugin.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.shared.events.extras.Pet;
+import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
@@ -24,6 +25,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.Point;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -36,15 +39,17 @@ public class Placeholder extends PlaceholderExpansion {
     private final Set<Pet> pets;
     private final StringFlag displayNameFlag;
     private long restartTime;
+    private CalculateEnchantments calculateEnchantments;
     private final List<MiningPassLevels> reversedList = Lists.reverse(Arrays.asList(MiningPassLevels.values()));
 //    List<Point> global = BetonQuest.getInstance().getGlobalData().getPoints();
 
-    public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets, StringFlag displayNameFlag, long restartTime) {
+    public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, CalculateEnchantments calculateEnchantments) {
         this.plugin = plugin;
         this.permission = permission;
         this.pets = pets;
         this.displayNameFlag = displayNameFlag;
         this.restartTime = restartTime;
+        this.calculateEnchantments = calculateEnchantments;
     }
 
     @Override
@@ -79,9 +84,8 @@ public class Placeholder extends PlaceholderExpansion {
      */
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
-
+        final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
         switch (identifier) {
-
 //            case "Rank":
 //                String ranks = PlaceholderAPI.setPlaceholders(player, "%prison_rank_tag_default%");
 //                String prestiges = PlaceholderAPI.setPlaceholders(player, "%prison_rank_tag_prestiges%")
@@ -180,30 +184,42 @@ public class Placeholder extends PlaceholderExpansion {
 
             // STATS
             case "Stat_TotalMined":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.TotalBlocks.amount%");
+                return String.valueOf(getPoints("items.TotalBlocks", points));
+
             case "Stat_MiningSpeed":
-                String miningSpeed = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_faction_damage_breakingspeed%");
-                return miningSpeed;
+                return PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_faction_damage_breakingspeed%");
+
+            case "Stat_Weight":
+                return String.valueOf(getPoints("items.Weight", points));
+            case "Stat_Weight_formatted":
+                return numberFormat(getPoints("items.Weight", points));
+
             case "Stat_MaxWeight":
-                String maxWeight = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxWeight.amount%");
+                String maxWeight = String.valueOf(getPoints("items.MaxWeight", points));
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
-                return String.valueOf((50 + Double.valueOf(maxWeight) + calculatePetStats(player, Stats.MAX_WEIGHT)) * Double.valueOf(maxWeightMultiplier));
+                return String.valueOf(Math.round((50 + Integer.valueOf(maxWeight) + calculatePetStats(player, Stats.MAX_WEIGHT)) * Double.valueOf(maxWeightMultiplier)));
+            case "Stat_MaxWeight_formatted":
+                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeight%")));
+
             case "Stat_MaxWeightMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
+
             case "Stat_BlockMultiplier":
                 String blockMultiplierDefault = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_stamina_regeneration%");
                 return String.valueOf(calculatePetStats(player, Stats.BLOCK_MULTIPLIER) + Double.valueOf(blockMultiplierDefault) + calculateBoosterStats(player, "block"));
+
             case "Stat_SellMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.SELL_MULTIPLIER) + calculateBoosterStats(player, "sell"));
-            case "Stat_LuckMultiplier":
-                return String.valueOf((calculateEnchantments(player, "Luck") * .5) + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
-            case "Stat_EXPMultiplier":
-                return String.valueOf(calculateEnchantments(player, "Experience") + calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
-            case "Stat_Pet_EXPMultiplier":
-                return String.valueOf(calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
-            case "Stat_Weight":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Weight.amount%");
+            case "Stat_LuckMultiplier":
+                return String.valueOf((calculateEnchantments.calculateEnchantments(player, "Luck") * .5) + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
+
+            case "Stat_EXPMultiplier":
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Experience") + calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
+
+            case "Stat_Pet_EXPMultiplier":
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
+
             case "Stat_Beach":
                 return String.valueOf(BeachEvent.getBlocksBroken());
             case "Stat_Beach_Max":
@@ -211,135 +227,108 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_Beach_Bar":
                 return getProgressBar(BeachEvent.getBlocksBroken(), BeachEvent.getMax(), 5, '-', ChatColor.BOLD, ChatColor.BOLD);
 
-            case "Stat_Weight_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Weight.amount%")));
+
             case "Stat_Pet_EXPAmount":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%");
-
+                return String.valueOf(getPoints("items.PetExperience", points));
             case "Stat_Pet_EXPAmount_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%")));
-            case "Stat_EXPAmount":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%");
-            case "Stat_EXPAmount_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%")));
-            case "Stat_PetAmount":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetAmount.amount%");
-            case "Stat_MaxPetAmount":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.MaxPet.amount%");
-            case "Stat_MiningPassEXPAmount":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%");
-            case "Stat_MiningPassNextLevelEXPAmount":
-                return getMiningPassNextLevelEXP(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%")));
-            case "Stat_MiningPassLevel":
-                return getMiningPassLevel(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%")));
+                return numberFormat(getPoints("items.PetExperience", points));
 
+            case "Stat_EXPAmount":
+                return String.valueOf(getPoints("items.Experience", points));
+            case "Stat_EXPAmount_formatted":
+                return numberFormat(getPoints("items.Experience", points));
+
+            case "Stat_PetAmount":
+                return String.valueOf(getPoints("items.PetAmount", points));
+            case "Stat_MaxPetAmount":
+                return String.valueOf(getPoints("items.MaxPet", points));
+
+            case "Stat_MiningPassEXPAmount":
+                return String.valueOf(getPoints("miningPass.EXP", points));
             case "Stat_MiningPassEXPAmount_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_miningPass:point.EXP.amount%")));
+                return numberFormat(getPoints("miningPass.EXP", points));
+            case "Stat_MiningPassLevel":
+                return getMiningPassLevel(getPoints("miningPass.EXP", points));
+            case "Stat_MiningPassNextLevelEXPAmount":
+                return getMiningPassNextLevelEXP(getPoints("miningPass.EXP", points));
 
             // ENCHANTMENTS
             case "Enchantment_Randomizer":
-                return String.valueOf(calculateEnchantments(player, "Randomizer"));
-            case "Enchantment_Randomizer_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
-            case "Enchantment_Randomizer_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Randomizer") + 1) * 3500);
-            case "Enchantment_Randomizer_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Randomizer")) + 1);
-
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Randomizer"));
             case "Enchantment_Midas_Touch":
-                return String.valueOf(calculateEnchantments(player, "Midas Touch"));
-            case "Enchantment_Midas_Touch_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
-            case "Enchantment_Midas_Touch_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Midas Touch") + 1) * 3500);
-            case "Enchantment_Midas_Touch_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Midas Touch")) + 1);
-
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Midas Touch"));
             case "Enchantment_Treasurer":
-                return String.valueOf(calculateEnchantments(player, "Treasurer"));
-            case "Enchantment_Treasurer_multiplier":
-                return ".0005";
-//            case "Enchantment_Treasurer_multiplier_math":
-//                return String.valueOf(Double.valueOf(calculateEnchantments(player, "Treasurer") * .01));
-            case "Enchantment_Treasurer_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
-            case "Enchantment_Treasurer_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Treasurer") + 1) * 3500);
-            case "Enchantment_Treasurer_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Treasurer")) + 1);
-
-            case "Enchantment_Explosive_Chance":
-                return String.valueOf(calculateEnchantments(player, "Explosive Chance"));
-            case "Enchantment_Explosive_Chance_math":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
-            case "Enchantment_Explosive_Chance_math_formatted":
-                return numberFormat(Integer.valueOf(calculateEnchantments(player, "Explosive Chance") + 1) * 3500);
-            case "Enchantment_Explosive_Chance_increase":
-                return String.valueOf(Integer.valueOf(calculateEnchantments(player, "Explosive Chance")) + 1);
-
-            case "Enchantment_Experience_multiplier":
-                return ".01";
-            case "Enchantment_Experience":
-                return String.valueOf(calculateEnchantments(player, "Experience"));
-            case "Enchantment_Pet_Experience":
-                return String.valueOf(calculateEnchantments(player, "Pet Experience"));
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Treasurer"));
             case "Enchantment_Explosive":
-                return String.valueOf(calculateEnchantments(player, "Explosive"));
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Explosive"));
+            case "Enchantment_Explosive_Chance":
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Explosive Chance"));
+            case "Enchantment_Experience":
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Experience"));
+            case "Enchantment_Pet_Experience":
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Pet Experience"));
             case "Enchantment_Luck":
-                return String.valueOf(calculateEnchantments(player, "Luck"));
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Luck"));
             case "Enchantment_Stat_Tracker":
-                return String.valueOf(calculateEnchantments(player, "Stat Tracker"));
+                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Stat Tracker"));
 
             // CURRENCIES
             case "Currency_AdventureCoins":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%");
+                return String.valueOf(getPoints("items.AdventureCoin", points));
             case "Currency_AdventureCoins_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.AdventureCoin.amount%")));
+                return numberFormat(getPoints("items.AdventureCoin", points));
             case "Currency_VotingCoins":
-                return PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Vote.amount%");
+                return String.valueOf(getPoints("items.Vote", points));
 
             case "Location":
                 return location(player);
-            case "Restart":
-                long timeUntil = restartTime - System.currentTimeMillis();
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
-                return String.valueOf(seconds);
-            case "Restart_formatted":
-                timeUntil = restartTime - System.currentTimeMillis();
-                long hours = TimeUnit.MILLISECONDS.toHours(timeUntil);
-                timeUntil -= TimeUnit.HOURS.toMillis(hours);
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(timeUntil);
-                timeUntil -= TimeUnit.MINUTES.toMillis(minutes);
-                seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
-                StringBuilder sb = new StringBuilder();
-                sb.append(hours);
-                if (hours > 1) {
-                    sb.append(" Hours ");
-                } else if (hours == 1) {
-                    sb.append(" Hour ");
-                }
-                sb.append(minutes);
-                if (minutes > 1) {
-                    sb.append(" Minutes ");
-                } else if (minutes == 1) {
-                    sb.append(" Minute ");
-                }
-                if (hours < 1 && seconds > 1) {
-                    sb.append(seconds);
-                    sb.append(" Seconds ");
-                } else if (hours < 1 && seconds < 1) {
-                    sb.append(seconds);
-                    sb.append(" Second ");
-                }
-                if (hours < 1 && minutes < 1 && seconds < 1) {
-                    sb.append("NOW");
-                }
-                return (sb.toString());
+//            case "Restart":
+//                long timeUntil = restartTime - System.currentTimeMillis();
+//                long seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
+//                return String.valueOf(seconds);
+//            case "Restart_formatted":
+//                timeUntil = restartTime - System.currentTimeMillis();
+//                long hours = TimeUnit.MILLISECONDS.toHours(timeUntil);
+//                timeUntil -= TimeUnit.HOURS.toMillis(hours);
+//                long minutes = TimeUnit.MILLISECONDS.toMinutes(timeUntil);
+//                timeUntil -= TimeUnit.MINUTES.toMillis(minutes);
+//                seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
+//                StringBuilder sb = new StringBuilder();
+//                sb.append(hours);
+//                if (hours > 1) {
+//                    sb.append(" Hours ");
+//                } else if (hours == 1) {
+//                    sb.append(" Hour ");
+//                }
+//                sb.append(minutes);
+//                if (minutes > 1) {
+//                    sb.append(" Minutes ");
+//                } else if (minutes == 1) {
+//                    sb.append(" Minute ");
+//                }
+//                if (hours < 1 && seconds > 1) {
+//                    sb.append(seconds);
+//                    sb.append(" Seconds ");
+//                } else if (hours < 1 && seconds < 1) {
+//                    sb.append(seconds);
+//                    sb.append(" Second ");
+//                }
+//                if (hours < 1 && minutes < 1 && seconds < 1) {
+//                    sb.append("NOW");
+//                }
+//                return (sb.toString());
 
             default:
                 return null;
 
         }
+    }
+
+    public int getPoints(String pointCategory, List<Point> pointList) {
+        for (final Point point : pointList)
+            if (point.getCategory().equalsIgnoreCase(pointCategory))
+                return point.getCount();
+        return 0;
     }
 
     public String getMiningPassLevel(int exp) {
@@ -438,20 +427,6 @@ public class Placeholder extends PlaceholderExpansion {
         for (int i = 10; i > 0; i--) {
             if (hasPermission(player, booster + ".booster." + i)) {
                 return i;
-            }
-        }
-        return 0;
-    }
-
-    private int calculateEnchantments(OfflinePlayer player, String enchantment) {
-        if (player.isOnline()) {
-            if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null) {
-                Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
-                if (!enchantmentMap.isEmpty()) {
-                    if (enchantmentMap.containsKey(Enchantment.getByName(enchantment))) {
-                        return enchantmentMap.get(Enchantment.getByName(enchantment));
-                    }
-                }
             }
         }
         return 0;
