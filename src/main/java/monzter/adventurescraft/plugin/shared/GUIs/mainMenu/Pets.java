@@ -22,7 +22,6 @@ import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
-import net.Indyuce.mmoitems.ItemStats;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -146,8 +145,8 @@ public class Pets extends BaseCommand {
                         } else if (!lore.isEmpty()) {
                             lore.add(Component.empty());
                         }
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Unequip Pet"));
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to Summon Pet"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Unequip Pet"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Summon Pet"));
 
                         petItemMeta.lore(lore);
                     }

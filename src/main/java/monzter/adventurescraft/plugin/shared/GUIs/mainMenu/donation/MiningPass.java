@@ -148,9 +148,9 @@ public class MiningPass extends BaseCommand {
             lore.add(" ");
             lore.add(REWARD);
             if (reward.isAdventureCoinReward())
-                lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + reward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
+                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + reward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
             for (ItemStack itemStack1 : reward.getRewards()) {
-                lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + reward.getRewardAmount()[amount] + "x " + itemStack1.getItemMeta().getDisplayName());
+                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + reward.getRewardAmount()[amount] + "x " + itemStack1.getItemMeta().getDisplayName());
                 amount++;
             }
             amount = 0;
@@ -166,7 +166,7 @@ public class MiningPass extends BaseCommand {
             } else if (miningPassEXP >= reward.getPrice()) {
                 itemMeta.setDisplayName(ChatColor.YELLOW + "Mining Pass Level " + i + ChatColor.DARK_GRAY + " -" + ChatColor.GREEN + ChatColor.BOLD + " UNLOCKED");
                 lore.add(" ");
-                lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Claim Reward");
+                lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Claim Reward");
             }
 
             itemMeta.setLore(lore);
@@ -224,9 +224,9 @@ public class MiningPass extends BaseCommand {
             lore.add(" ");
             lore.add(REWARD);
             if (premiumReward.isAdventureCoinReward())
-                lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + premiumReward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
+                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + premiumReward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
             for (ItemStack itemStack1 : premiumReward.getRewards()) {
-                lore.add("   " + Prefix.PREFIX.getPrefix() + ChatColor.GOLD + premiumReward.getRewardAmount()[amount2] + "x " + itemStack1.getItemMeta().getDisplayName());
+                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + premiumReward.getRewardAmount()[amount2] + "x " + itemStack1.getItemMeta().getDisplayName());
                 amount2++;
             }
             amount2 = 0;
@@ -242,7 +242,7 @@ public class MiningPass extends BaseCommand {
             } else if (miningPassEXP >= premiumReward.getPrice()) {
                 itemMeta.setDisplayName(ChatColor.GOLD.toString() + ChatColor.BOLD + "Premium " + ChatColor.YELLOW + "Mining Pass Level " + i2 + ChatColor.DARK_GRAY + " -" + ChatColor.GREEN + ChatColor.BOLD + " UNLOCKED");
                 lore.add(" ");
-                lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Claim Reward");
+                lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Claim Reward");
             }
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
@@ -423,7 +423,7 @@ public class MiningPass extends BaseCommand {
             lore.add(ChatColor.GRAY + "You can also purchase the" + ChatColor.GOLD + ChatColor.BOLD + " Premium " + ChatColor.YELLOW + ChatColor.BOLD + "Mining Pass");
             lore.add(ChatColor.GRAY + "to receive additional rewards as you level up!");
             lore.add("");
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase");
         }
         lore.add("");
         if (!nextLevelEXPAmount.equals("Max")) {

@@ -10,19 +10,16 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.events.extras.VoteRewardList;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -111,7 +108,7 @@ public class DonationMenu extends BaseCommand {
         lore.add("");
         lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins"));
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase");
 
         adventureCoins.setItemMeta(adventureCoinsItemMeta);
         adventureCoins.setLore(lore);
@@ -130,7 +127,7 @@ public class DonationMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Use your " + StatsDisplay.ADVENTURE_COINS.getName());
         lore.add(ChatColor.GRAY + "to purchase unique " + ChatColor.GREEN + "Items" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         adventureShop.setItemMeta(adventureShopItemMeta);
         adventureShop.setLore(lore);
@@ -149,8 +146,8 @@ public class DonationMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Get additional items and ways");
         lore.add(ChatColor.GRAY + "to level up your " + ChatColor.YELLOW + "Mining Pass" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Purchase");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View");
 
         miningPass.setItemMeta(miningPassItemMeta);
         miningPass.setLore(lore);

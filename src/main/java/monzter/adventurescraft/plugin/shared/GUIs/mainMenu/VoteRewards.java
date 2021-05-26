@@ -8,7 +8,6 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.shared.events.extras.VoteRewardList;
@@ -21,8 +20,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -81,7 +78,7 @@ public class VoteRewards extends BaseCommand {
                 }
                 lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.GOLD + item.getPrice() + ChatColor.GREEN + " Vote Coins"));
                 lore.add(Component.text(" "));
-                lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Buy (" + ChatColor.GOLD + parsePlaceholder(player, "ac_Currency_VotingCoins") + " Available" + ChatColor.YELLOW + ")"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Buy (" + ChatColor.GOLD + parsePlaceholder(player, "ac_Currency_VotingCoins") + " Available" + ChatColor.YELLOW + ")"));
 
                 itemMeta.lore(lore);
                 itemStack.setItemMeta(itemMeta);
@@ -137,7 +134,7 @@ public class VoteRewards extends BaseCommand {
         lore.add(ChatColor.GOLD + "Voting Site #3: " + ChatColor.GREEN + parsePlaceholder(player, "custom_vote3"));
         lore.add(ChatColor.GOLD + "Voting Site #4: " + ChatColor.GREEN + parsePlaceholder(player, "custom_vote4"));
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Vote");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Vote");
 
         voting.setItemMeta(votingItemMeta);
         voting.setLore(lore);

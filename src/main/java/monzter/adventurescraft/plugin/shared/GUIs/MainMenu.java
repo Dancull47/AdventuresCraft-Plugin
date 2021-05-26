@@ -117,7 +117,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "make purchases from the " + ChatColor.GREEN + "Smugglers" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + " with " + ChatColor.GREEN + "Sarah" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         yard.setItemMeta(yardItemMeta);
         yard.setLore(lore);
@@ -136,7 +136,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Unlock new areas as you rank up,");
         lore.add(ChatColor.GRAY + "quickly travel to them using the " + ChatColor.GREEN + "Map" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         map.setItemMeta(mapItemMeta);
         map.setLore(lore);
@@ -156,9 +156,9 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "within your " + ChatColor.GREEN + "Cell" + ChatColor.GRAY + ", which can");
         lore.add(ChatColor.GRAY + "be shared with others!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel");
         if (plugin.getConfig().getString("Server").equals("Cell")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to Manage");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Manage");
         }
 
         cell.setItemMeta(cellItemMeta);
@@ -179,7 +179,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "stored within your backpack");
         lore.add(ChatColor.GRAY + "and information about them!!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         backpack.setItemMeta(backpackItemMeta);
         backpack.setLore(lore);
@@ -200,7 +200,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Increase your rank by mining");
         lore.add(ChatColor.GRAY + "and selling the loot you find!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         prestiges.setItemMeta(prestigesItemMeta);
         prestiges.setLore(lore);
@@ -238,7 +238,7 @@ public class MainMenu extends BaseCommand {
         lore.add(StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount_formatted"));
         lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted"));
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Profile");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Profile");
 
         profile.setItemMeta(profileItemMeta);
         profile.setLore(lore);
@@ -259,8 +259,8 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Explore the Prison and");
         lore.add(ChatColor.GRAY + "help others for rewards!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to open Quest Menu");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to get a Quest Journal");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to open Quest Menu");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to get a Quest Journal");
 
         quests.setItemMeta(questsItemMeta);
         quests.setLore(lore);
@@ -279,7 +279,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Complete challenges to level up your");
         lore.add(ChatColor.GREEN + "Mining Pass " + ChatColor.GRAY + "earning rewards in return!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         miningPass.setItemMeta(miningPassItemMeta);
         miningPass.setLore(lore);
@@ -298,7 +298,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Check out who the most");
         lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Prisoners " + ChatColor.GRAY + "are!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         leaderboards.setItemMeta(leaderboardsItemMeta);
         leaderboards.setLore(lore);
@@ -318,8 +318,8 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "stats and keep you company,");
         lore.add(ChatColor.GRAY + "while locked inside the Prison!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View Your Pets");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to Visit Pet Shop");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to View Your Pets");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Visit Pet Shop");
 
         pets.setItemMeta(petsItemMeta);
         pets.setLore(lore);
@@ -337,7 +337,7 @@ public class MainMenu extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Combine materials to create items!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Use");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Use");
 
         crafting.setItemMeta(craftingItemMeta);
         crafting.setLore(lore);
@@ -356,7 +356,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Improve your experience by");
         lore.add(ChatColor.GRAY + "making some adjustments!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         settings.setItemMeta(settingsItemMeta);
         settings.setLore(lore);
@@ -377,9 +377,9 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "return back to your Cell!");
         lore.add("");
         if (player.hasPermission("bank.open.command")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Open");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Open");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
         }
 
         bank.setItemMeta(bankItemMeta);
@@ -399,7 +399,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Store your accessories while,");
         lore.add(ChatColor.GRAY + "still receiving their effects!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         accessoryBag.setItemMeta(accessoryBagItemMeta);
         accessoryBag.setLore(lore);
@@ -419,7 +419,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "a " + ChatColor.GREEN + "Vote Coin" + ChatColor.GRAY + ", which can be redeemed");
         lore.add(ChatColor.GRAY + "for special rewards from this Shop!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Shop");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Shop");
 
         votingRewards.setItemMeta(votingRewardsItemMeta);
         votingRewards.setLore(lore);
@@ -438,7 +438,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Support our Server to");
         lore.add(ChatColor.GRAY + "receive " + ChatColor.GREEN + "Perks " + ChatColor.GRAY + "& " + ChatColor.GREEN + "Rewards" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Perks");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Perks");
 
         donationPerks.setItemMeta(donationPerksItemMeta);
         donationPerks.setLore(lore);
@@ -457,7 +457,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Add and join together in parties with");
         lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Prisoners " + ChatColor.GRAY + "you meet!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         social.setItemMeta(socialItemMeta);
         social.setLore(lore);
@@ -476,7 +476,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Return to the previous server you");
         lore.add(ChatColor.GRAY + "were on to select another " + ChatColor.GREEN + "Gamemode" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Return to Lobby");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Return to Lobby");
 
         lobby.setItemMeta(lobbyItemMeta);
         lobby.setLore(lore);

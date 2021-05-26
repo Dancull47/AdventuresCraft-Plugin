@@ -82,14 +82,14 @@ public class Mercenary extends BaseCommand {
                     lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(mercenary.getPrice())));
                     if (economy.getBalance(player) >= mercenary.getPrice()) {
                         lore.add(Component.text(""));
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
                     }
                     if (economy.getBalance(player) >= mercenary.getPrice() * 16)
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(mercenary.getPrice() * 16) + ")"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(mercenary.getPrice() * 16) + ")"));
                     if (economy.getBalance(player) >= mercenary.getPrice() * 32)
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(mercenary.getPrice() * 32) + ")"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(mercenary.getPrice() * 32) + ")"));
                     if (economy.getBalance(player) >= mercenary.getPrice() * 64)
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(mercenary.getPrice() * 64) + ")"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(mercenary.getPrice() * 64) + ")"));
                     mercenaryItemItemMeta.lore(lore);
                     mercenaryItem.setItemMeta(mercenaryItemItemMeta);
                     display.addItem(new GuiItem(mercenaryItem, e -> {

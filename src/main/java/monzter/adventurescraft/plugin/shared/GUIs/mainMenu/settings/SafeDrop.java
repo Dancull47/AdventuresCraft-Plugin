@@ -16,10 +16,6 @@ import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -135,9 +131,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm1")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 
@@ -163,9 +159,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm2")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 
@@ -190,9 +186,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm3")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 
@@ -217,9 +213,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm4")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 
@@ -244,9 +240,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm5")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 
@@ -271,9 +267,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm6")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 
@@ -298,9 +294,9 @@ public class SafeDrop extends BaseCommand {
         lore.add(description);
         lore.add("");
         if (player.hasPermission("DropPerm7")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
 

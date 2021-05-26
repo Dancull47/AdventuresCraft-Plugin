@@ -18,7 +18,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -92,7 +91,7 @@ public class Social extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Visit another " + ChatColor.YELLOW + "Prisoner's Cell" + ChatColor.GRAY + ".");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Command");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Command");
 
         visit.setItemMeta(visitItemMeta);
         visit.setLore(lore);
@@ -111,7 +110,7 @@ public class Social extends BaseCommand {
         lore.add(ChatColor.GRAY + "Add other " + ChatColor.YELLOW + "Prisoners " + ChatColor.GRAY + "you meet along");
         lore.add(ChatColor.GRAY + "your journey to your  " + ChatColor.YELLOW + "Friends List" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Command");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Command");
 
         friends.setItemMeta(friendsItemMeta);
         friends.setLore(lore);

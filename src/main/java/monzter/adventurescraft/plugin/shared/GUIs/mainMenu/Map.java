@@ -16,18 +16,13 @@ import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Map extends BaseCommand {
 
@@ -84,7 +79,7 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Travel through new  " + ChatColor.GREEN + "Rank Mines " + ChatColor.GRAY + "as");
         lore.add(ChatColor.GRAY + "you progress through the " + ChatColor.GREEN + "Ranks" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         rankMines.setItemMeta(rankMinesItemMeta);
         rankMines.setLore(lore);
@@ -104,7 +99,7 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Travel through new  " + ChatColor.BLUE + "Prestige Mines " + ChatColor.GRAY + "which");
         lore.add(ChatColor.GRAY + "offer higher yielding " + ChatColor.GOLD + "Resources" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         prestigeMines.setItemMeta(prestigeMinesItemMeta);
         prestigeMines.setLore(lore);
@@ -126,7 +121,7 @@ public class Map extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.WHITE.toString() + ChatColor.BOLD + "Active Event: " + ChatColor.GREEN + ChatColor.BOLD + "Beach Mine " + ChatColor.RED + ChatColor.MAGIC + "|");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         eventMines.setItemMeta(eventMinesItemMeta);
         eventMines.setLore(lore);
@@ -146,7 +141,7 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Checkout what is contained within");
         lore.add(ChatColor.GRAY + "the " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + " found in our world!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         crates.setItemMeta(cratesItemMeta);
         crates.setLore(lore);
@@ -166,7 +161,7 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "make purchases from the " + ChatColor.GREEN + "Smugglers" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + " with " + ChatColor.GREEN + "Sarah" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         yard.setItemMeta(yardItemMeta);
         yard.setLore(lore);
@@ -185,7 +180,7 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Checkout the " + ChatColor.GREEN + "Pets " + ChatColor.GRAY + "currently in");
         lore.add(ChatColor.GRAY + "the " + ChatColor.GREEN + "Prison" + ChatColor.GRAY + ", and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         pets.setItemMeta(petsItemMeta);
         pets.setLore(lore);
@@ -204,7 +199,7 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Purchase a wide variety of " + ChatColor.GREEN + "Gear, Items, Buffs,");
         lore.add(ChatColor.GREEN + "Enchantments, " + ChatColor.GRAY + "and more from the " + ChatColor.YELLOW + "Vendors" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         blackMarket.setItemMeta(blackMarketItemMeta);
         blackMarket.setLore(lore);

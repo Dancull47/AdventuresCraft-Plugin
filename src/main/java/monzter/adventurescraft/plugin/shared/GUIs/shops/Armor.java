@@ -87,7 +87,7 @@ public class Armor extends BaseCommand {
                     lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(armor.getPrice())));
                     if (economy.getBalance(player) >= armor.getPrice()) {
                         lore.add(Component.text(""));
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
                     }
                     armorItemItemMeta.lore(lore);
                     armorItem.setItemMeta(armorItemItemMeta);

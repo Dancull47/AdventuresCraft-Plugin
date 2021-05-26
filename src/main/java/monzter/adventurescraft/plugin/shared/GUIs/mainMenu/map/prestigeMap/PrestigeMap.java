@@ -72,7 +72,7 @@ public class PrestigeMap extends BaseCommand {
                 prestigeIconItemMeta.setDisplayName(ChatColor.GREEN + "Prestige Mine " + prestige.getName());
                 List<String> lore = new ArrayList<>();
                 lore.add("");
-                lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+                lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
                 prestigeIcon.setItemMeta(prestigeIconItemMeta);
                 prestigeIcon.setLore(lore);

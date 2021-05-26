@@ -8,15 +8,11 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import dev.dbassett.skullcreator.SkullCreator;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.shared.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -60,10 +56,10 @@ public class Leaderboards extends BaseCommand {
 
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to View All-Time");
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View Daily");
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Shift-Click to View Weekly");
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Shift-Click to View Monthly");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to View All-Time");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Daily");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Shift-Click to View Weekly");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Shift-Click to View Monthly");
 
             leaderboards.setItemMeta(leaderboardsItemMeta);
             leaderboards.setLore(lore);

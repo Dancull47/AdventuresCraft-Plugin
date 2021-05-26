@@ -12,48 +12,37 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
-import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
-import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import pl.betoncraft.betonquest.BetonQuest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Enchanter extends BaseCommand {
+public class Joy extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
     private final GUIHelper guiHelper;
     private final BetonTagManager betonTagManager;
-    final String quester = "Enchanter";
+    final String quester = "Joy";
     final String questerLocation = "Town";
 
 
-    public Enchanter(AdventuresCraft plugin, GUIHelper guiHelper, BetonTagManager betonTagManager) {
+    public Joy(AdventuresCraft plugin, GUIHelper guiHelper, BetonTagManager betonTagManager) {
         this.plugin = plugin;
         this.guiHelper = guiHelper;
         this.betonTagManager = betonTagManager;
     }
 
-    @CommandAlias("enchanterQuests")
+    @CommandAlias("joyQuests")
     public void questMenu(Player player) {
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Enchanter's Quests " + parsePlaceholder(player, "betonquest_default-Points:point.Enchanter.amount")));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Joy's Quests " + parsePlaceholder(player, "betonquest_default-Points:point.Joy.amount")));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
         StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
 
 
-        background.addItem(new GuiItem(guiHelper.background(Material.PURPLE_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
         display.addItem(quest1(player), 4, 1);
@@ -68,14 +57,14 @@ public class Enchanter extends BaseCommand {
 
 
     private GuiItem quest1(Player player) {
-        final String name = "Understanding Experience";
-        final String[] description = new String[]{ChatColor.WHITE + "Mine 32 blocks"};
-        final String[] rewards = new String[]{"100 " + StatsDisplay.EXPERIENCE_AMOUNT.getName(), "100 " + StatsDisplay.MONEY_AMOUNT.getName()};
-        if (!betonTagManager.hasTag(player, "default-Yard-Enchanter.q1_part1"))
+        final String name = "Hatching an Egg";
+        final String[] description = new String[]{ChatColor.WHITE + "Mine 50 Blocks with the", ChatColor.WHITE + "Pet Egg in your inventory"};
+        final String[] rewards = new String[]{"Pet Egg", "50 " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName(), "100 " + StatsDisplay.MONEY_AMOUNT.getName()};
+        if (!betonTagManager.hasTag(player, "default-Yard-Joy.q1_part1"))
             return new GuiItem(guiHelper.questInactive(name, description, rewards, quester, questerLocation));
-        if (betonTagManager.hasTag(player, "default-Yard-Enchanter.q1_part1") && !betonTagManager.hasTag(player, "default-Yard-Enchanter.q1_completed"))
+        if (betonTagManager.hasTag(player, "default-Yard-Joy.q1_part1") && !betonTagManager.hasTag(player, "default-Yard-Joy.q1_completed"))
             return new GuiItem(guiHelper.questActive(name, description, rewards, quester, questerLocation));
-        if (betonTagManager.hasTag(player, "default-Yard-Enchanter.q1_completed"))
+        if (betonTagManager.hasTag(player, "default-Yard-Joy.q1_completed"))
             return new GuiItem(guiHelper.questComplete(name, description, rewards, quester, questerLocation));
         return null;
     }

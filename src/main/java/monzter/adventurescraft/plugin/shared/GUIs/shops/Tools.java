@@ -80,7 +80,7 @@ public class Tools extends BaseCommand {
                     lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(tool.getPrice())));
                     if (economy.getBalance(player) >= tool.getPrice()) {
                         lore.add(Component.text(""));
-                        lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                        lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
                     }
                     toolItemItemMeta.lore(lore);
                     toolItem.setItemMeta(toolItemItemMeta);

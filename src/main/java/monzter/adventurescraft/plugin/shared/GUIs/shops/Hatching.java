@@ -8,7 +8,6 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
@@ -149,7 +148,7 @@ public class Hatching extends BaseCommand {
 
             if (balance >= hatching.getPrice()) {
                 lore.add(Component.text(""));
-                lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
             }
             hatchingItemItemMeta.lore(lore);
             hatchingItem.setItemMeta(hatchingItemItemMeta);
@@ -174,9 +173,9 @@ public class Hatching extends BaseCommand {
             lore.add(Component.text(""));
 
             if (Integer.valueOf(petEXPAmount) >= hatching.getPrice())
-                lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Hatch"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Hatch"));
 
-            lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View Hatchlings"));
+            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Hatchlings"));
 
             hatchingItemItemMeta.lore(lore);
             hatchingItem.setItemMeta(hatchingItemItemMeta);

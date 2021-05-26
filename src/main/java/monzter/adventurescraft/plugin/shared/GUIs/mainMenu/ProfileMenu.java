@@ -16,12 +16,9 @@ import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -103,7 +100,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "to purchase exclusive rewards");
         lore.add(ChatColor.GRAY + "from the" + ChatColor.GOLD + " Adventure Shop" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Shop");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Shop");
 
         adventureCoins.setItemMeta(adventureCoinsItemMeta);
         adventureCoins.setLore(lore);
@@ -186,7 +183,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "The coins can be redeemed in the");
         lore.add(ChatColor.GREEN + "Vote Shop " + ChatColor.GRAY + "for some awesome rewards!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Shop");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Shop");
 
         voteCoin.setItemMeta(voteCoinItemMeta);
         voteCoin.setLore(lore);
@@ -209,7 +206,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "The coins can be redeemed in the");
         lore.add(ChatColor.GREEN + "Vote Shop " + ChatColor.GRAY + "for some awesome rewards!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Shop");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Shop");
 
         activeBoosters.setItemMeta(activeBoostersItemMeta);
         activeBoosters.setLore(lore);
@@ -263,7 +260,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Increase your stats through " + ChatColor.GREEN + "Attributes" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "which are rewarded from certain " + ChatColor.BLUE + "Prestiges" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Attributes");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Attributes");
 
         attributes.setItemMeta(attributesItemMeta);
         attributes.setLore(lore);

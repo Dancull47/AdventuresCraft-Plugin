@@ -103,7 +103,7 @@ public class Settings extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Return to the " + ChatColor.YELLOW + "Yard!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         stuck.setItemMeta(stuckItemMeta);
         stuck.setLore(lore);
@@ -122,7 +122,7 @@ public class Settings extends BaseCommand {
         lore.add(ChatColor.GRAY + "You can earn " + ChatColor.YELLOW + "Explorer Tags " + ChatColor.GRAY + "while");
         lore.add(ChatColor.YELLOW + "Exploring " + ChatColor.GRAY + "and " + ChatColor.YELLOW + "earning Achievements" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         battleTag.setItemMeta(battleTagItemMeta);
         battleTag.setLore(lore);
@@ -140,7 +140,7 @@ public class Settings extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Manage your " + ChatColor.YELLOW + "Safe Drop" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         safeDrop.setItemMeta(safeDropItemMeta);
         safeDrop.setLore(lore);
@@ -163,9 +163,9 @@ public class Settings extends BaseCommand {
         lore.add(ChatColor.GRAY + "Receive " + ChatColor.GREEN + "Tips" + ChatColor.GRAY + " occasionally in Chat.");
         lore.add("");
         if (player.hasPermission("TIPS")) {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Disable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
         } else {
-            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Enable");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
         }
 
         tips.setItemMeta(tipsItemMeta);

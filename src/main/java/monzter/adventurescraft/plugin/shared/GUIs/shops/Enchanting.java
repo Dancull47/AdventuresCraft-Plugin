@@ -241,7 +241,7 @@ public class Enchanting extends BaseCommand {
                 lore.add(Component.text(ChatColor.WHITE + "Price: " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + " " + numberFormat.numberFormat(enchantmentPrice)));
                 if (balance >= enchantmentPrice) {
                     lore.add(Component.text(""));
-                    lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Purchase"));
+                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
                 }
             }
             enchantmentItemItemMeta.lore(lore);

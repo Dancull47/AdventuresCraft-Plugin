@@ -9,25 +9,19 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import dev.dbassett.skullcreator.SkullCreator;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class RankMap extends BaseCommand {
 
@@ -78,7 +72,7 @@ public class RankMap extends BaseCommand {
                 rankIconItemMeta.setDisplayName(ChatColor.GREEN + "Mine " + rank.getName());
                 List<String> lore = new ArrayList<>();
                 lore.add("");
-                lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Travel");
+                lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
                 rankIcon.setItemMeta(rankIconItemMeta);
                 rankIcon.setLore(lore);

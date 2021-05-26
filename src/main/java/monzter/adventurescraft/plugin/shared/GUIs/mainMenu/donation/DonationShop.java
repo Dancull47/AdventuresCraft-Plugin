@@ -18,10 +18,6 @@ import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -75,9 +71,9 @@ public class DonationShop extends BaseCommand {
                 }
                 lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + " " + StatsDisplay.ADVENTURE_COINS.getName()));
                 lore.add(Component.text(" "));
-                lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Purchase"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase"));
                 if (reward.type.equalsIgnoreCase("PET") || reward.type.equalsIgnoreCase("CONSUMABLE"))
-                    lore.add(Component.text(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Right-Click to View Rewards"));
+                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Rewards"));
 
                 itemMeta.lore(lore);
                 itemStack.setItemMeta(itemMeta);
@@ -109,7 +105,7 @@ public class DonationShop extends BaseCommand {
                 lore.add("");
                 lore.add((ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + " " + StatsDisplay.ADVENTURE_COINS.getName()));
                 lore.add((" "));
-                lore.add((Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Left-Click to Purchase"));
+                lore.add((Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase"));
 
                 itemMeta.setLore(lore);
                 itemStack.setItemMeta(itemMeta);

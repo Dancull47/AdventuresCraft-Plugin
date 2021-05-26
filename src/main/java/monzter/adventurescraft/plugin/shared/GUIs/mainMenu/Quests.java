@@ -75,7 +75,7 @@ public class Quests extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Quests");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
 
         yard.setItemMeta(yardItemMeta);
         yard.setLore(lore);
@@ -93,7 +93,7 @@ public class Quests extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "View your currently active quests!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Active Quests");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Active Quests");
 
         activeQuests.setItemMeta(activeQuestsItemMeta);
         activeQuests.setLore(lore);
@@ -111,7 +111,7 @@ public class Quests extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "View your unclaimed quest rewards!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Unclaimed Rewards");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Unclaimed Rewards");
 
         unclaimedQuests.setItemMeta(unclaimedQuestsItemMeta);
         unclaimedQuests.setLore(lore);
@@ -131,7 +131,7 @@ public class Quests extends BaseCommand {
         lore.add(ChatColor.GRAY + "Some " + ChatColor.GREEN + "NPCS " + ChatColor.GRAY + "around the world give " + ChatColor.GOLD + "Jobs " + ChatColor.GRAY + "which");
         lore.add(ChatColor.GRAY + "can be repeated each day or more often!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Jobs");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Jobs");
 
         jobs.setItemMeta(jobsItemMeta);
         jobs.setLore(lore);
@@ -150,7 +150,7 @@ public class Quests extends BaseCommand {
         lore.add(ChatColor.GRAY + "Earn special rewards for");
         lore.add(ChatColor.GRAY + "accomplishments while mining!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to View Achievements");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Achievements");
 
         achievements.setItemMeta(achievementsItemMeta);
         achievements.setLore(lore);
