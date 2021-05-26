@@ -12,4 +12,8 @@ public interface GUIHelper {
     ItemStack firstPageButton();
     ItemStack lastPageButton();
     String guiName(String name);
+    ItemStack questInactive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
+    ItemStack questActive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
+    ItemStack questComplete(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
+    ItemStack questUnclaimed(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
 }

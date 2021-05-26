@@ -1,12 +1,16 @@
 package monzter.adventurescraft.plugin.utilities.GUI;
 
 import dev.dbassett.skullcreator.SkullCreator;
+import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GUIHelperImpl implements GUIHelper {
 
@@ -91,4 +95,103 @@ public class GUIHelperImpl implements GUIHelper {
                         ChatColor.GRAY + ChatColor.BOLD + " «" +
                         ChatColor.WHITE + ChatColor.BOLD + "«";
     }
+
+    @Override
+    public ItemStack questInactive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
+        ItemStack inactive = new ItemStack(Material.PAPER);
+        final ItemMeta inactiveItemMeta = inactive.getItemMeta();
+
+        inactiveItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[Inactive] " + ChatColor.WHITE + ChatColor.BOLD + questName));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String lore2 : questDescription)
+            lore.add(lore2);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
+        for (String reward : questRewards)
+            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.WHITE + reward);
+        lore.add("");
+        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
+
+        inactive.setItemMeta(inactiveItemMeta);
+        inactive.setLore(lore);
+
+        return inactive;
+    }
+
+    @Override
+    public ItemStack questActive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
+        ItemStack active = new ItemStack(Material.BOOK);
+        final ItemMeta activeItemMeta = active.getItemMeta();
+
+        activeItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String lore2 : questDescription)
+            lore.add(lore2);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
+        for (String reward : questRewards)
+            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.WHITE + reward);
+        lore.add("");
+        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
+
+        active.setItemMeta(activeItemMeta);
+        active.setLore(lore);
+
+        return active;
+    }
+
+    @Override
+    public ItemStack questComplete(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
+        ItemStack complete = new ItemStack(Material.ENCHANTED_BOOK);
+        final ItemMeta completeItemMeta = complete.getItemMeta();
+
+        completeItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Complete] " + ChatColor.WHITE + ChatColor.BOLD + questName));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String lore2 : questDescription)
+            lore.add(lore2);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
+        for (String reward : questRewards)
+            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.WHITE + reward);
+        lore.add("");
+        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
+
+        complete.setItemMeta(completeItemMeta);
+        complete.setLore(lore);
+
+        return complete;
+    }
+
+    @Override
+    public ItemStack questUnclaimed(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
+        ItemStack unclaimed = new ItemStack(Material.ENCHANTED_BOOK);
+        final ItemMeta unclaimedItemMeta = unclaimed.getItemMeta();
+
+        unclaimedItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[Unclaimed] " + ChatColor.WHITE + ChatColor.BOLD + questName));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String lore2 : questDescription)
+            lore.add(lore2);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
+        for (String reward : questRewards)
+            lore.add(Prefix.PREFIX.getPrefix() + ChatColor.WHITE + reward);
+        lore.add("");
+        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
+        lore.add("");
+        lore.add(Prefix.PREFIX.getPrefix() + ChatColor.YELLOW + "Click to Claim Rewards");
+
+        unclaimed.setItemMeta(unclaimedItemMeta);
+        unclaimed.setLore(lore);
+
+        return unclaimed;
+    }
+
 }

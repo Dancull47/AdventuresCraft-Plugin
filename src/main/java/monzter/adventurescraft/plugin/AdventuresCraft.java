@@ -11,7 +11,6 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
-import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.commands.Warp;
@@ -23,6 +22,8 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
+import monzter.adventurescraft.plugin.shared.GUIs.quests.Yard;
+import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Enchanter;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Armor;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
@@ -49,12 +50,12 @@ import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
+import monzter.adventurescraft.plugin.utilities.beton.*;
+import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
+import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantmentsImpl;
 import monzter.adventurescraft.plugin.utilities.general.*;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionImplLP;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
-import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
-import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerImpl;
-import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerNull;
 import monzter.adventurescraft.plugin.utilities.mmoitems.*;
 import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobSpawnImpl;
 import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobsSpawn;
@@ -102,6 +103,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private long restartTime;
     private SoundManager soundManager;
     private BetonPointsManager betonPointsManager;
+    private BetonTagManager betonTagManager;
     private MMOItemsGive mmoItemsGive;
     private FullInventory fullInventory;
     private ConsoleCommand consoleCommand;
@@ -112,6 +114,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private Economy economy;
     private DropTablesDelivery dropTablesDelivery;
     private PermissionLP permissionLP;
+    private CalculateEnchantments calculateEnchantments;
     private ProtocolManager protocolManager;
     private PaperCommandManager manager;
     private GUIHelper guiHelper;
@@ -163,7 +166,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
-        new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime).register();
+        new Placeholder(this, perms, loadPets(), displayNameFlag, restartTime, calculateEnchantments).register();
 
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
@@ -197,6 +200,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
     }
+
     private void cellLoad() {
         getLogger().info("Cell Loaded");
         Bukkit.getServer().getPluginManager().registerEvents(new JoinCell(this, mmoItemsGive, permissionLP, BentoBox.getInstance()), this);
@@ -204,7 +208,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
         manager.registerCommand(new Warp(this, mmoItemsGive, soundManager, permissionLP, loadWarps()));
     }
-    private void sharedLoad(){
+
+    private void sharedLoad() {
         getLogger().info("Shared Loaded");
         Bukkit.getServer().getPluginManager().registerEvents(new JoinShared(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
@@ -219,11 +224,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
+        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
         manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Yard(this, guiHelper));
+        manager.registerCommand(new Enchanter(this, guiHelper, betonTagManager));
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new RankMap(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new PrestigeMap(this, soundManager, guiHelper, consoleCommand));
@@ -248,10 +256,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery, numberFormat));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
         manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager));
-        manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager));
+        manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager, calculateEnchantments));
         manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
 
     }
+
     private void initializeDependencies() {
         RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         numberFormat = new NumberFormatImpl();
@@ -264,6 +273,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl();
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);
+        calculateEnchantments = new CalculateEnchantmentsImpl();
 
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
         if (betonQuest == null) {
@@ -271,6 +281,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             betonPointsManager = new BetonPointsManagerNull();
         } else {
             betonPointsManager = new BetonPointsManagerImpl((BetonQuest) betonQuest);
+            betonTagManager = new BetonTagManagerImpl((BetonQuest) betonQuest);
         }
         final Plugin mmoItems = Bukkit.getPluginManager().getPlugin("MMOItems");
         if (mmoItems == null) {

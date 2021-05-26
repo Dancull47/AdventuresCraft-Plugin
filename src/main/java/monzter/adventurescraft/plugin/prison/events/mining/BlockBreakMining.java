@@ -137,15 +137,15 @@ public class BlockBreakMining implements Listener {
         if (chanceCheck.chanceCheck(.01))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
 //        Enchantment
-        if (chanceCheck.chanceCheck(0.0020 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.0080))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX5");
-        if (chanceCheck.chanceCheck(0.005 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.005))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX4");
-        if (chanceCheck.chanceCheck(0.0075 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.0025))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX3");
-        if (chanceCheck.chanceCheck(0.0095 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)-.0005))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX2");
-        if (chanceCheck.chanceCheck(.01 + (Enchantments.Luck.getIncrease()) * enchantmentLevel))
+        if (chanceCheck.chanceCheck((Enchantments.Luck.getIncrease() * enchantmentLevel)))
             mmoItemsGive.giveMMOItem(player, "CONSUMABLE", "LOOTBOX");
     }
 

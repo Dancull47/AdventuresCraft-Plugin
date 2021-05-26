@@ -11,6 +11,7 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
 import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
@@ -21,14 +22,11 @@ import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
-import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -36,7 +34,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class Enchanting extends BaseCommand {
 
@@ -49,6 +46,8 @@ public class Enchanting extends BaseCommand {
     private final FullInventory fullInventory;
     private final MMOItemsGive mmoItemsGive;
     private final NumberFormat numberFormat;
+    private final CalculateEnchantments calculateEnchantments;
+
     private final List<Material> tools = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
             Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL,
             Material.IRON_AXE, Material.IRON_HOE, Material.IRON_PICKAXE, Material.IRON_SHOVEL,
@@ -57,7 +56,7 @@ public class Enchanting extends BaseCommand {
             Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL);
     private final DecimalFormat df = new DecimalFormat("###.####");
 
-    public Enchanting(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Economy economy, FullInventory fullInventory, MMOItemsGive mmoItemsGive, NumberFormat numberFormat) {
+    public Enchanting(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Economy economy, FullInventory fullInventory, MMOItemsGive mmoItemsGive, NumberFormat numberFormat, CalculateEnchantments calculateEnchantments) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
@@ -66,6 +65,7 @@ public class Enchanting extends BaseCommand {
         this.fullInventory = fullInventory;
         this.mmoItemsGive = mmoItemsGive;
         this.numberFormat = numberFormat;
+        this.calculateEnchantments = calculateEnchantments;
     }
 
     @CommandAlias("enchantmentShop")
@@ -74,7 +74,7 @@ public class Enchanting extends BaseCommand {
             if (tools.contains(player.getInventory().getItemInMainHand().getType())) {
                 final int exp = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%"));
 
-                ChestGui gui = new ChestGui(6, guiHelper.guiName("Enchanting"));
+                ChestGui gui = new ChestGui(6, guiHelper.guiName("Enchantment Shop"));
                 gui.setOnGlobalClick(event -> event.setCancelled(true));
 
                 PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
@@ -86,25 +86,46 @@ public class Enchanting extends BaseCommand {
 
                 background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
                 background.setRepeat(true);
-                display.addItem(new GuiItem(experience(exp, calculateEnchantments(player, "Experience") + 1), e -> player.sendMessage("1")), 1, 0);
-                display.addItem(new GuiItem(petExperience(exp, calculateEnchantments(player, "Pet Experience") + 1), e -> player.sendMessage("1")), 2, 0);
-                display.addItem(new GuiItem(luck(exp, calculateEnchantments(player, "Luck") + 1), e -> player.sendMessage("1")), 3, 0);
-                display.addItem(new GuiItem(explosive(exp, calculateEnchantments(player, "Explosive") + 1), e -> player.sendMessage("1")), 4, 0);
-                display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments(player, "Explosive Chance") + 1), e -> player.sendMessage("1")), 5, 0);
 
-                display.addItem(new GuiItem(randomizer(exp, calculateEnchantments(player, "Randomizer") + 1), e -> player.sendMessage("1")), 2, 1);
-                display.addItem(new GuiItem(treasurer(exp, calculateEnchantments(player, "Treasurer") + 1), e -> player.sendMessage("1")), 3, 1);
-                display.addItem(new GuiItem(midasTouch(exp, calculateEnchantments(player, "Midas Touch") + 1), e -> player.sendMessage("1")), 4, 1);
+                display.addItem(new GuiItem(experience(exp, calculateEnchantments.calculateEnchantments(player, "Experience") + 1), e -> {
+                    player.performCommand("enchantment Experience");
+                    pets(player);
+                }), 1, 0);
+                display.addItem(new GuiItem(petExperience(exp, calculateEnchantments.calculateEnchantments(player, "Pet Experience") + 1), e -> {
+                    player.performCommand("enchantment Pet_Experience");
+                    pets(player);
+                }), 2, 0);
+                display.addItem(new GuiItem(luck(exp, calculateEnchantments.calculateEnchantments(player, "Luck") + 1), e -> {
+                    player.performCommand("enchantment Luck");
+                    pets(player);
+                }), 3, 0);
+                display.addItem(new GuiItem(explosive(exp, calculateEnchantments.calculateEnchantments(player, "Explosive") + 1), e -> {
+                    player.performCommand("enchantment Explosive");
+                    pets(player);
+                }), 4, 0);
+                display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments.calculateEnchantments(player, "Explosive Chance") + 1), e -> {
+                    player.performCommand("enchantment Explosive_Chance");
+                    pets(player);
+                }), 5, 0);
 
-                display.addItem(new GuiItem(statTracker(exp, calculateEnchantments(player, "Stat Tracker") + 1), e -> player.sendMessage("1")), 3, 2);
+                display.addItem(new GuiItem(randomizer(exp, calculateEnchantments.calculateEnchantments(player, "Randomizer") + 1), e -> {
+                    player.performCommand("enchantment Randomizer");
+                    pets(player);
+                }), 2, 1);
+                display.addItem(new GuiItem(treasurer(exp, calculateEnchantments.calculateEnchantments(player, "Treasurer") + 1), e -> {
+                    player.performCommand("enchantment Treasurer");
+                    pets(player);
+                }), 3, 1);
+                display.addItem(new GuiItem(midasTouch(exp, calculateEnchantments.calculateEnchantments(player, "Midas Touch") + 1), e -> {
+                    player.performCommand("enchantment Midas_Touch");
+                    pets(player);
+                }), 4, 1);
 
-//            display2.addItem(new GuiItem(hatchEgg(Integer.valueOf(exp), enchantment), e -> {
-//                if (e.isLeftClick())
-//                    player.performCommand("hatch " + enchantment.getId());
-//                if (e.isRightClick())
-//                    player.performCommand("droptableviewer " + enchantment.getId() + "petegg");
+                display.addItem(new GuiItem(statTracker(exp, calculateEnchantments.calculateEnchantments(player, "Stat Tracker") + 1), e -> {
+                    player.performCommand("enchantment Stat_Tracker");
+                    pets(player);
+                }), 3, 2);
 
-//            }));
                 gui.addPane(page);
                 gui.show(player);
             } else {
@@ -112,17 +133,6 @@ public class Enchanting extends BaseCommand {
             }
         }
     }
-
-
-    private void purchase(Player player, String itemID, double price) {
-        if (economy.hasMoney(player, price)) {
-            if (!fullInventory.fullInventory(player)) {
-                economy.takeMoney(player, price);
-                mmoItemsGive.giveMMOItem(player, "PET", itemID);
-            }
-        }
-    }
-
 
     private ItemStack experience(int balance, int enchantmentLevel) {
         TextComponent[] experience = new TextComponent[]{
@@ -239,17 +249,4 @@ public class Enchanting extends BaseCommand {
         }
         return enchantmentItem;
     }
-
-    private int calculateEnchantments(Player player, String enchantment) {
-        if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null) {
-            Map<Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
-            if (!enchantmentMap.isEmpty()) {
-                if (enchantmentMap.containsKey(org.bukkit.enchantments.Enchantment.getByName(enchantment))) {
-                    return enchantmentMap.get(Enchantment.getByName(enchantment));
-                }
-            }
-        }
-        return 0;
-    }
-
 }

@@ -51,8 +51,8 @@ public class EnchantingTableInteraction implements Listener {
                 player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
                 soundManager.soundNo(player, 1);
             }
+            event.setCancelled(true);
         }
-        event.setCancelled(true);
     }
 
     @EventHandler

@@ -2,11 +2,13 @@ package monzter.adventurescraft.plugin.shared.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.Dependency;
 import io.lumine.mythicenchants.MythicEnchants;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
 import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
@@ -29,25 +31,28 @@ public class Enchanting extends BaseCommand {
     private final ConsoleCommand consoleCommand;
     private final MythicEnchants mythicEnchants;
     private final BetonPointsManager betonPointsManager;
+    private final CalculateEnchantments calculateEnchantments;
 
 
-    public Enchanting(AdventuresCraft plugin, NumberFormat numberFormat, SoundManager soundManager, ConsoleCommand consoleCommand, MythicEnchants mythicEnchants, BetonPointsManager betonPointsManager) {
+    public Enchanting(AdventuresCraft plugin, NumberFormat numberFormat, SoundManager soundManager, ConsoleCommand consoleCommand, MythicEnchants mythicEnchants, BetonPointsManager betonPointsManager, CalculateEnchantments calculateEnchantments) {
         this.plugin = plugin;
         this.numberFormat = numberFormat;
         this.soundManager = soundManager;
         this.consoleCommand = consoleCommand;
         this.mythicEnchants = Objects.requireNonNull(mythicEnchants);
         this.betonPointsManager = betonPointsManager;
+        this.calculateEnchantments = calculateEnchantments;
     }
 
-    @CommandAlias("enchants")
+    @CommandAlias("enchants|enchant|enchantment")
+    @CommandCompletion("Experience|Pet_Experience|Luck|Explosive|Explosive_Chance|Randomizer|Treasurer|Midas_Touch|Stat_Tracker")
     private void enchant(Player player, String enchantment) {
         for (Enchantments enchantments : Enchantments.values()) {
-            if (enchantments.getName().equals(enchantment)) {
-                int price = (calculateEnchantments(player, enchantment) * enchantments.getPrice());
+            if (enchantments.getName().equals(enchantment.replace("_"," "))) {
                 if (!isMaxLevel(player, enchantment, enchantments.getMaxLevel())) {
-                    if (enoughPoints(player, enchantment, calculateEnchantments(player, enchantment), price)) {
-                        increaseEnchantment(player, enchantment, calculateEnchantments(player, enchantment), price);
+                    int price = (calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")) * enchantments.getPrice());
+                    if (enoughPoints(player, enchantment, calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")), price)) {
+                        increaseEnchantment(player, enchantment, calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")), price);
                     }
                 }
             }
@@ -82,43 +87,12 @@ public class Enchanting extends BaseCommand {
     }
 
     private boolean isMaxLevel(Player player, String enchantment, int enchantmentMaxLevel) {
-        if (calculateEnchantments(player, enchantment) >= enchantmentMaxLevel) {
+        if (calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")) >= enchantmentMaxLevel) {
             player.sendMessage(ChatColor.RED + "You have reached the max level on this tool for " + ChatColor.DARK_PURPLE + enchantment.replace("_", " ") + ChatColor.RED + "!");
             soundManager.soundNo(player, 1);
             return true;
         }
         return false;
     }
-
-//    public void increaseEnchantment(Player player, String enchantment, int enchantmentPlaceholder, int upgradeAmount) {
-//        final boolean previousOp = player.isOp();
-//        try {
-//            player.setOp(true);
-//            player.performCommand("mythicenchants enchant " + enchantment.toUpperCase() + " " + Integer.valueOf(enchantmentPlaceholder+1));
-//        } finally {
-//            player.setOp(previousOp);
-//        }
-//        consoleCommand.consoleCommand("q point " + player.getName() + " add items.Experience -" + Integer.valueOf((enchantmentPlaceholder)*3500));
-//        if (upgradeAmount == 1){
-//            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-//                String exp = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount_formatted%");
-//                player.sendMessage(ChatColor.GREEN.toString() + "You now have " + ChatColor.GOLD + exp + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + " left!");
-//            }, 5L);
-//        }
-//    }
-
-
-    private int calculateEnchantments(Player player, String enchantment) {
-        if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta() != null) {
-            Map<org.bukkit.enchantments.Enchantment, Integer> enchantmentMap = player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getEnchants();
-            if (!enchantmentMap.isEmpty()) {
-                if (enchantmentMap.containsKey(org.bukkit.enchantments.Enchantment.getByName(enchantment))) {
-                    return enchantmentMap.get(Enchantment.getByName(enchantment));
-                }
-            }
-        }
-        return 0;
-    }
-
 }
 
