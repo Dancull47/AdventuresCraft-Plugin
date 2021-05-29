@@ -1,6 +1,9 @@
 package monzter.adventurescraft.plugin.utilities.beton;
 
 import org.bukkit.entity.Player;
+import pl.betoncraft.betonquest.Point;
+
+import java.util.List;
 
 public interface BetonPointsManager {
     void givePoint(Player player, String path, int amount);
@@ -22,4 +25,6 @@ public interface BetonPointsManager {
 
     void givePointACs(Player player, int amount);
     void takePointACs(Player player, int amount);
+
+    public int getPoints(String pointCategory, List<Point> pointList);
 }

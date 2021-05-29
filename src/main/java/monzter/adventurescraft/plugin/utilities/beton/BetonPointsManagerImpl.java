@@ -2,6 +2,9 @@ package monzter.adventurescraft.plugin.utilities.beton;
 
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.Point;
+
+import java.util.List;
 
 public class BetonPointsManagerImpl implements BetonPointsManager {
     private final BetonQuest betonQuest;
@@ -74,4 +77,13 @@ public class BetonPointsManagerImpl implements BetonPointsManager {
     public void takePointACs(Player player, int amount) {
         takePoint(player, "items.AdventureCoin", amount);
     }
+
+    @Override
+    public int getPoints(String pointCategory, List<Point> pointList) {
+        for (final Point point : pointList)
+            if (point.getCategory().equalsIgnoreCase(pointCategory))
+                return point.getCount();
+        return 0;
+    }
+
 }

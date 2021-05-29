@@ -22,6 +22,7 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.jobs.Jobs;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.Achivements;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.YardJobs;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
 import monzter.adventurescraft.plugin.shared.GUIs.quests.Yard;
@@ -240,6 +241,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Joy(this, guiHelper, betonTagManager));
         manager.registerCommand(new Finubar(this, guiHelper, betonTagManager));
         manager.registerCommand(new Jobs(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
         manager.registerCommand(new Yard(this, guiHelper));
         manager.registerCommand(new YardJobs(this, guiHelper, consoleCommand));
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
@@ -286,10 +288,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         calculateEnchantments = new CalculateEnchantmentsImpl();
 
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
-        if (betonQuest == null) {
-            getLogger().log(Level.WARNING, "BetonQuest not found!");
-            betonPointsManager = new BetonPointsManagerNull();
-        } else {
+        if (betonQuest != null) {
             betonPointsManager = new BetonPointsManagerImpl((BetonQuest) betonQuest);
             betonTagManager = new BetonTagManagerImpl((BetonQuest) betonQuest);
         }
