@@ -33,6 +33,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -81,7 +82,8 @@ public class Achivements extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(totalBlocks(player), 1, 1);
+        display.addItem(totalBlocks(player), 3, 1);
+        display.addItem(ores(player), 5, 1);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("quests")), 4, 3);
 
@@ -92,21 +94,62 @@ public class Achivements extends BaseCommand {
 
     private GuiItem totalBlocks(Player player) {
         int totalBlocks = Integer.valueOf(parsePlaceholder(player, "betonquest_items:point.TotalBlocks.amount"));
-        final Material material = Material.GRASS_BLOCK;
+        Material material = Material.WOODEN_PICKAXE;
         String name = ChatColor.GOLD + "Noob Miner";
-        if (totalBlocks >= 1_000 && totalBlocks < 2_500)
+        if (totalBlocks >= 1_000 && totalBlocks < 2_500) {
             name = ChatColor.GOLD + "Rookie Miner";
-        else if (totalBlocks >= 2_500 && totalBlocks < 5_000)
+            material = Material.STONE_PICKAXE;
+        } else if (totalBlocks >= 2_500 && totalBlocks < 5_000) {
             name = ChatColor.GOLD + "Apprentice Miner";
-        else if (totalBlocks >= 5_000 && totalBlocks < 10_000)
+            material = Material.IRON_PICKAXE;
+        } else if (totalBlocks >= 5_000 && totalBlocks < 10_000) {
             name = ChatColor.GOLD + "Journeyman Miner";
-        else if (totalBlocks >= 10_000 && totalBlocks < 20_000)
+            material = Material.GOLDEN_PICKAXE;
+        } else if (totalBlocks >= 10_000 && totalBlocks < 20_000) {
             name = ChatColor.GOLD + "Master Miner";
-        else if (totalBlocks >= 20_000)
+            material = Material.DIAMOND_PICKAXE;
+        } else if (totalBlocks >= 20_000) {
             name = ChatColor.GOLD + "Ascended Miner";
+            material = Material.NETHERITE_PICKAXE;
+        }
 
         final String[] description = new String[]{ChatColor.WHITE + "Blocks Mined: " + ChatColor.GREEN + numberFormat.numberFormat(totalBlocks)};
         return new GuiItem(item(material, name, description), e -> player.performCommand("AchievementTotalBlocks"));
+    }
+
+    private GuiItem ores(Player player) {
+        int coal = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.COAL_ORE.amount"));
+        int iron = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.IRON_ORE.amount"));
+        int gold = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.GOLD_ORE.amount"));
+        int lapis = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.LAPIS_ORE.amount"));
+        int redstone = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.REDSTONE_ORE.amount"));
+        int diamond = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.DIAMOND_ORE.amount"));
+        int emerald = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.EMERALD_ORE.amount"));
+        int netherQuartz = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.NETHER_QUARTZ_ORE.amount"));
+        int netherGold = Integer.valueOf(parsePlaceholder(player, "betonquest_blocks:point.NETHER_GOLD_ORE.amount"));
+        int total = coal + iron + gold + lapis + redstone + diamond + emerald + netherQuartz + netherGold;
+
+        Material material = Material.COAL_ORE;
+        String name = ChatColor.GOLD + "Noob Ores";
+        if (total >= 500 && total < 1_250) {
+            name = ChatColor.GOLD + "Rookie Ores";
+            material = Material.COAL_ORE;
+        } else if (total >= 1_250 && total < 2_500) {
+            name = ChatColor.GOLD + "Apprentice Ores";
+            material = Material.IRON_ORE;
+        } else if (total >= 2_500 && total < 5_000) {
+            name = ChatColor.GOLD + "Journeyman Ores";
+            material = Material.GOLD_ORE;
+        } else if (total >= 5_000 && total < 10_000) {
+            name = ChatColor.GOLD + "Master Ores";
+            material = Material.DIAMOND_ORE;
+        } else if (total >= 10_000) {
+            name = ChatColor.GOLD + "Ascended Ores";
+            material = Material.EMERALD_ORE;
+        }
+
+        final String[] description = new String[]{ChatColor.WHITE + "Ores Mined: " + ChatColor.GREEN + numberFormat.numberFormat(total)};
+        return new GuiItem(item(material, name, description), e -> player.performCommand("AchievementOres"));
     }
 
     public ItemStack item(Material material, String displayName, String[] itemLore) {
@@ -122,6 +165,7 @@ public class Achivements extends BaseCommand {
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Rewards");
 
+        completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         complete.setItemMeta(completeItemMeta);
         complete.setLore(lore);
 
