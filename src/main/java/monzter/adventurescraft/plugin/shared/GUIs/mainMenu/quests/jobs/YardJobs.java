@@ -51,7 +51,8 @@ public class YardJobs extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(lester(player), e -> consoleCommand.consoleCommand("rpgmenu open default-Jobs-Lester.1 " + player.getName())), 4, 1);
+        display.addItem(new GuiItem(lester(player), e -> player.performCommand("jobsLester")), 4, 1);
+        display.addItem(new GuiItem(dan(player), e -> player.performCommand("jobsDan")), 5, 1);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("jobs")), 4, 3);
 
@@ -66,6 +67,22 @@ public class YardJobs extends BaseCommand {
         final ItemMeta yardItemMeta = yard.getItemMeta();
 
         yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Lester " + parsePlaceholder(player, "betonquest_default-Jobs-Lester:point.Lester.amount")));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Jobs");
+
+        yard.setItemMeta(yardItemMeta);
+        yard.setLore(lore);
+
+        return yard;
+    }
+
+    private ItemStack dan(Player player) {
+        final ItemStack yard = new ItemStack(SkullCreator.itemFromBase64("ewogICJ0aW1lc3RhbXAiIDogMTYxNjYzMDQ4MzM0NywKICAicHJvZmlsZUlkIiA6ICIyMWUzNjdkNzI1Y2Y0ZTNiYjI2OTJjNGEzMDBhNGRlYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJHZXlzZXJNQyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lMzUxODFkYTE2ZDNmZTA3NDE4NTFhNjM5ODFkODYwM2JkZmJjODdmOGE3N2U5ODAwMWNmYzgyZGExYzc1NGM3IgogICAgfQogIH0KfQ=="));
+        final ItemMeta yardItemMeta = yard.getItemMeta();
+
+        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Dan " + parsePlaceholder(player, "betonquest_default-Points:point.Dan.amount")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");

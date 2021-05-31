@@ -3,6 +3,8 @@ package monzter.adventurescraft.plugin.utilities.GUI;
 import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.utilities.enums.Linebreak;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
+import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -10,13 +12,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GUIHelperImpl implements GUIHelper {
+    private final NumberFormat numberFormat;
+
+    public GUIHelperImpl(NumberFormat numberFormat) {
+        this.numberFormat = numberFormat;
+    }
+
 
     @Override
     public ItemStack background() {
@@ -263,6 +269,104 @@ public class GUIHelperImpl implements GUIHelper {
         lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Claim Rewards");
+
+        unclaimed.setItemMeta(unclaimedItemMeta);
+        unclaimed.setLore(lore);
+
+        return unclaimed;
+    }
+
+    @Override
+    public ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String questGiver, String questGiverArea) {
+        ItemStack unclaimed = new ItemStack(Material.PAPER);
+        final ItemMeta unclaimedItemMeta = unclaimed.getItemMeta();
+
+        unclaimedItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(questDescription);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
+        int reward = 0;
+        for (ItemStack lore3 : questRewards) {
+            if (lore3 != null) {
+                lore.add("  " + Prefix.PREFIX.getString() + ChatColor.GOLD + rewardsAmount[reward] + "x " + lore3.getItemMeta().getDisplayName());
+                reward++;
+            }
+        }
+
+        int currency = 0;
+        for (String lore2 : currencyRewards) {
+            if (currencyRewards != null) {
+                String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(currencyRewardsAmount[currency]) + " ";
+                switch (lore2) {
+                    case "exp":
+                        lore.add(newLore + StatsDisplay.EXPERIENCE_AMOUNT.getName());
+                        currency++;
+                        break;
+                    case "petexp":
+                        lore.add(newLore + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+                        currency++;
+                        break;
+                    case "miningpassexp":
+                        lore.add(newLore + StatsDisplay.MINING_PASS_EXPERIENCE.getName());
+                        currency++;
+                        break;
+                }
+            }
+        }
+        lore.add("");
+        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
+
+        unclaimed.setItemMeta(unclaimedItemMeta);
+        unclaimed.setLore(lore);
+
+        return unclaimed;
+    }
+
+    @Override
+    public ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String resetTime) {
+        ItemStack unclaimed = new ItemStack(Material.PAPER);
+        final ItemMeta unclaimedItemMeta = unclaimed.getItemMeta();
+
+        unclaimedItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(questDescription);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
+        int reward = 0;
+        for (ItemStack lore3 : questRewards) {
+            if (lore3 != null) {
+                lore.add("  " + Prefix.PREFIX.getString() + ChatColor.GOLD + rewardsAmount[reward] + "x " + lore3.getItemMeta().getDisplayName());
+                reward++;
+            }
+        }
+
+        int currency = 0;
+        for (String lore2 : currencyRewards) {
+            if (currencyRewards != null) {
+                String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(currencyRewardsAmount[currency]) + " ";
+                switch (lore2) {
+                    case "exp":
+                        lore.add(newLore + StatsDisplay.EXPERIENCE_AMOUNT.getName());
+                        currency++;
+                        break;
+                    case "petexp":
+                        lore.add(newLore + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+                        currency++;
+                        break;
+                    case "miningpassexp":
+                        lore.add(newLore + StatsDisplay.MINING_PASS_EXPERIENCE.getName());
+                        currency++;
+                        break;
+                }
+            }
+        }
+        lore.add("");
+        lore.add(ChatColor.GREEN + resetTime + ChatColor.YELLOW + " left until this Job resets!");
 
         unclaimed.setItemMeta(unclaimedItemMeta);
         unclaimed.setLore(lore);

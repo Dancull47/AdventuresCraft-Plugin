@@ -26,6 +26,8 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.Achivements;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.YardJobs;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.yardJobs.Dan;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.yardJobs.Lester;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
 import monzter.adventurescraft.plugin.shared.GUIs.quests.Yard;
 import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Enchanter;
@@ -241,6 +243,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Enchanter(this, guiHelper, betonTagManager));
+        manager.registerCommand(new Lester(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
+        manager.registerCommand(new Dan(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
         manager.registerCommand(new Joy(this, guiHelper, betonTagManager));
         manager.registerCommand(new Finubar(this, guiHelper, betonTagManager));
         manager.registerCommand(new Jobs(this, soundManager, guiHelper, consoleCommand));
@@ -287,7 +291,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         permission = new PermissionImpl(perms, getLogger());
         consoleCommand = new ConsoleCommandImpl(getServer());
         mythicMobsSpawn = new MythicMobSpawnImpl();
-        guiHelper = new GUIHelperImpl();
+        guiHelper = new GUIHelperImpl(numberFormat);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);
         calculateEnchantments = new CalculateEnchantmentsImpl();
 

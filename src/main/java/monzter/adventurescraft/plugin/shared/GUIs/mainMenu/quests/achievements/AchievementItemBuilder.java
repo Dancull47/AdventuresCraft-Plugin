@@ -89,7 +89,6 @@ public class AchievementItemBuilder extends BaseCommand {
                 }
             }
         }
-
         lore.add("");
 
         if (playersAmount >= achievement.getPrice() && player.hasPermission("ACHIEVEMENT." + achievement.getPermission())) {
@@ -102,7 +101,6 @@ public class AchievementItemBuilder extends BaseCommand {
             name = ChatColor.GOLD + achievement.getName() + " " + ChatColor.DARK_GRAY + "-" + ChatColor.RED + ChatColor.BOLD + " LOCKED";
             lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
         }
-
 
         complete.setType(material);
         completeItemMeta.setDisplayName(name);
