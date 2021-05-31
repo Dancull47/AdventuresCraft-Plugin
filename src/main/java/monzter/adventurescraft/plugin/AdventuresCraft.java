@@ -23,6 +23,8 @@ import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.jobs.Jobs;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.Achivements;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
+import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.YardJobs;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
 import monzter.adventurescraft.plugin.shared.GUIs.quests.Yard;
@@ -125,6 +127,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PaperCommandManager manager;
     private GUIHelper guiHelper;
     private PurchaseUtils purchaseUtils;
+    private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
 
     @Override
@@ -242,6 +245,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Finubar(this, guiHelper, betonTagManager));
         manager.registerCommand(new Jobs(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
+        manager.registerCommand(new AchievementGUI(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand, achievementGUIBuilder));
         manager.registerCommand(new Yard(this, guiHelper));
         manager.registerCommand(new YardJobs(this, guiHelper, consoleCommand));
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
@@ -301,6 +305,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         }
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
+        achievementGUIBuilder = new AchievementItemBuilder(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand);
     }
 
     private boolean setupEconomy() {

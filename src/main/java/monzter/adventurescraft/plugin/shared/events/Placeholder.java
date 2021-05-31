@@ -301,6 +301,22 @@ public class Placeholder extends PlaceholderExpansion {
 
             case "Location":
                 return location(player);
+
+            // ACHIEVEMENTS
+            case "Achievement_Ores":
+                int coal = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.COAL_ORE.amount"));
+                int iron = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.IRON_ORE.amount"));
+                int gold = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.GOLD_ORE.amount"));
+                int lapis = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.LAPIS_ORE.amount"));
+                int redstone = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.REDSTONE_ORE.amount"));
+                int diamond = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.DIAMOND_ORE.amount"));
+                int emerald = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.EMERALD_ORE.amount"));
+                int netherQuartz = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.NETHER_QUARTZ_ORE.amount"));
+                int netherGold = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.NETHER_GOLD_ORE.amount"));
+                int total = coal + iron + gold + lapis + redstone + diamond + emerald + netherQuartz + netherGold;
+                return String.valueOf(total);
+
+
 //            case "Restart":
 //                long timeUntil = restartTime - System.currentTimeMillis();
 //                long seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
@@ -457,6 +473,10 @@ public class Placeholder extends PlaceholderExpansion {
         } else {
             return this.permission.playerHas(plugin.getServer().getWorlds().get(0).getName(), player, permission);
         }
+    }
+
+    private String parsePlaceholder(Player player, String string) {
+        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
     }
 
 }
