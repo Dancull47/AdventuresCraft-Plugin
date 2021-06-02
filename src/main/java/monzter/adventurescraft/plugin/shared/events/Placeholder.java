@@ -21,23 +21,23 @@ import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.Point;
 
-import java.text.DecimalFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Placeholder extends PlaceholderExpansion {
 
     private final AdventuresCraft plugin;
     private final Permission permission;
+    private final NumberFormat numberFormat;
+    
     private final Set<Pet> pets;
     private final StringFlag displayNameFlag;
     private long restartTime;
@@ -45,9 +45,10 @@ public class Placeholder extends PlaceholderExpansion {
     private final List<MiningPassLevels> reversedList = Lists.reverse(Arrays.asList(MiningPassLevels.values()));
 //    List<Point> global = BetonQuest.getInstance().getGlobalData().getPoints();
 
-    public Placeholder(AdventuresCraft plugin, Permission permission, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, CalculateEnchantments calculateEnchantments) {
+    public Placeholder(AdventuresCraft plugin, Permission permission, NumberFormat numberFormat, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, CalculateEnchantments calculateEnchantments) {
         this.plugin = plugin;
         this.permission = permission;
+        this.numberFormat = numberFormat;
         this.pets = pets;
         this.displayNameFlag = displayNameFlag;
         this.restartTime = restartTime;
@@ -113,76 +114,76 @@ public class Placeholder extends PlaceholderExpansion {
             case "PetEggList":
                 return String.valueOf(PetEggList.COMMON.expToHatch);
             case "PetEgg_formatted":
-                return numberFormat(PetEggList.COMMON.expToHatch);
+                return numberFormat.numberFormat(PetEggList.COMMON.expToHatch);
             case "PetEgg2":
                 return String.valueOf(PetEggList.UNCOMMON.expToHatch);
             case "PetEgg2_formatted":
-                return numberFormat(PetEggList.UNCOMMON.expToHatch);
+                return numberFormat.numberFormat(PetEggList.UNCOMMON.expToHatch);
             case "PetEgg3":
                 return String.valueOf(PetEggList.RARE.expToHatch);
             case "PetEgg3_formatted":
-                return numberFormat(PetEggList.RARE.expToHatch);
+                return numberFormat.numberFormat(PetEggList.RARE.expToHatch);
             case "PetEgg4":
                 return String.valueOf(PetEggList.LEGENDARY.expToHatch);
             case "PetEgg4_formatted":
-                return numberFormat(PetEggList.LEGENDARY.expToHatch);
+                return numberFormat.numberFormat(PetEggList.LEGENDARY.expToHatch);
             case "PetEgg5":
                 return String.valueOf(PetEggList.EXOTIC.expToHatch);
             case "PetEgg5_formatted":
-                return numberFormat(PetEggList.EXOTIC.expToHatch);
+                return numberFormat.numberFormat(PetEggList.EXOTIC.expToHatch);
             case "PetEggPhoenix":
                 return String.valueOf(PetEggList.PHOENIX.expToHatch);
             case "PetEggPhoenix_formatted":
-                return numberFormat(PetEggList.PHOENIX.expToHatch);
+                return numberFormat.numberFormat(PetEggList.PHOENIX.expToHatch);
             case "PetEggPhoenix2":
                 return String.valueOf(PetEggList.PHOENIX2.expToHatch);
             case "PetEggPhoenix2_formatted":
-                return numberFormat(PetEggList.PHOENIX2.expToHatch);
+                return numberFormat.numberFormat(PetEggList.PHOENIX2.expToHatch);
             case "PetEggDragon":
                 return String.valueOf(PetEggList.DRAGON.expToHatch);
             case "PetEggDragon_formatted":
-                return numberFormat(PetEggList.DRAGON.expToHatch);
+                return numberFormat.numberFormat(PetEggList.DRAGON.expToHatch);
             case "PetEggDragon2":
                 return String.valueOf(PetEggList.DRAGON2.expToHatch);
             case "PetEggDragon2_formatted":
-                return numberFormat(PetEggList.DRAGON2.expToHatch);
+                return numberFormat.numberFormat(PetEggList.DRAGON2.expToHatch);
 
             case "Donation_PetSlot":
-                return numberFormat(DonationRewardList.PetSlot.price);
+                return numberFormat.numberFormat(DonationRewardList.PetSlot.price);
             case "Donation_UnlimitedWeight":
-                return numberFormat(DonationRewardList.UnlimitedWeight.price);
+                return numberFormat.numberFormat(DonationRewardList.UnlimitedWeight.price);
             case "Donation_ExoticLootbox5":
-                return numberFormat(DonationRewardList.ExoticLootbox5.price);
+                return numberFormat.numberFormat(DonationRewardList.ExoticLootbox5.price);
             case "Donation_ExoticLootbox10":
-                return numberFormat(DonationRewardList.ExoticLootbox10.price);
+                return numberFormat.numberFormat(DonationRewardList.ExoticLootbox10.price);
             case "Donation_MythicalLootbox5":
-                return numberFormat(DonationRewardList.MythicalLootbox5.price);
+                return numberFormat.numberFormat(DonationRewardList.MythicalLootbox5.price);
             case "Donation_MythicalLootbox10":
-                return numberFormat(DonationRewardList.MythicalLootbox10.price);
+                return numberFormat.numberFormat(DonationRewardList.MythicalLootbox10.price);
             case "Donation_GodlyLootbox5":
-                return numberFormat(DonationRewardList.GodlyLootbox5.price);
+                return numberFormat.numberFormat(DonationRewardList.GodlyLootbox5.price);
             case "Donation_GodlyLootbox10":
-                return numberFormat(DonationRewardList.GodlyLootbox10.price);
+                return numberFormat.numberFormat(DonationRewardList.GodlyLootbox10.price);
             case "Donation_ExoticPetEgg5":
-                return numberFormat(DonationRewardList.ExoticPetEgg5.price);
+                return numberFormat.numberFormat(DonationRewardList.ExoticPetEgg5.price);
             case "Donation_ExoticPetEgg10":
-                return numberFormat(DonationRewardList.ExoticPetEgg10.price);
+                return numberFormat.numberFormat(DonationRewardList.ExoticPetEgg10.price);
             case "Donation_MythicalPetEgg5":
-                return numberFormat(DonationRewardList.MythicalPetEgg5.price);
+                return numberFormat.numberFormat(DonationRewardList.MythicalPetEgg5.price);
             case "Donation_MythicalPetEgg10":
-                return numberFormat(DonationRewardList.MythicalPetEgg10.price);
+                return numberFormat.numberFormat(DonationRewardList.MythicalPetEgg10.price);
             case "Donation_GodlyPetEgg5":
-                return numberFormat(DonationRewardList.GodlyPetEgg5.price);
+                return numberFormat.numberFormat(DonationRewardList.GodlyPetEgg5.price);
             case "Donation_GodlyPetEgg10":
-                return numberFormat(DonationRewardList.GodlyPetEgg10.price);
+                return numberFormat.numberFormat(DonationRewardList.GodlyPetEgg10.price);
             case "Donation_LegendaryPhoenixPetEgg5":
-                return numberFormat(DonationRewardList.LegendaryPhoenixPetEgg5.price);
+                return numberFormat.numberFormat(DonationRewardList.LegendaryPhoenixPetEgg5.price);
             case "Donation_LegendaryPhoenixPetEgg10":
-                return numberFormat(DonationRewardList.LegendaryPhoenixPetEgg10.price);
+                return numberFormat.numberFormat(DonationRewardList.LegendaryPhoenixPetEgg10.price);
             case "Donation_LegendaryDragonPetEgg5":
-                return numberFormat(DonationRewardList.LegendaryDragonPetEgg5.price);
+                return numberFormat.numberFormat(DonationRewardList.LegendaryDragonPetEgg5.price);
             case "Donation_LegendaryDragonPetEgg10":
-                return numberFormat(DonationRewardList.LegendaryDragonPetEgg10.price);
+                return numberFormat.numberFormat(DonationRewardList.LegendaryDragonPetEgg10.price);
 
             // STATS
             case "Stat_TotalMined":
@@ -194,14 +195,14 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_Weight":
                 return String.valueOf(getPoints("items.Weight", points));
             case "Stat_Weight_formatted":
-                return numberFormat(getPoints("items.Weight", points));
+                return numberFormat.numberFormat(getPoints("items.Weight", points));
 
             case "Stat_MaxWeight":
                 String maxWeight = String.valueOf(getPoints("items.MaxWeight", points));
                 String maxWeightMultiplier = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeightMultiplier%");
                 return String.valueOf(Math.round((50 + Integer.valueOf(maxWeight) + calculatePetStats(player, Stats.MAX_WEIGHT)) * Double.valueOf(maxWeightMultiplier)));
             case "Stat_MaxWeight_formatted":
-                return numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeight%")));
+                return numberFormat.numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeight%")));
 
             case "Stat_MaxWeightMultiplier":
                 return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
@@ -227,11 +228,11 @@ public class Placeholder extends PlaceholderExpansion {
             case "Gala_Broken":
                 return String.valueOf(BlockBreakMining.getBlocksBroken());
             case "Gala_Broken_formatted":
-                return numberFormat(BlockBreakMining.getBlocksBroken());
+                return numberFormat.numberFormat(BlockBreakMining.getBlocksBroken());
             case "Gala_Max":
                 return String.valueOf(BlockBreakMining.getMax());
             case "Gala_Max_formatted":
-                return numberFormat(BlockBreakMining.getMax());
+                return numberFormat.numberFormat(BlockBreakMining.getMax());
             case "Gala_Bar":
                 return getProgressBar(BlockBreakMining.getBlocksBroken(), BlockBreakMining.getMax(), 5, '-', ChatColor.BOLD, ChatColor.BOLD);
             case "Gala_Percent":
@@ -250,12 +251,12 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_Pet_EXPAmount":
                 return String.valueOf(getPoints("items.PetExperience", points));
             case "Stat_Pet_EXPAmount_formatted":
-                return numberFormat(getPoints("items.PetExperience", points));
+                return numberFormat.numberFormat(getPoints("items.PetExperience", points));
 
             case "Stat_EXPAmount":
                 return String.valueOf(getPoints("items.Experience", points));
             case "Stat_EXPAmount_formatted":
-                return numberFormat(getPoints("items.Experience", points));
+                return numberFormat.numberFormat(getPoints("items.Experience", points));
 
             case "Stat_PetAmount":
                 return String.valueOf(getPoints("items.PetAmount", points));
@@ -265,7 +266,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_MiningPassEXPAmount":
                 return String.valueOf(getPoints("miningPass.EXP", points));
             case "Stat_MiningPassEXPAmount_formatted":
-                return numberFormat(getPoints("miningPass.EXP", points));
+                return numberFormat.numberFormat(getPoints("miningPass.EXP", points));
             case "Stat_MiningPassLevel":
                 return getMiningPassLevel(getPoints("miningPass.EXP", points));
             case "Stat_MiningPassNextLevelEXPAmount":
@@ -295,7 +296,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Currency_AdventureCoins":
                 return String.valueOf(getPoints("items.AdventureCoin", points));
             case "Currency_AdventureCoins_formatted":
-                return numberFormat(getPoints("items.AdventureCoin", points));
+                return numberFormat.numberFormat(getPoints("items.AdventureCoin", points));
             case "Currency_VotingCoins":
                 return String.valueOf(getPoints("items.Vote", points));
 
@@ -414,12 +415,7 @@ public class Placeholder extends PlaceholderExpansion {
         }
         return null;
     }
-
-    private String numberFormat(int number) {
-        DecimalFormat format = new DecimalFormat("###,###,###");
-        return format.format(number);
-    }
-
+    
     private double calculatePetStats(OfflinePlayer player, Stats petStat) {
         double statSum = 0;
         for (Pet pet : pets) {

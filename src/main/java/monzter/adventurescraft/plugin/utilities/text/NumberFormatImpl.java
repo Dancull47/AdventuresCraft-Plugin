@@ -5,38 +5,61 @@ import java.text.DecimalFormat;
 public class NumberFormatImpl implements NumberFormat {
     @Override
     public String numberFormat(int number) {
-        DecimalFormat format = new DecimalFormat("###,###,###");
-        return commas(number);
+        return shortened(number);
     }
-
     @Override
     public String numberFormat(double number) {
-        DecimalFormat format = new DecimalFormat("###,###,###");
-        return commas((long) number);
+        return shortened((long) number);
     }
-
     @Override
     public String numberFormat(long number) {
-        DecimalFormat format = new DecimalFormat("###,###,###");
-        return commas(number);
+        return shortened(number);
     }
 
-    private String commas(long number) {
-        if (number > 100) {
-            String firstNumbers = String.valueOf(number).charAt(0) + String.valueOf(number).charAt(1) + "." + String.valueOf(number).charAt(2);
+    public String shortened(long number) {
+        if (number > 999_999) {
+            String one = String.valueOf(number).charAt(0) + "." + String.valueOf(number).charAt(1) + String.valueOf(number).charAt(2);
+            String two = String.valueOf(number).charAt(0) + "" + String.valueOf(number).charAt(1) + "." + String.valueOf(number).charAt(2);
+            String three = String.valueOf(number).charAt(0) + "" + String.valueOf(number).charAt(1) + String.valueOf(number).charAt(2) + "." + String.valueOf(number).charAt(3);
+
             if (number >= 1_000_000_000_000_000_000L)
-                return firstNumbers + "QT";
+                return one + "QT";
+
+            else if (number >= 100_000_000_000_000_000L)
+                return three + "QD";
+            else if (number >= 10_000_000_000_000_000L)
+                return two + "QD";
             else if (number >= 1_000_000_000_000_000L)
-                return firstNumbers + "QD";
+                return one + "QD";
+
+            else if (number >= 100_000_000_000_000L)
+                return three + "T";
+            else if (number >= 10_000_000_000_000L)
+                return two + "T";
             else if (number >= 1_000_000_000_000L)
-                return firstNumbers + "T";
+                return one + "T";
+
+            else if (number >= 100_000_000_000L)
+                return three + "B";
+            else if (number >= 10_000_000_000L)
+                return two + "B";
             else if (number >= 1_000_000_000)
-                return firstNumbers + "B";
+                return one + "B";
+
+            else if (number >= 100_000_000)
+                return three + "M";
+            else if (number >= 10_000_000)
+                return two + "M";
             else if (number >= 1_000_000)
-                return firstNumbers + "M";
+                return one + "M";
+
             else
-                return String.valueOf(number);
+                return commas(number);
         }
-        return String.valueOf(number);
+        return commas(number);
+    }
+    public String commas(long number) {
+        DecimalFormat format = new DecimalFormat("###,###,###");
+        return format.format(number);
     }
 }

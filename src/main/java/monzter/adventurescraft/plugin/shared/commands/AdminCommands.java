@@ -7,9 +7,11 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,11 +26,17 @@ public class AdminCommands extends BaseCommand {
     private final AdventuresCraft plugin;
     private final MMOItemsGive mmoItemsGive;
     private final PermissionLP permissionLP;
+    private final BetonPointsManager betonPointsManager;
+    private final NumberFormat numberFormat;
 
-    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP) {
+
+
+    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, NumberFormat numberFormat) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
+        this.betonPointsManager = betonPointsManager;
+        this.numberFormat = numberFormat;
     }
 
     @CommandAlias("stat")
@@ -65,13 +73,6 @@ public class AdminCommands extends BaseCommand {
         globalBooster(boosterType[randomType].toUpperCase(), boosterTier[randomTier], boosterTier[randomDuration]);
     }
 
-    private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-    private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private final ItemStack previousPageItem = new ItemStack(Material.ARROW);
-    private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
-    private final ItemStack nextPageItem = new ItemStack(Material.ARROW);
-    private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
-
     @CommandAlias("reward")
     @CommandPermission("*")
     @Description("Reward stats to a Player")
@@ -80,17 +81,17 @@ public class AdminCommands extends BaseCommand {
         switch (stat.toLowerCase()) {
             case "petexperience":
             case "petexp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
-                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add items.PetExperience " + amount);
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
+                betonPointsManager.givePointPetEXP(targetPlayer.player, amount);
                 break;
             case "experience":
             case "exp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
-                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add items.Experience " + amount);
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
+                betonPointsManager.givePointEXP(targetPlayer.player, amount);
                 break;
             case "miningpass":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + amount + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.GREEN + "!");
-                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + targetPlayer.getPlayer().getName() + " add miningPass.EXP " + amount);
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.GREEN + "!");
+                betonPointsManager.givePointMiningPass(targetPlayer.player, amount);
                 break;
         }
     }
@@ -149,15 +150,15 @@ public class AdminCommands extends BaseCommand {
 
     private String getType(String boosterType) {
         if (boosterType.contains("SELL")) {
-            return ChatColor.DARK_GREEN + "⛂ Sell Booster ";
+            return StatsDisplay.SELL_MULTIPLIER.getName();
         } else if (boosterType.contains("EXP")) {
-            return ChatColor.GREEN + "۞ EXP Booster ";
+            return StatsDisplay.EXPERIENCE_AMOUNT.getName();
         } else if (boosterType.contains("PET_EXP")) {
-            return ChatColor.AQUA + "❉ Pet EXP Booster ";
+            return StatsDisplay.PET_EXPERIENCE_AMOUNT.getName();
         } else if (boosterType.contains("BLOCK")) {
-            return ChatColor.DARK_RED + "回 Block Multiplier Booster ";
+            return StatsDisplay.BLOCK_MULTIPLIER.getName();
         } else if (boosterType.contains("LUCK")) {
-            return ChatColor.YELLOW + "⚅ Luck Multiplier Booster ";
+            return StatsDisplay.LUCK_MULTIPLIER.getName();
         }
         return ChatColor.RED + "Unknown, report to Admin!";
     }
@@ -232,33 +233,33 @@ public class AdminCommands extends BaseCommand {
     public void checkAllStats(Player player, Player targetPlayer) {
         if (!targetPlayer.isOnline()) {
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_GREEN + "❂ Current Weight: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Weight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.BLUE + "❂ Max Weight: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_PURPLE + "❂ Max Weight Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_GREEN + "⛂ Sell Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.YELLOW + "⚅ Luck Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.GREEN + "۞ Exp Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.AQUA + "❉ Pet EXP Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.GREEN + "۞ EXP: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.SELL_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.LUCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.LIGHT_PURPLE + "❉ Pet Amount: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.AQUA + "❉ Pet EXP: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.RED + "◎ AdventureCoins: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_RED + "♦ MiningPass EXP: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.ADVENTURE_COINS.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
         } else {
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.GOLD + "⛏ Mining Speed: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningSpeed%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MINING_SPEED.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningSpeed%"));
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_GREEN + "❂ Current Weight: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Weight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.BLUE + "❂ Max Weight: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_PURPLE + "❂ Max Weight Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_RED + "回 Block Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_GREEN + "⛂ Sell Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.YELLOW + "⚅ Luck Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.GREEN + "۞ Exp Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.AQUA + "❉ Pet EXP Multiplier: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.GREEN + "۞ EXP: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.SELL_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.LUCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.LIGHT_PURPLE + "❉ Pet Amount: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.AQUA + "❉ Pet EXP: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.RED + "◎ AdventureCoins: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_RED + "♦ MiningPass EXP: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
-
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.ADVENTURE_COINS.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
         }
     }
 
