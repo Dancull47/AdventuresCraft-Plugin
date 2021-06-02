@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events;
+package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import io.lumine.mythic.lib.api.item.NBTItem;
 import monzter.adventurescraft.plugin.AdventuresCraft;

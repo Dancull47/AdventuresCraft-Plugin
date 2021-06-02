@@ -23,21 +23,6 @@ public class GeneralCommands extends BaseCommand {
             .hoverEvent(Component.text(NamedTextColor.GREEN + "Click to visit the " + NamedTextColor.GOLD + TextDecoration.BOLD + "STORE" + NamedTextColor.GREEN + "!"))
             .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net/category/Rank"))
             .append(Component.text("!", NamedTextColor.RED));
-    private final TextComponent discord = Component.text("Join our ")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to join the Discord!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://discord.com/invite/bw4DztR"))
-            .append(Component.text(" for"))
-            .append(Component.text(" Giveaways, Support, and more", NamedTextColor.GOLD))
-            .append(Component.text("!"));
-    private final TextComponent donate = Component.text("You can donate to get epic rewards from our")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Store", NamedTextColor.GOLD))
-            .append(Component.text("!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
 
 
     @Dependency
@@ -52,21 +37,6 @@ public class GeneralCommands extends BaseCommand {
         this.soundManager = soundManager;
     }
 
-    @CommandAlias("Lobby|Hub")
-    private void lobbyCommand(Player player) {
-        player.performCommand("/server Lobby");
-    }
-
-    @CommandAlias("discord")
-    private void discordCommand(Player player) {
-        player.sendMessage(discord);
-    }
-
-    @CommandAlias("donate")
-    private void donateCommand(Player player) {
-        player.sendMessage(donate);
-    }
-
     @CommandAlias("bank|vault|ec|echest|enderchest")
     private void bankCommand(Player player) {
         if (player.hasPermission("bank.open.command")) {
@@ -79,11 +49,6 @@ public class GeneralCommands extends BaseCommand {
         }
     }
 
-    @CommandAlias("spawn|yard")
-    private void spawnCommand(Player player) {
-        sendToSpawn(player);
-    }
-
     @CommandAlias("ActiveQuests")
     private void activeQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
@@ -92,14 +57,6 @@ public class GeneralCommands extends BaseCommand {
     @CommandAlias("UnclaimedQuests")
     private void unclaimedQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
-    }
-
-    private void sendToSpawn(Player player) {
-        if (player.getWorld().getName().equals("World")) {
-            soundManager.soundTeleport(player);
-            player.sendMessage(ChatColor.GREEN + "You've traveled to the " + ChatColor.YELLOW + "Yard" + ChatColor.GREEN + "!");
-            player.teleport(new Location(player.getWorld(), 1181.5, 202, 1603.5, 89.8f, -0.7f));
-        }
     }
 }
 

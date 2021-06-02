@@ -94,9 +94,9 @@ public class PermissionImplLP implements PermissionLP {
             if (node.getContexts().isEmpty()) {
                 target.data().remove(node);
                 if (node.getValue())
-                    givePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), "prison");
+                    givePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), CONTEXT);
                 else
-                    takePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), "prison");
+                    takePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), CONTEXT);
             }
         });
     }

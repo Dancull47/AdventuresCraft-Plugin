@@ -33,30 +33,9 @@ public class JoinShared implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        player.setCollidable(true);
-        if (player.getInventory().getItem(8).getType() != null) {
-            if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
-                final ItemStack book = player.getInventory().getItem(8);
-                if (book != null || book.getType() == Material.WRITTEN_BOOK) {
-                    player.openBook(book);
-                }
-            }
-        }
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             PlayerData playerData = PlayerData.get(player.getUniqueId());
-            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
             playerData.giveMana(999);
-            if (player.getWorld().getName().equals("World")) {
-                player.performCommand("spawn");
-            } else if (player.getWorld().getName().equals("Cells")) {
-                player.performCommand("home");
-            }
         }, 20L);
-        if (player.isOp()) {
-            if (!player.getAddress().getHostName().equals("c-68-80-205-205.hsd1.pa.comcast.net")) {
-                player.setOp(false);
-                player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
-            }
-        }
     }
 }
