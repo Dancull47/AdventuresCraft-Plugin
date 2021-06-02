@@ -178,7 +178,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
-        new Placeholder(this, perms, numberFormat, loadPets(), displayNameFlag, restartTime, calculateEnchantments).register();
+        new Placeholder(this, perms, numberFormat, loadPets(), displayNameFlag, restartTime, economy, calculateEnchantments).register();
 
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {

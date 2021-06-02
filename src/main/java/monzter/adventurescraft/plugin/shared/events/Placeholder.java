@@ -22,6 +22,7 @@ import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
@@ -41,17 +42,20 @@ public class Placeholder extends PlaceholderExpansion {
     private final Set<Pet> pets;
     private final StringFlag displayNameFlag;
     private long restartTime;
+    private final Economy economy;
+
     private CalculateEnchantments calculateEnchantments;
     private final List<MiningPassLevels> reversedList = Lists.reverse(Arrays.asList(MiningPassLevels.values()));
 //    List<Point> global = BetonQuest.getInstance().getGlobalData().getPoints();
 
-    public Placeholder(AdventuresCraft plugin, Permission permission, NumberFormat numberFormat, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, CalculateEnchantments calculateEnchantments) {
+    public Placeholder(AdventuresCraft plugin, Permission permission, NumberFormat numberFormat, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, Economy economy, CalculateEnchantments calculateEnchantments) {
         this.plugin = plugin;
         this.permission = permission;
         this.numberFormat = numberFormat;
         this.pets = pets;
         this.displayNameFlag = displayNameFlag;
         this.restartTime = restartTime;
+        this.economy = economy;
         this.calculateEnchantments = calculateEnchantments;
     }
 
@@ -191,6 +195,11 @@ public class Placeholder extends PlaceholderExpansion {
 
             case "Stat_MiningSpeed":
                 return PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_faction_damage_breakingspeed%");
+
+            case "Stat_Money":
+                return String.valueOf(economy.getBalance(player.getPlayer()));
+            case "Stat_Money_formatted":
+                return String.valueOf(numberFormat.numberFormat(economy.getBalance(player.getPlayer())));
 
             case "Stat_Weight":
                 return String.valueOf(getPoints("items.Weight", points));
