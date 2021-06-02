@@ -17,20 +17,18 @@ import java.util.concurrent.TimeUnit;
 public class PermissionImplLP implements PermissionLP {
     private LuckPerms luckPerms;
     private AdventuresCraft plugin;
-    private final String CONTEXT;
 
     public PermissionImplLP(LuckPerms luckPerms, AdventuresCraft plugin) {
         this.luckPerms = luckPerms;
         this.plugin = plugin;
         EventBus eventBus = LuckPermsProvider.get().getEventBus();
         eventBus.subscribe(plugin, NodeAddEvent.class, this::onNodeAdd);
-        CONTEXT = plugin.getConfig().getString("Context").toLowerCase();
     }
 
 
     @Override
     public void givePermission(Player player, String permission) {
-        givePermission(player, permission, CONTEXT);
+        givePermission(player, permission, plugin.CONTEXT);
     }
 
     @Override
@@ -46,25 +44,32 @@ public class PermissionImplLP implements PermissionLP {
     @Override
     public void giveTempPermission(Player player, String permission, int duration, String unit) {
         switch (unit) {
+            case "s":
+            case "sec":
+            case "second":
+            case "seconds":
+                giveTempPermission(player, permission, plugin.CONTEXT, duration, TimeUnit.SECONDS);
+                break;
             case "m":
             case "min":
             case "minute":
             case "minutes":
-                giveTempPermission(player, permission, CONTEXT, duration, TimeUnit.MINUTES);
+                giveTempPermission(player, permission, plugin.CONTEXT, duration, TimeUnit.MINUTES);
                 break;
             case "h":
             case "hr":
             case "hour":
             case "hours":
-                giveTempPermission(player, permission, CONTEXT, duration, TimeUnit.HOURS);
+                giveTempPermission(player, permission, plugin.CONTEXT, duration, TimeUnit.HOURS);
                 break;
         }
     }
 
     @Override
     public void giveTempPermission(Player player, String permission, String context, int duration, TimeUnit unit) {
-        User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+        plugin.getLogger().info(context);
         this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
+            User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
             user.data().add(Node.builder(permission).expiry(duration, unit).withContext(DefaultContextKeys.SERVER_KEY, context).value(true).build());
             luckPerms.getUserManager().saveUser(user);
             plugin.getLogger().info(permission + ChatColor.GREEN + " has been saved for " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + "!");
@@ -73,7 +78,7 @@ public class PermissionImplLP implements PermissionLP {
 
     @Override
     public void takePermission(Player player, String permission) {
-        takePermission(player, permission, CONTEXT);
+        takePermission(player, permission, plugin.CONTEXT);
     }
 
     @Override
@@ -91,12 +96,15 @@ public class PermissionImplLP implements PermissionLP {
         Node node = event.getNode();
 
         this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-            if (node.getContexts().isEmpty()) {
+            if (node.getContexts().isEmpty() && node.getExpiry() == null) {
                 target.data().remove(node);
-                if (node.getValue())
-                    givePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), CONTEXT);
+                if (node.getValue() && node.getExpiry() == null)
+                    givePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), plugin.CONTEXT);
                 else
-                    takePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), CONTEXT);
+                    takePermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), plugin.CONTEXT);
+            } else if (node.getContexts().isEmpty() && node.getExpiry() != null) {
+                target.data().remove(node);
+                giveTempPermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), plugin.CONTEXT, (int) node.getExpiryDuration().toSeconds(), TimeUnit.SECONDS);
             }
         });
     }

@@ -59,6 +59,7 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.ma
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.network.Shared.Events.AntiDrop;
+import monzter.adventurescraft.plugin.network.Shared.Events.BlockInteractions;
 import monzter.adventurescraft.plugin.network.Shared.Events.Join;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
@@ -134,6 +135,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
     private Xur xur;
+    public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
 
     @Override
     public void onLoad() {
@@ -169,8 +171,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 break;
             default:
                 getLogger().info(getConfig().getString("Server" + " Loaded!"));
-                networkShared();
         }
+        networkShared();
 
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Economy dependency found!", getDescription().getName()));
@@ -229,9 +231,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void networkShared() {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Social(this, consoleCommand, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP), this);
     }
 
     private void prisonShared() {
@@ -247,7 +251,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new EnchantingTableInteraction(this, permissionLP, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
 //        Main GUIs
