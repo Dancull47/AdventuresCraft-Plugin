@@ -8,6 +8,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -22,9 +23,12 @@ public class AdminCommands extends BaseCommand {
     @Dependency
     private final AdventuresCraft plugin;
     private final MMOItemsGive mmoItemsGive;
-    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive) {
+    private final PermissionLP permissionLP;
+
+    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
+        this.permissionLP = permissionLP;
     }
 
     @CommandAlias("stat")
@@ -107,7 +111,7 @@ public class AdminCommands extends BaseCommand {
         double y = player.getLocation().getY();
         double z = player.getLocation().getZ();
         hologram(player);
-        Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "lp user " + player.getName() + " permission settemp " + boosterType.toLowerCase() + ".booster." + boosterTier + " true " + boosterDuration + "m");
+        permissionLP.giveTempPermission(player, boosterType.toLowerCase() + ".booster." + boosterTier, boosterDuration, "m");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1f, 2f);
         player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, x, y + 2, z, 5, .25, .25, .25);
         player.sendMessage(ChatColor.GREEN + "You've just activated a " + ChatColor.YELLOW + boosterTier + "x " + getType(boosterType)

@@ -15,6 +15,7 @@ import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.cell.commands.Warp;
 import monzter.adventurescraft.plugin.cell.events.JoinCell;
+import monzter.adventurescraft.plugin.prison.events.Xur;
 import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.ProfileMenu;
 import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.*;
@@ -131,6 +132,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PurchaseUtils purchaseUtils;
     private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
+    private Xur xur;
 
     @Override
     public void onLoad() {
@@ -156,7 +158,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         protocolManager = ProtocolLibrary.getProtocolManager();
         restartTime = System.currentTimeMillis() + 21600000;
         tipsMessage();
-
         setupPermissions();
 
         initializeDependencies();
@@ -210,6 +211,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
+        Bukkit.getServer().getPluginManager().registerEvents(new Xur(this, soundManager), this);
+        xur = new Xur(this, soundManager);
+        xur.onEnable();
     }
 
     private void cellLoad() {
@@ -267,7 +271,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Weight(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, betonPointsManager, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
-        manager.registerCommand(new AdminCommands(this, mmoItemsGive));
+        manager.registerCommand(new AdminCommands(this, mmoItemsGive, permissionLP));
         manager.registerCommand(new GeneralCommands(this, consoleCommand, soundManager));
         manager.registerCommand(new Security(this));
         manager.registerCommand(new DropTablesView(this, guiHelper));
