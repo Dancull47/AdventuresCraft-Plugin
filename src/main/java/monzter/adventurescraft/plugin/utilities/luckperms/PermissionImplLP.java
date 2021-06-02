@@ -17,14 +17,16 @@ import java.util.concurrent.TimeUnit;
 public class PermissionImplLP implements PermissionLP {
     private LuckPerms luckPerms;
     private AdventuresCraft plugin;
-    private final String CONTEXT = plugin.getConfig().getString("Context").toLowerCase();
+    private final String CONTEXT;
 
     public PermissionImplLP(LuckPerms luckPerms, AdventuresCraft plugin) {
         this.luckPerms = luckPerms;
         this.plugin = plugin;
         EventBus eventBus = LuckPermsProvider.get().getEventBus();
         eventBus.subscribe(plugin, NodeAddEvent.class, this::onNodeAdd);
+        CONTEXT = plugin.getConfig().getString("Context").toLowerCase();
     }
+
 
     @Override
     public void givePermission(Player player, String permission) {

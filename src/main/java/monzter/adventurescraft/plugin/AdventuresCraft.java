@@ -163,7 +163,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
         sharedLoad();
 
-        switch (getConfig().getString("Context")) {
+        switch (getConfig().getString("Server")) {
             case "Prison":
                 prisonLoad();
                 break;
@@ -172,13 +172,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 break;
             default:
                 getLogger().info(getConfig().getString("Context"));
-        }
-        if (getConfig().getString("Server").equals("Prison")) {
-            this.getLogger().info(getConfig().getString("Server") + " Started!");
-            prisonLoad();
-        } else if (getConfig().getString("Server").equals("Cell")) {
-            this.getLogger().info(getConfig().getString("Server") + " Started!");
-            cellLoad();
         }
         if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Economy dependency found!", getDescription().getName()));
