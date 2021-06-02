@@ -76,7 +76,7 @@ public class AdminCommands extends BaseCommand {
     @CommandAlias("reward")
     @CommandPermission("*")
     @Description("Reward stats to a Player")
-    @CommandCompletion("petexperience|petexp|experience|exp|miningpass @nothing *")
+    @CommandCompletion("petexperience|petexp|experience|exp|miningpass|ac|adventureCoin|adventureCoins @nothing *")
     public void rewardCommand(String stat, int amount, OnlinePlayer targetPlayer) {
         switch (stat.toLowerCase()) {
             case "petexperience":
@@ -92,6 +92,13 @@ public class AdminCommands extends BaseCommand {
             case "miningpass":
                 targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointMiningPass(targetPlayer.player, amount);
+                break;
+            case "ac":
+            case "acs":
+            case "adventureCoin":
+            case "adventureCoins":
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
+                betonPointsManager.givePointACs(targetPlayer.player, amount);
                 break;
         }
     }
