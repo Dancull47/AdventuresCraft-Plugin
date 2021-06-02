@@ -11,52 +11,52 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
-import monzter.adventurescraft.plugin.cell.commands.CellDisplayGUI;
-import monzter.adventurescraft.plugin.cell.commands.CellFlagsGUI;
-import monzter.adventurescraft.plugin.cell.commands.Warp;
-import monzter.adventurescraft.plugin.cell.events.JoinCell;
-import monzter.adventurescraft.plugin.prison.events.Xur;
-import monzter.adventurescraft.plugin.shared.GUIs.MainMenu;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.ProfileMenu;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.*;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.DonationShop;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.jobs.Jobs;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.map.rankMap.RankMap;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.Achivements;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.YardJobs;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.yardJobs.Dan;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.quests.jobs.yardJobs.Lester;
-import monzter.adventurescraft.plugin.shared.GUIs.mainMenu.settings.SafeDrop;
-import monzter.adventurescraft.plugin.shared.GUIs.quests.Yard;
-import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Enchanter;
-import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Finubar;
-import monzter.adventurescraft.plugin.shared.GUIs.quests.yard.Joy;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.Armor;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.Tools;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.Mercenary;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.Weight;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtils;
-import monzter.adventurescraft.plugin.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
-import monzter.adventurescraft.plugin.shared.commands.*;
-import monzter.adventurescraft.plugin.prison.commands.Prison.Hatching;
-import monzter.adventurescraft.plugin.prison.commands.Prison.MineTeleport;
-import monzter.adventurescraft.plugin.shared.events.*;
-import monzter.adventurescraft.plugin.shared.events.extras.Pet;
-import monzter.adventurescraft.plugin.shared.events.extras.Stats;
-import monzter.adventurescraft.plugin.prison.events.JoinPrison;
-import monzter.adventurescraft.plugin.prison.events.Tutorial;
-import monzter.adventurescraft.plugin.prison.commands.Sell;
-import monzter.adventurescraft.plugin.prison.commands.Warps;
-import monzter.adventurescraft.plugin.prison.events.mining.BeachEvent;
-import monzter.adventurescraft.plugin.prison.events.mining.BlockBreakMining;
-import monzter.adventurescraft.plugin.prison.events.mining.ChestInteract;
-import monzter.adventurescraft.plugin.prison.utilities.BlockPhysics;
-import monzter.adventurescraft.plugin.shared.events.utilities.Join_LeaveMessage;
-import monzter.adventurescraft.plugin.prison.utilities.ProjectileCancelArrowDrop;
-import monzter.adventurescraft.plugin.prison.utilities.mapBarrier;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.events.JoinCell;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Xur;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.MainMenu;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.ProfileMenu;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.*;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.DonationShop;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.jobs.Jobs;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.rankMap.RankMap;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Achivements;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.YardJobs;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.yardJobs.Dan;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.yardJobs.Lester;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.settings.SafeDrop;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.Yard;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.yard.Enchanter;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.yard.Finubar;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.yard.Joy;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Armor;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Tools;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.Mercenary;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Weight;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtils;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.*;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.Hatching;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.MineTeleport;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.*;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Pet;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Stats;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.JoinPrison;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Tutorial;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Sell;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Warps;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BeachEvent;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BlockBreakMining;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.ChestInteract;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.BlockPhysics;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.utilities.Join_LeaveMessage;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.ProjectileCancelArrowDrop;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.mapBarrier;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
@@ -142,8 +142,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 displayNameFlag = registerStringFlag();
                 sellLocationFlag = registerLocationFlag();
             } catch (IllegalStateException e) {
-                getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n"
-                        + TITLE + ChatColor.RED + "Report this stack trace to Monzter#4951 on Discord!", e);
+                getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n");
                 this.setEnabled(false);
             }
         }
@@ -163,6 +162,17 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         initializeDependencies();
 
         sharedLoad();
+
+        switch (getConfig().getString("Context")) {
+            case "Prison":
+                prisonLoad();
+                break;
+            case "Cell":
+                cellLoad();
+                break;
+            default:
+                getLogger().info(getConfig().getString("Context"));
+        }
         if (getConfig().getString("Server").equals("Prison")) {
             this.getLogger().info(getConfig().getString("Server") + " Started!");
             prisonLoad();
@@ -239,10 +249,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
         manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
@@ -269,7 +279,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Weight(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, betonPointsManager, permissionLP));
-        manager.registerCommand(new monzter.adventurescraft.plugin.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
         manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat));
         manager.registerCommand(new GeneralCommands(this, consoleCommand, soundManager));

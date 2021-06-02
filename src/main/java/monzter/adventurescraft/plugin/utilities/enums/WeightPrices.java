@@ -1,7 +1,7 @@
 package monzter.adventurescraft.plugin.utilities.enums;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import monzter.adventurescraft.plugin.shared.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.ItemGenerator;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -1,12 +1,9 @@
+# Lobby, Prison, Cell, Adventure, Home
+Server: Prison
+
+# LuckPerms Context for auto-assigning permissions with correct Context
+# Lobby, Prison, Adventure
+Context: Prison
+
 # Should arrows be despawned after hitting an enemy, rather than remaining on the ground
 Arrow-Despawn: true
-
-# How long the Captcha will be
-Captcha-Length: 5
-
-# This is the permission which is required to use most Commands
-Admin-Permission: "CAPTCHA.ADMIN"
-
-# PermissionLP given to Player once they enter a Valid captcha.
-# This permission prevents user from being required to enter another captcha.
-Given-Permission: "CAPTCHA.VERIFIED"
