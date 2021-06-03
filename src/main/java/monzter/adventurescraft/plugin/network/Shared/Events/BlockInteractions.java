@@ -1,6 +1,7 @@
 package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import org.bukkit.ChatColor;
@@ -19,6 +20,8 @@ public class BlockInteractions implements Listener {
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final PermissionLP permissionLP;
+    private final ConsoleCommand consoleCommand;
+
 
 
     private final List<Material> blocks = Arrays.asList(Material.ENCHANTING_TABLE, Material.CAULDRON, Material.ANVIL, Material.CHEST,
@@ -32,10 +35,11 @@ public class BlockInteractions implements Listener {
             Material.DIAMOND_AXE, Material.DIAMOND_HOE, Material.DIAMOND_PICKAXE, Material.DIAMOND_SHOVEL,
             Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL);
 
-    public BlockInteractions(AdventuresCraft plugin, SoundManager soundManager, PermissionLP permissionLP) {
+    public BlockInteractions(AdventuresCraft plugin, SoundManager soundManager, PermissionLP permissionLP, ConsoleCommand consoleCommand) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.permissionLP = permissionLP;
+        this.consoleCommand = consoleCommand;
     }
 
     @EventHandler
@@ -72,21 +76,10 @@ public class BlockInteractions implements Listener {
                 break;
             case "Adventure":
             case "Home":
-                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
+                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) || event.getClickedBlock().equals(Material.END_PORTAL_FRAME)) {
                     final Player player = event.getPlayer();
-                    final ItemStack itemStack = event.getItem();
-                    if (itemStack != null) {
-                        if (tools.contains(itemStack.getType())) {
-                            player.performCommand("enchant");
-                            soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-                            soundManager.soundNo(player, 1);
-                        }
-                    } else {
-                        player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-                        soundManager.soundNo(player, 1);
-                    }
+                    consoleCommand.consoleCommand("dm open Enchanter " + player.getName());
+                    soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
                     event.setCancelled(true);
                 }
                 break;

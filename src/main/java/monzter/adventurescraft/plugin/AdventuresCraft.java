@@ -141,7 +141,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 displayNameFlag = registerStringFlag();
                 sellLocationFlag = registerLocationFlag();
             } catch (IllegalStateException e) {
-                getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!" + "\n");
+                getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
                 this.setEnabled(false);
             }
         }
@@ -164,6 +164,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "Cell":
                 cellLoad();
                 prisonShared();
+                break;
+            case "Adventure":
+                adventureLoad();
                 break;
             default:
                 getLogger().info(getConfig().getString("Server" + " Loaded!"));
@@ -193,6 +196,12 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getLogger().info(TITLE + ChatColor.GREEN + "has shut down!");
 //        Bukkit.getServer().shutdown();
 //        SQL.disconnect();
+    }
+
+    private void adventureLoad() {
+//        Commands
+//        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
     }
 
     private void prisonLoad() {
@@ -232,7 +241,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
     }
 
     private void prisonShared() {
