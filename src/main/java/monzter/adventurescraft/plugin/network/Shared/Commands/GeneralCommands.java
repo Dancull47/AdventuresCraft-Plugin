@@ -66,6 +66,14 @@ public class GeneralCommands extends BaseCommand {
         sendToSpawn(player);
     }
 
+    @CommandAlias("plugins")
+    private void plugins(Player player) {
+        if (player.isOp())
+            player.performCommand("plugins");
+        else
+            player.sendMessage(ChatColor.RED + "You don't have access to this silly!");
+    }
+
     private void sendToSpawn(Player player) {
         switch (plugin.getConfig().getString("Server")) {
             case "Prison":
@@ -89,5 +97,6 @@ public class GeneralCommands extends BaseCommand {
                 break;
         }
     }
+
 }
 
