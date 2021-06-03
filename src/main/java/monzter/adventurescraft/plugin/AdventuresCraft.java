@@ -216,7 +216,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        GUIs
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
-//        Events
+//        Event
     }
 
     private void networkShared() {
