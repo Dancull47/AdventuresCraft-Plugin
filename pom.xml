@@ -32,7 +32,8 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <configuration>
-                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
+                    </dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
                             <pattern>com.zaxxer.hikari</pattern>
@@ -300,10 +301,6 @@
             <groupId>io.lumine</groupId>
             <artifactId>MythicEnchants</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>
-                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MythicEnchants.jar
-            </systemPath>
         </dependency>
         <dependency>
             <groupId>monzter</groupId>

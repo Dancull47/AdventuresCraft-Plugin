@@ -14,8 +14,11 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class GeneralCommands extends BaseCommand {
+public class GeneralCommands extends BaseCommand implements Listener {
 
     private final TextComponent discord = Component.text("Join our ")
             .color(NamedTextColor.GREEN)
@@ -66,12 +69,14 @@ public class GeneralCommands extends BaseCommand {
         sendToSpawn(player);
     }
 
-    @CommandAlias("plugins")
-    private void plugins(Player player) {
-        if (player.isOp())
-            player.performCommand("plugins");
-        else
-            player.sendMessage(ChatColor.RED + "You don't have access to this silly!");
+    @EventHandler
+    public void preProcessCommand(PlayerCommandPreprocessEvent event) {
+        Player player = event.getPlayer();
+        if (event.getMessage().equalsIgnoreCase("/plugins"))
+            if (!player.isOp()) {
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.RED + "You don't have access to this silly!");
+            }
     }
 
     private void sendToSpawn(Player player) {

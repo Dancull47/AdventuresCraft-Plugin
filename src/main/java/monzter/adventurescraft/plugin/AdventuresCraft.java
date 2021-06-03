@@ -223,6 +223,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
 //        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
