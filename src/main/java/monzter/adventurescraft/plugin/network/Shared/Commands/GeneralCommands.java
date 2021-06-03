@@ -17,8 +17,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
-public class GeneralCommands extends BaseCommand implements Listener {
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+
+public class GeneralCommands extends BaseCommand implements Listener, PluginMessageListener {
 
     private final TextComponent discord = Component.text("Join our ")
             .color(NamedTextColor.GREEN)
@@ -35,6 +39,12 @@ public class GeneralCommands extends BaseCommand implements Listener {
             .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
             .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
+    private final TextComponent website = Component.text("You can checkout our ")
+            .color(NamedTextColor.GREEN)
+            .append(Component.text("Website ", NamedTextColor.GOLD))
+            .append(Component.text("for more info about our Server!"))
+            .hoverEvent(Component.text("Click to visit the Website!", NamedTextColor.GREEN))
+            .clickEvent(ClickEvent.openUrl("http://adventurescraft.net"));
 
 
     @Dependency
@@ -47,11 +57,97 @@ public class GeneralCommands extends BaseCommand implements Listener {
         this.plugin = plugin;
         this.consoleCommand = consoleCommand;
         this.soundManager = soundManager;
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+        plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
+
+    }
+
+    @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
     }
 
     @CommandAlias("Lobby|Hub")
     private void lobbyCommand(Player player) {
-        player.performCommand("/server Lobby");
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try {
+            out.writeUTF("Connect");
+            out.writeUTF("Lobby");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Lobby! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+    }
+
+    @CommandAlias("Prison")
+    private void prisonCommand(Player player) {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try {
+            out.writeUTF("Connect");
+            out.writeUTF("Prison");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Prison! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+    }
+
+    @CommandAlias("Cell")
+    private void cellCommand(Player player) {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try {
+            out.writeUTF("Connect");
+            out.writeUTF("Cell");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Cell! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+    }
+
+    @CommandAlias("Adventure")
+    private void adventureCommand(Player player) {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try {
+            out.writeUTF("Connect");
+            out.writeUTF("Live2");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Live2! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+    }
+
+    @CommandAlias("Home")
+    private void homeCommand(Player player) {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try {
+            out.writeUTF("Connect");
+            out.writeUTF("Home");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+    }
+
+    @CommandAlias("Test")
+    private void testCommand(Player player) {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        try {
+            out.writeUTF("Connect");
+            out.writeUTF("Test");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Test! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
     }
 
     @CommandAlias("discord")
@@ -59,9 +155,14 @@ public class GeneralCommands extends BaseCommand implements Listener {
         player.sendMessage(discord);
     }
 
-    @CommandAlias("donate")
+    @CommandAlias("donate|store|shop")
     private void donateCommand(Player player) {
         player.sendMessage(donate);
+    }
+
+    @CommandAlias("website")
+    private void websiteCommand(Player player) {
+        player.sendMessage(website);
     }
 
     @CommandAlias("spawn|yard")
@@ -80,7 +181,7 @@ public class GeneralCommands extends BaseCommand implements Listener {
     }
 
     private void sendToSpawn(Player player) {
-        switch (plugin.getConfig().getString("Server")) {
+        switch (plugin.SERVER) {
             case "Prison":
                 soundManager.soundTeleport(player);
                 player.sendMessage(ChatColor.GREEN + "You've traveled to the " + ChatColor.YELLOW + "Yard" + ChatColor.GREEN + "!");

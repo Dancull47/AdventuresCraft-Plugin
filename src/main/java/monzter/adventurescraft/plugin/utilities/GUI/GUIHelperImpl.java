@@ -23,6 +23,7 @@ public class GUIHelperImpl implements GUIHelper {
         this.numberFormat = numberFormat;
     }
 
+//    Background
 
     @Override
     public ItemStack background() {
@@ -43,6 +44,8 @@ public class GUIHelperImpl implements GUIHelper {
         backgroundItem.setItemMeta(backgroundItemMeta);
         return backgroundItem;
     }
+
+//    Buttons
 
     @Override
     public ItemStack backButton() {
@@ -94,6 +97,8 @@ public class GUIHelperImpl implements GUIHelper {
         return lastPageItem;
     }
 
+//    Name
+
     @Override
     public String guiName(String name) {
         if (name.length() > 21)
@@ -104,6 +109,42 @@ public class GUIHelperImpl implements GUIHelper {
                         ChatColor.DARK_GRAY + name +
                         ChatColor.GRAY + ChatColor.BOLD + " «" +
                         ChatColor.WHITE + ChatColor.BOLD + "«";
+    }
+
+    //    Item Builders
+
+    @Override
+    public ItemStack itemCreator(Material material, String name, String[] lore) {
+        ItemStack complete = new ItemStack(material);
+        final ItemMeta completeItemMeta = complete.getItemMeta();
+
+        completeItemMeta.setDisplayName(name);
+
+        List<String> itemLore = new ArrayList<>();
+        for (String lore2 : lore)
+            itemLore.add(lore2);
+
+        complete.setItemMeta(completeItemMeta);
+        complete.setLore(itemLore);
+
+        return complete;
+    }
+
+    @Override
+    public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
+        ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
+        final ItemMeta completeItemMeta = complete.getItemMeta();
+
+        completeItemMeta.setDisplayName(name);
+
+        List<String> itemLore = new ArrayList<>();
+        for (String lore2 : lore)
+            itemLore.add(lore2);
+
+        complete.setItemMeta(completeItemMeta);
+        complete.setLore(itemLore);
+
+        return complete;
     }
 
     @Override

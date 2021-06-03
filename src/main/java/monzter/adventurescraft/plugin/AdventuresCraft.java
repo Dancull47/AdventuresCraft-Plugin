@@ -10,20 +10,30 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
+import monzter.adventurescraft.plugin.mySQL.MySQL;
+import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.Hatching;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.MineTeleport;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Sell;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Warps;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.JoinPrison;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Tutorial;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Xur;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BeachEvent;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BlockBreakMining;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.ChestInteract;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.MainMenu;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.ProfileMenu;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.*;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.DonationShop;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.jobs.Jobs;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Achivements;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.YardJobs;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.yardJobs.Dan;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.yardJobs.Lester;
@@ -34,29 +44,21 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.yard.Joy;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Armor;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Tools;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Weight;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.Mercenary;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtils;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.*;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.Hatching;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.MineTeleport;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.*;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Stats;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.JoinPrison;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Tutorial;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Sell;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Warps;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BeachEvent;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BlockBreakMining;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.ChestInteract;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
-import monzter.adventurescraft.plugin.mySQL.MySQL;
-import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
-import monzter.adventurescraft.plugin.utilities.beton.*;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerImpl;
+import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
+import monzter.adventurescraft.plugin.utilities.beton.BetonTagManagerImpl;
 import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
 import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantmentsImpl;
 import monzter.adventurescraft.plugin.utilities.general.*;
@@ -129,10 +131,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private MythicEnchantsSupport mythicEnchantsSupport;
     private Xur xur;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
+    public final String SERVER = this.getConfig().getString("Server");
 
     @Override
     public void onLoad() {
-        if (getConfig().getString("Server").equals("Prison")) {
+        if (SERVER.equals("Prison")) {
             try {
                 prisonMineFlag = registerStateFlag();
                 displayNameFlag = registerStringFlag();
@@ -153,7 +156,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
         initializeDependencies();
 
-        switch (getConfig().getString("Server")) {
+        switch (SERVER) {
             case "Prison":
                 prisonLoad();
                 prisonShared();
@@ -222,6 +225,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void networkShared() {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.ServerSelect(this, soundManager, guiHelper));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);

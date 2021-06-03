@@ -21,6 +21,9 @@ public interface GUIHelper {
 
     String guiName(String name);
 
+    ItemStack itemCreator(Material material, String name, String[] lore);
+    ItemStack itemCreator(String skullTexture, String name, String[] lore);
+
     ItemStack questInactive(String questName, TextComponent[] questDescription, TextComponent[] questRewards, String questGiver, String questGiverArea);
 
     ItemStack questInactive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
@@ -36,5 +39,6 @@ public interface GUIHelper {
     ItemStack questUnclaimed(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
 
     ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String questGiver, String questGiverArea);
+
     ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String resetTime);
 }

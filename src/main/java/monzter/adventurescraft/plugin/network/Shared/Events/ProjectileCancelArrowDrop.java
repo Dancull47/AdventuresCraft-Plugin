@@ -16,7 +16,7 @@ public class ProjectileCancelArrowDrop implements Listener {
     @EventHandler
     public void arrowDespawn(ProjectileHitEvent event) {
         if (event.getEntity().getType() == EntityType.ARROW)
-            switch (plugin.getConfig().getString("Server")) {
+            switch (plugin.SERVER) {
                 case "Prison":
                 case "Cell":
                 case "Adventure":

@@ -59,7 +59,7 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(cell(player), e -> {
             if (e.isLeftClick())
                 player.performCommand("home");
-            if (plugin.getConfig().getString("Server").equals("Cell")) {
+            if (plugin.SERVER.equals("Cell")) {
                 if (e.isRightClick())
                     player.performCommand("cellmenu");
             }
@@ -157,7 +157,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "be shared with others!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel");
-        if (plugin.getConfig().getString("Server").equals("Cell")) {
+        if (plugin.SERVER.equals("Cell")) {
             lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Manage");
         }
 

@@ -24,7 +24,7 @@ public class MapBarrier implements Listener {
 
     @EventHandler
     public void mapBarrier(PlayerMoveEvent event) {
-        switch (plugin.getConfig().getString("Server")) {
+        switch (plugin.SERVER) {
             case "Prison":
             case "Adventure":
             case "Lobby":

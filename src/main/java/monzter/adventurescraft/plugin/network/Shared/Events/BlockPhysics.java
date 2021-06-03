@@ -14,7 +14,7 @@ public class BlockPhysics implements Listener {
 
     @EventHandler
     public void cancelPhysics(BlockPhysicsEvent event) {
-        switch (plugin.getConfig().getString("Server")) {
+        switch (plugin.SERVER) {
             case "Prison":
             case "Adventure":
                 event.setCancelled(true);

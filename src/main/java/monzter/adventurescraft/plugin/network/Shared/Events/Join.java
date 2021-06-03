@@ -1,8 +1,6 @@
 package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
-import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -30,7 +28,7 @@ public class Join implements Listener {
 
         player.setCollidable(true);
 
-        switch (plugin.getConfig().getString("Server")) {
+        switch (plugin.SERVER) {
             case "Prison":
             case "Cell":
             case "Adventure":
@@ -50,7 +48,7 @@ public class Join implements Listener {
 
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 
-            switch (plugin.getConfig().getString("Server")) {
+            switch (plugin.SERVER) {
                 case "Prison":
                 case "Adventure":
                 case "Lobby":

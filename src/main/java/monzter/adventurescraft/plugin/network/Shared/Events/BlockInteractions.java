@@ -49,7 +49,7 @@ public class BlockInteractions implements Listener {
 
     @EventHandler
     public void enchantingTable(PlayerInteractEvent event) {
-        switch (plugin.getConfig().getString("Server")) {
+        switch (plugin.SERVER) {
             case "Prison":
             case "Cell":
                 if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
@@ -95,7 +95,7 @@ public class BlockInteractions implements Listener {
 
     @EventHandler
     public void enderChest(PlayerInteractEvent event) {
-        switch (plugin.getConfig().getString("Server")) {
+        switch (plugin.SERVER) {
             case "Prison":
             case "Cell":
             case "Adventure":
