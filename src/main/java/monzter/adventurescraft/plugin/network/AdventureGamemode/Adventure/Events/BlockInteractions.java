@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.AdventureGamemode.Events;
+package monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;

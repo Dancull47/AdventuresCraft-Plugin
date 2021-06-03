@@ -167,6 +167,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 break;
             case "Adventure":
                 adventureLoad();
+                adventureShared();
                 break;
             default:
                 getLogger().info(getConfig().getString("Server" + " Loaded!"));
@@ -201,7 +202,13 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void adventureLoad() {
 //        Commands
 //        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockBreak(this, betonPointsManager), this);
+    }
+
+    private void adventureShared() {
+        //        Commands
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
     }
 
     private void prisonLoad() {
@@ -242,6 +249,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager), this);
     }
 
     private void prisonShared() {
@@ -251,7 +259,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         new Placeholder(this, perms, numberFormat, loadPets(), displayNameFlag, restartTime, economy, calculateEnchantments).register();
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);

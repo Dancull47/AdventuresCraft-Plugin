@@ -23,7 +23,6 @@ public class BlockInteractions implements Listener {
     private final ConsoleCommand consoleCommand;
 
 
-
     private final List<Material> blocks = Arrays.asList(Material.ENCHANTING_TABLE, Material.CAULDRON, Material.ANVIL, Material.CHEST,
             Material.CHEST_MINECART, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.CHEST, Material.BEACON, Material.BEE_NEST,
             Material.SMITHING_TABLE, Material.BARREL, Material.BREWING_STAND, Material.COMMAND_BLOCK,
@@ -76,11 +75,14 @@ public class BlockInteractions implements Listener {
                 break;
             case "Adventure":
             case "Home":
-                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) || event.getClickedBlock().equals(Material.END_PORTAL_FRAME)) {
-                    final Player player = event.getPlayer();
-                    consoleCommand.consoleCommand("dm open Enchanter " + player.getName());
-                    soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
-                    event.setCancelled(true);
+                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
+                    if (event.getClickedBlock() != null && event.getClickedBlock().equals(Material.END_PORTAL_FRAME)) {
+                        final Player player = event.getPlayer();
+                        consoleCommand.consoleCommand("dm open Enchanter " + player.getName());
+                        soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+                        event.setCancelled(true);
+                    }
+                    break;
                 }
                 break;
         }
