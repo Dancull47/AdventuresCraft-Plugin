@@ -13,7 +13,6 @@ import io.lumine.mythicenchants.MythicEnchants;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.events.JoinCell;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Xur;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.ProfileMenu;
@@ -52,15 +51,9 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.War
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BeachEvent;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BlockBreakMining;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.ChestInteract;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.BlockPhysics;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.utilities.Join_LeaveMessage;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.ProjectileCancelArrowDrop;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities.mapBarrier;
+import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
-import monzter.adventurescraft.plugin.network.Shared.Events.AntiDrop;
-import monzter.adventurescraft.plugin.network.Shared.Events.BlockInteractions;
-import monzter.adventurescraft.plugin.network.Shared.Events.Join;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
 import monzter.adventurescraft.plugin.utilities.beton.*;
@@ -206,12 +199,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
 //        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new mapBarrier(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MapBarrier(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Xur(this, soundManager), this);
         xur = new Xur(this, soundManager);
@@ -225,14 +217,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
 //        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new JoinCell(this, mmoItemsGive, permissionLP, BentoBox.getInstance()), this);
     }
 
     private void networkShared() {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Social(this, consoleCommand, soundManager));
 //        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP), this);
@@ -244,9 +236,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Placeholder
         new Placeholder(this, perms, numberFormat, loadPets(), displayNameFlag, restartTime, economy, calculateEnchantments).register();
 //        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new JoinShared(this, mmoItemsGive, permissionLP), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join_LeaveMessage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);

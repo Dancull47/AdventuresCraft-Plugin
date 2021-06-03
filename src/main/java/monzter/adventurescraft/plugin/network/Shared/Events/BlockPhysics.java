@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities;
+package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.event.EventHandler;
@@ -14,9 +14,11 @@ public class BlockPhysics implements Listener {
 
     @EventHandler
     public void cancelPhysics(BlockPhysicsEvent event) {
-        String world = plugin.getServer().getWorlds().get(0).getName();
-        if (!world.equals("Homes")) {
-            event.setCancelled(true);
+        switch (plugin.getConfig().getString("Server")) {
+            case "Prison":
+            case "Adventure":
+                event.setCancelled(true);
+                break;
         }
     }
 }

@@ -4,6 +4,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmocore.api.player.PlayerData;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Join implements Listener {
@@ -33,6 +36,10 @@ public class Join implements Listener {
             case "Adventure":
             case "Home":
                 openBook(player);
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                    PlayerData playerData = PlayerData.get(player.getUniqueId());
+                    playerData.giveMana(999);
+                }, 20L);
                 break;
             case "Lobby":
                 player.sendMessage(ChatColor.GREEN + "Welcome back " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + "!");
@@ -61,6 +68,15 @@ public class Join implements Listener {
                 player.setOp(false);
                 player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
             }
+        event.joinMessage(Component.text(""));
+    }
+    @EventHandler
+    public void onKick(PlayerKickEvent event) {
+        event.leaveMessage(Component.text(""));
+    }
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        event.quitMessage(Component.text(""));
     }
 
     private void openBook(Player player) {

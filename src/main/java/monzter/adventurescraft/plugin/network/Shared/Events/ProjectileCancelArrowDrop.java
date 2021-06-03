@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.prison.utilities;
+package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.entity.EntityType;
@@ -8,19 +8,21 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class ProjectileCancelArrowDrop implements Listener {
     private final AdventuresCraft plugin;
-    private final boolean enabled;
 
     public ProjectileCancelArrowDrop(AdventuresCraft plugin) {
-        enabled = plugin.getConfig().getBoolean("Arrow-Despawn", true);
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void arrowDespawn(ProjectileHitEvent event){
-        if (event.getEntity().getType() == EntityType.ARROW){
-            if (enabled){
-                event.getEntity().remove();
+    public void arrowDespawn(ProjectileHitEvent event) {
+        if (event.getEntity().getType() == EntityType.ARROW)
+            switch (plugin.getConfig().getString("Server")) {
+                case "Prison":
+                case "Cell":
+                case "Adventure":
+                case "Home":
+                    event.getEntity().remove();
+                    break;
             }
-        }
     }
 }

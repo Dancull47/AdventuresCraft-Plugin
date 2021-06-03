@@ -20,14 +20,10 @@ public class Social extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
-    private final ConsoleCommand consoleCommand;
-    private final SoundManager soundManager;
 
 
-    public Social(AdventuresCraft plugin, ConsoleCommand consoleCommand, SoundManager soundManager) {
+    public Social(AdventuresCraft plugin) {
         this.plugin = plugin;
-        this.consoleCommand = consoleCommand;
-        this.soundManager = soundManager;
     }
 
     @CommandAlias("Friends|F")
