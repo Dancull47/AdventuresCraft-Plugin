@@ -100,7 +100,6 @@ public class BlockInteractions implements Listener {
                     permissionLP.giveTempPermission(player, "bank.open.command", 2, "s");
                     player.performCommand("banks open");
                 }
-                event.setCancelled(true);
         }
     }
 }

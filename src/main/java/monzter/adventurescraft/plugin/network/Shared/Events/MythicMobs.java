@@ -24,14 +24,13 @@ public class MythicMobs extends BaseCommand implements Listener {
     @EventHandler
     public void mobTrack(MythicMobDeathEvent event) {
         Player player = (Player) event.getKiller();
-        switch (plugin.SERVER) {
-            case "Prison":
-            case "Adventure":
-                betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
-                betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction(), 1);
-                plugin.getLogger().info("We");
-
-        }
+        if (player != null)
+            switch (plugin.SERVER) {
+                case "Prison":
+                case "Adventure":
+                    betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
+                    betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction(), 1);
+            }
     }
 //    @EventHandler
 //    public void petEgg(MythicMobDeathEvent event) {

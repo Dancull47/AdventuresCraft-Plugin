@@ -10,8 +10,11 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
+import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
@@ -86,6 +89,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -135,15 +139,25 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onLoad() {
-        if (SERVER.equals("Prison")) {
-            try {
-                prisonMineFlag = registerStateFlag();
-                displayNameFlag = registerStringFlag();
-                sellLocationFlag = registerLocationFlag();
-            } catch (IllegalStateException e) {
-                getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
-                this.setEnabled(false);
-            }
+        switch (SERVER) {
+            case "Prison":
+                try {
+                    prisonMineFlag = registerStateFlag();
+                    displayNameFlag = registerStringFlag();
+                    sellLocationFlag = registerLocationFlag();
+                } catch (IllegalStateException e) {
+                    getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
+                    this.setEnabled(false);
+                }
+                break;
+            case "Adventure":
+                try {
+                    displayNameFlag = registerStringFlag();
+                } catch (IllegalStateException e) {
+                    getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
+                    this.setEnabled(false);
+                }
+                break;
         }
     }
 
@@ -203,7 +217,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Commands
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockBreak(this, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
     private void adventureShared() {
@@ -671,4 +687,19 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         }, 0L, 20 * 90);
 
     }
+
+    private final String blinder = "blinder";
+
+    @EventHandler
+    public void onMythicMechanicLoad(MythicMechanicLoadEvent event) {
+        this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
+        switch (event.getMechanicName().toLowerCase()){
+            case blinder:
+                SkillMechanic mechanic = new VoidMythicMob(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
+                event.register(mechanic);
+                this.getLogger().info("-- Registered " + blinder + " mechanic!");
+                break;
+        }
+    }
+
 }
