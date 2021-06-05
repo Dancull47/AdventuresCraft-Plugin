@@ -16,16 +16,16 @@ public class FireDamage implements Listener {
 
 
     @EventHandler
-    public void unlimitedWaterBucket(EntityDamageEvent event) {
+    public void fireDamage(EntityDamageEvent event) {
         switch (plugin.SERVER) {
             case "Adventure":
-                Player player = (Player) event.getEntity();
-                if (player != null)
+                if (event.getEntity() instanceof Player) {
+                    Player player = (Player) event.getEntity();
                     if (event.getCause().equals(EntityDamageEvent.DamageCause.FIRE) ||
                             event.getCause().equals(EntityDamageEvent.DamageCause.LAVA) ||
                             event.getCause().equals(EntityDamageEvent.DamageCause.FIRE_TICK))
                         player.damage(player.getHealth() * .1);
-
+                }
         }
     }
 }

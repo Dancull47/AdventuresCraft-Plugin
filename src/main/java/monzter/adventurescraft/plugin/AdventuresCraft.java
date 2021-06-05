@@ -132,6 +132,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PaperCommandManager manager;
     private GUIHelper guiHelper;
     private PurchaseUtils purchaseUtils;
+    private ItemAdder itemAdder;
     private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
     private Xur xur;
@@ -217,6 +218,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void adventureLoad() {
 //        Commands
 //        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Enchantments(this, calculateEnchantments, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockBreak(this, betonPointsManager), this);
@@ -348,6 +350,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl(numberFormat);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);
+        itemAdder = new ItemAdderImpl();
         calculateEnchantments = new CalculateEnchantmentsImpl();
 
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
