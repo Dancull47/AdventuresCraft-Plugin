@@ -75,15 +75,13 @@ public class BlockInteractions implements Listener {
                 break;
             case "Adventure":
             case "Home":
-                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
-                    if (event.getClickedBlock() != null && event.getClickedBlock().equals(Material.END_PORTAL_FRAME)) {
+                if (event.getClickedBlock() != null)
+                    if (event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) || event.getClickedBlock().equals(Material.END_PORTAL_FRAME)) {
                         final Player player = event.getPlayer();
                         consoleCommand.consoleCommand("dm open Enchanter " + player.getName());
                         soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
                         event.setCancelled(true);
                     }
-                    break;
-                }
                 break;
         }
     }

@@ -14,6 +14,7 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
@@ -219,12 +220,15 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockBreak(this, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.UnlimitedWaterBucket(this, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
     private void adventureShared() {
-        //        Commands
+//        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
+//        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
     }
 
     private void prisonLoad() {
@@ -258,6 +262,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.ServerSelect(this, soundManager, guiHelper));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Debug(this));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
@@ -266,6 +271,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
     }
 
     private void prisonShared() {
@@ -277,7 +283,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
 //        Main GUIs
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
@@ -693,7 +698,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     @EventHandler
     public void onMythicMechanicLoad(MythicMechanicLoadEvent event) {
         this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
-        switch (event.getMechanicName().toLowerCase()){
+        switch (event.getMechanicName().toLowerCase()) {
             case blinder:
                 SkillMechanic mechanic = new VoidMythicMob(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
                 event.register(mechanic);
