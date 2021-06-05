@@ -12,6 +12,7 @@ import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -33,7 +34,7 @@ public class MainMenu extends BaseCommand {
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
-    private final int MAX_QUESTS = 4;
+    private final int MAX_QUESTS = 101;
 
     public MainMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper) {
         this.plugin = plugin;
@@ -44,17 +45,19 @@ public class MainMenu extends BaseCommand {
     @CommandAlias("Menu|MainMenu|Main")
     public void mainMenu(Player player) {
 
-        ChestGui gui = new ChestGui(6, guiHelper.guiName("Main Menu"));
+        ChestGui gui = new ChestGui(5, guiHelper.guiName("Main Menu"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
+        OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
 
 
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(yard(player), e -> player.performCommand("yard")), 3, 1);
+        display.addItem(new GuiItem(bossdex(player), e -> player.performCommand("bossdex")), 4, 0);
+
+        display.addItem(new GuiItem(town(player), e -> player.performCommand("town")), 3, 1);
         display.addItem(new GuiItem(map(player), e -> player.performCommand("map")), 4, 1);
         display.addItem(new GuiItem(cell(player), e -> {
             if (e.isLeftClick())
@@ -65,8 +68,8 @@ public class MainMenu extends BaseCommand {
             }
         }), 5, 1);
 
-        display.addItem(new GuiItem(backpack(player), e -> player.performCommand("backpack")), 2, 2);
-        display.addItem(new GuiItem(prestiges(player), e -> player.performCommand("prestiges")), 3, 2);
+        display.addItem(new GuiItem(reputation(player), e -> player.performCommand("reputation")), 2, 2);
+        display.addItem(new GuiItem(professions(player), e -> player.performCommand("professions")), 3, 2);
         display.addItem(new GuiItem(profile(player), e -> player.performCommand("profiles")), 4, 2);
         display.addItem(new GuiItem(quests(player), e -> {
             if (e.isLeftClick())
@@ -74,10 +77,9 @@ public class MainMenu extends BaseCommand {
             if (e.isRightClick())
                 player.performCommand("journal");
         }), 5, 2);
-        display.addItem(new GuiItem(miningPass(player), e -> player.performCommand("miningpassmenu")), 6, 2);
-        display.addItem(new GuiItem(leaderboards(player), e -> player.performCommand("leaderboards")), 7, 2);
+        display.addItem(new GuiItem(wiki(player), e -> player.performCommand("wiki")), 6, 2);
 
-        display.addItem(new GuiItem(pets(player), e -> {
+        display.addItem(new GuiItem(knowledge(player), e -> {
             if (e.isLeftClick())
                 player.performCommand("pets");
             if (e.isRightClick())
@@ -105,24 +107,39 @@ public class MainMenu extends BaseCommand {
     }
 
 
-    private ItemStack yard(Player player) {
-        final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
-        final ItemMeta yardItemMeta = yard.getItemMeta();
+    private ItemStack bossdex(Player player) {
+        final ItemStack bossdex = new ItemStack(Material.CLOCK);
+        final ItemMeta bossdexItemMeta = bossdex.getItemMeta();
 
-        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Yard"));
+        bossdexItemMeta.displayName(Component.text(ChatColor.GREEN + "Bossdex"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Get harassed by other " + ChatColor.GOLD + "Prisoners" + ChatColor.GRAY + ",");
-        lore.add(ChatColor.GRAY + "make purchases from the " + ChatColor.GREEN + "Smugglers" + ChatColor.GRAY + ",");
-        lore.add(ChatColor.GRAY + "and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + " with " + ChatColor.GREEN + "Sarah" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "Track bosses all around the world.");
+        lore.add(ChatColor.GRAY + "Browse their loot and when they spawn!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
-        yard.setItemMeta(yardItemMeta);
-        yard.setLore(lore);
+        bossdex.setItemMeta(bossdexItemMeta);
+        bossdex.setLore(lore);
 
-        return yard;
+        return bossdex;
+    }
+
+    private ItemStack town(Player player) {
+        final ItemStack town = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUyY2M0MjAxNWU2Njc4ZjhmZDQ5Y2NjMDFmYmY3ODdmMWJhMmMzMmJjZjU1OWEwMTUzMzJmYzVkYjUwIn19fQ=="));
+        final ItemMeta townItemMeta = town.getItemMeta();
+
+        townItemMeta.displayName(Component.text(ChatColor.GREEN + "Town"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+
+        town.setItemMeta(townItemMeta);
+        town.setLore(lore);
+
+        return town;
     }
 
     private ItemStack map(Player player) {
@@ -145,19 +162,15 @@ public class MainMenu extends BaseCommand {
     }
 
     private ItemStack cell(Player player) {
-        final ItemStack cell = new ItemStack(Material.IRON_BARS);
+        final ItemStack cell = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI3MTgwOWJhOTFiNDJmYjQ4NzVhZjRiYTI5OGU1ZTU1ZjQ1ZWQ3MzcyMWJjZWE4NWE0NWRiOTI2Mjg1NzRmIn19fQ=="));
         final ItemMeta cellItemMeta = cell.getItemMeta();
 
-        cellItemMeta.displayName(Component.text(ChatColor.GREEN + "Cell"));
+        cellItemMeta.displayName(Component.text(ChatColor.GREEN + "Home"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Store your belongings");
-        lore.add(ChatColor.GRAY + "within your " + ChatColor.GREEN + "Cell" + ChatColor.GRAY + ", which can");
-        lore.add(ChatColor.GRAY + "be shared with others!");
-        lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel");
-        if (plugin.SERVER.equals("Cell")) {
+        if (plugin.SERVER.equals("Home")) {
             lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Manage");
         }
 
@@ -167,17 +180,16 @@ public class MainMenu extends BaseCommand {
         return cell;
     }
 
-    private ItemStack backpack(Player player) {
-        final ItemStack backpack = new ItemStack(Material.CHEST);
+    private ItemStack accessoryBag(Player player) {
+        final ItemStack backpack = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWJkZjhkNTNiZGI5MzJjMjIzYzYyN2JiYjhjMWUwYzVlMzUxYTYxNmNkODA1NjkyOWM2NmU2ZGNlNDQ0MzNkYiJ9fX0="));
         final ItemMeta backpackItemMeta = backpack.getItemMeta();
 
-        backpackItemMeta.displayName(Component.text(ChatColor.GREEN + "Backpack"));
+        backpackItemMeta.displayName(Component.text(ChatColor.GREEN + "Accessory Bag"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Examine the resources currently");
-        lore.add(ChatColor.GRAY + "stored within your backpack");
-        lore.add(ChatColor.GRAY + "and information about them!!");
+        lore.add(ChatColor.GRAY + "Store your accessories while,");
+        lore.add(ChatColor.GRAY + "still getting their effects!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
@@ -187,25 +199,42 @@ public class MainMenu extends BaseCommand {
         return backpack;
     }
 
-    private ItemStack prestiges(Player player) {
-        final ItemStack prestiges = new ItemStack(Material.DIAMOND_PICKAXE);
-        final ItemMeta prestigesItemMeta = prestiges.getItemMeta();
-        prestigesItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        prestigesItemMeta.displayName(Component.text(ChatColor.GREEN + "Prestiges"));
+    private ItemStack reputation(Player player) {
+        final ItemStack reputation = new ItemStack(Material.IRON_HORSE_ARMOR);
+        final ItemMeta reputationItemMeta = reputation.getItemMeta();
+        reputationItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        reputationItemMeta.displayName(Component.text(ChatColor.GREEN + "Reputation"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.WHITE + "Rank: " + parsePlaceholder(player, "rank_value"));
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Increase your rank by mining");
-        lore.add(ChatColor.GRAY + "and selling the loot you find!");
+        lore.add(ChatColor.GRAY + "View your current reputation");
+        lore.add(ChatColor.GRAY + "in areas around our world!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
-        prestiges.setItemMeta(prestigesItemMeta);
-        prestiges.setLore(lore);
+        reputation.setItemMeta(reputationItemMeta);
+        reputation.setLore(lore);
 
-        return prestiges;
+        return reputation;
+    }
+
+    private ItemStack professions(Player player) {
+        final ItemStack professions = new ItemStack(Material.DIAMOND_PICKAXE);
+        final ItemMeta professionsItemMeta = professions.getItemMeta();
+        professionsItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        professionsItemMeta.displayName(Component.text(ChatColor.GREEN + "Professions"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Take up a Profession to earn");
+        lore.add(ChatColor.GRAY + "rewards for completing Tasks!");
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        professions.setItemMeta(professionsItemMeta);
+        professions.setLore(lore);
+
+        return professions;
     }
 
 
@@ -216,27 +245,18 @@ public class MainMenu extends BaseCommand {
         profileItemMeta.displayName(Component.text(ChatColor.GREEN + "Profile"));
 
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.WHITE + "Rank: " + parsePlaceholder(player, "rank_value"));
+        lore.add(ChatColor.WHITE + "Level: " + ChatColor.GRAY + parsePlaceholder(player, "mmocore_level") + ChatColor.DARK_GRAY + " [" + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_experience") + "/" + parsePlaceholder(player, "mmocore_next_level") + "EXP" + ChatColor.DARK_GRAY + "]");
         lore.add("");
-        lore.add(PrisonStatsDisplay.HP.getName() + ": " + parsePlaceholder(player, "mmocore_health") + "/" + parsePlaceholder(player, "mmocore_max_health"));
-        lore.add(PrisonStatsDisplay.MANA.getName() + ": " + parsePlaceholder(player, "mmocore_mana") + "/" + parsePlaceholder(player, "mmocore_stat_max_mana"));
-        lore.add(PrisonStatsDisplay.DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
-        lore.add(PrisonStatsDisplay.SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_movement_speed"));
-        lore.add("");
-        lore.add(PrisonStatsDisplay.MINING_SPEED.getName() + ": " + parsePlaceholder(player, "mmoitems_stat_faction_damage_breakingspeed"));
-        lore.add(PrisonStatsDisplay.MAX_WEIGHT.getName() + ": " + parsePlaceholder(player, "ac_Stat_MaxWeight") + ChatColor.BLUE +
-                " (" + ChatColor.DARK_PURPLE + parsePlaceholder(player, "ac_Stat_MaxWeightMultiplier") + ChatColor.BLUE + ")");
-        lore.add(PrisonStatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_BlockMultiplier") + "x");
-        lore.add(PrisonStatsDisplay.SELL_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_SellMultiplier") + "x");
-        lore.add(PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_LuckMultiplier") + "x");
-        lore.add(PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_EXPMultiplier") + "x");
-        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_Pet_EXPMultiplier") + "x");
+        lore.add(AdventureStatsDisplay.HP.getName() + ": " + parsePlaceholder(player, "mmocore_health") + "/" + parsePlaceholder(player, "mmocore_max_health"));
+        lore.add(AdventureStatsDisplay.MANA.getName() + ": " + parsePlaceholder(player, "mmocore_mana") + "/" + parsePlaceholder(player, "mmocore_stat_max_mana"));
+        lore.add(AdventureStatsDisplay.ARMOR.getName() + ": " + parsePlaceholder(player, "mmocore_stat_defense"));
+        lore.add(AdventureStatsDisplay.SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_movement_speed"));
+        lore.add(AdventureStatsDisplay.DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
+        lore.add(AdventureStatsDisplay.ATTACK_SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
+        lore.add(AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_chance"));
+        lore.add(AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_power"));
         lore.add("");
         lore.add(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ": " + parsePlaceholder(player, "vault_eco_balance_commas"));
-        lore.add(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + parsePlaceholder(player, "ac_Stat_EXPAmount_formatted"));
-        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + parsePlaceholder(player, "ac_Stat_Pet_EXPAmount_formatted"));
-        lore.add(PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount_formatted"));
-        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted"));
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Profile");
 
@@ -256,7 +276,7 @@ public class MainMenu extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Explore the Prison and");
+        lore.add(ChatColor.GRAY + "Explore the World and");
         lore.add(ChatColor.GRAY + "help others for rewards!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to open Quest Menu");
@@ -268,23 +288,23 @@ public class MainMenu extends BaseCommand {
         return quests;
     }
 
-    private ItemStack miningPass(Player player) {
-        final ItemStack miningPass = new ItemStack(Material.HOPPER_MINECART);
-        final ItemMeta miningPassItemMeta = miningPass.getItemMeta();
+    private ItemStack wiki(Player player) {
+        final ItemStack wiki = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODNkODc0ZWI4YzRjNjk3YjNmODMyYmQ4NzQ0MjZmZGY2ZDIxYmFlMzM5ZjMxNzExMDgxZmRlNTk4MzgzODZlMSJ9fX0="));
+        final ItemMeta wikiItemMeta = wiki.getItemMeta();
 
-        miningPassItemMeta.displayName(Component.text(ChatColor.GREEN + "Mining Pass"));
+        wikiItemMeta.displayName(Component.text(ChatColor.GREEN + "Wiki"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Complete challenges to level up your");
-        lore.add(ChatColor.GREEN + "Mining Pass " + ChatColor.GRAY + "earning rewards in return!");
+        lore.add(ChatColor.GRAY + "Want to view official information");
+        lore.add(ChatColor.GRAY + "about everything within the game?");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
-        miningPass.setItemMeta(miningPassItemMeta);
-        miningPass.setLore(lore);
+        wiki.setItemMeta(wikiItemMeta);
+        wiki.setLore(lore);
 
-        return miningPass;
+        return wiki;
     }
 
     private ItemStack leaderboards(Player player) {
@@ -306,25 +326,23 @@ public class MainMenu extends BaseCommand {
         return leaderboards;
     }
 
-    private ItemStack pets(Player player) {
-        final ItemStack pets = new ItemStack(SkullCreator.itemFromBase64("ewogICJ0aW1lc3RhbXAiIDogMTYxNTkwMTYzMzU0OSwKICAicHJvZmlsZUlkIiA6ICJhYTZhNDA5NjU4YTk0MDIwYmU3OGQwN2JkMzVlNTg5MyIsCiAgInByb2ZpbGVOYW1lIiA6ICJiejE0IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2E5ZWJlNDk2OGIzMjk2NDcwM2RlMmM1NDNiZTI5NmRjZWNkNjkxNmRkZmE3NjM5NWY3N2RmZGJjNjdkMTQzODMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="));
-        final ItemMeta petsItemMeta = pets.getItemMeta();
+    private ItemStack knowledge(Player player) {
+        final ItemStack knowledge = new ItemStack(Material.KNOWLEDGE_BOOK);
+        final ItemMeta knowledgeItemMeta = knowledge.getItemMeta();
 
-        petsItemMeta.displayName(Component.text(ChatColor.GREEN + "Pets " + ChatColor.DARK_GRAY + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_PetAmount") + ChatColor.GRAY + "/" + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_MaxPetAmount")));
+        knowledgeItemMeta.displayName(Component.text(ChatColor.GREEN + "Knowledge"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Equip " + ChatColor.GREEN + "Pets" + ChatColor.GRAY + " to gain increased");
-        lore.add(ChatColor.GRAY + "stats and keep you company,");
-        lore.add(ChatColor.GRAY + "while locked inside the Prison!");
+        lore.add(ChatColor.GRAY + "View craftable items you unlocked,");
+        lore.add(ChatColor.GRAY + "by leveling your Professions!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to View Your Pets");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Visit Pet Shop");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
-        pets.setItemMeta(petsItemMeta);
-        pets.setLore(lore);
+        knowledge.setItemMeta(knowledgeItemMeta);
+        knowledge.setLore(lore);
 
-        return pets;
+        return knowledge;
     }
 
     private ItemStack crafting(Player player) {
@@ -386,25 +404,6 @@ public class MainMenu extends BaseCommand {
         bank.setLore(lore);
 
         return bank;
-    }
-
-    private ItemStack accessoryBag(Player player) {
-        final ItemStack accessoryBag = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWJkZjhkNTNiZGI5MzJjMjIzYzYyN2JiYjhjMWUwYzVlMzUxYTYxNmNkODA1NjkyOWM2NmU2ZGNlNDQ0MzNkYiJ9fX0="));
-        final ItemMeta accessoryBagItemMeta = accessoryBag.getItemMeta();
-
-        accessoryBagItemMeta.displayName(Component.text(ChatColor.GREEN + "Accessory Bag"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Store your accessories while,");
-        lore.add(ChatColor.GRAY + "still receiving their effects!");
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
-
-        accessoryBag.setItemMeta(accessoryBagItemMeta);
-        accessoryBag.setLore(lore);
-
-        return accessoryBag;
     }
 
     private ItemStack votingRewards(Player player) {
