@@ -14,6 +14,7 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
@@ -53,7 +54,10 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.n
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtils;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.*;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.*;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.InteractPetEgg;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.InteractPets;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Placeholder;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Voting;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
@@ -133,6 +137,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private GUIHelper guiHelper;
     private PurchaseUtils purchaseUtils;
     private ItemAdder itemAdder;
+    private AreaCheck areaCheck;
     private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
     private Xur xur;
@@ -232,6 +237,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.Boss(this, consoleCommand, permissionLP, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
     }
 
     private void prisonLoad() {
@@ -351,6 +357,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         guiHelper = new GUIHelperImpl(numberFormat);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);
         itemAdder = new ItemAdderImpl();
+        areaCheck = new AreaCheckImpl(displayNameFlag);
         calculateEnchantments = new CalculateEnchantmentsImpl();
 
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
