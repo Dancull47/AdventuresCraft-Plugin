@@ -10,7 +10,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
 import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -69,7 +69,7 @@ public class Enchanting extends BaseCommand {
         betonPointsManager.takePointEXP(player, price);
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             String exp = PlaceholderAPI.setPlaceholders(player, "%ac_Stat_EXPAmount_formatted%");
-            player.sendMessage(ChatColor.GREEN + "You now have " + ChatColor.GOLD + exp + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + " left!");
+            player.sendMessage(ChatColor.GREEN + "You now have " + ChatColor.GOLD + exp + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + " left!");
         }, 5L);
     }
 
@@ -78,8 +78,8 @@ public class Enchanting extends BaseCommand {
         if (Integer.valueOf(exp) >= enchantmentPrice) {
             return true;
         }
-        player.sendMessage(ChatColor.DARK_PURPLE + enchantment.replace("_", " ") + ChatColor.RED + " level " + ChatColor.GREEN + enchantmentLevel + ChatColor.RED + " costs " + ChatColor.GOLD + numberFormat.numberFormat(enchantmentPrice) + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED
-                + " and you only have " + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(exp)) + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+        player.sendMessage(ChatColor.DARK_PURPLE + enchantment.replace("_", " ") + ChatColor.RED + " level " + ChatColor.GREEN + enchantmentLevel + ChatColor.RED + " costs " + ChatColor.GOLD + numberFormat.numberFormat(enchantmentPrice) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED
+                + " and you only have " + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(exp)) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
         soundManager.soundNo(player, 1);
         return false;
     }

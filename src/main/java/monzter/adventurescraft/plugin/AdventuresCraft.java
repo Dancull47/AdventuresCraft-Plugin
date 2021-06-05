@@ -238,6 +238,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck), this);
+//        Main GUIs
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.MainMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
+
     }
 
     private void prisonLoad() {

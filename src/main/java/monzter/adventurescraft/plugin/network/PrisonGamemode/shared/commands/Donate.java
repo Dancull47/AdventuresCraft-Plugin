@@ -8,7 +8,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.DonationRewardList;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
@@ -247,7 +247,7 @@ public class Donate extends BaseCommand {
             return true;
         }
         player.sendMessage(ChatColor.RED + "This item costs " + ChatColor.GOLD + cost + ChatColor.RED
-                + " and you only have " + ChatColor.GOLD + coins + " " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + "!");
+                + " and you only have " + ChatColor.GOLD + coins + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + "!");
         return false;
     }
 
@@ -279,7 +279,7 @@ public class Donate extends BaseCommand {
                 player.getLocation().getZ(), 5, .25, .25, .25);
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             int coins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins_formatted%"));
-            player.sendMessage(ChatColor.GREEN.toString() + "You now have " + ChatColor.GOLD + coins + " " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + " left!");
+            player.sendMessage(ChatColor.GREEN.toString() + "You now have " + ChatColor.GOLD + coins + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + " left!");
         }, 5L);
     }
 

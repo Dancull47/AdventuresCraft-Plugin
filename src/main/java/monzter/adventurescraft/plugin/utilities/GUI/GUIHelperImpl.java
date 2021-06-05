@@ -3,7 +3,7 @@ package monzter.adventurescraft.plugin.utilities.GUI;
 import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.utilities.enums.Linebreak;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -343,15 +343,15 @@ public class GUIHelperImpl implements GUIHelper {
                 String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(currencyRewardsAmount[currency]) + " ";
                 switch (lore2) {
                     case "exp":
-                        lore.add(newLore + StatsDisplay.EXPERIENCE_AMOUNT.getName());
+                        lore.add(newLore + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
                         currency++;
                         break;
                     case "petexp":
-                        lore.add(newLore + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+                        lore.add(newLore + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
                         currency++;
                         break;
                     case "miningpassexp":
-                        lore.add(newLore + StatsDisplay.MINING_PASS_EXPERIENCE.getName());
+                        lore.add(newLore + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
                         currency++;
                         break;
                 }
@@ -392,15 +392,15 @@ public class GUIHelperImpl implements GUIHelper {
                 String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(currencyRewardsAmount[currency]) + " ";
                 switch (lore2) {
                     case "exp":
-                        lore.add(newLore + StatsDisplay.EXPERIENCE_AMOUNT.getName());
+                        lore.add(newLore + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
                         currency++;
                         break;
                     case "petexp":
-                        lore.add(newLore + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+                        lore.add(newLore + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
                         currency++;
                         break;
                     case "miningpassexp":
-                        lore.add(newLore + StatsDisplay.MINING_PASS_EXPERIENCE.getName());
+                        lore.add(newLore + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
                         currency++;
                         break;
                 }

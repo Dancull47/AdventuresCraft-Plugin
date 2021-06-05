@@ -13,7 +13,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -144,7 +144,7 @@ public class Hatching extends BaseCommand {
             } else if (!lore.isEmpty()) {
                 lore.add(Component.empty());
             }
-            lore.add(Component.text(ChatColor.WHITE + "Price: " + StatsDisplay.MONEY_AMOUNT.getName() + " " + numberFormat.numberFormat(hatching.getPrice())));
+            lore.add(Component.text(ChatColor.WHITE + "Price: " + PrisonStatsDisplay.MONEY_AMOUNT.getName() + " " + numberFormat.numberFormat(hatching.getPrice())));
 
             if (balance >= hatching.getPrice()) {
                 lore.add(Component.text(""));
@@ -169,7 +169,7 @@ public class Hatching extends BaseCommand {
             } else if (!lore.isEmpty()) {
                 lore.add(Component.empty());
             }
-            lore.add(Component.text(ChatColor.WHITE + "Price: " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + " " + numberFormat.numberFormat(hatching.getPrice())));
+            lore.add(Component.text(ChatColor.WHITE + "Price: " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + " " + numberFormat.numberFormat(hatching.getPrice())));
             lore.add(Component.text(""));
 
             if (Integer.valueOf(petEXPAmount) >= hatching.getPrice())

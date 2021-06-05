@@ -1,16 +1,16 @@
 package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu;
 
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public enum LeaderboardCategories {
-    Money(StatsDisplay.MONEY_AMOUNT.getName(), new ItemStack(Material.SUNFLOWER), "Money", 5),
-    Experience(StatsDisplay.EXPERIENCE_AMOUNT.getName(), new ItemStack(Material.GREEN_DYE), "EXP", 10),
+    Money(PrisonStatsDisplay.MONEY_AMOUNT.getName(), new ItemStack(Material.SUNFLOWER), "Money", 5),
+    Experience(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName(), new ItemStack(Material.GREEN_DYE), "EXP", 10),
     TotalBlocks(ChatColor.GOLD + "⛏ Blocks Mined", new ItemStack(Material.COBBLESTONE), "Blocks", 15),
-    PetExperience(StatsDisplay.PET_EXPERIENCE_AMOUNT.getName(), new ItemStack(Material.BLUE_DYE), "PetEXP", 5),
-    MiningPass(StatsDisplay.MINING_PASS_EXPERIENCE.getName(), new ItemStack(Material.HOPPER_MINECART), "MiningPass", 10),
+    PetExperience(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName(), new ItemStack(Material.BLUE_DYE), "PetEXP", 5),
+    MiningPass(PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName(), new ItemStack(Material.HOPPER_MINECART), "MiningPass", 10),
     Prestige(ChatColor.BLUE + "Prestige", new ItemStack(Material.DIAMOND_PICKAXE), "Prestige", 15),
     ;
     private String name;

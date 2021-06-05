@@ -8,7 +8,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -79,23 +79,23 @@ public class AdminCommands extends BaseCommand {
         switch (stat.toLowerCase()) {
             case "petexperience":
             case "petexp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointPetEXP(targetPlayer.player, amount);
                 break;
             case "experience":
             case "exp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointEXP(targetPlayer.player, amount);
                 break;
             case "miningpass":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointMiningPass(targetPlayer.player, amount);
                 break;
             case "ac":
             case "acs":
             case "adventureCoin":
             case "adventureCoins":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointACs(targetPlayer.player, amount);
                 break;
         }
@@ -155,15 +155,15 @@ public class AdminCommands extends BaseCommand {
 
     private String getType(String boosterType) {
         if (boosterType.contains("SELL")) {
-            return StatsDisplay.SELL_MULTIPLIER.getName();
+            return PrisonStatsDisplay.SELL_MULTIPLIER.getName();
         } else if (boosterType.contains("EXP")) {
-            return StatsDisplay.EXPERIENCE_AMOUNT.getName();
+            return PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName();
         } else if (boosterType.contains("PET_EXP")) {
-            return StatsDisplay.PET_EXPERIENCE_AMOUNT.getName();
+            return PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName();
         } else if (boosterType.contains("BLOCK")) {
-            return StatsDisplay.BLOCK_MULTIPLIER.getName();
+            return PrisonStatsDisplay.BLOCK_MULTIPLIER.getName();
         } else if (boosterType.contains("LUCK")) {
-            return StatsDisplay.LUCK_MULTIPLIER.getName();
+            return PrisonStatsDisplay.LUCK_MULTIPLIER.getName();
         }
         return ChatColor.RED + "Unknown, report to Admin!";
     }
@@ -238,33 +238,33 @@ public class AdminCommands extends BaseCommand {
     public void checkAllStats(Player player, Player targetPlayer) {
         if (!targetPlayer.isOnline()) {
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_GREEN + "❂ Current Weight: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Weight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.SELL_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.LUCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MAX_WEIGHT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.SELL_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.LIGHT_PURPLE + "❉ Pet Amount: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.ADVENTURE_COINS.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
         } else {
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MINING_SPEED.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningSpeed%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MINING_SPEED.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningSpeed%"));
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.DARK_GREEN + "❂ Current Weight: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Weight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.SELL_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.LUCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MAX_WEIGHT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeight%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MaxWeightMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_BlockMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.SELL_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_SellMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_LuckMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_Pet_EXPMultiplier%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_EXPAmount%"));
             player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + ChatColor.LIGHT_PURPLE + "❉ Pet Amount: " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.ADVENTURE_COINS.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
-            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_PetEXPAmount%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Currency_AdventureCoins%"));
+            player.sendMessage(ChatColor.GOLD + targetPlayer.getName() + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + PlaceholderAPI.setPlaceholders(targetPlayer, "%ac_Stat_MiningPassEXPAmount%"));
         }
     }
 

@@ -15,7 +15,7 @@ import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments
 import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -136,7 +136,7 @@ public class Enchanting extends BaseCommand {
 
     private ItemStack experience(int balance, int enchantmentLevel) {
         TextComponent[] experience = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase your " + StatsDisplay.EXPERIENCE_MULTIPLIER.getName()),
+                Component.text(ChatColor.GRAY + "Increase your " + PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName()),
                 Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + "+" + Double.valueOf(enchantmentLevel * Enchantments.Experience.getIncrease()) + ChatColor.GRAY + " while mining with this tool!")};
         if (enchantmentLevel - 1 < Enchantments.Experience.getMaxLevel())
             return enchantment(balance, ChatColor.GREEN + "Experience ", enchantmentLevel, experience, (Integer.valueOf(enchantmentLevel * Enchantments.Experience.getPrice())), false);
@@ -145,7 +145,7 @@ public class Enchanting extends BaseCommand {
 
     private ItemStack petExperience(int balance, int enchantmentLevel) {
         TextComponent[] petExperience = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase your " + StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName()),
+                Component.text(ChatColor.GRAY + "Increase your " + PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName()),
                 Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + "+" + Double.valueOf(enchantmentLevel * Enchantments.PetExperience.getIncrease()) + ChatColor.GRAY + " while mining with this tool!")};
         if (enchantmentLevel - 1 < Enchantments.PetExperience.getMaxLevel())
             return enchantment(balance, ChatColor.AQUA + "Pet Experience ", enchantmentLevel, petExperience, (Integer.valueOf(enchantmentLevel * Enchantments.PetExperience.getPrice())), false);
@@ -200,7 +200,7 @@ public class Enchanting extends BaseCommand {
     private ItemStack midasTouch(int balance, int enchantmentLevel) {
         TextComponent[] midasTouch = new TextComponent[]{
                 Component.text(ChatColor.GRAY + "Increase the chance of gaining a random amount "),
-                Component.text(ChatColor.GRAY + "of " + StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " by " + ChatColor.GREEN + df.format(Double.valueOf(enchantmentLevel * Enchantments.MidasTouch.getIncrease() * 10)) + "% " + ChatColor.GRAY + "while mining with this tool!")};
+                Component.text(ChatColor.GRAY + "of " + PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " by " + ChatColor.GREEN + df.format(Double.valueOf(enchantmentLevel * Enchantments.MidasTouch.getIncrease() * 10)) + "% " + ChatColor.GRAY + "while mining with this tool!")};
         if (enchantmentLevel - 1 < Enchantments.MidasTouch.getMaxLevel())
             return enchantment(balance, ChatColor.YELLOW + "Midas Touch ", enchantmentLevel, midasTouch, (Integer.valueOf(enchantmentLevel * Enchantments.MidasTouch.getPrice())), false);
         return enchantment(balance, ChatColor.YELLOW + "Midas Touch ", enchantmentLevel, midasTouch, (Integer.valueOf(enchantmentLevel * Enchantments.MidasTouch.getPrice())), true);
@@ -238,7 +238,7 @@ public class Enchanting extends BaseCommand {
                 lore.add(enchLore);
             if (!maxed) {
                 lore.add(Component.text(""));
-                lore.add(Component.text(ChatColor.WHITE + "Price: " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + " " + numberFormat.numberFormat(enchantmentPrice)));
+                lore.add(Component.text(ChatColor.WHITE + "Price: " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + " " + numberFormat.numberFormat(enchantmentPrice)));
                 if (balance >= enchantmentPrice) {
                     lore.add(Component.text(""));
                     lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));

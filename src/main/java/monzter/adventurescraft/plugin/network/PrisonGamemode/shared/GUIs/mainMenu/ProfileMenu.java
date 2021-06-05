@@ -13,7 +13,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -89,14 +89,14 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack adventureCoins = new ItemStack(Material.PUFFERFISH);
         final ItemMeta adventureCoinsItemMeta = adventureCoins.getItemMeta();
 
-        adventureCoinsItemMeta.displayName(Component.text(StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted")));
+        adventureCoinsItemMeta.displayName(Component.text(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " are obtained from");
+        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " are obtained from");
         lore.add(ChatColor.GREEN + "donating, giveaways, and lootboxes" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " are used");
+        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " are used");
         lore.add(ChatColor.GRAY + "to purchase exclusive rewards");
         lore.add(ChatColor.GRAY + "from the" + ChatColor.GOLD + " Adventure Shop" + ChatColor.GRAY + "!");
         lore.add("");
@@ -112,14 +112,14 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack money = new ItemStack(Material.SUNFLOWER);
         final ItemMeta moneyItemMeta = money.getItemMeta();
 
-        moneyItemMeta.displayName(Component.text(StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "vault_eco_balance_commas")));
+        moneyItemMeta.displayName(Component.text(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "vault_eco_balance_commas")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " is used to progress");
+        lore.add(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " is used to progress");
         lore.add(ChatColor.GRAY + "through " + ChatColor.GREEN + "Prestiges " + ChatColor.GRAY + "and " + ChatColor.BLUE + "Prestiges" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " can be earned from selling");
+        lore.add(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " can be earned from selling");
         lore.add(ChatColor.GRAY + "resources you collect while mining,");
         lore.add(ChatColor.GRAY + "opening" + ChatColor.GREEN + " Crates" + ChatColor.GRAY + ", and more!");
 
@@ -133,14 +133,14 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack experience = new ItemStack(Material.GREEN_DYE);
         final ItemMeta experienceItemMeta = experience.getItemMeta();
 
-        experienceItemMeta.displayName(Component.text(StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_EXPAmount_formatted")));
+        experienceItemMeta.displayName(Component.text(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_EXPAmount_formatted")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " is used for " + ChatColor.DARK_PURPLE + "Enchanting" + ChatColor.GRAY + ", which");
+        lore.add(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " is used for " + ChatColor.DARK_PURPLE + "Enchanting" + ChatColor.GRAY + ", which");
         lore.add(ChatColor.GRAY + "improves the capabilities of your Gear!");
         lore.add("");
-        lore.add(StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " can be earned while mining,");
+        lore.add(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " can be earned while mining,");
         lore.add(ChatColor.GRAY + "completing" + ChatColor.GREEN + " Quests" + ChatColor.GRAY + ", and opening " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + "!");
 
         experience.setItemMeta(experienceItemMeta);
@@ -153,14 +153,14 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack petExperience = new ItemStack(Material.BLUE_DYE);
         final ItemMeta petExperienceItemMeta = petExperience.getItemMeta();
 
-        petExperienceItemMeta.displayName(Component.text(StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_Pet_EXPAmount_formatted")));
+        petExperienceItemMeta.displayName(Component.text(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_Pet_EXPAmount_formatted")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " is used to");
+        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " is used to");
         lore.add(ChatColor.GRAY + "hatch " + ChatColor.GREEN + "Eggs" + ChatColor.GRAY + " and evolve " + ChatColor.GREEN + "Pets" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " can be earned while mining,");
+        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " can be earned while mining,");
         lore.add(ChatColor.GRAY + "completing" + ChatColor.GREEN + " Quests" + ChatColor.GRAY + ", and opening " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + "!");
 
         petExperience.setItemMeta(petExperienceItemMeta);
@@ -223,25 +223,25 @@ public class ProfileMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.WHITE + "Rank: " + parsePlaceholder(player, "rank_value"));
         lore.add("");
-        lore.add(StatsDisplay.HP.getName() + ": " + parsePlaceholder(player, "mmocore_health") + "/" + parsePlaceholder(player, "mmocore_max_health"));
-        lore.add(StatsDisplay.MANA.getName() + ": " + parsePlaceholder(player, "mmocore_mana") + "/" + parsePlaceholder(player, "mmocore_stat_max_mana"));
-        lore.add(StatsDisplay.DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
-        lore.add(StatsDisplay.SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_movement_speed"));
+        lore.add(PrisonStatsDisplay.HP.getName() + ": " + parsePlaceholder(player, "mmocore_health") + "/" + parsePlaceholder(player, "mmocore_max_health"));
+        lore.add(PrisonStatsDisplay.MANA.getName() + ": " + parsePlaceholder(player, "mmocore_mana") + "/" + parsePlaceholder(player, "mmocore_stat_max_mana"));
+        lore.add(PrisonStatsDisplay.DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
+        lore.add(PrisonStatsDisplay.SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_movement_speed"));
         lore.add("");
-        lore.add(StatsDisplay.MINING_SPEED.getName() + ": " + parsePlaceholder(player, "mmoitems_stat_faction_damage_breakingspeed"));
-        lore.add(StatsDisplay.MAX_WEIGHT.getName() + ": " + parsePlaceholder(player, "ac_Stat_MaxWeight") + ChatColor.BLUE +
+        lore.add(PrisonStatsDisplay.MINING_SPEED.getName() + ": " + parsePlaceholder(player, "mmoitems_stat_faction_damage_breakingspeed"));
+        lore.add(PrisonStatsDisplay.MAX_WEIGHT.getName() + ": " + parsePlaceholder(player, "ac_Stat_MaxWeight") + ChatColor.BLUE +
                 " (" + ChatColor.DARK_PURPLE + parsePlaceholder(player, "ac_Stat_MaxWeightMultiplier") + ChatColor.BLUE + ")");
-        lore.add(StatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_BlockMultiplier") + "x");
-        lore.add(StatsDisplay.SELL_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_SellMultiplier") + "x");
-        lore.add(StatsDisplay.LUCK_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_LuckMultiplier") + "x");
-        lore.add(StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_EXPMultiplier") + "x");
-        lore.add(StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_Pet_EXPMultiplier") + "x");
+        lore.add(PrisonStatsDisplay.BLOCK_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_BlockMultiplier") + "x");
+        lore.add(PrisonStatsDisplay.SELL_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_SellMultiplier") + "x");
+        lore.add(PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_LuckMultiplier") + "x");
+        lore.add(PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_EXPMultiplier") + "x");
+        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ": " + parsePlaceholder(player, "ac_Stat_Pet_EXPMultiplier") + "x");
         lore.add("");
-        lore.add(StatsDisplay.MONEY_AMOUNT.getName() + ": " + parsePlaceholder(player, "vault_eco_balance_commas"));
-        lore.add(StatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + parsePlaceholder(player, "ac_Stat_EXPAmount_formatted"));
-        lore.add(StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + parsePlaceholder(player, "ac_Stat_Pet_EXPAmount_formatted"));
-        lore.add(StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount_formatted"));
-        lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted"));
+        lore.add(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ": " + parsePlaceholder(player, "vault_eco_balance_commas"));
+        lore.add(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ": " + parsePlaceholder(player, "ac_Stat_EXPAmount_formatted"));
+        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ": " + parsePlaceholder(player, "ac_Stat_Pet_EXPAmount_formatted"));
+        lore.add(PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName() + ": " + parsePlaceholder(player, "ac_Stat_MiningPassEXPAmount_formatted"));
+        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins_formatted"));
 
         profile.setItemMeta(profileItemMeta);
         profile.setLore(lore);
@@ -273,11 +273,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack hp = new ItemStack(Material.LIME_DYE);
         final ItemMeta hpItemMeta = hp.getItemMeta();
 
-        hpItemMeta.displayName(Component.text(StatsDisplay.HP.getName() + ChatColor.WHITE + " = " + ChatColor.GREEN + parsePlaceholder(player, "mmocore_stat_max_health")));
+        hpItemMeta.displayName(Component.text(PrisonStatsDisplay.HP.getName() + ChatColor.WHITE + " = " + ChatColor.GREEN + parsePlaceholder(player, "mmocore_stat_max_health")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.HP.getName() + ChatColor.GRAY + " is your Health, which is");
+        lore.add(PrisonStatsDisplay.HP.getName() + ChatColor.GRAY + " is your Health, which is");
         lore.add(ChatColor.GRAY + "important for staying alive!");
         lore.add("");
         lore.add(ChatColor.GREEN + "Health Regeneration" + ChatColor.GRAY + ": " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_health_regeneration"));
@@ -292,11 +292,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack mana = new ItemStack(Material.CYAN_DYE);
         final ItemMeta manaItemMeta = mana.getItemMeta();
 
-        manaItemMeta.displayName(Component.text(StatsDisplay.MANA.getName() + ChatColor.WHITE + " = " + ChatColor.AQUA + parsePlaceholder(player, "mmocore_stat_max_mana")));
+        manaItemMeta.displayName(Component.text(PrisonStatsDisplay.MANA.getName() + ChatColor.WHITE + " = " + ChatColor.AQUA + parsePlaceholder(player, "mmocore_stat_max_mana")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.MANA.getName() + ChatColor.GRAY + " is consumed by Wands,");
+        lore.add(PrisonStatsDisplay.MANA.getName() + ChatColor.GRAY + " is consumed by Wands,");
         lore.add(ChatColor.GRAY + "Spells, and Abilities!");
         lore.add("");
         lore.add(ChatColor.AQUA + "Mana Regeneration" + ChatColor.GRAY + ": " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_mana_regeneration"));
@@ -311,11 +311,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack armor = new ItemStack(Material.YELLOW_DYE);
         final ItemMeta armorItemMeta = armor.getItemMeta();
 
-        armorItemMeta.displayName(Component.text(StatsDisplay.ARMOR.getName() + ChatColor.GRAY + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_defense")));
+        armorItemMeta.displayName(Component.text(PrisonStatsDisplay.ARMOR.getName() + ChatColor.GRAY + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_defense")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.ARMOR.getName() + ChatColor.GRAY + " reduces the");
+        lore.add(PrisonStatsDisplay.ARMOR.getName() + ChatColor.GRAY + " reduces the");
         lore.add(ChatColor.GRAY + "amount of incoming damage!");
         lore.add("");
         lore.add(ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_defense_percent") + ChatColor.GRAY + " of damage will be reduced!");
@@ -330,11 +330,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack speed = new ItemStack(Material.GREEN_DYE);
         final ItemMeta speedItemMeta = speed.getItemMeta();
 
-        speedItemMeta.displayName(Component.text(StatsDisplay.SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.DARK_GREEN + parsePlaceholder(player, "mmocore_stat_movement_speed")));
+        speedItemMeta.displayName(Component.text(PrisonStatsDisplay.SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.DARK_GREEN + parsePlaceholder(player, "mmocore_stat_movement_speed")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.SPEED.getName() + ChatColor.GRAY + " is how fast you are!");
+        lore.add(PrisonStatsDisplay.SPEED.getName() + ChatColor.GRAY + " is how fast you are!");
 
         speed.setItemMeta(speedItemMeta);
         speed.setLore(lore);
@@ -346,11 +346,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack damage = new ItemStack(Material.RED_DYE);
         final ItemMeta damageItemMeta = damage.getItemMeta();
 
-        damageItemMeta.displayName(Component.text(StatsDisplay.DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.RED + parsePlaceholder(player, "mmocore_stat_attack_damage")));
+        damageItemMeta.displayName(Component.text(PrisonStatsDisplay.DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.RED + parsePlaceholder(player, "mmocore_stat_attack_damage")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.DAMAGE.getName() + ChatColor.GRAY + " is determined");
+        lore.add(PrisonStatsDisplay.DAMAGE.getName() + ChatColor.GRAY + " is determined");
         lore.add(ChatColor.GRAY + "by how powerful you are!");
 
         damage.setItemMeta(damageItemMeta);
@@ -364,14 +364,14 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack miningSpeed = new ItemStack(Material.ORANGE_DYE);
         final ItemMeta miningSpeedItemMeta = miningSpeed.getItemMeta();
 
-        miningSpeedItemMeta.displayName(Component.text(StatsDisplay.MINING_SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.GOLD + parsePlaceholder(player, "ac_Stat_MiningSpeed")));
+        miningSpeedItemMeta.displayName(Component.text(PrisonStatsDisplay.MINING_SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.GOLD + parsePlaceholder(player, "ac_Stat_MiningSpeed")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.MINING_SPEED.getName() + ChatColor.GRAY + " increases the rate");
+        lore.add(PrisonStatsDisplay.MINING_SPEED.getName() + ChatColor.GRAY + " increases the rate");
         lore.add(ChatColor.GRAY + "of how quickly you break a block!");
         lore.add("");
-        lore.add(ChatColor.YELLOW + "1 " + StatsDisplay.MINING_SPEED.getName() + ChatColor.GRAY + " = " + ChatColor.YELLOW + "-0.5 Seconds");
+        lore.add(ChatColor.YELLOW + "1 " + PrisonStatsDisplay.MINING_SPEED.getName() + ChatColor.GRAY + " = " + ChatColor.YELLOW + "-0.5 Seconds");
 
         miningSpeed.setItemMeta(miningSpeedItemMeta);
         miningSpeed.setLore(lore);
@@ -383,17 +383,17 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack maxWeight = new ItemStack(Material.BLUE_DYE);
         final ItemMeta maxWeightItemMeta = maxWeight.getItemMeta();
 
-        maxWeightItemMeta.displayName(Component.text(StatsDisplay.MAX_WEIGHT.getName() + ChatColor.WHITE + " = " + ChatColor.BLUE + parsePlaceholder(player, "ac_Stat_MaxWeight")));
+        maxWeightItemMeta.displayName(Component.text(PrisonStatsDisplay.MAX_WEIGHT.getName() + ChatColor.WHITE + " = " + ChatColor.BLUE + parsePlaceholder(player, "ac_Stat_MaxWeight")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.MAX_WEIGHT.getName() + ChatColor.GRAY + " increases the amount");
+        lore.add(PrisonStatsDisplay.MAX_WEIGHT.getName() + ChatColor.GRAY + " increases the amount");
         lore.add(ChatColor.GRAY + "of weight you can hold while mining!");
         lore.add("");
         lore.add(ChatColor.GRAY + "Each item has its own weight, which");
         lore.add(ChatColor.GRAY + "can be viewed within your " + ChatColor.GOLD + "/Backpack" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(StatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ChatColor.GRAY + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_MaxWeightMultiplier"));
+        lore.add(PrisonStatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ChatColor.GRAY + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_MaxWeightMultiplier"));
 
         maxWeight.setItemMeta(maxWeightItemMeta);
         maxWeight.setLore(lore);
@@ -405,11 +405,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack blockMultiplier = new ItemStack(Material.RED_DYE);
         final ItemMeta blockMultiplierItemMeta = blockMultiplier.getItemMeta();
 
-        blockMultiplierItemMeta.displayName(Component.text(StatsDisplay.BLOCK_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.DARK_RED + parsePlaceholder(player, "ac_Stat_BlockMultiplier")));
+        blockMultiplierItemMeta.displayName(Component.text(PrisonStatsDisplay.BLOCK_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.DARK_RED + parsePlaceholder(player, "ac_Stat_BlockMultiplier")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.BLOCK_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
+        lore.add(PrisonStatsDisplay.BLOCK_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
         lore.add(ChatColor.GRAY + "of blocks you receive while mining!");
 
         blockMultiplier.setItemMeta(blockMultiplierItemMeta);
@@ -422,12 +422,12 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack sellMultiplier = new ItemStack(Material.GREEN_DYE);
         final ItemMeta sellMultiplierItemMeta = sellMultiplier.getItemMeta();
 
-        sellMultiplierItemMeta.displayName(Component.text(StatsDisplay.SELL_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.DARK_GREEN + parsePlaceholder(player, "ac_Stat_SellMultiplier")));
+        sellMultiplierItemMeta.displayName(Component.text(PrisonStatsDisplay.SELL_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.DARK_GREEN + parsePlaceholder(player, "ac_Stat_SellMultiplier")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.SELL_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
-        lore.add(StatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " you receive when selling resources!");
+        lore.add(PrisonStatsDisplay.SELL_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
+        lore.add(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " you receive when selling resources!");
 
         sellMultiplier.setItemMeta(sellMultiplierItemMeta);
         sellMultiplier.setLore(lore);
@@ -439,11 +439,11 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack luckMultiplier = new ItemStack(Material.YELLOW_DYE);
         final ItemMeta luckMultiplierItemMeta = luckMultiplier.getItemMeta();
 
-        luckMultiplierItemMeta.displayName(Component.text(StatsDisplay.LUCK_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_LuckMultiplier")));
+        luckMultiplierItemMeta.displayName(Component.text(PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_LuckMultiplier")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.LUCK_MULTIPLIER.getName() + ChatColor.GRAY + " increases the chances of");
+        lore.add(PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ChatColor.GRAY + " increases the chances of");
         lore.add(ChatColor.GRAY + "finding rare items like " + ChatColor.YELLOW + "Crates " + ChatColor.GRAY + "while mining!");
 
         luckMultiplier.setItemMeta(luckMultiplierItemMeta);
@@ -456,12 +456,12 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack experienceMultiplier = new ItemStack(Material.LIME_DYE);
         final ItemMeta experienceMultiplierItemMeta = experienceMultiplier.getItemMeta();
 
-        experienceMultiplierItemMeta.displayName(Component.text(StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.GREEN + parsePlaceholder(player, "ac_Stat_EXPMultiplier")));
+        experienceMultiplierItemMeta.displayName(Component.text(PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.GREEN + parsePlaceholder(player, "ac_Stat_EXPMultiplier")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
-        lore.add(ChatColor.GRAY + "of " + StatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " you earn while mining!");
+        lore.add(PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
+        lore.add(ChatColor.GRAY + "of " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " you earn while mining!");
 
         experienceMultiplier.setItemMeta(experienceMultiplierItemMeta);
         experienceMultiplier.setLore(lore);
@@ -473,12 +473,12 @@ public class ProfileMenu extends BaseCommand {
         final ItemStack petExperienceMultiplier = new ItemStack(Material.CYAN_DYE);
         final ItemMeta petExperienceMultiplierItemMeta = petExperienceMultiplier.getItemMeta();
 
-        petExperienceMultiplierItemMeta.displayName(Component.text(StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.AQUA + parsePlaceholder(player, "ac_Stat_Pet_EXPMultiplier")));
+        petExperienceMultiplierItemMeta.displayName(Component.text(PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ChatColor.WHITE + " = " + ChatColor.AQUA + parsePlaceholder(player, "ac_Stat_Pet_EXPMultiplier")));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(StatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
-        lore.add(ChatColor.GRAY + "of " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " you earn while mining!");
+        lore.add(PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName() + ChatColor.GRAY + " increases the amount");
+        lore.add(ChatColor.GRAY + "of " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " you earn while mining!");
 
         petExperienceMultiplier.setItemMeta(petExperienceMultiplierItemMeta);
         petExperienceMultiplier.setLore(lore);

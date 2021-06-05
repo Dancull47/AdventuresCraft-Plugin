@@ -2,7 +2,7 @@ package monzter.adventurescraft.plugin.utilities.enums;
 
 import org.bukkit.ChatColor;
 
-public enum StatsDisplay {
+public enum PrisonStatsDisplay {
     HP(ChatColor.GREEN + "❤ HP"),
     MANA(ChatColor.AQUA + "⭐ Mana"),
     DAMAGE(ChatColor.RED + "✜ Damage"),
@@ -26,7 +26,7 @@ public enum StatsDisplay {
 
     private final String name;
 
-    StatsDisplay(final String name) {
+    PrisonStatsDisplay(final String name) {
         this.name = name;
     }
 

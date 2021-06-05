@@ -12,7 +12,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -69,7 +69,7 @@ public class DonationShop extends BaseCommand {
                 } else if (!lore.isEmpty()) {
                     lore.add(Component.empty());
                 }
-                lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + " " + StatsDisplay.ADVENTURE_COINS.getName()));
+                lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName()));
                 lore.add(Component.text(" "));
                 lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase"));
                 if (reward.type.equalsIgnoreCase("PET") || reward.type.equalsIgnoreCase("CONSUMABLE"))
@@ -103,7 +103,7 @@ public class DonationShop extends BaseCommand {
                         break;
                 }
                 lore.add("");
-                lore.add((ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + " " + StatsDisplay.ADVENTURE_COINS.getName()));
+                lore.add((ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName()));
                 lore.add((" "));
                 lore.add((Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase"));
 

@@ -18,7 +18,7 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMen
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -148,7 +148,7 @@ public class MiningPass extends BaseCommand {
             lore.add(" ");
             lore.add(REWARD);
             if (reward.isAdventureCoinReward())
-                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + reward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
+                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + reward.getCoins() + "x " + PrisonStatsDisplay.ADVENTURE_COINS.getName());
             for (ItemStack itemStack1 : reward.getRewards()) {
                 lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + reward.getRewardAmount()[amount] + "x " + itemStack1.getItemMeta().getDisplayName());
                 amount++;
@@ -224,7 +224,7 @@ public class MiningPass extends BaseCommand {
             lore.add(" ");
             lore.add(REWARD);
             if (premiumReward.isAdventureCoinReward())
-                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + premiumReward.getCoins() + "x " + StatsDisplay.ADVENTURE_COINS.getName());
+                lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + premiumReward.getCoins() + "x " + PrisonStatsDisplay.ADVENTURE_COINS.getName());
             for (ItemStack itemStack1 : premiumReward.getRewards()) {
                 lore.add("   " + Prefix.PREFIX.getString() + ChatColor.GOLD + premiumReward.getRewardAmount()[amount2] + "x " + itemStack1.getItemMeta().getDisplayName());
                 amount2++;
@@ -444,14 +444,14 @@ public class MiningPass extends BaseCommand {
 
     private void rewardAdventureCoins(Player player, int advenutreCoins) {
         betonPointsManager.takePointACs(player, advenutreCoins);
-        player.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + advenutreCoins + ChatColor.YELLOW + "x " + StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
+        player.sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + advenutreCoins + ChatColor.YELLOW + "x " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
     }
 
     private boolean levelCheck(Player player, int exp, int cost) {
         if (exp >= cost) {
             return true;
         } else {
-            player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(exp) + ChatColor.RED + " / " + ChatColor.GOLD + numberFormat.numberFormat(cost) + " " + StatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.RED + "!");
+            player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(exp) + ChatColor.RED + " / " + ChatColor.GOLD + numberFormat.numberFormat(cost) + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName() + ChatColor.RED + "!");
             soundManager.soundNo(player, 1);
             return false;
         }

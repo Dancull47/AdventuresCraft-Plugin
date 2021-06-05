@@ -9,7 +9,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
@@ -75,15 +75,15 @@ public class AchievementItemBuilder extends BaseCommand {
                 String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(achievement.getCurrencyRewardsAmount()[currency]) + " ";
                 switch (lore2) {
                     case "exp":
-                        lore.add(newLore + StatsDisplay.EXPERIENCE_AMOUNT.getName());
+                        lore.add(newLore + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
                         currency++;
                         break;
                     case "petexp":
-                        lore.add(newLore + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+                        lore.add(newLore + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
                         currency++;
                         break;
                     case "miningpassexp":
-                        lore.add(newLore + StatsDisplay.MINING_PASS_EXPERIENCE.getName());
+                        lore.add(newLore + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
                         currency++;
                         break;
                 }

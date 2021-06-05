@@ -12,7 +12,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -59,7 +59,7 @@ public class Joy extends BaseCommand {
     private GuiItem quest1(Player player) {
         final String name = "Hatching an Egg";
         final String[] description = new String[]{ChatColor.WHITE + "Mine 50 Blocks with the", ChatColor.WHITE + "Pet Egg in your inventory"};
-        final String[] rewards = new String[]{"Pet Egg", "50 " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName(), "100 " + StatsDisplay.MONEY_AMOUNT.getName()};
+        final String[] rewards = new String[]{"Pet Egg", "50 " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName(), "100 " + PrisonStatsDisplay.MONEY_AMOUNT.getName()};
         if (!betonTagManager.hasTag(player, "default-Yard-Joy.q1_part1"))
             return new GuiItem(guiHelper.questInactive(name, description, rewards, quester, questerLocation));
         if (betonTagManager.hasTag(player, "default-Yard-Joy.q1_part1") && !betonTagManager.hasTag(player, "default-Yard-Joy.q1_completed"))

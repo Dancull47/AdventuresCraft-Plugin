@@ -13,7 +13,7 @@ import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.PetEgg;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
@@ -197,7 +197,7 @@ public class Hatching extends BaseCommand {
 
     public void hatch(Player player, int exp) {
         Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "q point " + player.getName() + " add items.PetExperience " + "-" + exp);
-        player.sendMessage(ChatColor.GOLD.toString() + exp + " " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + " has been deducted from your account!");
+        player.sendMessage(ChatColor.GOLD.toString() + exp + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GREEN + " has been deducted from your account!");
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_TURTLE_EGG_HATCH, 1f, 2f);
     }
 
@@ -221,7 +221,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.COMMON.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "UNCOMMON":
@@ -229,7 +229,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.UNCOMMON.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "RARE":
@@ -237,7 +237,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.RARE.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "LEGENDARY":
@@ -245,7 +245,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.LEGENDARY.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "EXOTIC":
@@ -253,7 +253,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.EXOTIC.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "PHOENIX":
@@ -261,7 +261,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.PHOENIX.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "PHOENIX2":
@@ -269,7 +269,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.PHOENIX2.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "DRAGON":
@@ -277,7 +277,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.DRAGON.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
             case "DRAGON2":
@@ -285,7 +285,7 @@ public class Hatching extends BaseCommand {
                     return true;
                 }
                 player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + numberFormat.numberFormat(petEXP) + "/" + numberFormat.numberFormat(PetEggList.DRAGON2.getExpToHatch()) + " " +
-                        StatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
+                        PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
                 soundManager.soundNo(player, 1);
                 break;
         }

@@ -12,7 +12,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -85,12 +85,12 @@ public class Finubar extends BaseCommand {
         final TextComponent[] rewards = new TextComponent[]{Component.text(MMOItems.plugin.getItem("MATERIAL", "WATER_CRYSTAL").getItemMeta().getDisplayName()),
                 Component.text()
                         .decoration(TextDecoration.ITALIC, false)
-                        .content("500,000 " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName())
+                        .content("500,000 " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName())
                         .color(NamedTextColor.WHITE)
                         .build(),
                 Component.text()
                         .decoration(TextDecoration.ITALIC, false)
-                        .content("10,000,000 " + StatsDisplay.MONEY_AMOUNT.getName())
+                        .content("10,000,000 " + PrisonStatsDisplay.MONEY_AMOUNT.getName())
                         .color(NamedTextColor.WHITE)
                         .build()};
         if (!betonTagManager.hasTag(player, "default-Yard-Finubar.q1_part1"))
@@ -126,12 +126,12 @@ public class Finubar extends BaseCommand {
         final TextComponent[] rewards = new TextComponent[]{Component.text(MMOItems.plugin.getItem("MATERIAL", "PHOENIX_CROWN").getItemMeta().getDisplayName()),
                 Component.text()
                         .decoration(TextDecoration.ITALIC, false)
-                        .content("500,000 " + StatsDisplay.PET_EXPERIENCE_AMOUNT.getName())
+                        .content("500,000 " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName())
                         .color(NamedTextColor.WHITE)
                         .build(),
                 Component.text()
                         .decoration(TextDecoration.ITALIC, false)
-                        .content("10,000,000 " + StatsDisplay.MONEY_AMOUNT.getName())
+                        .content("10,000,000 " + PrisonStatsDisplay.MONEY_AMOUNT.getName())
                         .color(NamedTextColor.WHITE)
                         .build()};
 

@@ -12,7 +12,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.StatsDisplay;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
@@ -106,7 +106,7 @@ public class DonationMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "The currency is NOT a physical item,");
         lore.add(ChatColor.GRAY + "and can not be traded to others.");
         lore.add("");
-        lore.add(StatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins"));
+        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins"));
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase");
 
@@ -124,7 +124,7 @@ public class DonationMenu extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Use your " + StatsDisplay.ADVENTURE_COINS.getName());
+        lore.add(ChatColor.GRAY + "Use your " + PrisonStatsDisplay.ADVENTURE_COINS.getName());
         lore.add(ChatColor.GRAY + "to purchase unique " + ChatColor.GREEN + "Items" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
