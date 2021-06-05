@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -140,4 +142,22 @@ public class Catalysts implements Listener {
         }
     }
 
+    @EventHandler
+    public void hastyVoid(CustomBlockMineEvent event) {
+        switch (plugin.SERVER) {
+            case "Adventure":
+                if (event.getPlayer() != null) {
+                    Player player = event.getPlayer();
+                    if (event.canBreak()) {
+                        if (areaCheck.getAreaName(player).equals(ChatColor.DARK_PURPLE + "Void")) {
+                            final NBTItem nbtItem = NBTItem.get(event.getPlayer().getInventory().getItemInOffHand());
+                            final String id = MMOItems.plugin.getID(nbtItem);
+                            if (id != null)
+                                if (id.equals("HASTY_VOID"))
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20 * 5, 7));
+                        }
+                    }
+                }
+        }
+    }
 }
