@@ -9,10 +9,10 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
+import monzter.adventurescraft.plugin.utilities.enums.RanksDisplay;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,6 +28,9 @@ public class Map extends BaseCommand {
     @Dependency
     private final AdventuresCraft plugin;
     private final GUIHelper guiHelper;
+    private final Material LOCKED = Material.RED_STAINED_GLASS_PANE;
+    private final String LOCKED_TEXT = ChatColor.DARK_GRAY + "- " + ChatColor.RED + ChatColor.BOLD + "LOCKED";
+
 
     public Map(AdventuresCraft plugin, GUIHelper guiHelper) {
         this.plugin = plugin;
@@ -35,7 +38,7 @@ public class Map extends BaseCommand {
     }
 
     @CommandAlias("map|maps")
-    public void questMenu(Player player) {
+    public void map(Player player) {
 
         ChestGui gui = new ChestGui(5, guiHelper.guiName("Map"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -49,22 +52,30 @@ public class Map extends BaseCommand {
 
         display.addItem(new GuiItem(farm(), e -> player.performCommand("warp farm")), 1, 1);
         display.addItem(new GuiItem(forest(), e -> player.performCommand("warp forest")), 2, 1);
-        display.addItem(new GuiItem(mines(), e -> player.performCommand("warp mines")), 3, 1);
+        display.addItem(new GuiItem(mines(), e -> {
+            if (e.isLeftClick())
+                player.performCommand("warp mines");
+            else if (e.isRightClick())
+                player.performCommand("minemap");
+        }), 3, 1);
         display.addItem(new GuiItem(graveyard(), e -> player.performCommand("warp graveyard")), 4, 1);
-        display.addItem(new GuiItem(courtyard(), e -> player.performCommand("warp courtyard")), 5, 1);
-        display.addItem(new GuiItem(castle(), e -> player.performCommand("warp castle")), 6, 1);
-        display.addItem(new GuiItem(estate(), e -> player.performCommand("warp estate")), 7, 1);
+        display.addItem(new GuiItem(courtyard(player), e -> player.performCommand("warp courtyard")), 5, 1);
+        display.addItem(new GuiItem(castle(player), e -> player.performCommand("warp castle")), 6, 1);
+        display.addItem(new GuiItem(estate(player), e -> player.performCommand("warp estate")), 7, 1);
 
-        display.addItem(new GuiItem(goblinTown(), e -> player.performCommand("warp goblinTown")), 1, 2);
-        display.addItem(new GuiItem(spiritGrounds(), e -> player.performCommand("warp spiritGrounds")), 2, 2);
-        display.addItem(new GuiItem(hell(), e -> player.performCommand("warp hell")), 3, 2);
-        display.addItem(new GuiItem(theVoid(), e -> player.performCommand("warp void")), 4, 2);
+        display.addItem(new GuiItem(goblinTown(player), e -> player.performCommand("warp goblinTown")), 1, 2);
+        display.addItem(new GuiItem(spiritGrounds(player), e -> player.performCommand("warp spiritGrounds")), 2, 2);
+        display.addItem(new GuiItem(hell(player), e -> {
+            if (e.isLeftClick())
+                player.performCommand("warp hell");
+            else if (e.isRightClick())
+                player.performCommand("warp hellBottom");
+        }), 3, 2);
+        display.addItem(new GuiItem(theVoid(player), e -> player.performCommand("warp void")), 4, 2);
 
-        display.addItem(new GuiItem(crates(player), e -> player.performCommand("warp crates")), 2, 4);
-        display.addItem(new GuiItem(yard(player), e -> player.performCommand("warp yard")), 3, 4);
+        display.addItem(new GuiItem(townHall(player), e -> player.performCommand("warp townHall")), 3, 4);
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
-        display.addItem(new GuiItem(pets(player), e -> player.performCommand("warp pets")), 5, 4);
-        display.addItem(new GuiItem(blackMarket(player), e -> player.performCommand("warp shop")), 6, 4);
+        display.addItem(new GuiItem(fastTravel(player), e -> player.performCommand("fastTravel")), 5, 4);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -154,11 +165,15 @@ public class Map extends BaseCommand {
         return graveyard;
     }
 
-    private ItemStack courtyard() {
-        final ItemStack courtyard = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5ZmIyZTQ5NzAzYzZjYjk1MTE2YmUxNTM2M2M5ZDU2ODllZjIyOWE3NWM2NTVlZjU3NmJlMzYwZWMzY2JlYiJ9fX0="));
+    private ItemStack courtyard(Player player) {
+        ItemStack courtyard = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5ZmIyZTQ5NzAzYzZjYjk1MTE2YmUxNTM2M2M5ZDU2ODllZjIyOWE3NWM2NTVlZjU3NmJlMzYwZWMzY2JlYiJ9fX0="));
+        if (!player.hasPermission("warp.courtyard"))
+            courtyard = new ItemStack(LOCKED);
         final ItemMeta courtyardItemMeta = courtyard.getItemMeta();
 
         courtyardItemMeta.displayName(Component.text(ChatColor.GREEN + "The Courtyard"));
+        if (!player.hasPermission("warp.courtyard"))
+            courtyardItemMeta.displayName(Component.text(ChatColor.GREEN + "The Courtyard " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp courtyard");
@@ -166,7 +181,11 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Battle your way through powerful " + ChatColor.RED + "forces");
         lore.add(ChatColor.GRAY + "on your journey to reaching the " + ChatColor.RED + "Castle" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("warp.courtyard")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Quest" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Approaching the Castle");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         courtyard.setItemMeta(courtyardItemMeta);
         courtyard.setLore(lore);
@@ -174,11 +193,15 @@ public class Map extends BaseCommand {
         return courtyard;
     }
 
-    private ItemStack castle() {
-        final ItemStack castle = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDljMTgzMmU0ZWY1YzRhZDljNTE5ZDE5NGIxOTg1MDMwZDI1NzkxNDMzNGFhZjI3NDVjOWRmZDYxMWQ2ZDYxZCJ9fX0=="));
+    private ItemStack castle(Player player) {
+        ItemStack castle = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDljMTgzMmU0ZWY1YzRhZDljNTE5ZDE5NGIxOTg1MDMwZDI1NzkxNDMzNGFhZjI3NDVjOWRmZDYxMWQ2ZDYxZCJ9fX0=="));
+        if (!player.hasPermission("warp.castle"))
+            castle = new ItemStack(LOCKED);
         final ItemMeta castleItemMeta = castle.getItemMeta();
 
         castleItemMeta.displayName(Component.text(ChatColor.GREEN + "The Castle"));
+        if (!player.hasPermission("warp.castle"))
+            castleItemMeta.displayName(Component.text(ChatColor.GREEN + "The Castle " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp castle");
@@ -186,7 +209,11 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Help " + ChatColor.GREEN + "Klaus " + ChatColor.GRAY + "defeat " + ChatColor.RED + "Morden");
         lore.add(ChatColor.GRAY + "to restore the " + ChatColor.RED + "Courtyard" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("warp.castle")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Quest" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "The Village Hero");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         castle.setItemMeta(castleItemMeta);
         castle.setLore(lore);
@@ -194,18 +221,27 @@ public class Map extends BaseCommand {
         return castle;
     }
 
-    private ItemStack estate() {
-        final ItemStack estate = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzlkYmEyOWM4ODI4YTQ5MDliOTRhZWU0MmRkYTg4ZTgwNGM1YzJkOGZlZTcwODQ3ZmM2NTRjYzI3MGZmNWQzNiJ9fX0="));
+    private ItemStack estate(Player player) {
+        ItemStack estate = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzlkYmEyOWM4ODI4YTQ5MDliOTRhZWU0MmRkYTg4ZTgwNGM1YzJkOGZlZTcwODQ3ZmM2NTRjYzI3MGZmNWQzNiJ9fX0="));
+        if (!player.hasPermission("warp.Estate"))
+            estate = new ItemStack(LOCKED);
+
         final ItemMeta estateItemMeta = estate.getItemMeta();
 
         estateItemMeta.displayName(Component.text(ChatColor.GREEN + "The Estate"));
+        if (!player.hasPermission("warp.Estate"))
+            estateItemMeta.displayName(Component.text(ChatColor.GREEN + "The Estate " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp estate");
         lore.add("");
         lore.add(ChatColor.GRAY + "Fish, Farm, and defeat " + ChatColor.RED + "Goblins" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("warp.Estate")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Quest" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Conquering the Valley");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         estate.setItemMeta(estateItemMeta);
         estate.setLore(lore);
@@ -213,11 +249,15 @@ public class Map extends BaseCommand {
         return estate;
     }
 
-    private ItemStack goblinTown() {
-        final ItemStack goblinTown = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZiOTcyZTMyZDc2MWIxOTI2MjZlNWQ2ZDAxZWRjMDk0OTQwOTEwMTAzY2VhNWUyZTJkMWYyMzFhZGI3NTVkNSJ9fX0="));
+    private ItemStack goblinTown(Player player) {
+        ItemStack goblinTown = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZiOTcyZTMyZDc2MWIxOTI2MjZlNWQ2ZDAxZWRjMDk0OTQwOTEwMTAzY2VhNWUyZTJkMWYyMzFhZGI3NTVkNSJ9fX0="));
+        if (!player.hasPermission("warp.goblintown"))
+            goblinTown = new ItemStack(LOCKED);
         final ItemMeta goblinTownItemMeta = goblinTown.getItemMeta();
 
-        goblinTownItemMeta.displayName(Component.text(ChatColor.GREEN + "The goblinTown"));
+        goblinTownItemMeta.displayName(Component.text(ChatColor.GREEN + "The Goblin Town"));
+        if (!player.hasPermission("warp.goblintown"))
+            goblinTownItemMeta.displayName(Component.text(ChatColor.GREEN + "The Goblin Town " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp goblinTown");
@@ -225,7 +265,11 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Raid the " + ChatColor.RED + "Goblin Town" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and free enslaved " + ChatColor.GREEN + "Villagers" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("warp.goblintown")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Quest" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Prison Break");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         goblinTown.setItemMeta(goblinTownItemMeta);
         goblinTown.setLore(lore);
@@ -233,19 +277,27 @@ public class Map extends BaseCommand {
         return goblinTown;
     }
 
-    private ItemStack spiritGrounds() {
-        final ItemStack spiritGrounds = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI2NWQ5OWVlODgxYjc0MTQ2ZTBmMTk4MDkxMmQ0NzZmZmViYmEyOWUxNTQ5MDM4ZTFkOTQ4ZjQwMTQ0MjJlYiJ9fX0="));
+    private ItemStack spiritGrounds(Player player) {
+        ItemStack spiritGrounds = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI2NWQ5OWVlODgxYjc0MTQ2ZTBmMTk4MDkxMmQ0NzZmZmViYmEyOWUxNTQ5MDM4ZTFkOTQ4ZjQwMTQ0MjJlYiJ9fX0="));
+        if (!player.hasPermission("warp.spiritgrounds"))
+            spiritGrounds = new ItemStack(LOCKED);
         final ItemMeta spiritGroundsItemMeta = spiritGrounds.getItemMeta();
 
         spiritGroundsItemMeta.displayName(Component.text(ChatColor.GREEN + "Spirit Grounds"));
+        if (!player.hasPermission("warp.spiritgrounds"))
+            spiritGroundsItemMeta.displayName(Component.text(ChatColor.GREEN + "Spirit Grounds " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp spiritGrounds");
         lore.add("");
         lore.add(ChatColor.GRAY + "Pick Pumpkins and Melons,");
-        lore.add(ChatColor.GRAY + "while aiding the Witch " + ChatColor.GREEN + "Haze" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "while aiding the Witch " + ChatColor.GREEN + "Hazel" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("warp.spiritgrounds")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Quest" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Hunting a Witch");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         spiritGrounds.setItemMeta(spiritGroundsItemMeta);
         spiritGrounds.setLore(lore);
@@ -253,11 +305,16 @@ public class Map extends BaseCommand {
         return spiritGrounds;
     }
 
-    private ItemStack hell() {
-        final ItemStack hell = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0="));
+    private ItemStack hell(Player player) {
+        ItemStack hell = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0="));
+        if (!player.hasPermission("cmi.command.portal.hell"))
+            hell = new ItemStack(LOCKED);
+
         final ItemMeta hellItemMeta = hell.getItemMeta();
 
         hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell"));
+        if (!player.hasPermission("cmi.command.portal.hell"))
+            hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp hell");
@@ -265,7 +322,15 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Slay your way through " + ChatColor.RED + "Demons" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and eventually defeat " + ChatColor.RED + "Ghastly" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("cmi.command.portal.hell")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Level" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "5");
+        } else if (player.hasPermission("cmi.command.portal.hell") && !player.hasPermission("warp.hellbottom")) {
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        } else {
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel to Upper Hell");
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Travel to Lower Hell");
+        }
 
         hell.setItemMeta(hellItemMeta);
         hell.setLore(lore);
@@ -273,11 +338,15 @@ public class Map extends BaseCommand {
         return hell;
     }
 
-    private ItemStack theVoid() {
-        final ItemStack theVoid = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0="));
+    private ItemStack theVoid(Player player) {
+        ItemStack theVoid = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0="));
+        if (!player.hasPermission("cmi.command.portal.void"))
+            theVoid = new ItemStack(LOCKED);
         final ItemMeta voidItemMeta = theVoid.getItemMeta();
 
         voidItemMeta.displayName(Component.text(ChatColor.GREEN + "Void"));
+        if (!player.hasPermission("cmi.command.portal.void"))
+            voidItemMeta.displayName(Component.text(ChatColor.GREEN + "Void " + LOCKED_TEXT));
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.DARK_GRAY + "/warp void");
@@ -286,7 +355,11 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "Adventure through the endless Maze,");
         lore.add(ChatColor.GRAY + "and defeat the " + ChatColor.RED + "Void Enchantress" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        if (!player.hasPermission("cmi.command.portal.void")) {
+            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+            lore.add(ChatColor.GREEN + "Level" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "10");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
         theVoid.setItemMeta(voidItemMeta);
         theVoid.setLore(lore);
@@ -294,88 +367,43 @@ public class Map extends BaseCommand {
         return theVoid;
     }
 
+    private ItemStack fastTravel(Player player) {
+        final ItemStack fastTravel = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc3ZTNkMGY3ZGQ2NmEyNjFjZjk2MmFhMGMxMzMzYjQ5YmZjZjM2MzlmYWFlZWIxNzRkNTk1NzU3ZGY2MTEifX19"));
+        final ItemMeta fastTravelItemMeta = fastTravel.getItemMeta();
 
-    private ItemStack crates(Player player) {
-        final ItemStack crates = new ItemStack(Material.CHEST);
-        final ItemMeta cratesItemMeta = crates.getItemMeta();
-
-        cratesItemMeta.displayName(Component.text(ChatColor.GREEN + "Crates"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Checkout what is contained within");
-        lore.add(ChatColor.GRAY + "the " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + " found in our world!");
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
-
-        crates.setItemMeta(cratesItemMeta);
-        crates.setLore(lore);
-
-        return crates;
-    }
-
-    private ItemStack yard(Player player) {
-        final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
-        final ItemMeta yardItemMeta = yard.getItemMeta();
-
-        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Yard"));
+        fastTravelItemMeta.displayName(Component.text(ChatColor.GREEN + "Fast Travel"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Get harassed by other " + ChatColor.GOLD + "Prisoners" + ChatColor.GRAY + ",");
-        lore.add(ChatColor.GRAY + "make purchases from the " + ChatColor.GREEN + "Smugglers" + ChatColor.GRAY + ",");
-        lore.add(ChatColor.GRAY + "and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + " with " + ChatColor.GREEN + "Sarah" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "Quickly travel to more");
+        lore.add(ChatColor.GRAY + "convenient locations around");
+        lore.add(ChatColor.GRAY + "the map, by becoming a " + RanksDisplay.CONQUERER_WO_PREFIX.getName() + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
-        yard.setItemMeta(yardItemMeta);
-        yard.setLore(lore);
+        fastTravel.setItemMeta(fastTravelItemMeta);
+        fastTravel.setLore(lore);
 
-        return yard;
+        return fastTravel;
     }
 
-    private ItemStack pets(Player player) {
-        final ItemStack pets = new ItemStack(SkullCreator.itemFromBase64("ewogICJ0aW1lc3RhbXAiIDogMTYxNTkwMTYzMzU0OSwKICAicHJvZmlsZUlkIiA6ICJhYTZhNDA5NjU4YTk0MDIwYmU3OGQwN2JkMzVlNTg5MyIsCiAgInByb2ZpbGVOYW1lIiA6ICJiejE0IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2E5ZWJlNDk2OGIzMjk2NDcwM2RlMmM1NDNiZTI5NmRjZWNkNjkxNmRkZmE3NjM5NWY3N2RmZGJjNjdkMTQzODMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="));
-        final ItemMeta petsItemMeta = pets.getItemMeta();
+    private ItemStack townHall(Player player) {
+        final ItemStack townHall = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZiYTRmYmFjNjkyNWEzZWRlYTYxODczM2EyYzczYTI1MDhiNzNkNTQ1NWMyMzc2M2E2NTliYmY4YTMwZjljYSJ9fX0="));
+        final ItemMeta townHallItemMeta = townHall.getItemMeta();
 
-        petsItemMeta.displayName(Component.text(ChatColor.GREEN + "Pets"));
+        townHallItemMeta.displayName(Component.text(ChatColor.GREEN + "Town Hall"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Checkout the " + ChatColor.GREEN + "Pets " + ChatColor.GRAY + "currently in");
-        lore.add(ChatColor.GRAY + "the " + ChatColor.GREEN + "Prison" + ChatColor.GRAY + ", and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "The heart of the Town with");
+        lore.add(ChatColor.GRAY + "many " + ChatColor.YELLOW + "Vendors " + ChatColor.GRAY + "to buy from!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
-        pets.setItemMeta(petsItemMeta);
-        pets.setLore(lore);
+        townHall.setItemMeta(townHallItemMeta);
+        townHall.setLore(lore);
 
-        return pets;
+        return townHall;
     }
-
-    private ItemStack blackMarket(Player player) {
-        final ItemStack blackMarket = new ItemStack(Material.SUNFLOWER);
-        final ItemMeta blackMarketItemMeta = blackMarket.getItemMeta();
-
-        blackMarketItemMeta.displayName(Component.text(ChatColor.GREEN + "Black Market"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Purchase a wide variety of " + ChatColor.GREEN + "Gear, Items, Buffs,");
-        lore.add(ChatColor.GREEN + "Enchantments, " + ChatColor.GRAY + "and more from the " + ChatColor.YELLOW + "Vendors" + ChatColor.GRAY + "!");
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
-
-        blackMarket.setItemMeta(blackMarketItemMeta);
-        blackMarket.setLore(lore);
-
-        return blackMarket;
-    }
-
-
-    private String parsePlaceholder(Player player, String string) {
-        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
-    }
-
 }
 
