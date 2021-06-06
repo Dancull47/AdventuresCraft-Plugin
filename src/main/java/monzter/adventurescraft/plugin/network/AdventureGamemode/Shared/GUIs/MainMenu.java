@@ -87,7 +87,7 @@ public class MainMenu extends BaseCommand {
         }), 2, 3);
         display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
         display.addItem(new GuiItem(settings(player), e -> player.performCommand("settingmenu")), 4, 3);
-        display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank")), 5, 3);
+        display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank open")), 5, 3);
         display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpginv")), 6, 3);
 
         display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 3, 4);

@@ -244,7 +244,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.map.MineMap(this, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.map.ForestMap(this, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.map.FastTravel(this, guiHelper));
-        manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ProfileMenu(this, soundManager, guiHelper));
 
     }
 
