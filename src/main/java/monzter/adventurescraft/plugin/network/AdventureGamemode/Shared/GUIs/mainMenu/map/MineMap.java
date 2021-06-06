@@ -43,7 +43,7 @@ public class MineMap extends BaseCommand {
         StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
 
 
-        background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.GRAY_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
         display.addItem(new GuiItem(mineEntrance(), e -> player.performCommand("warp mineEntrance")), 1, 1);

@@ -47,16 +47,21 @@ public class Map extends BaseCommand {
         StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
 
 
-        background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.LIGHT_BLUE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
         display.addItem(new GuiItem(farm(), e -> player.performCommand("warp farm")), 1, 1);
-        display.addItem(new GuiItem(forest(), e -> player.performCommand("warp forest")), 2, 1);
+        display.addItem(new GuiItem(forest(), e -> {
+            if (e.isLeftClick())
+                player.performCommand("warp forest");
+            else if (e.isRightClick())
+                player.performCommand("forestMap");
+        }), 2, 1);
         display.addItem(new GuiItem(mines(), e -> {
             if (e.isLeftClick())
                 player.performCommand("warp mines");
             else if (e.isRightClick())
-                player.performCommand("minemap");
+                player.performCommand("mineMap");
         }), 3, 1);
         display.addItem(new GuiItem(graveyard(), e -> player.performCommand("warp graveyard")), 4, 1);
         display.addItem(new GuiItem(courtyard(player), e -> player.performCommand("warp courtyard")), 5, 1);
@@ -115,7 +120,8 @@ public class Map extends BaseCommand {
         lore.add(ChatColor.GRAY + "your way through " + ChatColor.RED + "Bees" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and uncover the lurking " + ChatColor.RED + "Dryad" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Forest Map");
 
         forest.setItemMeta(forestItemMeta);
         forest.setLore(lore);
