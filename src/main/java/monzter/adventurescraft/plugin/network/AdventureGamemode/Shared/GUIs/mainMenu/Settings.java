@@ -15,10 +15,6 @@ import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,22 +33,6 @@ public class Settings extends BaseCommand {
     private final ConsoleCommand consoleCommand;
     private final PermissionLP permissionLP;
 
-    final TextComponent setting = Component.text("You can setting to get epic rewards from our")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Store", NamedTextColor.GOLD))
-            .append(Component.text("!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
-
-    final TextComponent miningPass = Component.text("Earn ")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Special Rewards ", NamedTextColor.GOLD))
-            .append(Component.text("while mining through the Prison!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store's Battle Pass!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
-
     public Settings(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, PermissionLP permissionLP) {
         this.plugin = plugin;
         this.soundManager = soundManager;
@@ -63,19 +43,26 @@ public class Settings extends BaseCommand {
 
     @CommandAlias("setting|settingMenu|settings")
     public void setting(Player player) {
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Settings"));
+        ChestGui gui = new ChestGui(5, guiHelper.guiName("Settings"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
+        OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
 
 
-        background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.GRAY_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
 
-        display.addItem(new GuiItem(stuck(player), e -> player.performCommand("warp Yard")), 2, 1);
+        display.addItem(new GuiItem(stuck(player), e -> player.performCommand("spawn")), 2, 1);
         display.addItem(new GuiItem(battleTag(player), e -> player.performCommand("BattleTags")), 3, 1);
+        display.addItem(new GuiItem(questCompass(player), e -> {
+            if (e.isLeftClick()) {
+                player.performCommand("calebcompass show");
+            } else if (e.isRightClick()) {
+                player.performCommand("calebcompass hide");
+            }
+        }), 4, 1);
         display.addItem(new GuiItem(tips(player), e -> {
             if (player.hasPermission("TIPS"))
                 permissionLP.takePermission(player, "TIPS");
@@ -85,7 +72,25 @@ public class Settings extends BaseCommand {
         }), 5, 1);
         display.addItem(new GuiItem(safeDrop(player), e -> player.performCommand("safeDrop")), 6, 1);
 
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
+        display.addItem(new GuiItem(resourcePack(player), e -> {
+            if (player.hasPermission("RP.DOWNLOAD"))
+                permissionLP.takePermission(player, "RP.DOWNLOAD");
+            else
+                permissionLP.givePermission(player, "RP.DOWNLOAD");
+            setting(player);
+
+        }), 3, 2);
+
+        display.addItem(new GuiItem(music(player), e -> {
+            if (player.hasPermission("Music.ON"))
+                permissionLP.takePermission(player, "Music.ON");
+            else
+                permissionLP.givePermission(player, "Music.ON");
+            setting(player);
+
+        }), 5, 2);
+
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -101,7 +106,7 @@ public class Settings extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Return to the " + ChatColor.YELLOW + "Yard!");
+        lore.add(ChatColor.GRAY + "Return to the " + ChatColor.YELLOW + "Town!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 
@@ -115,12 +120,12 @@ public class Settings extends BaseCommand {
         final ItemStack battleTag = new ItemStack(Material.NAME_TAG);
         final ItemMeta battleTagItemMeta = battleTag.getItemMeta();
 
-        battleTagItemMeta.displayName(Component.text(ChatColor.GREEN + "Explorer Tags"));
+        battleTagItemMeta.displayName(Component.text(ChatColor.GREEN + "Battle Tags"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "You can earn " + ChatColor.YELLOW + "Explorer Tags " + ChatColor.GRAY + "while");
-        lore.add(ChatColor.YELLOW + "Exploring " + ChatColor.GRAY + "and " + ChatColor.YELLOW + "earning Achievements" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "You can earn " + ChatColor.YELLOW + "Battle Tags " + ChatColor.GRAY + "while");
+        lore.add(ChatColor.YELLOW + "Adventuring " + ChatColor.GRAY + "and " + ChatColor.YELLOW + "earning Achievements" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
@@ -173,5 +178,73 @@ public class Settings extends BaseCommand {
 
         return tips;
     }
+
+    private ItemStack questCompass(Player player) {
+        final ItemStack tips = new ItemStack(Material.COMPASS);
+        final ItemMeta tipsItemMeta = tips.getItemMeta();
+
+        tipsItemMeta.displayName(Component.text(ChatColor.GREEN + "Quest Compass"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Enable");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Disable");
+
+        tips.setItemMeta(tipsItemMeta);
+        tips.setLore(lore);
+
+        return tips;
+    }
+
+    private ItemStack resourcePack(Player player) {
+        final ItemStack safeDrop = new ItemStack(Material.PAINTING);
+        final ItemMeta safeDropItemMeta = safeDrop.getItemMeta();
+
+        safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Resource Pack"));
+        if (player.hasPermission("RP.DOWNLOAD"))
+            safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Resource Pack" + ChatColor.DARK_GRAY + " - " + ChatColor.GREEN + "ON"));
+        else
+            safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Resource Pack" + ChatColor.DARK_GRAY + " - " + ChatColor.RED + "OFF"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Download the Resource Pack upon logging in!");
+        lore.add("");
+        if (player.hasPermission("RP.DOWNLOAD"))
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
+        else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
+
+        safeDrop.setItemMeta(safeDropItemMeta);
+        safeDrop.setLore(lore);
+
+        return safeDrop;
+    }
+
+    private ItemStack music(Player player) {
+        final ItemStack safeDrop = new ItemStack(Material.JUKEBOX);
+        final ItemMeta safeDropItemMeta = safeDrop.getItemMeta();
+
+        safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Music"));
+        if (player.hasPermission("Music.ON"))
+            safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Music" + ChatColor.DARK_GRAY + " - " + ChatColor.GREEN + "ON"));
+        else
+            safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Music" + ChatColor.DARK_GRAY + " - " + ChatColor.RED + "OFF"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Download the Music upon logging in!");
+        lore.add("");
+        if (player.hasPermission("Music.ON"))
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
+        else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
+
+        safeDrop.setItemMeta(safeDropItemMeta);
+        safeDrop.setLore(lore);
+
+        return safeDrop;
+    }
+
 }
 

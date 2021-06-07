@@ -171,7 +171,7 @@ public class MainMenu extends BaseCommand {
         final ItemStack backpack = new ItemStack(Material.CHEST);
         final ItemMeta backpackItemMeta = backpack.getItemMeta();
 
-        backpackItemMeta.displayName(Component.text(ChatColor.GREEN + "Backpack"));
+        backpackItemMeta.displayName(Component.text(ChatColor.GREEN + "Farming"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");

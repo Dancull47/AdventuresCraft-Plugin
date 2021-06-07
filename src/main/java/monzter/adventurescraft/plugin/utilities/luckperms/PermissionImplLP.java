@@ -28,17 +28,15 @@ public class PermissionImplLP implements PermissionLP {
 
     @Override
     public void givePermission(Player player, String permission) {
-        givePermission(player, permission, plugin.CONTEXT);
+            givePermission(player, permission, plugin.CONTEXT);
     }
 
     @Override
     public void givePermission(Player player, String permission, String context) {
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-        this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
             user.data().add(Node.builder(permission).withContext(DefaultContextKeys.SERVER_KEY, context).value(true).build());
             luckPerms.getUserManager().saveUser(user);
             plugin.getLogger().info(permission + ChatColor.GREEN + " has been saved for " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + "!");
-        });
     }
 
     @Override
@@ -78,24 +76,21 @@ public class PermissionImplLP implements PermissionLP {
 
     @Override
     public void takePermission(Player player, String permission) {
-        takePermission(player, permission, plugin.CONTEXT);
+            takePermission(player, permission, plugin.CONTEXT);
     }
 
     @Override
     public void takePermission(Player player, String permission, String context) {
         User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-        this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
             user.data().add(Node.builder(permission).withContext(DefaultContextKeys.SERVER_KEY, context).value(false).build());
             luckPerms.getUserManager().saveUser(user);
             plugin.getLogger().info(permission + ChatColor.GREEN + " has been removed for " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + "!");
-        });
     }
 
     public void onNodeAdd(NodeAddEvent event) {
         User target = (User) event.getTarget();
         Node node = event.getNode();
 
-        this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
             if (node.getContexts().isEmpty() && node.getExpiry() == null) {
                 target.data().remove(node);
                 if (node.getValue() && node.getExpiry() == null)
@@ -106,7 +101,6 @@ public class PermissionImplLP implements PermissionLP {
                 target.data().remove(node);
                 giveTempPermission(Bukkit.getPlayer(target.getUniqueId()), node.getKey(), plugin.CONTEXT, (int) node.getExpiryDuration().toSeconds(), TimeUnit.SECONDS);
             }
-        });
     }
 
 }

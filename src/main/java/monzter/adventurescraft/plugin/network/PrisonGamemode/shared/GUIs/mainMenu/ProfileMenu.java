@@ -391,7 +391,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "of weight you can hold while mining!");
         lore.add("");
         lore.add(ChatColor.GRAY + "Each item has its own weight, which");
-        lore.add(ChatColor.GRAY + "can be viewed within your " + ChatColor.GOLD + "/Backpack" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "can be viewed within your " + ChatColor.GOLD + "/Farming" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(PrisonStatsDisplay.MAX_WEIGHT_MULTIPLIER.getName() + ChatColor.GRAY + " = " + ChatColor.YELLOW + parsePlaceholder(player, "ac_Stat_MaxWeightMultiplier"));
 

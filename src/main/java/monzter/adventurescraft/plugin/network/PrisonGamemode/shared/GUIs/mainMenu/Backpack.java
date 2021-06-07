@@ -42,9 +42,9 @@ public class Backpack extends BaseCommand {
         this.consoleCommand = consoleCommand;
     }
 
-    @CommandAlias("Backpack|Backpacks")
+    @CommandAlias("Farming|Backpacks")
     private void backpack(Player player) {
-        final ChestGui gui = new ChestGui(6, "Backpack");
+        final ChestGui gui = new ChestGui(6, "Farming");
         final List<WeightPrices> guiContents = Arrays.asList(WeightPrices.values());
         createMenu(gui, guiContents, player);
         gui.show(player);

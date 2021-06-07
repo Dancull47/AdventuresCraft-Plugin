@@ -52,9 +52,9 @@ public class DropTablesView extends BaseCommand {
     private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
     @Subcommand("backpack")
-    @CommandAlias("Backpack")
+    @CommandAlias("Farming")
     private void backpack(Player player) {
-        final ChestGui gui = new ChestGui(6, "Backpack");
+        final ChestGui gui = new ChestGui(6, "Farming");
         final List<WeightPrices> guiContents = Arrays.asList(WeightPrices.values());
         createMenu(gui, guiContents, player);
         gui.show(player);
