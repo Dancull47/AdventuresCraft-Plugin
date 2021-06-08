@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Farming extends BaseCommand {
+public class Foraging extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
@@ -47,10 +47,9 @@ public class Farming extends BaseCommand {
     private final MMOItems mmoItems;
     private final ItemAdder itemAdder;
 
-    public final List<ItemStack> FARMING_MATERIALS = Arrays.asList(new ItemStack(Material.WHEAT_SEEDS), new ItemStack(Material.WHEAT), new ItemStack(Material.CARROT), new ItemStack(Material.POTATO), new ItemStack(Material.SUGAR_CANE), new ItemStack(Material.BEETROOT),
-            new ItemStack(Material.MELON_SLICE), new ItemStack(Material.PUMPKIN), new ItemStack(Material.RED_MUSHROOM), new ItemStack(Material.BROWN_MUSHROOM));
+    public final List<ItemStack> FORAGING_MATERIALS;
 
-    public Farming(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Pickup pickup, BetonPointsManager betonPointsManager, PermissionLP permissionLP, MMOItems mmoItems, ItemAdder itemAdder) {
+    public Foraging(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Pickup pickup, BetonPointsManager betonPointsManager, PermissionLP permissionLP, MMOItems mmoItems, ItemAdder itemAdder) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
@@ -60,21 +59,23 @@ public class Farming extends BaseCommand {
         this.permissionLP = permissionLP;
         this.mmoItems = mmoItems;
         this.itemAdder = itemAdder;
+        FORAGING_MATERIALS = Arrays.asList(new ItemStack(Material.OAK_LOG), new ItemStack(Material.SPRUCE_LOG), new ItemStack(Material.DARK_OAK_LOG), new ItemStack(Material.BIRCH_LOG), new ItemStack(Material.ACACIA_LOG), new ItemStack(Material.JUNGLE_LOG),
+                new ItemStack(Material.HONEYCOMB));
     }
 
 
-    @CommandAlias("FarmingResources")
+    @CommandAlias("ForagingResources")
     private void createMenu(Player player) {
-        final ChestGui gui = new ChestGui(5, "Farming Resources");
+        final ChestGui gui = new ChestGui(4, "Foraging Resources");
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        PaginatedPane page = new PaginatedPane(0, 0, 9, 5);
-        OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
+        PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
+        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
-        StaticPane backButton = new StaticPane(4, 4, 1, 1, Pane.Priority.HIGHEST);
+        StaticPane backButton = new StaticPane(4, 3, 1, 1, Pane.Priority.HIGHEST);
 
-        background.addItem(new GuiItem(guiHelper.background(Material.LIME_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
         page.addPane(0, background);
@@ -82,7 +83,7 @@ public class Farming extends BaseCommand {
 
         int i = 0;
 
-        for (ItemStack item : FARMING_MATERIALS) {
+        for (ItemStack item : FORAGING_MATERIALS) {
             if (i < 28) {
                 display.addItem(itemCreator(player, new ItemStack(item)));
                 i++;
@@ -151,76 +152,9 @@ public class Farming extends BaseCommand {
             if (!e.isShiftClick() && e.isRightClick() && amount >= 64)
                 withdraw(player, itemStack, 64);
 
-            player.performCommand("FarmingResources");
+            player.performCommand("ForagingResources");
         });
     }
-
-//    private GuiItem itemCreator(Player player, ItemStack itemStack) {
-//        final ItemStack forest = itemStack;
-//        final ItemMeta forestItemMeta = forest.getItemMeta();
-//        int amount;
-//        String permission;
-//
-//        String mmoItemID = mmoItems.getID(NBTItem.get(itemStack));
-//        if (mmoItemID == null) {
-//            permission = itemStack.getType().toString() + ".COLLECT";
-//            if (player.hasPermission(permission))
-//                forestItemMeta.displayName(Component.text(ChatColor.GREEN + WordUtils.capitalizeFully(itemStack.getType().toString().replace("_", " ")) + ChatColor.DARK_GRAY + " - " + ChatColor.GREEN + "ON"));
-//            else
-//                forestItemMeta.displayName(Component.text(ChatColor.GREEN + WordUtils.capitalizeFully(itemStack.getType().toString().replace("_", " ")) + ChatColor.DARK_GRAY + " - " + ChatColor.RED + "OFF"));
-//        } else {
-//            permission = mmoItemID + ".COLLECT";
-//            if (player.hasPermission(permission))
-//                forestItemMeta.displayName(Component.text(ChatColor.GREEN + itemStack.getItemMeta().getDisplayName() + ChatColor.DARK_GRAY + " - " + ChatColor.GREEN + "ON"));
-//            else
-//                forestItemMeta.displayName(Component.text(ChatColor.GREEN + itemStack.getItemMeta().getDisplayName() + ChatColor.DARK_GRAY + " - " + ChatColor.RED + "OFF"));
-//        }
-//        if (mmoItemID == null)
-//            amount = Integer.valueOf(parsePlaceholder(player, "betonquest_items:point." + itemStack.getType().toString() + ".amount"));
-//        else
-//            amount = Integer.valueOf(parsePlaceholder(player, "betonquest_items:point." + mmoItemID + ".amount"));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        lore.add(ChatColor.GRAY + "You have " + ChatColor.GOLD + amount + ChatColor.GRAY + " stored!");
-//        lore.add("");
-//        if (amount >= 1)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Withdraw 1");
-//        if (amount >= 64)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Withdraw 64");
-//        if (amount >= 512)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Withdraw 512");
-//        if (player.hasPermission(permission))
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to " + ChatColor.RED + "Disable Auto-Pickup");
-//        else
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to " + ChatColor.GREEN + "Enable Auto-Pickup");
-//
-//        forest.setItemMeta(forestItemMeta);
-//        forest.setLore(lore);
-//
-//        return new GuiItem(forest, e -> {
-//            if (e.isShiftClick() && e.isLeftClick() && player.hasPermission(permission))
-//                permissionLP.takePermission(player, permission);
-//            else if (e.isShiftClick() && e.isLeftClick() && !player.hasPermission(permission))
-//                permissionLP.givePermission(player, permission);
-//
-//            plugin.getLogger().info(e.getClick().toString());
-//            plugin.getLogger().info(String.valueOf(amount));
-//            plugin.getLogger().info(itemStack.getItemMeta().getDisplayName());
-//
-//
-//            if (e.isShiftClick() && e.isRightClick() && amount >= 512)
-//                withdraw(player, itemStack, 512);
-//            if (e.isLeftClick() && amount >= 1) {
-//                withdraw(player, itemStack, 1);
-//            }
-//            if (e.isRightClick() && amount >= 64)
-//                withdraw(player, itemStack, 64);
-//            player.performCommand("Farmings");
-//
-//        });
-//
-//    }
 
     private void withdraw(Player player, ItemStack itemStack, int withdrawAmount) {
         int playerAmount;

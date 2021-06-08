@@ -17,24 +17,22 @@ public class Pickup implements Listener {
     private final AdventuresCraft plugin;
     private final BetonPointsManager betonPointsManager;
     private final net.Indyuce.mmoitems.MMOItems mmoItems;
-    public final List<ItemStack> MINING_MATERIALS;
 
-    public final List<Material> FARMING_MATERIALS = Arrays.asList(Material.WHEAT_SEEDS, Material.WHEAT, Material.CARROTS, Material.POTATOES, Material.SUGAR_CANE, Material.BEETROOT,
+    public final List<Material> MINING_MATERIALS = Arrays.asList(Material.STONE, Material.COBBLESTONE, Material.COAL, Material.IRON_INGOT, Material.GOLD_INGOT, Material.REDSTONE,
+            Material.LAPIS_LAZULI, Material.DIAMOND, Material.EMERALD, Material.END_STONE, Material.OBSIDIAN);
+    public final List<Material> FARMING_MATERIALS = Arrays.asList(Material.WHEAT_SEEDS, Material.WHEAT, Material.CARROT, Material.POTATO, Material.SUGAR_CANE, Material.BEETROOT,
             Material.MELON_SLICE, Material.PUMPKIN, Material.RED_MUSHROOM, Material.BROWN_MUSHROOM);
     public final List<Material> FORAGING_MATERIALS = Arrays.asList(Material.OAK_LOG, Material.SPRUCE_LOG, Material.DARK_OAK_LOG, Material.BIRCH_LOG, Material.ACACIA_LOG, Material.JUNGLE_LOG,
             Material.HONEYCOMB);
-    public final List<Material> SLAYER_MATERIALS = Arrays.asList(Material.ROTTEN_FLESH, Material.BONE, Material.STONE_BUTTON, Material.ARROW, Material.SPIDER_EYE, Material.STRING,
+    public final List<Material> SLAYER_MATERIALS = Arrays.asList(Material.ROTTEN_FLESH, Material.BONE, Material.ARROW, Material.SPIDER_EYE, Material.STRING,
             Material.GUNPOWDER, Material.SLIME_BALL, Material.ENDER_PEARL, Material.GHAST_TEAR, Material.MAGMA_CREAM, Material.BLAZE_ROD);
-
-    private final List<Material> MMOItems = Arrays.asList(Material.STONE_BUTTON);
-
+    List<Material> MMOItems;
 
     public Pickup(AdventuresCraft plugin, BetonPointsManager betonPointsManager, net.Indyuce.mmoitems.MMOItems mmoItems) {
         this.plugin = plugin;
         this.betonPointsManager = betonPointsManager;
         this.mmoItems = mmoItems;
-        MINING_MATERIALS = Arrays.asList(new ItemStack(Material.STONE), mmoItems.getItem("MATERIAL", "BONE_FRAGMENT"), new ItemStack(Material.COBBLESTONE), new ItemStack(Material.COAL), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.REDSTONE),
-                new ItemStack(Material.LAPIS_LAZULI), new ItemStack(Material.DIAMOND), new ItemStack(Material.EMERALD), new ItemStack(Material.END_STONE), new ItemStack(Material.OBSIDIAN));
+        MMOItems = Arrays.asList(mmoItems.getItem("MATERIAL", "BONE_FRAGMENT").getType());
     }
 
 
@@ -48,11 +46,17 @@ public class Pickup implements Listener {
                     if (MINING_MATERIALS.contains(event.getItem().getItemStack().getType()) || FARMING_MATERIALS.contains(event.getItem().getItemStack().getType()) ||
                             FORAGING_MATERIALS.contains(event.getItem().getItemStack().getType()) || SLAYER_MATERIALS.contains(event.getItem().getItemStack().getType()))
                         if (!MMOItems.contains(event.getItem().getItemStack().getType())) {
-                            addPoint(player, event.getItem().getItemStack().getType().toString(), event.getItem().getItemStack().getAmount());
-                            event.getItem().remove();
+                            if (player.hasPermission(event.getItem().getItemStack().getType().toString() + ".COLLECT")) {
+                                addPoint(player, event.getItem().getItemStack().getType().toString(), event.getItem().getItemStack().getAmount());
+                                event.getItem().remove();
+                                event.setCancelled(true);
+                            }
                         } else {
-                            addPoint(player, event.getItem().getItemStack());
-                            event.getItem().remove();
+                            if (player.hasPermission(mmoItems.getID(NBTItem.get(event.getItem().getItemStack())) + ".COLLECT")) {
+                                addPoint(player, event.getItem().getItemStack());
+                                event.getItem().remove();
+                                event.setCancelled(true);
+                            }
                         }
         }
     }
