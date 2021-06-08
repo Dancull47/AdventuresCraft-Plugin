@@ -10,6 +10,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -117,6 +118,7 @@ public class GUIHelperImpl implements GUIHelper {
     public ItemStack itemCreator(Material material, String name, String[] lore) {
         ItemStack complete = new ItemStack(material);
         final ItemMeta completeItemMeta = complete.getItemMeta();
+        completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         completeItemMeta.setDisplayName(name);
 
@@ -134,6 +136,7 @@ public class GUIHelperImpl implements GUIHelper {
     public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
         final ItemMeta completeItemMeta = complete.getItemMeta();
+        completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         completeItemMeta.setDisplayName(name);
 

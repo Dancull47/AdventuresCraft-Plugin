@@ -1,7 +1,6 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Dependency;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
@@ -65,7 +64,7 @@ public class Farming extends BaseCommand {
     private final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
     private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
-    @CommandAlias("Farming|Farmings")
+//    @CommandAlias("Farming|Farmings")
     private void createMenu(Player player) {
         final ChestGui gui = new ChestGui(6, "Farming");
         backgroundItemMeta.displayName(Component.text(" "));

@@ -400,8 +400,7 @@ public class Placeholder extends PlaceholderExpansion {
         return "500";
     }
 
-    public String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor,
-                                 ChatColor notCompletedColor) {
+    public String getProgressBar(int current, int max, int totalBars, char symbol, ChatColor completedColor, ChatColor notCompletedColor) {
         float percent = (float) current / max;
         int progressBars = (int) (totalBars * percent);
 

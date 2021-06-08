@@ -18,6 +18,8 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.Farming;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
@@ -78,6 +80,8 @@ import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobSpawnImpl;
 import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobsSpawn;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormatImpl;
+import monzter.adventurescraft.plugin.utilities.text.ProgressBar;
+import monzter.adventurescraft.plugin.utilities.text.ProgressBarImpl;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import monzter.adventurescraft.plugin.utilities.vault.EconomyImpl;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
@@ -141,6 +145,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private AreaCheck areaCheck;
     private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
+    private ProgressBar progressBar;
     private Xur xur;
     private Pickup pickup;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
@@ -250,6 +255,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ProfileMenu(this, soundManager, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Farming(this, soundManager, guiHelper, consoleCommand, pickup, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
+        manager.registerCommand(new Professions(this, soundManager, guiHelper, progressBar));
+        manager.registerCommand(new Farming(this, soundManager, guiHelper, progressBar));
 
     }
 
@@ -389,6 +396,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
         achievementGUIBuilder = new AchievementItemBuilder(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand);
         pickup = new Pickup(this, betonPointsManager, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
+        progressBar = new ProgressBarImpl();
     }
 
     private boolean setupEconomy() {
