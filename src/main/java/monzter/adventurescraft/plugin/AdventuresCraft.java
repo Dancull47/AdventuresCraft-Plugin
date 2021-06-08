@@ -19,7 +19,9 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ResourceCollector;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.Farming;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.Farmer;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
@@ -53,9 +55,6 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.quests.
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Armor;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Tools;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Weight;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.Mercenary;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtils;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.npcs.PurchaseUtilsImpl;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.*;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.InteractPetEgg;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.InteractPets;
@@ -259,7 +258,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Foraging(this, soundManager, guiHelper, consoleCommand, pickup, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), itemAdder));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Mining(this, soundManager, guiHelper, consoleCommand, pickup, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), itemAdder));
         manager.registerCommand(new Professions(this, soundManager, guiHelper, progressBar));
+        manager.registerCommand(new ResourceCollector(this, soundManager, guiHelper, progressBar));
         manager.registerCommand(new Farming(this, soundManager, guiHelper, progressBar));
+
+        manager.registerCommand(new Farmer(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
 
     }
 
@@ -337,7 +339,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Shop GUIs
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Weight(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, betonPointsManager, permissionLP));
-        manager.registerCommand(new Mercenary(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils));
         manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
@@ -378,7 +379,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         consoleCommand = new ConsoleCommandImpl(getServer());
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl(numberFormat);
-        purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat);
+        purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
         itemAdder = new ItemAdderImpl();
         areaCheck = new AreaCheckImpl(displayNameFlag);
         calculateEnchantments = new CalculateEnchantmentsImpl();

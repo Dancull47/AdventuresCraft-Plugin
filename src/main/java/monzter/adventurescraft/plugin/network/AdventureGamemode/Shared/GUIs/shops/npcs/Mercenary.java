@@ -13,6 +13,7 @@ import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
+import monzter.adventurescraft.plugin.utilities.general.PurchaseUtils;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -93,14 +94,14 @@ public class Mercenary extends BaseCommand {
                     mercenaryItemItemMeta.lore(lore);
                     mercenaryItem.setItemMeta(mercenaryItemItemMeta);
                     display.addItem(new GuiItem(mercenaryItem, e -> {
-                        if (e.isLeftClick() && !e.isShiftClick())
-                            purchaseUtils.purchase(player, mercenary.getMaterial(), 1, mercenary.getPrice());
-                        if (e.isRightClick() && !e.isShiftClick())
-                            purchaseUtils.purchase(player, mercenary.getMaterial(), 16, mercenary.getPrice());
-                        if (e.isLeftClick() && e.isShiftClick())
-                            purchaseUtils.purchase(player, mercenary.getMaterial(), 32, mercenary.getPrice());
-                        if (e.isRightClick() && e.isShiftClick())
-                            purchaseUtils.purchase(player, mercenary.getMaterial(), 64, mercenary.getPrice());
+//                        if (e.isLeftClick() && !e.isShiftClick())
+//                            purchaseUtils.purchase(player, mercenary.getMaterial(), 1, mercenary.getPrice());
+//                        if (e.isRightClick() && !e.isShiftClick())
+//                            purchaseUtils.purchase(player, mercenary.getMaterial(), 16, mercenary.getPrice());
+//                        if (e.isLeftClick() && e.isShiftClick())
+//                            purchaseUtils.purchase(player, mercenary.getMaterial(), 32, mercenary.getPrice());
+//                        if (e.isRightClick() && e.isShiftClick())
+//                            purchaseUtils.purchase(player, mercenary.getMaterial(), 64, mercenary.getPrice());
                     }));
                 }
             }

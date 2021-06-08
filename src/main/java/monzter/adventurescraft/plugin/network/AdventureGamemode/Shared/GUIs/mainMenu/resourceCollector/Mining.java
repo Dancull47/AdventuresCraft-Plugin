@@ -89,7 +89,7 @@ public class Mining extends BaseCommand {
             }
         }
 
-        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 0, 0);
+        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("resourceCollector")), 0, 0);
 
         gui.addPane(page);
         gui.addPane(backButton);

@@ -45,11 +45,11 @@ public class MainMenu extends BaseCommand {
     @CommandAlias("Menu|MainMenu|Main")
     public void mainMenu(Player player) {
 
-        ChestGui gui = new ChestGui(5, guiHelper.guiName("Main Menu"));
+        ChestGui gui = new ChestGui(6, guiHelper.guiName("Main Menu"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
+        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
 
 
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
@@ -99,7 +99,7 @@ public class MainMenu extends BaseCommand {
         }), 4, 4);
         display.addItem(new GuiItem(social(player), e -> player.performCommand("social")), 5, 4);
 
-        display.addItem(new GuiItem(lobby(player), e -> player.performCommand("lobby")), 8, 5);
+        display.addItem(new GuiItem(resourceCollector(player), e -> player.performCommand("resourceCollector")), 4, 5);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -483,6 +483,25 @@ public class MainMenu extends BaseCommand {
         return lobby;
     }
 
+    private ItemStack resourceCollector(Player player) {
+        final ItemStack bossdex = new ItemStack(Material.HOPPER);
+        final ItemMeta bossdexItemMeta = bossdex.getItemMeta();
+
+        bossdexItemMeta.displayName(Component.text(ChatColor.GREEN + "Resource Collector"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Automatically deposit items you");
+        lore.add(ChatColor.GRAY + "pickup into a virtual inventory,");
+        lore.add(ChatColor.GRAY + "so your inventory doesn't get full!");
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        bossdex.setItemMeta(bossdexItemMeta);
+        bossdex.setLore(lore);
+
+        return bossdex;
+    }
 
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
