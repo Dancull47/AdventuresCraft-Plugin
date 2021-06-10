@@ -37,6 +37,11 @@ public class GeneralCommands extends BaseCommand implements Listener {
         }
     }
 
+    @CommandAlias("sell|sellall")
+    private void sell(Player player) {
+        consoleCommand.consoleCommand("ushop open " + player.getName());
+    }
+
     @CommandAlias("ActiveQuests")
     private void activeQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
