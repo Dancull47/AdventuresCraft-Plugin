@@ -11,6 +11,8 @@ public enum Shops {
     WIZARD("Wizard"),
     ESTATE("Estate"),
     CAT_LADY("Cat Lady"),
+
+    ENCHANTER("Enchanter"),
     ;
 
     public final String name;

@@ -26,20 +26,49 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
     }
 
     @Override
-    public void purchase(Player player, ItemStack itemStack, int amount, double price) {
-        if (economy.hasMoney(player, price)) {
+    public void purchase(Player player, ItemStack itemStack, int amount, double coinPrice) {
+        if (economy.hasMoney(player, coinPrice)) {
             if (!fullInventory.fullInventory(player)) {
-                economy.takeMoney(player, price * amount);
+                economy.takeMoney(player, coinPrice * amount);
                 String id = mmoItems.getID(NBTItem.get(itemStack));
                 if (id == null) {
                     player.getInventory().addItem(new ItemStack(itemStack.getType(), amount));
-                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW + WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(price * amount) + ChatColor.GREEN + "!");
+                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                            WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for " +
+                            ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + "!");
                 } else {
                     player.getInventory().addItem(mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), id).asQuantity(amount));
-                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW + mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), mmoItems.getID(NBTItem.get(itemStack))).getItemMeta().getDisplayName() + ChatColor.GREEN + " for " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(price * amount) + ChatColor.GREEN + "!");
+                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                            mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), mmoItems.getID(NBTItem.get(itemStack))).getItemMeta().getDisplayName() +
+                            ChatColor.GREEN + " for " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + ChatColor.GREEN + "!");
                 }
                 soundManager.soundYes(player, 1);
             }
         }
+    }
+
+    @Override
+    public void purchase(Player player, ItemStack itemStack, int amount, double coinPrice, int expPrice) {
+        if (economy.hasMoney(player, coinPrice))
+            if (player.getLevel() >= expPrice)
+                if (!fullInventory.fullInventory(player)) {
+                    economy.takeMoney(player, coinPrice * amount);
+                    player.setLevel(player.getLevel() - (expPrice * amount));
+                    String id = mmoItems.getID(NBTItem.get(itemStack));
+                    if (id == null) {
+                        player.getInventory().addItem(new ItemStack(itemStack.getType(), amount));
+                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                                WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for " +
+                                ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + ChatColor.GREEN + ", "
+                                + ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(expPrice * amount) + ChatColor.GREEN + "!");
+                    } else {
+                        player.getInventory().addItem(mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), id).asQuantity(amount));
+                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                                mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), mmoItems.getID(NBTItem.get(itemStack))).getItemMeta().getDisplayName() +
+                                ChatColor.GREEN + " for " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + ChatColor.GREEN + ", " +
+                                ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(expPrice * amount) + ChatColor.GREEN + "!");
+                    }
+                    soundManager.soundYes(player, 1);
+                }
     }
 }
