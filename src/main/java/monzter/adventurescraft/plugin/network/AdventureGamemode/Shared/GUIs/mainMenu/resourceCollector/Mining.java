@@ -13,7 +13,6 @@ import io.lumine.mythic.lib.api.item.NBTItem;
 import io.lumine.mythic.utils.Schedulers;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
@@ -41,21 +40,20 @@ public class Mining extends BaseCommand {
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
-    private final Pickup pickup;
     private final BetonPointsManager betonPointsManager;
     private final PermissionLP permissionLP;
     private final MMOItems mmoItems;
     private final ItemAdder itemAdder;
 
+
     public final List<ItemStack> MINING_MATERIALS = Arrays.asList(new ItemStack(Material.STONE), new ItemStack(Material.COBBLESTONE), new ItemStack(Material.COAL), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.REDSTONE),
             new ItemStack(Material.LAPIS_LAZULI), new ItemStack(Material.DIAMOND), new ItemStack(Material.EMERALD), new ItemStack(Material.END_STONE), new ItemStack(Material.OBSIDIAN));
 
-    public Mining(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Pickup pickup, BetonPointsManager betonPointsManager, PermissionLP permissionLP, MMOItems mmoItems, ItemAdder itemAdder) {
+    public Mining(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, BetonPointsManager betonPointsManager, PermissionLP permissionLP, MMOItems mmoItems, ItemAdder itemAdder) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
-        this.pickup = pickup;
         this.betonPointsManager = betonPointsManager;
         this.permissionLP = permissionLP;
         this.mmoItems = mmoItems;
