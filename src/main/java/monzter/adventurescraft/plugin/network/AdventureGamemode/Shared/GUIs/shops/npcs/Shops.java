@@ -4,6 +4,7 @@ public enum Shops {
     FARMER("Farmer"),
     MERCENARY("Mercenary"),
     LUMBERJACK("Lumberjack"),
+    MINING("Mining"),
     LANDSCAPER("Landscaper"),
     DEMON("Demon"),
     JOY("Joy"),

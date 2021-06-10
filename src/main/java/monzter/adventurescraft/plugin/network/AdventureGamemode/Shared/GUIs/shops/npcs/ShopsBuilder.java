@@ -61,6 +61,14 @@ public class ShopsBuilder extends BaseCommand {
         this.permissionLP = permissionLP;
     }
 
+    @CommandAlias("MiningShop")
+    private void miningShop(Player player) {
+        int height = 5;
+        final ChestGui gui = new ChestGui(height, "Mining Shop");
+        final List<ItemList> guiContents = ItemList.getShop(Shops.MINING);
+        menuBase(gui, guiContents, player, "Mining", height, Material.BLACK_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
     @CommandAlias("FarmShop")
     private void farmShop(Player player) {
         int height = 5;
@@ -69,6 +77,7 @@ public class ShopsBuilder extends BaseCommand {
         menuBase(gui, guiContents, player, "Farm", height, Material.LIME_STAINED_GLASS_PANE);
         gui.show(player);
     }
+
     @CommandAlias("ForestShop|LumberjackShop")
     private void lumberjackShop(Player player) {
         int height = 6;
@@ -77,6 +86,7 @@ public class ShopsBuilder extends BaseCommand {
         menuBase(gui, guiContents, player, "Lumberjack", height, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
     }
+
     @CommandAlias("MercenaryShop|SlayerShop")
     private void mercenaryShop(Player player) {
         int height = 5;
@@ -85,6 +95,7 @@ public class ShopsBuilder extends BaseCommand {
         menuBase(gui, guiContents, player, "Mercenary", height, Material.RED_STAINED_GLASS_PANE);
         gui.show(player);
     }
+
     @CommandAlias("EstateShop|Farm2Shop")
     private void estateShop(Player player) {
         int height = 5;
@@ -94,12 +105,40 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
-    private void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height, Material backgroundColor) {
+    @CommandAlias("JoyShop")
+    private void joyShop(Player player) {
+        int height = 4;
+        final ChestGui gui = new ChestGui(height, "Joy Shop");
+        final List<ItemList> guiContents = ItemList.getShop(Shops.JOY);
+        menuBase(gui, guiContents, player, "Joy", height, Material.PINK_STAINED_GLASS_PANE, 2);
+        gui.show(player);
+    }
+
+    @CommandAlias("CatLadyShop")
+    private void catLadyShop(Player player) {
+        int height = 4;
+        final ChestGui gui = new ChestGui(height, "Cat Lady Shop");
+        final List<ItemList> guiContents = ItemList.getShop(Shops.CAT_LADY);
+        menuBase(gui, guiContents, player, "CatLady", height, Material.BROWN_STAINED_GLASS_PANE, 4);
+        gui.show(player);
+    }
+
+    private void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height,
+                          Material backgroundColor) {
+        menuBase(gui, guiContents, player, shop, height, backgroundColor, 1, 1);
+    }
+
+    private void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height,
+                          Material backgroundColor, int displayX) {
+        menuBase(gui, guiContents, player, shop, height, backgroundColor, displayX, 1);
+    }
+
+    private void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height, Material backgroundColor, int displayX, int displayY) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, height);
         OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(1, 1, 7, height, Pane.Priority.LOW);
+        OutlinePane display = new OutlinePane(displayX, displayY, 7, height, Pane.Priority.LOW);
         StaticPane sell = new StaticPane(0, 0, 9, height, Pane.Priority.LOW);
 
         page.addPane(0, background);

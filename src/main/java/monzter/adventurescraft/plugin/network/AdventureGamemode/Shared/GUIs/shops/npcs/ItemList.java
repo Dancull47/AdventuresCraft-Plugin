@@ -59,6 +59,22 @@ enum ItemList {
     LumberjackITEM18(Shops.LUMBERJACK, null, 100, 1, "TOOL", "WOODEN_AXE"),
     LumberjackITEM19(Shops.LUMBERJACK, null, 250, 1, "TOOL", "STONE_AXE"),
 
+    MiningITEM1(Shops.MINING, new ItemStack(Material.STONE), 6, 64, null, null),
+    MiningITEM2(Shops.MINING, new ItemStack(Material.COBBLESTONE), 10, 64, null, null),
+    MiningITEM3(Shops.MINING, new ItemStack(Material.COAL), 6, 64, null, null),
+    MiningITEM4(Shops.MINING, new ItemStack(Material.IRON_INGOT), 8, 64, null, null),
+    MiningITEM5(Shops.MINING, new ItemStack(Material.GOLD_INGOT), 10, 64, null, null),
+    MiningITEM6(Shops.MINING, new ItemStack(Material.REDSTONE), 6, 64, null, null),
+    MiningITEM7(Shops.MINING, new ItemStack(Material.LAPIS_LAZULI), 6, 64, null, null),
+    MiningITEM8(Shops.MINING, new ItemStack(Material.DIAMOND), 12, 64, null, null),
+    MiningITEM9(Shops.MINING, new ItemStack(Material.EMERALD), 7, 64, null, null),
+    MiningITEM10(Shops.MINING, new ItemStack(Material.SPIDER_EYE), 35, 64, null, null),
+    MiningITEM11(Shops.MINING, new ItemStack(Material.STRING), 30, 64, null, null),
+    MiningITEM12(Shops.MINING, new ItemStack(Material.BONE), 20, 64, null, null),
+    MiningITEM13(Shops.MINING, new ItemStack(Material.GUNPOWDER), 50, 64, null, null),
+    MiningITEM14(Shops.MINING, null, 100, 1, "TOOL", "WOODEN_PICKAXE"),
+    MiningITEM15(Shops.MINING, null, 250, 1, "TOOL", "STONE_PICKAXE"),
+
     EstateITEM1(Shops.ESTATE, new ItemStack(Material.PUMPKIN), 6, 64, null, null),
     EstateITEM2(Shops.ESTATE, new ItemStack(Material.MELON), 10, 64, null, null),
     EstateITEM3(Shops.ESTATE, new ItemStack(Material.MELON_SLICE), 2, 64, null, null),
@@ -67,6 +83,13 @@ enum ItemList {
     EstateITEM6(Shops.ESTATE, new ItemStack(Material.BEETROOT), 14, 64, null, null),
     EstateITEM7(Shops.ESTATE, new ItemStack(Material.RED_MUSHROOM), 6, 64, null, null),
     EstateITEM8(Shops.ESTATE, new ItemStack(Material.BROWN_MUSHROOM), 6, 64, null, null),
+
+    JoyITEM1(Shops.JOY, null, 100, 1, "CONSUMABLE", "JOY_SOUP"),
+    JoyITEM2(Shops.JOY, null, 250, 1, "CONSUMABLE", "JOY_SOUP2"),
+    JoyITEM3(Shops.JOY, null, 500, 1, "CONSUMABLE", "JOY_SOUP3"),
+    JoyITEM4(Shops.JOY, null, 5_000, 1, "BOW", "JOYS_BOW"),
+
+    CatLadyITEM1(Shops.CAT_LADY, new ItemStack(Material.LEAD), 25, 64, null, null),
 
     ;
 
