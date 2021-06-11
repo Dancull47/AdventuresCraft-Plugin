@@ -92,7 +92,7 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
-    @CommandAlias("MercenaryShop|SlayerShop")
+    @CommandAlias("MercenaryShop")
     @CommandPermission("shops")
     private void mercenaryShop(Player player) {
         int height = 5;

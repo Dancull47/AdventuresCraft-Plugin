@@ -21,9 +21,8 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pi
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ResourceCollector;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.Farming;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Baker;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Jenny;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.ProfessionVendors.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
@@ -267,6 +266,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new LiftOperator(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Jenny(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Baker(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Slayer(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Forager(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Farmer(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Spellforging(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Weatherman(this, soundManager, guiHelper, consoleCommand, economy));
 //        Shop GUIs
 //        manager.registerCommand(new Farmer(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.Enchanting(this, guiHelper, shopOpener, consoleCommand, soundManager));
