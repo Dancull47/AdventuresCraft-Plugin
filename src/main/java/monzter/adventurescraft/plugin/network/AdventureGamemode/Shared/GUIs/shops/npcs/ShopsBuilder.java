@@ -112,6 +112,16 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
+    @CommandAlias("LandscapeShop|LandscaperShop")
+    @CommandPermission("shops")
+    private void landscapeShop(Player player) {
+        int height = 6;
+        final ChestGui gui = new ChestGui(height, "Landscaper Shop");
+        final List<ItemList> guiContents = ItemList.getShop(Shops.LANDSCAPER);
+        menuBase(gui, guiContents, player, "Landscaper", height, Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
     @CommandAlias("JoyShop")
     @CommandPermission("shops")
     private void joyShop(Player player) {
