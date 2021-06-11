@@ -75,6 +75,19 @@ public enum ItemList {
     MiningITEM14(Shops.MINING, null, 100, 0, null, 1, "TOOL", "WOODEN_PICKAXE"),
     MiningITEM15(Shops.MINING, null, 250, 0, null, 1, "TOOL", "STONE_PICKAXE"),
 
+    HellITEM1(Shops.DEMON, new ItemStack(Material.NETHERRACK), 10, 0, null, 64, null, null),
+    HellITEM2(Shops.DEMON, new ItemStack(Material.NETHER_BRICKS), 21, 0, null, 64, null, null),
+    HellITEM3(Shops.DEMON, new ItemStack(Material.SOUL_SAND), 15, 0, null, 64, null, null),
+    HellITEM4(Shops.DEMON, new ItemStack(Material.GLOWSTONE), 15, 0, null, 64, null, null),
+    HellITEM5(Shops.DEMON, new ItemStack(Material.NETHER_WART), 6, 0, null, 64, null, null),
+    HellITEM6(Shops.DEMON, new ItemStack(Material.GLOWSTONE_DUST), 10, 0, null, 64, null, null),
+    HellITEM7(Shops.DEMON, new ItemStack(Material.QUARTZ), 8, 0, null, 64, null, null),
+    HellITEM8(Shops.DEMON, new ItemStack(Material.OBSIDIAN), 14, 0, null, 64, null, null),
+    HellITEM9(Shops.DEMON, new ItemStack(Material.ROTTEN_FLESH), 14, 0, null, 64, null, null),
+    HellITEM10(Shops.DEMON, new ItemStack(Material.BLAZE_ROD), 25, 0, null, 64, null, null),
+    HellITEM11(Shops.DEMON, new ItemStack(Material.MAGMA_CREAM), 20, 0, null, 64, null, null),
+    HellITEM12(Shops.DEMON, new ItemStack(Material.BONE), 20, 0, null, 64, null, null),
+
     EstateITEM1(Shops.ESTATE, new ItemStack(Material.PUMPKIN), 6, 0, null, 64, null, null),
     EstateITEM2(Shops.ESTATE, new ItemStack(Material.MELON), 10, 0, null, 64, null, null),
     EstateITEM3(Shops.ESTATE, new ItemStack(Material.MELON_SLICE), 2, 0, null, 64, null, null),
@@ -92,18 +105,21 @@ public enum ItemList {
     CatLadyITEM1(Shops.CAT_LADY, new ItemStack(Material.LEAD), 25, 0, null, 64, null, null),
 
     EnchanterITEM1(Shops.ENCHANTER, null, 100, 10, null, 1, "ENCHANTMENT", "ENCHANTING_BOOK"),
-    EnchanterITEM2(Shops.ENCHANTER, null, 250, 20, null, 1, "ENCHANTMENT", "ENCHANTING_BOOK2"),
-    EnchanterITEM3(Shops.ENCHANTER, null, 500, 30, null, 1, "ENCHANTMENT", "ENCHANTING_BOOK3"),
-    EnchanterITEM4(Shops.ENCHANTER, null, 1_000, 40, null, 1, "ENCHANTMENT", "ENCHANTING_BOOK4"),
-    EnchanterITEM5(Shops.ENCHANTER, null, 1_500, 50, null, 1, "ENCHANTMENT", "ENCHANTING_BOOK5"),
+    EnchanterITEM2(Shops.ENCHANTER, null, 250, 20, new String[] {"MATERIAL;ENCHANTED_PAPER;8"}, 1, "ENCHANTMENT", "ENCHANTING_BOOK2"),
+    EnchanterITEM3(Shops.ENCHANTER, null, 500, 30, new String[] {"MATERIAL;ENCHANTED_PAPER;16"}, 1, "ENCHANTMENT", "ENCHANTING_BOOK3"),
+    EnchanterITEM4(Shops.ENCHANTER, null, 1_000, 40, new String[] {"MATERIAL;ENCHANTED_PAPER;32"}, 1, "ENCHANTMENT", "ENCHANTING_BOOK4"),
+    EnchanterITEM5(Shops.ENCHANTER, null, 1_500, 50, new String[] {"MATERIAL;ENCHANTED_PAPER;64"}, 1, "ENCHANTMENT", "ENCHANTING_BOOK5"),
     EnchanterITEM7(Shops.ENCHANTER, null, 150, 15, null, 1, "CONSUMABLE", "ENCHANTED_BOX"),
     EnchanterITEM8(Shops.ENCHANTER, null, 250, 25, null, 1, "CONSUMABLE", "ENCHANTED_BOX2"),
-    EnchanterITEM9(Shops.ENCHANTER, null, 250, 35, null, 1, "CONSUMABLE", "ENCHANTED_BOX3"),
+    EnchanterITEM9(Shops.ENCHANTER, null, 350, 35, null, 1, "CONSUMABLE", "ENCHANTED_BOX3"),
     EnchanterITEMF1(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
     EnchanterITEMF2(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
-    EnchanterITEM10(Shops.ENCHANTER, null, 5, 5, new String[] {"MATERIAL;ENCHANTED_LAPIS;1","MATERIAL;ENCHANTED_REDSTONE;2"}, 64, "CONSUMABLE", "EXP_BOTTLE"),
+    EnchanterITEM10(Shops.ENCHANTER, null, 15, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;1"}, 1, "CONSUMABLE", "EXP_BOTTLE"),
+    EnchanterITEM11(Shops.ENCHANTER, null, 100, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;8"}, 1, "CONSUMABLE", "EXP_BOTTLE2"),
+    EnchanterITEM13(Shops.ENCHANTER, null, 500, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;16"}, 1, "CONSUMABLE", "EXP_BOTTLE2"),
 
     ;
+
 
     private static final Map<Shops, List<ItemList>> SHOPS_LIST_MAP = new EnumMap<>(Shops.class);
 
@@ -112,6 +128,7 @@ public enum ItemList {
                 .filter(shop -> shop.getShop().equals(key))
                 .collect(Collectors.toList()));
     }
+
 
     private Shops shop;
     private ItemStack itemStack;

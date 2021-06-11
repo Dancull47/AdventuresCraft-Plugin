@@ -34,52 +34,50 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
     public void purchase(Player player, ItemList itemList, int amount) {
         if (economy.hasMoney(player, itemList.getCoinPrice())) {
             if (player.getLevel() >= itemList.getExpPrice()) {
+                if (!fullInventory.fullInventory(player)) {
 
-                String id = mmoItems.getID(NBTItem.get(itemList.getItemStack()));
-                if (id != null) {
-                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
-                            WordUtils.capitalizeFully(itemList.getItemStack().getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for:");
-                    player.getInventory().addItem(new ItemStack(itemList.getItemStack().getType(), amount));
-                } else {
-                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
-                            mmoItems.getItem(itemList.getType(), itemList.getID()).getItemMeta().getDisplayName() + ChatColor.GREEN + " for:");
-                    player.getInventory().addItem(mmoItems.getItem(itemList.getType(), itemList.getID()).asQuantity(amount));
-                }
+                    if (itemList.getID() == null) {
+                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                                WordUtils.capitalizeFully(itemList.getItemStack().getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for:");
+                        player.getInventory().addItem(new ItemStack(itemList.getItemStack().getType(), amount));
+                    } else {
+                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                                mmoItems.getItem(itemList.getType(), itemList.getID()).getItemMeta().getDisplayName() + ChatColor.GREEN + " for:");
+                        player.getInventory().addItem(mmoItems.getItem(itemList.getType(), itemList.getID()).asQuantity(amount));
+                    }
 
-                if (itemList.getItemPrice() != null) {
-                    if (hasItem(player, itemList.getItemPrice(), amount).size() >= itemList.getItemPrice().length) {
-                        if (!fullInventory.fullInventory(player)) {
+                    if (itemList.getItemPrice() != null) {
+                        if (hasItem(player, itemList.getItemPrice(), amount).size() >= itemList.getItemPrice().length) {
                             int index = 0;
                             List<Integer> indexes = hasItem(player, itemList.getItemPrice(), amount);
                             for (String item : itemList.getItemPrice()) {
                                 String[] itemPriceSplit = item.split(";");
 
-                                if (player.getInventory().getItem(indexes.get(index)).getAmount() - (Integer.valueOf(itemPriceSplit[2])*amount) == 0)
+                                if (player.getInventory().getItem(indexes.get(index)).getAmount() - (Integer.valueOf(itemPriceSplit[2]) * amount) == 0)
                                     player.getInventory().setItem(indexes.get(index), new ItemStack(Material.AIR));
                                 else
-                                    player.getInventory().setItem(indexes.get(index), player.getInventory().getItem(indexes.get(index)).asQuantity(player.getInventory().getItem(indexes.get(index)).getAmount() - (Integer.valueOf(itemPriceSplit[2])*amount)));
+                                    player.getInventory().setItem(indexes.get(index), player.getInventory().getItem(indexes.get(index)).asQuantity(player.getInventory().getItem(indexes.get(index)).getAmount() - (Integer.valueOf(itemPriceSplit[2]) * amount)));
 //                                if (player.getInventory().getItem(indexes.get(index)).equals(mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]))
 //                                        && player.getInventory().getItem(indexes.get(index)).getAmount() - Integer.valueOf(itemPriceSplit[2]) == 0)
 //                                    player.getInventory().setItem(indexes.get(index), new ItemStack(Material.AIR));
 //                                else if (player.getInventory().getItem(indexes.get(index)).equals(mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]))
 //                                        && player.getInventory().getItem(indexes.get(index)).getAmount() - Integer.valueOf(itemPriceSplit[2]) > 0)
 //                                    player.getInventory().setItem(indexes.get(index), player.getInventory().getItem(indexes.get(index)).asQuantity(player.getInventory().getItem(indexes.get(index)).getAmount() - Integer.valueOf(itemPriceSplit[2])));
-                                player.sendMessage(ChatColor.RED + "- " + ChatColor.GOLD + (Integer.valueOf(itemPriceSplit[2])*amount) + "x " +
+                                player.sendMessage(ChatColor.RED + "- " + ChatColor.GOLD + (Integer.valueOf(itemPriceSplit[2]) * amount) + "x " +
                                         mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]).getItemMeta().getDisplayName());
                                 index++;
                             }
                         }
                     }
+                    if (itemList.getCoinPrice() > 0) {
+                        economy.takeMoney(player, itemList.getCoinPrice() * amount);
+                    }
+                    if (itemList.getExpPrice() > 0) {
+                        player.setLevel(player.getLevel() - (itemList.getExpPrice() * amount));
+                        player.sendMessage(ChatColor.AQUA + "Ξ Levels " + numberFormat.numberFormat(itemList.getExpPrice() * amount) + ChatColor.RED + " has been deducted from your account!");
+                    }
+                    soundManager.soundYes(player, 1);
                 }
-
-                if (itemList.getCoinPrice() > 0) {
-                    economy.takeMoney(player, itemList.getCoinPrice() * amount);
-                }
-                if (itemList.getCoinPrice() > 0) {
-                    player.setLevel(player.getLevel() - (itemList.getExpPrice() * amount));
-                    player.sendMessage(ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(itemList.getExpPrice() * amount) + ChatColor.RED + " has been deducted from your account!");
-                }
-                soundManager.soundYes(player, 1);
             }
         }
     }
@@ -131,7 +129,8 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
 //                }
 //    }
 
-    private List<Integer> hasItem(Player player, String[] items, int purchaseAmount) {
+    @Override
+    public List<Integer> hasItem(Player player, String[] items, int purchaseAmount) {
         List<Integer> indexes = new ArrayList<>();
         for (String item : items) {
             int index = 0;
@@ -141,7 +140,7 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                 if (mmoItems.getID(nbtItem) != null)
                     if (mmoItems.getType(nbtItem).toString().replace(" ", "").equals(itemPriceSplit[0].replace(" ", "")) &&
                             mmoItems.getID(nbtItem).toString().replace(" ", "").equals(itemPriceSplit[1]))
-                        if (currentItem.getAmount() >= (Integer.valueOf(itemPriceSplit[2])*purchaseAmount)) {
+                        if (currentItem.getAmount() >= (Integer.valueOf(itemPriceSplit[2]) * purchaseAmount)) {
                             indexes.add(index);
                             break;
                         }

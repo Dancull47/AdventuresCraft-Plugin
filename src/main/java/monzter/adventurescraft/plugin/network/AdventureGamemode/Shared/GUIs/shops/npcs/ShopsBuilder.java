@@ -10,7 +10,6 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import io.lumine.mythic.lib.api.item.NBTItem;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
@@ -133,6 +132,16 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
+    @CommandAlias("HellShop|DemonShop")
+    @CommandPermission("shops")
+    private void demonShop(Player player) {
+        int height = 5;
+        final ChestGui gui = new ChestGui(height, "Demon Shop");
+        final List<ItemList> guiContents = ItemList.getShop(Shops.DEMON);
+        menuBase(gui, guiContents, player, "Demon", height, Material.RED_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
     @CommandAlias("EnchantingShop")
     @CommandPermission("shops")
     private void enchantingShop(Player player) {
@@ -199,15 +208,11 @@ public class ShopsBuilder extends BaseCommand {
             return new GuiItem(guiHelper.background(backgroundColor));
 
         ItemStack itemStack;
-        ItemStack cleanItem;
 
-        if (itemList.getType() == null) {
+        if (itemList.getType() == null)
             itemStack = new ItemStack(itemList.getItemStack());
-            cleanItem = new ItemStack(itemList.getItemStack());
-        } else {
+        else
             itemStack = mmoItems.getItem(itemList.getType(), itemList.getID());
-            cleanItem = mmoItems.getItem(itemList.getType(), itemList.getID());
-        }
 
         final ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -225,6 +230,20 @@ public class ShopsBuilder extends BaseCommand {
                     String[] itemPriceSplit = itemPrice.split(";");
                     lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPriceSplit[2] + "x " + mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]).getItemMeta().getDisplayName()));
                 }
+            } else if (itemList.getCoinPrice() <= 0 && itemList.getExpPrice() > 0 && itemList.getItemPrice() != null) {
+                lore.add(Component.text(ChatColor.WHITE + "Price:"));
+                lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(itemList.getExpPrice())));
+                for (String itemPrice : itemList.getItemPrice()) {
+                    String[] itemPriceSplit = itemPrice.split(";");
+                    lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPriceSplit[2] + "x " + mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]).getItemMeta().getDisplayName()));
+                }
+            } else if (itemList.getCoinPrice() > 0 && itemList.getExpPrice() <= 0 && itemList.getItemPrice() != null) {
+                lore.add(Component.text(ChatColor.WHITE + "Price:"));
+                lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(itemList.getCoinPrice())));
+                for (String itemPrice : itemList.getItemPrice()) {
+                    String[] itemPriceSplit = itemPrice.split(";");
+                    lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPriceSplit[2] + "x " + mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]).getItemMeta().getDisplayName()));
+                }
             } else if (itemList.getCoinPrice() > 0 && itemList.getExpPrice() > 0 && itemList.getItemPrice() == null) {
                 lore.add(Component.text(ChatColor.WHITE + "Price:"));
                 lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(itemList.getCoinPrice())));
@@ -233,6 +252,13 @@ public class ShopsBuilder extends BaseCommand {
                 lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(itemList.getCoinPrice())));
             } else if (itemList.getCoinPrice() <= 0 && itemList.getExpPrice() > 0 && itemList.getItemPrice() == null) {
                 lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(itemList.getExpPrice())));
+            } else if (itemList.getCoinPrice() <= 0 && itemList.getExpPrice() <= 0 && itemList.getItemPrice() != null) {
+                lore.add(Component.text(ChatColor.WHITE + "Price:"));
+                for (String itemPrice : itemList.getItemPrice()) {
+                    String[] itemPriceSplit = itemPrice.split(";");
+                    lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPriceSplit[2] + "x " + mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]).getItemMeta().getDisplayName()));
+                }
+
             }
 
             for (Component textComponent : itemLore(player, itemList))
@@ -240,24 +266,23 @@ public class ShopsBuilder extends BaseCommand {
             itemMeta.lore(lore);
             itemStack.setItemMeta(itemMeta);
 
-            ItemStack finalStoredItem = cleanItem;
             return new GuiItem(itemStack, e -> {
                 if (itemList.getItemPrice() != null) {
-                    if (e.isLeftClick() && !e.isShiftClick())
-                        if (hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length)
-                            purchaseUtils.purchase(player, itemList, 1);
+                    if (e.isLeftClick() && !e.isShiftClick()
+                            && purchaseUtils.hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length)
+                        purchaseUtils.purchase(player, itemList, 1);
 
-                    if (hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
-                        if (e.isRightClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
-                            purchaseUtils.purchase(player, itemList, 16);
+                    if (e.isRightClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16
+                            && purchaseUtils.hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
+                        purchaseUtils.purchase(player, itemList, 16);
 
-                    if (hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
-                        if (e.isLeftClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
-                            purchaseUtils.purchase(player, itemList, 32);
+                    if (e.isLeftClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32
+                            && purchaseUtils.hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
+                        purchaseUtils.purchase(player, itemList, 32);
 
-                    if (hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length)
-                        if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
-                            purchaseUtils.purchase(player, itemList, 64);
+                    if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64
+                            && purchaseUtils.hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length)
+                        purchaseUtils.purchase(player, itemList, 64);
                 } else {
                     if (e.isLeftClick() && !e.isShiftClick())
                         purchaseUtils.purchase(player, itemList, 1);
@@ -274,40 +299,20 @@ public class ShopsBuilder extends BaseCommand {
         return null;
     }
 
-    private List<Integer> hasItem(Player player, String[] items, int purchaseAmount) {
-        List<Integer> indexes = new ArrayList<>();
-        for (String item : items) {
-            int index = 0;
-            String[] itemPriceSplit = item.split(";");
-            for (ItemStack currentItem : player.getInventory().getContents()) {
-                NBTItem nbtItem = NBTItem.get(currentItem);
-                if (mmoItems.getID(nbtItem) != null)
-                    if (mmoItems.getType(nbtItem).toString().replace(" ", "").equals(itemPriceSplit[0].replace(" ", "")) &&
-                            mmoItems.getID(nbtItem).toString().replace(" ", "").equals(itemPriceSplit[1]))
-                        if (currentItem.getAmount() >= Integer.valueOf(itemPriceSplit[2]) * purchaseAmount) {
-                            indexes.add(index);
-                            break;
-                        }
-                index++;
-            }
-        }
-        return indexes;
-    }
-
     private List<Component> itemLore(Player player, ItemList itemList) {
         List<Component> lore = new ArrayList<>();
         if (itemList.getItemPrice() != null) {
-            if (hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length) {
+            if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length) {
                 if (economy.getBalance(player) >= itemList.getCoinPrice() && player.getLevel() >= itemList.getExpPrice()) {
                     lore.add(Component.text(""));
                     lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-                    if (hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
+                    if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
                         if (economy.getBalance(player) >= itemList.getCoinPrice() * 16 && player.getLevel() >= itemList.getExpPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
                             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
-                    if (hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
+                    if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
                         if (economy.getBalance(player) >= itemList.getCoinPrice() * 32 && player.getLevel() >= itemList.getExpPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
                             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
-                    if (hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length) {
+                    if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length) {
                         if (economy.getBalance(player) >= itemList.getCoinPrice() * 64 && player.getLevel() >= itemList.getExpPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
                             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
                     }
