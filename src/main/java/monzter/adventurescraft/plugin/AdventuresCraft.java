@@ -145,6 +145,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private AchievementItemBuilder achievementGUIBuilder;
     private MythicEnchantsSupport mythicEnchantsSupport;
     private ProgressBar progressBar;
+    private ShopOpener shopOpener;
     private Xur xur;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
     public final String SERVER = this.getConfig().getString("Server");
@@ -260,7 +261,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new ResourceCollector(this, soundManager, guiHelper, progressBar));
         manager.registerCommand(new Farming(this, soundManager, guiHelper, progressBar));
 
+//        Shop GUIs
 //        manager.registerCommand(new Farmer(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.Enchanting(this, guiHelper, shopOpener, consoleCommand, soundManager));
         manager.registerCommand(new ShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
 
     }
@@ -303,7 +306,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand, shopOpener), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
     }
@@ -384,6 +387,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         itemAdder = new ItemAdderImpl();
         areaCheck = new AreaCheckImpl(displayNameFlag);
         calculateEnchantments = new CalculateEnchantmentsImpl();
+        shopOpener = new ShopOpenerImpl(permissionLP);
 
         final Plugin betonQuest = Bukkit.getPluginManager().getPlugin("BetonQuest");
         if (betonQuest != null) {

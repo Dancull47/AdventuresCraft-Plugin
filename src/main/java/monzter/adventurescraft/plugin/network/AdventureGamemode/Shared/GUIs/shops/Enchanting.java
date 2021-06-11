@@ -9,28 +9,22 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import me.clip.placeholderapi.PlaceholderAPI;
+import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
-import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
-import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.general.FullInventory;
+import monzter.adventurescraft.plugin.utilities.general.ShopOpener;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
-import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
-import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,214 +33,347 @@ public class Enchanting extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
-    private final SoundManager soundManager;
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
-    private final Economy economy;
-    private final FullInventory fullInventory;
-    private final MMOItemsGive mmoItemsGive;
-    private final NumberFormat numberFormat;
-    private final CalculateEnchantments calculateEnchantments;
+    private final ShopOpener shopOpener;
+    private final SoundManager soundManager;
 
-    private final List<Material> tools = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
+
+    private final List<Material> HELMET = Arrays.asList(Material.LEATHER_HELMET, Material.CHAINMAIL_HELMET, Material.IRON_HELMET, Material.GOLDEN_HELMET,
+            Material.DIAMOND_HELMET, Material.NETHERITE_HELMET, Material.TURTLE_HELMET, Material.PLAYER_HEAD);
+    private final List<Material> CHESTPLATE = Arrays.asList(Material.LEATHER_CHESTPLATE, Material.CHAINMAIL_CHESTPLATE, Material.IRON_CHESTPLATE, Material.GOLDEN_CHESTPLATE,
+            Material.DIAMOND_CHESTPLATE, Material.NETHERITE_CHESTPLATE);
+    private final List<Material> LEGGINGS = Arrays.asList(Material.LEATHER_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.IRON_LEGGINGS, Material.GOLDEN_LEGGINGS,
+            Material.DIAMOND_LEGGINGS, Material.NETHERITE_LEGGINGS);
+    private final List<Material> BOOTS = Arrays.asList(Material.LEATHER_BOOTS, Material.CHAINMAIL_BOOTS, Material.IRON_BOOTS, Material.GOLDEN_BOOTS,
+            Material.DIAMOND_BOOTS, Material.NETHERITE_BOOTS);
+    private final List<Material> TOOLS = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
             Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL,
             Material.IRON_AXE, Material.IRON_HOE, Material.IRON_PICKAXE, Material.IRON_SHOVEL,
             Material.GOLDEN_AXE, Material.GOLDEN_HOE, Material.GOLDEN_PICKAXE, Material.GOLDEN_SHOVEL,
             Material.DIAMOND_AXE, Material.DIAMOND_HOE, Material.DIAMOND_PICKAXE, Material.DIAMOND_SHOVEL,
             Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL);
-    private final DecimalFormat df = new DecimalFormat("###.####");
+    private final List<Material> MELEE = Arrays.asList(Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLDEN_SWORD,
+            Material.DIAMOND_SWORD, Material.NETHERITE_SWORD, Material.LEAD);
+    private final List<Material> BOW = Arrays.asList(Material.BOW, Material.CROSSBOW);
 
-    public Enchanting(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, Economy economy, FullInventory fullInventory, MMOItemsGive mmoItemsGive, NumberFormat numberFormat, CalculateEnchantments calculateEnchantments) {
+    public Enchanting(AdventuresCraft plugin, GUIHelper guiHelper, ShopOpener shopOpener, ConsoleCommand consoleCommand, SoundManager soundManager) {
         this.plugin = plugin;
-        this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
-        this.economy = economy;
-        this.fullInventory = fullInventory;
-        this.mmoItemsGive = mmoItemsGive;
-        this.numberFormat = numberFormat;
-        this.calculateEnchantments = calculateEnchantments;
+        this.shopOpener = shopOpener;
+        this.soundManager = soundManager;
     }
 
-    @CommandAlias("enchantmentShop")
+    @CommandAlias("EnchanterShop")
     public void pets(Player player) {
         if (player.hasPermission("SHOPS")) {
-            if (tools.contains(player.getInventory().getItemInMainHand().getType())) {
-                final int exp = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%"));
 
-                ChestGui gui = new ChestGui(6, guiHelper.guiName("Enchantment Shop"));
-                gui.setOnGlobalClick(event -> event.setCancelled(true));
+            ChestGui gui = new ChestGui(6, guiHelper.guiName("Enchanter"));
+            gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-                PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
-                OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
-                StaticPane display = new StaticPane(1, 1, 9, 5, Pane.Priority.LOW);
+            PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
+            OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+            StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
 
-                page.addPane(0, background);
-                page.addPane(0, display);
+            page.addPane(0, background);
+            page.addPane(0, display);
 
-                background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
-                background.setRepeat(true);
+            background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
+            background.setRepeat(true);
 
-                display.addItem(new GuiItem(experience(exp, calculateEnchantments.calculateEnchantments(player, "Experience") + 1), e -> {
-                    player.performCommand("enchantment Experience");
-                    pets(player);
-                }), 1, 0);
-                display.addItem(new GuiItem(petExperience(exp, calculateEnchantments.calculateEnchantments(player, "Pet Experience") + 1), e -> {
-                    player.performCommand("enchantment Pet_Experience");
-                    pets(player);
-                }), 2, 0);
-                display.addItem(new GuiItem(luck(exp, calculateEnchantments.calculateEnchantments(player, "Luck") + 1), e -> {
-                    player.performCommand("enchantment Luck");
-                    pets(player);
-                }), 3, 0);
-                display.addItem(new GuiItem(explosive(exp, calculateEnchantments.calculateEnchantments(player, "Explosive") + 1), e -> {
-                    player.performCommand("enchantment Explosive");
-                    pets(player);
-                }), 4, 0);
-                display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments.calculateEnchantments(player, "Explosive Chance") + 1), e -> {
-                    player.performCommand("enchantment Explosive_Chance");
-                    pets(player);
-                }), 5, 0);
+            display.addItem(new GuiItem(wizardShop(), e -> {
+                shopOpener.shopOpener(player, "enchantingshop");
+                pets(player);
+            }), 0, 2);
 
-                display.addItem(new GuiItem(randomizer(exp, calculateEnchantments.calculateEnchantments(player, "Randomizer") + 1), e -> {
-                    player.performCommand("enchantment Randomizer");
-                    pets(player);
-                }), 2, 1);
-                display.addItem(new GuiItem(treasurer(exp, calculateEnchantments.calculateEnchantments(player, "Treasurer") + 1), e -> {
-                    player.performCommand("enchantment Treasurer");
-                    pets(player);
-                }), 3, 1);
-                display.addItem(new GuiItem(midasTouch(exp, calculateEnchantments.calculateEnchantments(player, "Midas Touch") + 1), e -> {
-                    player.performCommand("enchantment Midas_Touch");
-                    pets(player);
-                }), 4, 1);
+            display.addItem(helmetEnchantments(player), 4, 1);
+            display.addItem(chestplateEnchantments(player), 4, 2);
+            display.addItem(leggingsEnchantments(player), 4, 3);
+            display.addItem(bootsEnchantments(player), 4, 4);
 
-                display.addItem(new GuiItem(statTracker(exp, calculateEnchantments.calculateEnchantments(player, "Stat Tracker") + 1), e -> {
-                    player.performCommand("enchantment Stat_Tracker");
-                    pets(player);
-                }), 3, 2);
+            display.addItem(weaponEnchantments(player), 3, 2);
+            display.addItem(bowEnchantments(player), 5, 2);
+            display.addItem(toolEnchantments(player), 6, 2);
 
-                gui.addPane(page);
-                gui.show(player);
-            } else {
-                player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-            }
+            gui.addPane(page);
+            gui.show(player);
         }
     }
 
-    private ItemStack experience(int balance, int enchantmentLevel) {
-        TextComponent[] experience = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase your " + PrisonStatsDisplay.EXPERIENCE_MULTIPLIER.getName()),
-                Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + "+" + Double.valueOf(enchantmentLevel * Enchantments.Experience.getIncrease()) + ChatColor.GRAY + " while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.Experience.getMaxLevel())
-            return enchantment(balance, ChatColor.GREEN + "Experience ", enchantmentLevel, experience, (Integer.valueOf(enchantmentLevel * Enchantments.Experience.getPrice())), false);
-        return enchantment(balance, ChatColor.GREEN + "Experience ", enchantmentLevel, experience, (Integer.valueOf(enchantmentLevel * Enchantments.Experience.getPrice())), true);
+
+    private ItemStack wizardShop() {
+        final ItemStack lobby = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjgyYzJiZjlkODJmNDBkNzExZWZmNWFkMmQ1MjBiYWJhM2U3YjRlYWI1MTAxYmZjNGQwZDg2NzA5ZmQwZWEzOSJ9fX0="));
+        final ItemMeta lobbyItemMeta = lobby.getItemMeta();
+
+        lobbyItemMeta.displayName(Component.text(ChatColor.GREEN + "Wizard Shop"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Purchase common resources");
+        lore.add(ChatColor.GRAY + "for " + ChatColor.LIGHT_PURPLE + "Enchanting " + ChatColor.GRAY + "your gear!");
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        lobby.setItemMeta(lobbyItemMeta);
+        lobby.setLore(lore);
+
+        return lobby;
     }
 
-    private ItemStack petExperience(int balance, int enchantmentLevel) {
-        TextComponent[] petExperience = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase your " + PrisonStatsDisplay.PET_EXPERIENCE_MULTIPLIER.getName()),
-                Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + "+" + Double.valueOf(enchantmentLevel * Enchantments.PetExperience.getIncrease()) + ChatColor.GRAY + " while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.PetExperience.getMaxLevel())
-            return enchantment(balance, ChatColor.AQUA + "Pet Experience ", enchantmentLevel, petExperience, (Integer.valueOf(enchantmentLevel * Enchantments.PetExperience.getPrice())), false);
-        return enchantment(balance, ChatColor.AQUA + "Pet Experience ", enchantmentLevel, petExperience, (Integer.valueOf(enchantmentLevel * Enchantments.PetExperience.getPrice())), true);
-    }
 
-    private ItemStack luck(int balance, int enchantmentLevel) {
-        TextComponent[] petExperience = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase your chances of finding " + ChatColor.GREEN + "Lootboxes "),
-                Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + Double.valueOf(enchantmentLevel * Enchantments.Luck.getIncrease()) + "x" + ChatColor.GRAY + ", while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.Luck.getMaxLevel())
-            return enchantment(balance, ChatColor.YELLOW + "Luck ", enchantmentLevel, petExperience, (Integer.valueOf(enchantmentLevel * Enchantments.Luck.getPrice())), false);
-        return enchantment(balance, ChatColor.YELLOW + "Luck ", enchantmentLevel, petExperience, (Integer.valueOf(enchantmentLevel * Enchantments.Luck.getPrice())), true);
-    }
+    private GuiItem helmetEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.LEATHER_HELMET);
+        String tool = "HELMET";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.NETHERITE_HELMET);
 
-    private ItemStack explosive(int balance, int enchantmentLevel) {
-        TextComponent[] explosive = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Occasionally break " + ChatColor.GREEN + "+" + enchantmentLevel + ChatColor.GRAY + " nearby"),
-                Component.text(ChatColor.GRAY + "blocks, while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.Explosive.getMaxLevel())
-            return enchantment(balance, ChatColor.DARK_RED + "Explosive ", enchantmentLevel, explosive, (Integer.valueOf(enchantmentLevel * Enchantments.Explosive.getPrice())), false);
-        return enchantment(balance, ChatColor.DARK_RED + "Explosive ", enchantmentLevel, explosive, (Integer.valueOf(enchantmentLevel * Enchantments.Explosive.getPrice())), true);
-    }
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Helmet Enchantments"));
 
-    private ItemStack explosiveChance(int balance, int enchantmentLevel) {
-        TextComponent[] explosiveChance = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase the chance of " + ChatColor.DARK_RED + "Explosive " + ChatColor.GRAY + "occurring"),
-                Component.text(ChatColor.GRAY + "by " + ChatColor.GREEN + df.format(Double.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getIncrease() * 10)) + "% " + ChatColor.GRAY + "while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.ExplosiveChance.getMaxLevel())
-            return enchantment(balance, ChatColor.RED + "Explosive Chance ", enchantmentLevel, explosiveChance, (Integer.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getPrice())), false);
-        return enchantment(balance, ChatColor.RED + "Explosive Chance ", enchantmentLevel, explosiveChance, (Integer.valueOf(enchantmentLevel * Enchantments.ExplosiveChance.getPrice())), true);
-    }
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
-    private ItemStack randomizer(int balance, int enchantmentLevel) {
-        TextComponent[] randomizer = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase the chance of spawning a" + ChatColor.DARK_GREEN + " valuable block"),
-                Component.text(ChatColor.GRAY + "above you by " + ChatColor.GREEN + df.format(Double.valueOf(enchantmentLevel * Enchantments.Randomizer.getIncrease() * 10)) + "% " + ChatColor.GRAY + "while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.Randomizer.getMaxLevel())
-            return enchantment(balance, ChatColor.DARK_GREEN + "Randomizer ", enchantmentLevel, randomizer, (Integer.valueOf(enchantmentLevel * Enchantments.Randomizer.getPrice())), false);
-        return enchantment(balance, ChatColor.DARK_GREEN + "Randomizer ", enchantmentLevel, randomizer, (Integer.valueOf(enchantmentLevel * Enchantments.Randomizer.getPrice())), true);
-    }
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
 
-    private ItemStack treasurer(int balance, int enchantmentLevel) {
-        TextComponent[] treasurer = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase the chance of spawning a" + ChatColor.GOLD + " special treasure"),
-                Component.text(ChatColor.GRAY + "below you by " + ChatColor.GREEN + df.format(Double.valueOf(enchantmentLevel * Enchantments.Treasurer.getIncrease() * 10)) + "% " + ChatColor.GRAY + "while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.Treasurer.getMaxLevel())
-            return enchantment(balance, ChatColor.GOLD + "Treasurer ", enchantmentLevel, treasurer, (Integer.valueOf(enchantmentLevel * Enchantments.Treasurer.getPrice())), false);
-        return enchantment(balance, ChatColor.GOLD + "Treasurer ", enchantmentLevel, treasurer, (Integer.valueOf(enchantmentLevel * Enchantments.Treasurer.getPrice())), true);
-    }
-
-    private ItemStack midasTouch(int balance, int enchantmentLevel) {
-        TextComponent[] midasTouch = new TextComponent[]{
-                Component.text(ChatColor.GRAY + "Increase the chance of gaining a random amount "),
-                Component.text(ChatColor.GRAY + "of " + PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " by " + ChatColor.GREEN + df.format(Double.valueOf(enchantmentLevel * Enchantments.MidasTouch.getIncrease() * 10)) + "% " + ChatColor.GRAY + "while mining with this tool!")};
-        if (enchantmentLevel - 1 < Enchantments.MidasTouch.getMaxLevel())
-            return enchantment(balance, ChatColor.YELLOW + "Midas Touch ", enchantmentLevel, midasTouch, (Integer.valueOf(enchantmentLevel * Enchantments.MidasTouch.getPrice())), false);
-        return enchantment(balance, ChatColor.YELLOW + "Midas Touch ", enchantmentLevel, midasTouch, (Integer.valueOf(enchantmentLevel * Enchantments.MidasTouch.getPrice())), true);
-    }
-
-    private final TextComponent[] statTracker = new TextComponent[]{
-            Component.text(ChatColor.GRAY + "Track the amount of blocks broken with your"),
-            Component.text(ChatColor.GRAY + "tool, earning " + ChatColor.GREEN + "rewards" + ChatColor.GRAY + " while mining!")};
-
-    private ItemStack statTracker(int balance, int enchantmentLevel) {
-        if (enchantmentLevel - 1 < Enchantments.StatTracker.getMaxLevel())
-            return enchantment(balance, ChatColor.GREEN.toString() + ChatColor.BOLD + "Stat Tracker ", enchantmentLevel, statTracker, (Integer.valueOf(enchantmentLevel * Enchantments.StatTracker.getPrice())), false);
-        return enchantment(balance, ChatColor.GREEN.toString() + ChatColor.BOLD + "Stat Tracker ", enchantmentLevel, statTracker, (Integer.valueOf(enchantmentLevel * Enchantments.StatTracker.getPrice())), true);
-    }
-
-    private ItemStack enchantment(int balance, String enchantmentName, int enchantmentLevel, TextComponent[] enchantmentLore, int enchantmentPrice, boolean maxed) {
-        ItemStack enchantmentItem = new ItemStack(Material.BOOK);
-        if (maxed)
-            enchantmentItem = new ItemStack(Material.ENCHANTED_BOOK);
-        final ItemMeta enchantmentItemItemMeta = enchantmentItem.getItemMeta();
-
-        if (maxed)
-            enchantmentItemItemMeta.setDisplayName(enchantmentName + ChatColor.DARK_GRAY + "- " + ChatColor.YELLOW + ChatColor.BOLD + "MAXED");
-        else
-            enchantmentItemItemMeta.setDisplayName(enchantmentName + enchantmentLevel);
-
-        if (enchantmentItem != null) {
-            List<Component> lore = enchantmentItem.lore();
-            if (lore == null) {
-                lore = new ArrayList<>();
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open helmet-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
             }
-            lore.add(Component.text(ChatColor.WHITE + "Enchantment"));
-            lore.add(Component.text(""));
-            for (TextComponent enchLore : enchantmentLore)
-                lore.add(enchLore);
-            if (!maxed) {
-                lore.add(Component.text(""));
-                lore.add(Component.text(ChatColor.WHITE + "Price: " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + " " + numberFormat.numberFormat(enchantmentPrice)));
-                if (balance >= enchantmentPrice) {
-                    lore.add(Component.text(""));
-                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
-                }
+        });
+    }
+
+    private GuiItem chestplateEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.LEATHER_CHESTPLATE);
+        String tool = "CHESTPLATE";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.NETHERITE_CHESTPLATE);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Chestplate Enchantments"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open chestplate-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
             }
-            enchantmentItemItemMeta.lore(lore);
-            enchantmentItem.setItemMeta(enchantmentItemItemMeta);
+        });
+    }
+
+    private GuiItem leggingsEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.LEATHER_LEGGINGS);
+        String tool = "LEGGINGS";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.NETHERITE_LEGGINGS);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Leggings Enchantments"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open leggings-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
+            }
+        });
+    }
+
+    private GuiItem bootsEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.LEATHER_BOOTS);
+        String tool = "BOOTS";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.NETHERITE_BOOTS);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Boots Enchantments"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open boots-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
+            }
+        });
+    }
+
+    private GuiItem weaponEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.WOODEN_SWORD);
+        String tool = "WEAPON";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.NETHERITE_SWORD);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Melee Weapon Enchantments"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + "Melee");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open weapon-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + "Melee " + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
+            }
+        });
+    }
+
+    private GuiItem bowEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.BOW);
+        String tool = "BOW";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.CROSSBOW);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Bow Enchantments"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open bow-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + "Bow " + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
+            }
+        });
+    }
+
+    private GuiItem toolEnchantments(Player player) {
+        ItemStack itemStack = new ItemStack(Material.WOODEN_HOE);
+        String tool = "TOOL";
+        if (hasTool(player, tool))
+            itemStack.setType(Material.NETHERITE_HOE);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemMeta.displayName(Component.text(ChatColor.GREEN + "Tool Enchantments"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (!hasTool(player, tool)) {
+            lore.add(ChatColor.RED + "You must be holding a");
+            lore.add(ChatColor.GOLD + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to Enchant it!");
+        } else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> {
+            if (hasTool(player, tool))
+                consoleCommand.consoleCommand("mi stations open bow-enchantments " + player.getName());
+            else {
+                player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + "Tool " + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
+                soundManager.soundNo(player, 1);
+            }
+        });
+    }
+
+    private boolean hasTool(Player player, String list) {
+        switch (list) {
+            case "HELMET":
+                if (HELMET.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
+            case "CHESTPLATE":
+                if (CHESTPLATE.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
+            case "LEGGINGS":
+                if (LEGGINGS.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
+            case "BOOTS":
+                if (BOOTS.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
+            case "TOOL":
+            case "TOOLS":
+                if (TOOLS.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
+            case "WEAPON":
+            case "WEAPONS":
+            case "MELEE":
+                if (MELEE.contains(player.getInventory().getItemInMainHand().getType()) || TOOLS.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
+            case "BOW":
+            case "RANGED":
+                if (BOW.contains(player.getInventory().getItemInMainHand().getType()))
+                    return true;
+                break;
         }
-        return enchantmentItem;
+        return false;
     }
 }

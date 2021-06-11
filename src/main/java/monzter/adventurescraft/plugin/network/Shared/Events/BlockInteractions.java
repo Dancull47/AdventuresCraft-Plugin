@@ -2,6 +2,7 @@ package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.general.ShopOpener;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import org.bukkit.ChatColor;
@@ -21,6 +22,7 @@ public class BlockInteractions implements Listener {
     private final SoundManager soundManager;
     private final PermissionLP permissionLP;
     private final ConsoleCommand consoleCommand;
+    private final ShopOpener shopOpener;
 
 
     private final List<Material> blocks = Arrays.asList(Material.ENCHANTING_TABLE, Material.CAULDRON, Material.ANVIL, Material.CHEST,
@@ -34,11 +36,12 @@ public class BlockInteractions implements Listener {
             Material.DIAMOND_AXE, Material.DIAMOND_HOE, Material.DIAMOND_PICKAXE, Material.DIAMOND_SHOVEL,
             Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL);
 
-    public BlockInteractions(AdventuresCraft plugin, SoundManager soundManager, PermissionLP permissionLP, ConsoleCommand consoleCommand) {
+    public BlockInteractions(AdventuresCraft plugin, SoundManager soundManager, PermissionLP permissionLP, ConsoleCommand consoleCommand, ShopOpener shopOpener) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.permissionLP = permissionLP;
         this.consoleCommand = consoleCommand;
+        this.shopOpener = shopOpener;
     }
 
     @EventHandler
@@ -76,9 +79,9 @@ public class BlockInteractions implements Listener {
             case "Adventure":
             case "Home":
                 if (event.getClickedBlock() != null)
-                    if (event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) || event.getClickedBlock().equals(Material.END_PORTAL_FRAME)) {
+                    if (event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE) || event.getClickedBlock().getType().equals(Material.END_PORTAL_FRAME)) {
                         final Player player = event.getPlayer();
-                        consoleCommand.consoleCommand("dm open Enchanter " + player.getName());
+                        shopOpener.shopOpener(player, "EnchanterShop");
                         soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
                         event.setCancelled(true);
                     }
@@ -95,8 +98,10 @@ public class BlockInteractions implements Listener {
             case "Home":
                 if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
                     final Player player = event.getPlayer();
-                    permissionLP.giveTempPermission(player, "bank.open.command", 2, "s");
-                    player.performCommand("banks open");
+                    if (!player.hasPermission("bank.open.command")) {
+                        permissionLP.giveTempPermission(player, "bank.open.command", 2, "s");
+                        player.performCommand("banks open");
+                    }
                 }
         }
     }
