@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-enum ItemList {
+public enum ItemList {
     ITEM1(Shops.FARMER, new ItemStack(Material.WHEAT_SEEDS), 2, 0, null, 64, null, null),
     ITEM2(Shops.FARMER, new ItemStack(Material.WHEAT), 2, 0, null, 64, null, null),
     ITEM3(Shops.FARMER, new ItemStack(Material.CARROT), 4, 0, null, 64, null, null),
@@ -101,7 +101,7 @@ enum ItemList {
     EnchanterITEM9(Shops.ENCHANTER, null, 250, 35, null, 1, "CONSUMABLE", "ENCHANTED_BOX3"),
     EnchanterITEMF1(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
     EnchanterITEMF2(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
-    EnchanterITEM10(Shops.ENCHANTER, null, 5, 5, new String[] {"MATERIAL;ENCHANTED_LAPIS;1"}, 1, "CONSUMABLE", "EXP_BOTTLE"),
+    EnchanterITEM10(Shops.ENCHANTER, null, 5, 5, new String[] {"MATERIAL;ENCHANTED_LAPIS;1","MATERIAL;ENCHANTED_REDSTONE;2"}, 64, "CONSUMABLE", "EXP_BOTTLE"),
 
     ;
 
