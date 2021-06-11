@@ -244,29 +244,29 @@ public class ShopsBuilder extends BaseCommand {
             return new GuiItem(itemStack, e -> {
                 if (itemList.getItemPrice() != null) {
                     if (e.isLeftClick() && !e.isShiftClick())
-                        if (hasItem(player, itemList.getItemPrice(), 1).size() == itemList.getItemPrice().length)
+                        if (hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length)
                             purchaseUtils.purchase(player, itemList, 1);
 
-                    if (hasItem(player, itemList.getItemPrice(), 16).size() == itemList.getItemPrice().length)
+                    if (hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
                         if (e.isRightClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
                             purchaseUtils.purchase(player, itemList, 16);
 
-                    if (hasItem(player, itemList.getItemPrice(), 32).size() == itemList.getItemPrice().length)
+                    if (hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
                         if (e.isLeftClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
                             purchaseUtils.purchase(player, itemList, 32);
 
-                    if (hasItem(player, itemList.getItemPrice(), 64).size() == itemList.getItemPrice().length)
+                    if (hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length)
                         if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
                             purchaseUtils.purchase(player, itemList, 64);
                 } else {
                     if (e.isLeftClick() && !e.isShiftClick())
-                        purchaseUtils.purchase(player, finalStoredItem, 1, itemList.getCoinPrice(), itemList.getExpPrice());
+                        purchaseUtils.purchase(player, itemList, 1);
                     if (e.isRightClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
-                        purchaseUtils.purchase(player, finalStoredItem, 16, itemList.getCoinPrice(), itemList.getExpPrice());
+                        purchaseUtils.purchase(player, itemList, 16);
                     if (e.isLeftClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
-                        purchaseUtils.purchase(player, finalStoredItem, 32, itemList.getCoinPrice(), itemList.getExpPrice());
+                        purchaseUtils.purchase(player, itemList, 32);
                     if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
-                        purchaseUtils.purchase(player, finalStoredItem, 64, itemList.getCoinPrice(), itemList.getExpPrice());
+                        purchaseUtils.purchase(player, itemList, 64);
                 }
                 player.performCommand(shop + "Shop");
             });
@@ -286,6 +286,7 @@ public class ShopsBuilder extends BaseCommand {
                             mmoItems.getID(nbtItem).toString().replace(" ", "").equals(itemPriceSplit[1]))
                         if (currentItem.getAmount() >= Integer.valueOf(itemPriceSplit[2]) * purchaseAmount) {
                             indexes.add(index);
+                            break;
                         }
                 index++;
             }
@@ -296,17 +297,17 @@ public class ShopsBuilder extends BaseCommand {
     private List<Component> itemLore(Player player, ItemList itemList) {
         List<Component> lore = new ArrayList<>();
         if (itemList.getItemPrice() != null) {
-            if (hasItem(player, itemList.getItemPrice(), 1).size() == itemList.getItemPrice().length) {
+            if (hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length) {
                 if (economy.getBalance(player) >= itemList.getCoinPrice() && player.getLevel() >= itemList.getExpPrice()) {
                     lore.add(Component.text(""));
                     lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-                    if (hasItem(player, itemList.getItemPrice(), 16).size() == itemList.getItemPrice().length)
+                    if (hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
                         if (economy.getBalance(player) >= itemList.getCoinPrice() * 16 && player.getLevel() >= itemList.getExpPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
                             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
-                    if (hasItem(player, itemList.getItemPrice(), 32).size() == itemList.getItemPrice().length)
+                    if (hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
                         if (economy.getBalance(player) >= itemList.getCoinPrice() * 32 && player.getLevel() >= itemList.getExpPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
                             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
-                    if (hasItem(player, itemList.getItemPrice(), 64).size() == itemList.getItemPrice().length) {
+                    if (hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length) {
                         if (economy.getBalance(player) >= itemList.getCoinPrice() * 64 && player.getLevel() >= itemList.getExpPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
                             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
                     }

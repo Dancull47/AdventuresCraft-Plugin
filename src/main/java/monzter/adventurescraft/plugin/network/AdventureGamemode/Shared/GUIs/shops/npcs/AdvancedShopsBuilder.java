@@ -143,13 +143,13 @@ public class AdvancedShopsBuilder extends BaseCommand {
             ItemStack finalStoredItem = cleanItem;
             return new GuiItem(itemStack, e -> {
                 if (e.isLeftClick() && !e.isShiftClick())
-                    purchaseUtils.purchase(player, finalStoredItem, 1, itemList.getCoinPrice());
-                if (e.isRightClick() && !e.isShiftClick() && itemList.getMaxPurchaseAmount() >= 16)
-                    purchaseUtils.purchase(player, finalStoredItem, 16, itemList.getCoinPrice());
-                if (e.isLeftClick() && e.isShiftClick() && itemList.getMaxPurchaseAmount() >= 32)
-                    purchaseUtils.purchase(player, finalStoredItem, 32, itemList.getCoinPrice());
-                if (e.isRightClick() && e.isShiftClick() && itemList.getMaxPurchaseAmount() >= 64)
-                    purchaseUtils.purchase(player, finalStoredItem, 64, itemList.getCoinPrice());
+//                    purchaseUtils.purchase(player, finalStoredItem, 1, itemList.getCoinPrice());
+//                if (e.isRightClick() && !e.isShiftClick() && itemList.getMaxPurchaseAmount() >= 16)
+//                    purchaseUtils.purchase(player, finalStoredItem, 16, itemList.getCoinPrice());
+//                if (e.isLeftClick() && e.isShiftClick() && itemList.getMaxPurchaseAmount() >= 32)
+//                    purchaseUtils.purchase(player, finalStoredItem, 32, itemList.getCoinPrice());
+//                if (e.isRightClick() && e.isShiftClick() && itemList.getMaxPurchaseAmount() >= 64)
+//                    purchaseUtils.purchase(player, finalStoredItem, 64, itemList.getCoinPrice());
                 player.performCommand(shop + "Shop");
             });
         }
