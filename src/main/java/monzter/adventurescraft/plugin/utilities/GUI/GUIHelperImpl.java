@@ -117,24 +117,18 @@ public class GUIHelperImpl implements GUIHelper {
     @Override
     public ItemStack itemCreator(Material material, String name, String[] lore) {
         ItemStack complete = new ItemStack(material);
-        final ItemMeta completeItemMeta = complete.getItemMeta();
-        completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-        completeItemMeta.setDisplayName(name);
-
-        List<String> itemLore = new ArrayList<>();
-        for (String lore2 : lore)
-            itemLore.add(lore2);
-
-        complete.setItemMeta(completeItemMeta);
-        complete.setLore(itemLore);
-
-        return complete;
+        return itemCreator(complete, name, lore);
     }
 
     @Override
     public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
+        return itemCreator(complete, name, lore);
+    }
+
+    @Override
+    public ItemStack itemCreator(ItemStack itemStack, String name, String[] lore) {
+        ItemStack complete = itemStack;
         final ItemMeta completeItemMeta = complete.getItemMeta();
         completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 

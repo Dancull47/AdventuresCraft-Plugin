@@ -66,6 +66,10 @@ public class Weatherman extends BaseCommand {
                             soundManager.soundNo(player, 1);
                             player.sendMessage(ChatColor.RED + "You don't have enough money!");
                         }
+                    else {
+                        soundManager.soundNo(player, 1);
+                        player.sendMessage(ChatColor.RED + "It's already sunny!");
+                    }
                 }), 3, 1);
         display.addItem(new GuiItem(guiHelper.itemCreator(Material.WATER_BUCKET,
                 ChatColor.GREEN + "Rain", new String[]{"", ChatColor.GRAY + "Change the weather to " + ChatColor.BLUE + "Rainy" + ChatColor.GRAY + "!",
@@ -81,11 +85,41 @@ public class Weatherman extends BaseCommand {
                             soundManager.soundNo(player, 1);
                             player.sendMessage(ChatColor.RED + "You don't have enough money!");
                         }
+                    else {
+                        soundManager.soundNo(player, 1);
+                        player.sendMessage(ChatColor.RED + "It's already raining!");
+                    }
                 }), 5, 1);
 
         gui.addPane(background);
         gui.addPane(display);
         gui.show(player);
+    }
+
+    private boolean hasMoney(Player player, int price) {
+        if (economy.getBalance(player) >= price) {
+            return true;
+        }
+        soundManager.soundNo(player, 1);
+        player.sendMessage(ChatColor.RED + "You don't have enough money!");
+        return false;
+    }
+
+    private boolean isSunny(Player player, boolean sunny) {
+        if (sunny) {
+            if (player.getWorld().isClearWeather()) {
+                soundManager.soundNo(player, 1);
+                player.sendMessage(ChatColor.RED + "It's already sunny!");
+                return true;
+            }
+        } else {
+            if (!player.getWorld().isClearWeather()) {
+                soundManager.soundNo(player, 1);
+                player.sendMessage(ChatColor.RED + "It's already raining!");
+                return true;
+            }
+        }
+        return false;
     }
 }
 

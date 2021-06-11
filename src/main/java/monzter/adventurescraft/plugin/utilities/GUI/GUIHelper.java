@@ -23,6 +23,7 @@ public interface GUIHelper {
 
     ItemStack itemCreator(Material material, String name, String[] lore);
     ItemStack itemCreator(String skullTexture, String name, String[] lore);
+    ItemStack itemCreator(ItemStack itemStack, String name, String[] lore);
 
     ItemStack questInactive(String questName, TextComponent[] questDescription, TextComponent[] questRewards, String questGiver, String questGiverArea);
 
