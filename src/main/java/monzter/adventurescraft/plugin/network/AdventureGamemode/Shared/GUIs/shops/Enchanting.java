@@ -331,7 +331,7 @@ public class Enchanting extends BaseCommand {
 
         return new GuiItem(itemStack, e -> {
             if (hasTool(player, tool))
-                consoleCommand.consoleCommand("mi stations open bow-enchantments " + player.getName());
+                consoleCommand.consoleCommand("mi stations open tool-enchantments " + player.getName());
             else {
                 player.sendMessage(ChatColor.RED + "You must be holding a " + ChatColor.GOLD + "Tool " + WordUtils.capitalizeFully(tool) + ChatColor.RED + " to enchant it!");
                 soundManager.soundNo(player, 1);
