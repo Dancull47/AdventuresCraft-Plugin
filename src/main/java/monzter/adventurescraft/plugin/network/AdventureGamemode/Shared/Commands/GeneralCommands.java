@@ -4,9 +4,14 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,7 +22,11 @@ public class GeneralCommands extends BaseCommand implements Listener {
     private final ConsoleCommand consoleCommand;
     private final PermissionLP permissionLP;
     private final SoundManager soundManager;
-
+    private final TextComponent resourcePack = Component.text("Are you wanting to see the Resource Pack, but not getting the popup when using /RP Download?")
+            .color(NamedTextColor.GREEN)
+            .hoverEvent(Component.text("Click to View Guide!", NamedTextColor.GREEN))
+            .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/resource-pack/"))
+            .append(Component.text(" You need to enable your Resource Pack before joining, click here to find out how to!"));
 
     public GeneralCommands(AdventuresCraft plugin, ConsoleCommand consoleCommand, PermissionLP permissionLP, SoundManager soundManager) {
         this.plugin = plugin;
@@ -57,7 +66,15 @@ public class GeneralCommands extends BaseCommand implements Listener {
         consoleCommand.consoleCommand("dm open Quests " + player.getName());
     }
 
-    //  Cannot download Resource Pack???
+    @CommandAlias("rp|resourcePack|texturePack")
+    private void resourcePack(Player player) {
+        player.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Resource Pack Commands");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW  + "/RP Enable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Enable the Resource Pack.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW  + "/RP Disable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Disable the Resource Pack.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW  + "/RP Download " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Download the Resource Pack.");
+        player.sendMessage(resourcePack);
+    }
+
     @CommandAlias("rp|resourcePack|texturePack")
     @CommandCompletion("enable|disable|download")
     private void resourcePack(Player player, String command) {

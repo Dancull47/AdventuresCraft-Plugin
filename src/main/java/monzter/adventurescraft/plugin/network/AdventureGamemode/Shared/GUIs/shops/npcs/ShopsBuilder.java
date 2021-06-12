@@ -63,7 +63,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("MiningShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void miningShop(Player player) {
         int height = 5;
         final ChestGui gui = new ChestGui(height, "Mining Shop");
@@ -73,7 +73,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("FarmShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void farmShop(Player player) {
         int height = 5;
         final ChestGui gui = new ChestGui(height, "Farm Shop");
@@ -83,7 +83,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("ForestShop|LumberjackShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void lumberjackShop(Player player) {
         int height = 6;
         final ChestGui gui = new ChestGui(height, "Lumberjack Shop");
@@ -93,7 +93,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("MercenaryShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void mercenaryShop(Player player) {
         int height = 5;
         final ChestGui gui = new ChestGui(height, "Mercenary Shop");
@@ -103,7 +103,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("EstateShop|Farm2Shop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void estateShop(Player player) {
         int height = 5;
         final ChestGui gui = new ChestGui(height, "Estate Shop");
@@ -113,7 +113,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("LandscapeShop|LandscaperShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void landscapeShop(Player player) {
         int height = 6;
         final ChestGui gui = new ChestGui(height, "Landscaper Shop");
@@ -123,7 +123,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("JoyShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void joyShop(Player player) {
         int height = 4;
         final ChestGui gui = new ChestGui(height, "Joy Shop");
@@ -133,7 +133,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("CatLadyShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void catLadyShop(Player player) {
         int height = 4;
         final ChestGui gui = new ChestGui(height, "Cat Lady Shop");
@@ -143,7 +143,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("HellShop|DemonShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void demonShop(Player player) {
         int height = 5;
         final ChestGui gui = new ChestGui(height, "Demon Shop");
@@ -153,7 +153,7 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     @CommandAlias("EnchantingShop")
-    @CommandPermission("shops")
+    @CommandPermission("SHOPS")
     private void enchantingShop(Player player) {
         int height = 6;
         int length = 5;
