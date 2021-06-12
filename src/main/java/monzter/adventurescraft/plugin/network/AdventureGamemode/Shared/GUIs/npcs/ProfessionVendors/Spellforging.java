@@ -50,7 +50,7 @@ public class Spellforging extends BaseCommand {
         display.addItem(new GuiItem(guiHelper.itemCreator(Material.PAPER,
                 ChatColor.GREEN + "Spell Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
                 e -> consoleCommand.consoleCommand("mi stations open spells " + player.getName())), 2, 1);
-        display.addItem(new GuiItem(guiHelper.itemCreator(Material.WHEAT,
+        display.addItem(new GuiItem(guiHelper.itemCreator(Material.BLAZE_ROD,
                 ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
                 e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 4, 1);
         display.addItem(new GuiItem(guiHelper.itemCreator(Material.STICK,

@@ -98,12 +98,25 @@ public class BlockInteractions implements Listener {
             case "Cell":
             case "Adventure":
             case "Home":
-                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
+                if (event.getClickedBlock() != null && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+                        && event.getClickedBlock().getType().equals(Material.ENDER_CHEST)) {
                     final Player player = event.getPlayer();
                     if (!player.hasPermission("bank.open.command")) {
                         permissionLP.giveTempPermission(player, "bank.open.command", 2, "s");
                         player.performCommand("banks open");
                     }
+                }
+        }
+    }
+
+    @EventHandler
+    public void spellforging(PlayerInteractEvent event) {
+        switch (plugin.SERVER) {
+            case "Adventure":
+            case "Home":
+                if (event.getClickedBlock() != null && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+                        && event.getClickedBlock().getType().equals(Material.GRAY_SHULKER_BOX)) {
+                    shopOpener.shopOpener(event.getPlayer(), "SpellforgingShop");
                 }
         }
     }

@@ -65,13 +65,10 @@ public class PermissionImplLP implements PermissionLP {
 
     @Override
     public void giveTempPermission(Player player, String permission, String context, int duration, TimeUnit unit) {
-        plugin.getLogger().info(context);
-        this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
             User user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
             user.data().add(Node.builder(permission).expiry(duration, unit).withContext(DefaultContextKeys.SERVER_KEY, context).value(true).build());
             luckPerms.getUserManager().saveUser(user);
             plugin.getLogger().info(permission + ChatColor.GREEN + " has been saved for " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + "!");
-        });
     }
 
     @Override

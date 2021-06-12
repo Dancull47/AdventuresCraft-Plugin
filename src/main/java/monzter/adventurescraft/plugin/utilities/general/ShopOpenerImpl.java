@@ -16,11 +16,11 @@ public class ShopOpenerImpl implements ShopOpener {
         if (!player.hasPermission("SHOPS")) {
             try {
                 permissionLP.givePermission(player, "SHOPS");
-                player.performCommand("enchantmentShop");
+                player.performCommand(shop);
             } finally {
                 permissionLP.takePermission(player, "SHOPS");
             }
-        }
-        player.performCommand(shop);
+        } else
+            player.performCommand(shop);
     }
 }
