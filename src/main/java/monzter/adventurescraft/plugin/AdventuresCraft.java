@@ -24,6 +24,8 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.main
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.ProfessionVendors.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
+import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
+import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
@@ -186,6 +188,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         initializeDependencies();
 
         switch (SERVER) {
+            case "Lobby":
+                lobbyLoad();
+                break;
             case "Prison":
                 prisonLoad();
                 prisonShared();
@@ -387,6 +392,13 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager, calculateEnchantments));
         manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
+    }
+
+    private void lobbyLoad() {
+//        Commands
+        manager.registerCommand(new Trails(this, soundManager, guiHelper));
+//        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new CancelDrops(this), this);
     }
 
     private void initializeDependencies() {

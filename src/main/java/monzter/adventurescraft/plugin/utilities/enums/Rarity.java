@@ -3,24 +3,26 @@ package monzter.adventurescraft.plugin.utilities.enums;
 import org.bukkit.ChatColor;
 
 public enum Rarity {
-    COMMON(ChatColor.WHITE),
-    UNCOMMON(ChatColor.DARK_GREEN),
-    RARE(ChatColor.BLUE),
-    LEGENDARY(ChatColor.DARK_PURPLE),
-    EXOTIC(ChatColor.YELLOW),
-    MYTHICAL(ChatColor.LIGHT_PURPLE),
-    GODLY(ChatColor.RED),
+    COMMON(ChatColor.WHITE, "Common"),
+    UNCOMMON(ChatColor.DARK_GREEN, "Uncommon"),
+    RARE(ChatColor.BLUE, "Rare"),
+    LEGENDARY(ChatColor.DARK_PURPLE, "Legendary"),
+    EXOTIC(ChatColor.YELLOW, "Exotic"),
+    MYTHICAL(ChatColor.LIGHT_PURPLE, "Mythical"),
+    GODLY(ChatColor.RED, "Godly"),
 
-    PHOENIX(ChatColor.BLUE),
-    PHOENIX2(ChatColor.DARK_PURPLE),
+    PHOENIX(ChatColor.BLUE, null),
+    PHOENIX2(ChatColor.DARK_PURPLE, null),
 
-    DRAGON(ChatColor.BLUE),
-    DRAGON2(ChatColor.DARK_PURPLE);
+    DRAGON(ChatColor.BLUE, null),
+    DRAGON2(ChatColor.DARK_PURPLE, null);
 
     private final ChatColor color;
+    private final String name;
 
-    Rarity(ChatColor color) {
+    Rarity(ChatColor color, String name) {
         this.color = color;
+        this.name = name;
     }
     public String getColorString(){
         return getColor().toString();
@@ -28,5 +30,9 @@ public enum Rarity {
 
     public ChatColor getColor() {
         return color;
+    }
+
+    public String getName() {
+        return name;
     }
 }
