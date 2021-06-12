@@ -92,7 +92,7 @@ public class Trails extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        final List<TrailList> guiContents = TrailList.getShop(RARITY);
+        final List<TrailList> guiContents = TrailList.getTrail(RARITY);
 
         int i = 0;
         for (TrailList trail : guiContents) {
