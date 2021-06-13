@@ -36,17 +36,17 @@ public class Social extends BaseCommand {
     private final ConsoleCommand consoleCommand;
     private final PermissionLP permissionLP;
 
-    final TextComponent friend = Component.text(ChatColor.GREEN + "Add other " + ChatColor.GOLD + "Prisoners " + ChatColor.GREEN + "you meet along")
+    final TextComponent friend = Component.text(ChatColor.GREEN + "Add other " + ChatColor.GOLD + "Adventurers " + ChatColor.GREEN + "you meet along")
             .color(NamedTextColor.GREEN)
             .append(Component.text(ChatColor.GREEN + " your journey to your  " + ChatColor.GOLD + "Friends List" + ChatColor.GREEN + "!"))
             .hoverEvent(Component.text("Click to use /Friend Add!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.suggestCommand("/Friend Add "));
     final TextComponent visit = Component.text("Use ")
             .color(NamedTextColor.GREEN)
-            .append(Component.text("/Cell Visit <Name>", NamedTextColor.GOLD))
-            .append(Component.text(" to visit another " + ChatColor.GOLD + "Prisoner's Cell" + ChatColor.GREEN +"!"))
-            .hoverEvent(Component.text("Click to use /Cell Visit!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.suggestCommand("/Cell Visit "));
+            .append(Component.text("/Home Visit <Name>", NamedTextColor.GOLD))
+            .append(Component.text(" to visit another " + ChatColor.GOLD + "Adventurer's Home" + ChatColor.GREEN +"!"))
+            .hoverEvent(Component.text("Click to use /Home Visit!", NamedTextColor.GREEN))
+            .clickEvent(ClickEvent.suggestCommand("/Home Visit "));
 
 
     public Social(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, PermissionLP permissionLP) {
@@ -85,11 +85,11 @@ public class Social extends BaseCommand {
         final ItemStack visit = new ItemStack(Material.OAK_DOOR);
         final ItemMeta visitItemMeta = visit.getItemMeta();
 
-        visitItemMeta.displayName(Component.text(ChatColor.GREEN + "/Cell Visit " + ChatColor.YELLOW + "<Name>"));
+        visitItemMeta.displayName(Component.text(ChatColor.GREEN + "/Home Visit " + ChatColor.YELLOW + "<Name>"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Visit another " + ChatColor.YELLOW + "Prisoner's Cell" + ChatColor.GRAY + ".");
+        lore.add(ChatColor.GRAY + "Visit another " + ChatColor.YELLOW + "Adventurer's Home" + ChatColor.GRAY + ".");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Command");
 
@@ -107,7 +107,7 @@ public class Social extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Add other " + ChatColor.YELLOW + "Prisoners " + ChatColor.GRAY + "you meet along");
+        lore.add(ChatColor.GRAY + "Add other " + ChatColor.YELLOW + "Adventurers " + ChatColor.GRAY + "you meet along");
         lore.add(ChatColor.GRAY + "your journey to your  " + ChatColor.YELLOW + "Friends List" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Command");
