@@ -1,7 +1,9 @@
 package monzter.adventurescraft.plugin.utilities.general;
 
 import io.lumine.mythic.lib.api.item.NBTItem;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationItemList;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ItemList;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.Indyuce.mmoitems.MMOItems;
@@ -10,6 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pl.betoncraft.betonquest.BetonQuest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +23,21 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
     private final SoundManager soundManager;
     private final NumberFormat numberFormat;
     private final MMOItems mmoItems;
+    private final BetonPointsManager betonPointsManager;
 
 
-    public PurchaseUtilsImpl(Economy economy, FullInventory fullInventory, SoundManager soundManager, NumberFormat numberFormat, MMOItems mmoItems) {
+    public PurchaseUtilsImpl(Economy economy, FullInventory fullInventory, SoundManager soundManager, NumberFormat numberFormat, MMOItems mmoItems, BetonPointsManager betonPointsManager) {
         this.economy = economy;
         this.fullInventory = fullInventory;
         this.soundManager = soundManager;
         this.numberFormat = numberFormat;
         this.mmoItems = mmoItems;
+        this.betonPointsManager = betonPointsManager;
     }
 
     @Override
     public void purchase(Player player, ItemList itemList, int amount) {
-        if (economy.hasMoney(player, itemList.getCoinPrice())) {
+        if (economy.hasMoney(player, itemList.getCoinPrice() * amount)) {
             if (player.getLevel() >= itemList.getExpPrice()) {
                 if (!fullInventory.fullInventory(player)) {
 
@@ -76,6 +81,20 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                         player.setLevel(player.getLevel() - (itemList.getExpPrice() * amount));
                         player.sendMessage(ChatColor.AQUA + "Ξ Levels " + numberFormat.numberFormat(itemList.getExpPrice() * amount) + ChatColor.RED + " has been deducted from your account!");
                     }
+                    soundManager.soundYes(player, 1);
+                }
+            }
+        }
+    }
+
+    public void purchase(Player player, DonationItemList itemList, int amount) {
+        if (betonPointsManager.getPoints("items.AdventureCoin", BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints()) >= itemList.getCoinPrice() * amount) {
+            if (!fullInventory.fullInventory(player)) {
+                player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
+                        mmoItems.getItem(itemList.getType(), itemList.getID()).getItemMeta().getDisplayName() + ChatColor.GREEN + " for:");
+                player.getInventory().addItem(mmoItems.getItem(itemList.getType(), itemList.getID()).asQuantity(amount));
+                if (itemList.getCoinPrice() > 0) {
+                    economy.takeMoney(player, itemList.getCoinPrice() * amount);
                     soundManager.soundYes(player, 1);
                 }
             }

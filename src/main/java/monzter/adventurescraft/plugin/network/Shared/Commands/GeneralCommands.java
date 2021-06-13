@@ -45,6 +45,12 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
             .append(Component.text("for more info about our Server!"))
             .hoverEvent(Component.text("Click to visit the Website!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.openUrl("http://adventurescraft.net"));
+    final TextComponent wiki = Component.text("You can view official information about our Gamemodes on our ")
+            .append(Component.text("Wiki", NamedTextColor.GOLD))
+            .append(Component.text("!"))
+            .hoverEvent(Component.text("Click to visit the Wiki!", NamedTextColor.GREEN))
+            .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/"))
+            .color(NamedTextColor.GRAY);
 
 
     @Dependency
@@ -155,6 +161,11 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         player.sendMessage(discord);
     }
 
+    @CommandAlias("wiki")
+    private void wikiCommand(Player player) {
+        player.sendMessage(wiki);
+    }
+
     @CommandAlias("donate|store|shop")
     private void donateCommand(Player player) {
         player.sendMessage(donate);
@@ -165,7 +176,7 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         player.sendMessage(website);
     }
 
-    @CommandAlias("spawn|yard")
+    @CommandAlias("spawn|yard|town")
     private void spawnCommand(Player player) {
         sendToSpawn(player);
     }

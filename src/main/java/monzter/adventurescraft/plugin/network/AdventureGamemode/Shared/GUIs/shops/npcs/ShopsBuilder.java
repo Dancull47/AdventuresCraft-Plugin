@@ -66,7 +66,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void miningShop(Player player) {
         int height = 5;
-        final ChestGui gui = new ChestGui(height, "Mining Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Mining Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.MINING);
         menuBase(gui, guiContents, player, "Mining", height, Material.BLACK_STAINED_GLASS_PANE);
         gui.show(player);
@@ -76,7 +76,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void farmShop(Player player) {
         int height = 5;
-        final ChestGui gui = new ChestGui(height, "Farm Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Farm Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.FARMER);
         menuBase(gui, guiContents, player, "Farm", height, Material.LIME_STAINED_GLASS_PANE);
         gui.show(player);
@@ -86,7 +86,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void lumberjackShop(Player player) {
         int height = 6;
-        final ChestGui gui = new ChestGui(height, "Lumberjack Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Lumberjack Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.LUMBERJACK);
         menuBase(gui, guiContents, player, "Lumberjack", height, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
@@ -96,7 +96,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void mercenaryShop(Player player) {
         int height = 5;
-        final ChestGui gui = new ChestGui(height, "Mercenary Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Mercenary Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.MERCENARY);
         menuBase(gui, guiContents, player, "Mercenary", height, Material.RED_STAINED_GLASS_PANE);
         gui.show(player);
@@ -106,7 +106,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void estateShop(Player player) {
         int height = 5;
-        final ChestGui gui = new ChestGui(height, "Estate Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Estate Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.ESTATE);
         menuBase(gui, guiContents, player, "Estate", height, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
@@ -116,7 +116,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void landscapeShop(Player player) {
         int height = 6;
-        final ChestGui gui = new ChestGui(height, "Landscaper Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Landscaper Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.LANDSCAPER);
         menuBase(gui, guiContents, player, "Landscaper", height, Material.LIGHT_BLUE_STAINED_GLASS_PANE);
         gui.show(player);
@@ -126,7 +126,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void joyShop(Player player) {
         int height = 4;
-        final ChestGui gui = new ChestGui(height, "Joy Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Joy Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.JOY);
         menuBase(gui, guiContents, player, "Joy", height, Material.PINK_STAINED_GLASS_PANE, 2);
         gui.show(player);
@@ -136,7 +136,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void catLadyShop(Player player) {
         int height = 4;
-        final ChestGui gui = new ChestGui(height, "Cat Lady Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Cat Lady Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.CAT_LADY);
         menuBase(gui, guiContents, player, "CatLady", height, Material.BROWN_STAINED_GLASS_PANE, 4);
         gui.show(player);
@@ -146,7 +146,7 @@ public class ShopsBuilder extends BaseCommand {
     @CommandPermission("SHOPS")
     private void demonShop(Player player) {
         int height = 5;
-        final ChestGui gui = new ChestGui(height, "Demon Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Demon Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.DEMON);
         menuBase(gui, guiContents, player, "Demon", height, Material.RED_STAINED_GLASS_PANE);
         gui.show(player);
@@ -159,7 +159,7 @@ public class ShopsBuilder extends BaseCommand {
         int length = 5;
         int x = 2;
         int y = 1;
-        final ChestGui gui = new ChestGui(height, "Enchanting Shop");
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanting Shop"));
         final List<ItemList> guiContents = ItemList.getShop(Shops.ENCHANTER);
         menuBase(gui, guiContents, player, "Enchanting", height, length, Material.PURPLE_STAINED_GLASS_PANE, x, y);
         gui.show(player);
