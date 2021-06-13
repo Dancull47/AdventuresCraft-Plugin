@@ -121,7 +121,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add("");
         lore.add(PrisonStatsDisplay.MONEY_AMOUNT.getName() + ChatColor.GRAY + " can be earned from selling");
         lore.add(ChatColor.GRAY + "resources you collect while mining,");
-        lore.add(ChatColor.GRAY + "opening" + ChatColor.GREEN + " Crates" + ChatColor.GRAY + ", and more!");
+        lore.add(ChatColor.GRAY + "opening" + ChatColor.GREEN + " CrateList" + ChatColor.GRAY + ", and more!");
 
         money.setItemMeta(moneyItemMeta);
         money.setLore(lore);
@@ -141,7 +141,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "improves the capabilities of your Gear!");
         lore.add("");
         lore.add(PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " can be earned while mining,");
-        lore.add(ChatColor.GRAY + "completing" + ChatColor.GREEN + " Quests" + ChatColor.GRAY + ", and opening " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "completing" + ChatColor.GREEN + " Quests" + ChatColor.GRAY + ", and opening " + ChatColor.GREEN + "CrateList" + ChatColor.GRAY + "!");
 
         experience.setItemMeta(experienceItemMeta);
         experience.setLore(lore);
@@ -161,7 +161,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "hatch " + ChatColor.GREEN + "Eggs" + ChatColor.GRAY + " and evolve " + ChatColor.GREEN + "Pets" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.GRAY + " can be earned while mining,");
-        lore.add(ChatColor.GRAY + "completing" + ChatColor.GREEN + " Quests" + ChatColor.GRAY + ", and opening " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "completing" + ChatColor.GREEN + " Quests" + ChatColor.GRAY + ", and opening " + ChatColor.GREEN + "CrateList" + ChatColor.GRAY + "!");
 
         petExperience.setItemMeta(petExperienceItemMeta);
         petExperience.setLore(lore);
@@ -444,7 +444,7 @@ public class ProfileMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(PrisonStatsDisplay.LUCK_MULTIPLIER.getName() + ChatColor.GRAY + " increases the chances of");
-        lore.add(ChatColor.GRAY + "finding rare items like " + ChatColor.YELLOW + "Crates " + ChatColor.GRAY + "while mining!");
+        lore.add(ChatColor.GRAY + "finding rare items like " + ChatColor.YELLOW + "CrateList " + ChatColor.GRAY + "while mining!");
 
         luckMultiplier.setItemMeta(luckMultiplierItemMeta);
         luckMultiplier.setLore(lore);

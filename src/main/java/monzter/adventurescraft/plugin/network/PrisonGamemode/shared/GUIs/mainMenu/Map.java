@@ -134,12 +134,12 @@ public class Map extends BaseCommand {
         final ItemStack crates = new ItemStack(Material.CHEST);
         final ItemMeta cratesItemMeta = crates.getItemMeta();
 
-        cratesItemMeta.displayName(Component.text(ChatColor.GREEN + "Crates"));
+        cratesItemMeta.displayName(Component.text(ChatColor.GREEN + "CrateList"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Checkout what is contained within");
-        lore.add(ChatColor.GRAY + "the " + ChatColor.GREEN + "Crates" + ChatColor.GRAY + " found in our world!");
+        lore.add(ChatColor.GRAY + "the " + ChatColor.GREEN + "CrateList" + ChatColor.GRAY + " found in our world!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 

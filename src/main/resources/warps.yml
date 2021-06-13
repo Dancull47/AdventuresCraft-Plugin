@@ -693,7 +693,7 @@ PetShop:
     pitch: 1.1
     yaw: 0.0
 Crate:
-  Name: Crates
+  Name: CrateList
   Location:
     ==: org.bukkit.Location
     world: World
@@ -703,7 +703,7 @@ Crate:
     pitch: 1.2
     yaw: -89.6
 Crates:
-  Name: Crates
+  Name: CrateList
   Location:
     ==: org.bukkit.Location
     world: World
