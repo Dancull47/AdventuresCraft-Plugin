@@ -18,6 +18,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Knowledge;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ResourceCollector;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.Farming;
@@ -267,6 +268,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Professions(this, soundManager, guiHelper, progressBar));
         manager.registerCommand(new ResourceCollector(this, soundManager, guiHelper, progressBar));
         manager.registerCommand(new Farming(this, soundManager, guiHelper, progressBar));
+        manager.registerCommand(new Knowledge(this, soundManager, guiHelper, shopOpener, consoleCommand));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
 //          NPC GUIs
         manager.registerCommand(new LiftOperator(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Jenny(this, soundManager, guiHelper, consoleCommand));
@@ -286,6 +289,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Shop GUIs
 //        manager.registerCommand(new Farmer(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.Enchanting(this, guiHelper, shopOpener, consoleCommand, soundManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.DailyShop(this, soundManager, guiHelper, consoleCommand, numberFormat, mmoItemsGive, betonPointsManager, economy));
         manager.registerCommand(new ShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
 
     }

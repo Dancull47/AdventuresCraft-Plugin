@@ -90,7 +90,10 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank open")), 5, 3);
         display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpginv")), 6, 3);
 
-        display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 3, 4);
+        display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 0, 2);
+        display.addItem(new GuiItem(dailyRewards(player), e -> player.performCommand("daily")), 0, 3);
+
+        display.addItem(new GuiItem(resourceCollector(player), e -> player.performCommand("resourceCollector")), 3, 4);
         display.addItem(new GuiItem(donationPerks(player), e -> {
             if (e.isRightClick())
                 player.performCommand("donate");
@@ -99,7 +102,6 @@ public class MainMenu extends BaseCommand {
         }), 4, 4);
         display.addItem(new GuiItem(social(player), e -> player.performCommand("social")), 5, 4);
 
-        display.addItem(new GuiItem(resourceCollector(player), e -> player.performCommand("resourceCollector")), 4, 5);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -316,7 +318,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Check out who the most");
-        lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Prisoners " + ChatColor.GRAY + "are!");
+        lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Adventuerers " + ChatColor.GRAY + "are!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
@@ -426,6 +428,26 @@ public class MainMenu extends BaseCommand {
         return votingRewards;
     }
 
+    private ItemStack dailyRewards(Player player) {
+        final ItemStack votingRewards = new ItemStack(Material.EMERALD);
+        final ItemMeta votingRewardsItemMeta = votingRewards.getItemMeta();
+
+        votingRewardsItemMeta.displayName(Component.text(ChatColor.GREEN + "Daily Rewards"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Login every " + ChatColor.GREEN + "24 hours " + ChatColor.GRAY + "to receive");
+        lore.add(ChatColor.GRAY + "a " + ChatColor.GREEN + "Login Token" + ChatColor.GRAY + ", which can be redeemed");
+        lore.add(ChatColor.GRAY + "for special rewards from this Shop!");
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Shop");
+
+        votingRewards.setItemMeta(votingRewardsItemMeta);
+        votingRewards.setLore(lore);
+
+        return votingRewards;
+    }
+
     private ItemStack donationPerks(Player player) {
         final ItemStack donationPerks = new ItemStack(Material.SUNFLOWER);
         final ItemMeta donationPerksItemMeta = donationPerks.getItemMeta();
@@ -454,7 +476,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Add and join together in parties with");
-        lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Prisoners " + ChatColor.GRAY + "you meet!");
+        lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Adventuerers " + ChatColor.GRAY + "you meet!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
