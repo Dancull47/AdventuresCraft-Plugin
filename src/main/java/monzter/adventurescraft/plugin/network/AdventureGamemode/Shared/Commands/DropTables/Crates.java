@@ -14,8 +14,23 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public enum Crates implements Weighted, ItemGenerator {
-    UNDEAD1(CrateList.UNDEAD, "SKIN", "HELL_BRINGER_SWORD", 1, .25),
-    UNDEAD2(CrateList.UNDEAD, "SKIN", "RUSTED_SWORD", 1, .50),
+    HELL2(CrateList.HELL, "SKIN", "RUSTED_SWORD3", 1, .20),
+    HELL8(CrateList.HELL, "SKIN", "RUSTED_BATTLE_AXE3", 1, .20),
+    HELL9(CrateList.HELL, "SKIN", "MAGMA_BATTLE_AXE3", 1, .20),
+    HELL11(CrateList.HELL, "SKIN", "MAGMA_STAFF3", 1, .20),
+    HELL12(CrateList.HELL, "SKIN", "RUSTED_STAFF3", 1, .20),
+    HELL13(CrateList.HELL, "SKIN", "RUSTED_STAFF3_2", 1, .20),
+    HELL1(CrateList.HELL, "SKIN", "HELL_BRINGER_SWORD4", 1, .10),
+    HELL3(CrateList.HELL, "SKIN", "MAGMA_BLADE4", 1, .10),
+    HELL6(CrateList.HELL, "SKIN", "HELL_BRINGER_BATTLE_AXE4", 1, .10),
+    HELL7(CrateList.HELL, "SKIN", "HELL_BRINGER_BATTLE_AXE4_2", 1, .10),
+    HELL10(CrateList.HELL, "SKIN", "SOUL_CONSUMING_BATTLE_AXE4", 1, .10),
+    HELL14(CrateList.HELL, "SKIN", "HELL_FLAME_STAFF4", 1, .10),
+    HELL15(CrateList.HELL, "SKIN", "HELL_FLAME_STAFF4_2", 1, .10),
+    HELL4(CrateList.HELL, "SKIN", "WORLD_SPLITTER_SWORD5", 1, .01),
+    HELL5(CrateList.HELL, "SKIN", "WORLD_SPLITTER_SWORD5_2", 1, .01),
+    HELL16(CrateList.HELL, "SKIN", "HELL_TELEKINESIS_STAFF5", 1, .01),
+    HELL17(CrateList.HELL, "SKIN", "HELL_TELEKINESIS_STAFF5_2", 1, .01),
 
     ;
 

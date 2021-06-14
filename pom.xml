@@ -32,7 +32,6 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <configuration>
-                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <relocations>
                         <relocation>
                             <pattern>com.zaxxer.hikari</pattern>
@@ -201,7 +200,8 @@
             <groupId>com.vexsoftware</groupId>
             <artifactId>nuvotifier-universal</artifactId>
             <version>2.6.0</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/nuvotifier-2.7.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -248,15 +248,16 @@
             <artifactId>net.craftersland.data</artifactId>
             <version>3.35.1</version>
             <scope>system</scope>
-            <systemPath>
-                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MysqlPlayerDataBridge-v3.35.1.jar
-            </systemPath>
+            <systemPath>C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MysqlPlayerDataBridge-v3.35.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>dev.dbassett</groupId>
             <artifactId>skullcreator</artifactId>
             <version>3.0.0</version>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <systemPath>
+                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/skullcreator-3.0.1.jar
+            </systemPath>
         </dependency>
         <dependency>
             <groupId>net.citizensnpcs</groupId>
@@ -285,8 +286,7 @@
         <dependency>
             <groupId>com.google.guava</groupId> <!-- Usage: Iterating Backwards -->
             <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
-        </dependency>
+            <version>30.1.1-jre</version> </dependency>
         <dependency>
             <groupId>MiniaturePets</groupId>
             <artifactId>net.craftersland.data</artifactId>
