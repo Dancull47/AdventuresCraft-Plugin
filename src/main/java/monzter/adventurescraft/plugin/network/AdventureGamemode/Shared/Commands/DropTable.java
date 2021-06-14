@@ -76,21 +76,45 @@ public class DropTable extends BaseCommand {
     private void borgBox(Player player) {
         final ChestGui gui = new ChestGui(5, guiHelper.guiName("Borg's Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.BORG);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
+        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, 5, 1);
+        gui.show(player);
+    }
+
+    @Subcommand("ENCHANTED_BOX")
+    private void enchantedBox(Player player) {
+        final ChestGui gui = new ChestGui(3, guiHelper.guiName("Enchanted Box"));
+        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, 3, 2);
+        gui.show(player);
+    }
+
+    @Subcommand("ENCHANTED_BOX2")
+    private void enchantedBox2(Player player) {
+        final ChestGui gui = new ChestGui(3, guiHelper.guiName("Enchanted Box"));
+        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX2);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, 3, 2);
+        gui.show(player);
+    }
+
+    @Subcommand("ENCHANTED_BOX3")
+    private void enchantedBox3(Player player) {
+        final ChestGui gui = new ChestGui(3, guiHelper.guiName("Enchanted Box"));
+        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX3);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, 3, 3);
         gui.show(player);
     }
 
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor) {
-        createMenu(gui, guiContents, backgroundColor, 6);
+        createMenu(gui, guiContents, backgroundColor, 6, 1);
     }
 
-    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor, int height) {
+    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor, int height, int startX) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        PaginatedPane page = new PaginatedPane(0, 0, 9, height-1);
-        OutlinePane background = new OutlinePane(0, 0, 9, height-1, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
-        OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
+        PaginatedPane page = new PaginatedPane(0, 0, 9, height);
+        OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
+        OutlinePane display = new OutlinePane(startX, 1, 7, 4, Pane.Priority.LOW);
+        OutlinePane display2 = new OutlinePane(startX, 1, 7, 4, Pane.Priority.LOW);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
 

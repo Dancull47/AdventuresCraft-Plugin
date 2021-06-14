@@ -9,6 +9,9 @@ public enum CrateList {
 
     MAGICAL(ChatColor.DARK_PURPLE, "Magical"),
     BORG(ChatColor.RED, "Borg"),
+    ENCHANTED_BOX(ChatColor.WHITE, "Enchanted Box"),
+    ENCHANTED_BOX2(ChatColor.DARK_GREEN, "Enchanted Box"),
+    ENCHANTED_BOX3(ChatColor.BLUE, "Enchanted Box"),
     ;
 
     private final ChatColor color;

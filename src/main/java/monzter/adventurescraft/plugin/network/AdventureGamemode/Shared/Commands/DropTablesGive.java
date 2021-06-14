@@ -42,7 +42,7 @@ public class DropTablesGive extends BaseCommand {
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
-    @CommandCompletion("* hellCrate|undeadCrate|professionCrate|magicalCrate|borgsCrate")
+    @CommandCompletion("* hellCrate|undeadCrate|professionCrate|magicalCrate|borgsCrate|ENCHANTED_BOX|ENCHANTED_BOX2|ENCHANTED_BOX3")
     private void dropTable(OnlinePlayer player, String table, int amount) {
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
@@ -76,6 +76,21 @@ public class DropTablesGive extends BaseCommand {
                     RandomSelector<Crates> borgCrate = RandomSelector.weighted((Crates.getCrates(CrateList.BORG)));
                     Crates borgCrateReward = borgCrate.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(borgCrateReward.getType(), borgCrateReward.getId()).getItemMeta().getDisplayName(), borgCrateReward.getType(), borgCrateReward.getId(), borgCrateReward.getWeight(), borgCrateReward.getAmount());
+                    break;
+                case "ENCHANTED_BOX":
+                    RandomSelector<Crates> enchantedCrate = RandomSelector.weighted((Crates.getCrates(CrateList.ENCHANTED_BOX)));
+                    Crates enchantedCrateReward = enchantedCrate.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(enchantedCrateReward.getType(), enchantedCrateReward.getId()).getItemMeta().getDisplayName(), enchantedCrateReward.getType(), enchantedCrateReward.getId(), enchantedCrateReward.getWeight(), enchantedCrateReward.getAmount());
+                    break;
+                case "ENCHANTED_BOX2":
+                    RandomSelector<Crates> enchantedCrate2 = RandomSelector.weighted((Crates.getCrates(CrateList.ENCHANTED_BOX2)));
+                    Crates enchantedCrate2Reward = enchantedCrate2.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(enchantedCrate2Reward.getType(), enchantedCrate2Reward.getId()).getItemMeta().getDisplayName(), enchantedCrate2Reward.getType(), enchantedCrate2Reward.getId(), enchantedCrate2Reward.getWeight(), enchantedCrate2Reward.getAmount());
+                    break;
+                case "ENCHANTED_BOX3":
+                    RandomSelector<Crates> enchantedCrate3 = RandomSelector.weighted((Crates.getCrates(CrateList.ENCHANTED_BOX3)));
+                    Crates enchantedCrate3Reward = enchantedCrate3.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(enchantedCrate3Reward.getType(), enchantedCrate3Reward.getId()).getItemMeta().getDisplayName(), enchantedCrate3Reward.getType(), enchantedCrate3Reward.getId(), enchantedCrate3Reward.getWeight(), enchantedCrate3Reward.getAmount());
                     break;
             }
         }
