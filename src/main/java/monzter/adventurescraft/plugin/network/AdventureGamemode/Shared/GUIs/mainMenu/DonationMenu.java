@@ -8,13 +8,15 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
+import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -25,6 +27,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import pl.betoncraft.betonquest.BetonQuest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,10 @@ public class DonationMenu extends BaseCommand {
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
+    private final BetonPointsManager betonPointsManager;
+    private final NumberFormat numberFormat;
+    private final MMOItems mmoItems;
+
 
     final TextComponent donate = Component.text("You can donate to get epic rewards from our")
             .color(NamedTextColor.GREEN)
@@ -45,19 +52,14 @@ public class DonationMenu extends BaseCommand {
             .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
 
-    final TextComponent miningPass = Component.text("Earn ")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Special Rewards ", NamedTextColor.GOLD))
-            .append(Component.text("while mining through the Prison!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store's Battle Pass!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
-
-    public DonationMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
+    public DonationMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, BetonPointsManager betonPointsManager, NumberFormat numberFormat, MMOItems mmoItems) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
+        this.betonPointsManager = betonPointsManager;
+        this.numberFormat = numberFormat;
+        this.mmoItems = mmoItems;
     }
 
     @CommandAlias("donate|donationRewards|donationMenu")
@@ -71,18 +73,13 @@ public class DonationMenu extends BaseCommand {
         StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
 
 
-        background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.LIGHT_BLUE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
 
         display.addItem(new GuiItem(adventureCoins(player), e -> player.sendMessage(donate)), 2, 1);
-        display.addItem(new GuiItem(adventureShop(player), e -> player.performCommand("DonationShop")), 4, 1);
-        display.addItem(new GuiItem(miningPass(player), e -> {
-            if (e.isLeftClick())
-                player.sendMessage(miningPass);
-            if (e.isRightClick())
-                player.performCommand("miningPass");
-        }), 6, 1);
+        display.addItem(new GuiItem(crates(player), e -> player.performCommand("crateshop")), 4, 1);
+        display.addItem(new GuiItem(skins(player), e -> player.performCommand("skinshop")), 6, 1);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
 
@@ -93,6 +90,7 @@ public class DonationMenu extends BaseCommand {
 
 
     private ItemStack adventureCoins(Player player) {
+        int balance = betonPointsManager.getPoints("items.AdventureCoin", BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints());
         final ItemStack adventureCoins = new ItemStack(Material.SUNFLOWER);
         final ItemMeta adventureCoinsItemMeta = adventureCoins.getItemMeta();
 
@@ -106,7 +104,7 @@ public class DonationMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "The currency is NOT a physical item,");
         lore.add(ChatColor.GRAY + "and can not be traded to others.");
         lore.add("");
-        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + ": " + parsePlaceholder(player, "ac_Currency_AdventureCoins"));
+        lore.add(PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + ": " + numberFormat.numberFormat(balance));
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase");
 
@@ -116,16 +114,17 @@ public class DonationMenu extends BaseCommand {
         return adventureCoins;
     }
 
-    private ItemStack adventureShop(Player player) {
+    private ItemStack crates(Player player) {
         final ItemStack adventureShop = new ItemStack(Material.CHEST);
         final ItemMeta adventureShopItemMeta = adventureShop.getItemMeta();
 
-        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "Adventure Shop"));
+        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "Crates"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Use your " + PrisonStatsDisplay.ADVENTURE_COINS.getName());
-        lore.add(ChatColor.GRAY + "to purchase unique " + ChatColor.GREEN + "Items" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "to purchase " + ChatColor.GREEN + "Crates " + ChatColor.GRAY + "which ");
+        lore.add(ChatColor.GRAY + "hold " + ChatColor.GREEN + "Skins " + ChatColor.GRAY + "or " + ChatColor.BLUE + "Boosters" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
@@ -135,29 +134,23 @@ public class DonationMenu extends BaseCommand {
         return adventureShop;
     }
 
-    private ItemStack miningPass(Player player) {
-        final ItemStack miningPass = new ItemStack(Material.HOPPER_MINECART);
-        final ItemMeta miningPassItemMeta = miningPass.getItemMeta();
+    private ItemStack skins(Player player) {
+        final ItemStack adventureShop = mmoItems.getItem("SKIN", "WORLD_SPLITTER_SWORD5_2");
+        final ItemMeta adventureShopItemMeta = adventureShop.getItemMeta();
 
-        miningPassItemMeta.displayName(Component.text(ChatColor.YELLOW + "Mining Pass " + ChatColor.GRAY + "-" + ChatColor.GREEN + " $9.99"));
+        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "Skins"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Get additional items and ways");
-        lore.add(ChatColor.GRAY + "to level up your " + ChatColor.YELLOW + "Mining Pass" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "Use your " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " to");
+        lore.add(ChatColor.GRAY + "purchase " + ChatColor.GREEN + "Skins " + ChatColor.GRAY + "for your " + ChatColor.GOLD + "Gear" + ChatColor.GRAY + "!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
-        miningPass.setItemMeta(miningPassItemMeta);
-        miningPass.setLore(lore);
+        adventureShop.setItemMeta(adventureShopItemMeta);
+        adventureShop.setLore(lore);
 
-        return miningPass;
+        return adventureShop;
     }
-
-    private String parsePlaceholder(Player player, String string) {
-        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
-    }
-
 }
 

@@ -15,6 +15,8 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.CrateList;
+import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
+import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -22,23 +24,43 @@ import java.util.Collection;
 import java.util.List;
 
 @CommandAlias("DropTableViewer")
-public class DropTablesView extends BaseCommand {
+public class DropTable extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
     private final GUIHelper guiHelper;
+    private final DropTablesDelivery dropTablesDelivery;
+    private final MMOItems mmoItems;
 
 
-    public DropTablesView(AdventuresCraft plugin, GUIHelper guiHelper) {
+    public DropTable(AdventuresCraft plugin, GUIHelper guiHelper, DropTablesDelivery dropTablesDelivery, MMOItems mmoItems) {
         this.plugin = plugin;
         this.guiHelper = guiHelper;
+        this.dropTablesDelivery = dropTablesDelivery;
+        this.mmoItems = mmoItems;
     }
 
-    @Subcommand("UndeadCrate")
-    private void commonPetEgg(Player player) {
+    @Subcommand("UndeadCrate|UNDEAD_BOX")
+    private void undeadCrate(Player player) {
         final ChestGui gui = new ChestGui(6, "Undead Crate");
         final List<Crates> guiContents = Crates.getCrates(CrateList.UNDEAD);
         createMenu(gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
+    @Subcommand("HellCrate|HELL_BOX")
+    private void hellCrate(Player player) {
+        final ChestGui gui = new ChestGui(6, "Hell Crate");
+        final List<Crates> guiContents = Crates.getCrates(CrateList.HELL);
+        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
+    @Subcommand("ProfessionCrate|PROFESSION_BOOSTER_BOX")
+    private void professionCrate(Player player) {
+        final ChestGui gui = new ChestGui(6, "Profession Crate");
+        final List<Crates> guiContents = Crates.getCrates(CrateList.PROFESSION);
+        createMenu(gui, guiContents, Material.CYAN_STAINED_GLASS_PANE);
         gui.show(player);
     }
 

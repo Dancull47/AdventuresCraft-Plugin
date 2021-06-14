@@ -200,13 +200,15 @@ public class DonationShopsBuilder extends BaseCommand {
                     purchaseUtils.purchase(player, donationItemList, 32);
                 if (event.isRightClick() && event.isShiftClick() && balance >= donationItemList.getCoinPrice() * 64 && donationItemList.getMaxPurchaseAmount() >= 64)
                     purchaseUtils.purchase(player, donationItemList, 64);
+                player.performCommand(shop + "Shop");
             } else {
-                if (event.isLeftClick() && !event.isShiftClick())
+                if (event.isLeftClick() && !event.isShiftClick()) {
                     purchaseUtils.purchase(player, donationItemList, 1);
+                    player.performCommand(shop + "Shop");
+                }
                 if (event.isRightClick() && !event.isShiftClick())
                     player.performCommand("dropTableViewer " + donationItemList.getID());
             }
-            player.performCommand(shop + "Shop");
         });
     }
 

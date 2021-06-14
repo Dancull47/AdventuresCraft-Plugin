@@ -9,14 +9,14 @@ import java.util.stream.Collectors;
 
 public enum DonationItemList {
 
-    SkinsITEM1(DonationShops.SKINS, 200, 1, "SKIN", "GREEN_UNDEAD_SWORD"),
-    SkinsITEM2(DonationShops.SKINS, 200, 1, "SKIN", "BLUE_UNDEAD_SWORD"),
-    SkinsITEM3(DonationShops.SKINS, 200, 1, "SKIN", "BROWN_UNDEAD_SWORD"),
-    SkinsITEM4(DonationShops.SKINS, 200, 1, "SKIN", "YELLOW_UNDEAD_SWORD"),
-    SkinsITEM5(DonationShops.SKINS, 200, 1, "SKIN", "RED_UNDEAD_SWORD"),
-    SkinsITEM6(DonationShops.SKINS, 400, 1, "SKIN", "UNDEAD_SOUL_SPLITTER_SWORD"),
-    SkinsITEM7(DonationShops.SKINS, 400, 1, "SKIN", "UNDEAD_SERPENT_STAFF"),
-    SkinsITEM8(DonationShops.SKINS, 1_000, 1, "SKIN", "HOLY_RISER_BLADE"),
+    SkinsITEM1(DonationShops.SKINS, 200, 1, "SKIN", "GREEN_UNDEAD_SWORD3"),
+    SkinsITEM2(DonationShops.SKINS, 200, 1, "SKIN", "BLUE_UNDEAD_SWORD3"),
+    SkinsITEM3(DonationShops.SKINS, 200, 1, "SKIN", "BROWN_UNDEAD_SWORD3"),
+    SkinsITEM4(DonationShops.SKINS, 200, 1, "SKIN", "YELLOW_UNDEAD_SWORD3"),
+    SkinsITEM5(DonationShops.SKINS, 200, 1, "SKIN", "RED_UNDEAD_SWORD3"),
+    SkinsITEM6(DonationShops.SKINS, 400, 1, "SKIN", "UNDEAD_SOUL_SPLITTER_SWORD4"),
+    SkinsITEM7(DonationShops.SKINS, 400, 1, "SKIN", "UNDEAD_SERPENT_STAFF4"),
+    SkinsITEM8(DonationShops.SKINS, 1_000, 1, "SKIN", "HOLY_RISER_BLADE5"),
 
     FARMINGBoostersITEM1(DonationShops.BOOSTERS, 100, 1, "BOOSTER", "FARMING_BOOSTER1"),
     FARMINGBoostersITEM2(DonationShops.BOOSTERS, 200, 1, "BOOSTER", "FARMING_BOOSTER2"),

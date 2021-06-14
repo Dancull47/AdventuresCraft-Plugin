@@ -117,7 +117,7 @@
         <!--        Skull Creator        -->
         <repository>
             <id>skullcreator-repo</id>
-            <url>https://dl.bintray.com/deanveloper/SkullCreator</url>
+            <url>https://github.com/deanveloper/SkullCreator/raw/mvn-repo/</url>
         </repository>
         <!--        Citizens        -->
         <repository>
@@ -254,10 +254,7 @@
             <groupId>dev.dbassett</groupId>
             <artifactId>skullcreator</artifactId>
             <version>3.0.0</version>
-            <scope>system</scope>
-            <systemPath>
-                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/skullcreator-3.0.1.jar
-            </systemPath>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.citizensnpcs</groupId>
