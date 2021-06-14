@@ -64,6 +64,14 @@ public class DropTable extends BaseCommand {
         gui.show(player);
     }
 
+    @Subcommand("MagicalCrate|MAGICAL_BOX")
+    private void magicalBox(Player player) {
+        final ChestGui gui = new ChestGui(6, "Magical Box");
+        final List<Crates> guiContents = Crates.getCrates(CrateList.MAGICAL);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 

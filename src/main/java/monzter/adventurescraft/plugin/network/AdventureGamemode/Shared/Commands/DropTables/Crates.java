@@ -92,6 +92,44 @@ public enum Crates implements Weighted, ItemGenerator {
     SPELLFORGINGBoostersITEM5(CrateList.PROFESSION, "BOOSTER", "SPELLFORGING_BOOSTER5", 1, .05),
     COOKINGBoostersITEM5(CrateList.PROFESSION, "BOOSTER", "COOKING_BOOSTER5", 1, .05),
 
+    MAGICAL2(CrateList.MAGICAL, "SPELL", "RESOLVE2", 4, .20),
+    MAGICAL9(CrateList.MAGICAL, "SPELL", "TARGETED_FIREBALL2", 4, .20),
+    MAGICAL12(CrateList.MAGICAL, "SPELL", "SPARKLE2", 4, .20),
+    MAGICAL1(CrateList.MAGICAL, "SPELL", "BUNNY_MODE2", 4, .20),
+    MAGICAL6(CrateList.MAGICAL, "SPELL", "BURNING_HANDS2", 4, .20),
+    MAGICAL10(CrateList.MAGICAL, "SPELL", "FREEZING_CURSE2", 4, .20),
+    MAGICAL20(CrateList.MAGICAL, "SPELL", "SHULKER_MISSILE2", 4, .20),
+    MAGICAL14(CrateList.MAGICAL, "SPELL", "ARCANE_HAIL2", 4, .20),
+    MAGICAL4(CrateList.MAGICAL, "SPELL", "FROZEN_AURA2", 4, .20),
+    MAGICAL18(CrateList.MAGICAL, "SPELL", "MAGMA_FISSURE2", 4, .20),
+    MAGICAL21(CrateList.MAGICAL, "SPELL", "ICE_CRYSTAL2", 4, .20),
+    MAGICAL23(CrateList.MAGICAL, "SPELL", "CORRUPTED_FANGS2", 4, .20),
+    MAGICAL25(CrateList.MAGICAL, "SPELL", "BLACK_HOLE2", 4, .20),
+    MAGICAL27(CrateList.MAGICAL, "SPELL", "BOUNCY_FIREBALL2", 4, .20),
+    MAGICAL29(CrateList.MAGICAL, "SPELL", "CURSED_BEAM2", 4, .20),
+    MAGICAL31(CrateList.MAGICAL, "SPELL", "LIFE_ENDER2", 4, .20),
+    MAGICAL33(CrateList.MAGICAL, "SPELL", "CORRUPT2", 4, .20),
+    MAGICAL35(CrateList.MAGICAL, "SPELL", "ARCANE_RIFT2", 4, .20),
+    MAGICAL37(CrateList.MAGICAL, "SPELL", "CONTAMINATION_RITUAL2", 4, .20),
+    MAGICAL8(CrateList.MAGICAL, "SPELL", "RESOLVE3", 4, .10),
+    MAGICAL11(CrateList.MAGICAL, "SPELL", "TARGETED_FIREBALL3", 4, .10),
+    MAGICAL13(CrateList.MAGICAL, "SPELL", "SPARKLE3", 4, .10),
+    MAGICAL3(CrateList.MAGICAL, "SPELL", "BUNNY_MODE3", 4, .10),
+    MAGICAL7(CrateList.MAGICAL, "SPELL", "BURNING_HANDS3", 4, .10),
+    MAGICAL19(CrateList.MAGICAL, "SPELL", "FREEZING_CURSE3", 4, .10),
+    MAGICAL5(CrateList.MAGICAL, "SPELL", "SHULKER_MISSILE3", 4, .10),
+    MAGICAL15(CrateList.MAGICAL, "SPELL", "ARCANE_HAIL3", 4, .10),
+    MAGICAL16(CrateList.MAGICAL, "SPELL", "FROZEN_AURA3", 4, .10),
+    MAGICAL17(CrateList.MAGICAL, "SPELL", "MAGMA_FISSURE3", 4, .10),
+    MAGICAL22(CrateList.MAGICAL, "SPELL", "ICE_CRYSTAL3", 4, .10),
+    MAGICAL24(CrateList.MAGICAL, "SPELL", "CORRUPTED_FANGS3", 4, .10),
+    MAGICAL26(CrateList.MAGICAL, "SPELL", "BLACK_HOLE3", 4, .10),
+    MAGICAL28(CrateList.MAGICAL, "SPELL", "BOUNCY_FIREBALL3", 4, .10),
+    MAGICAL30(CrateList.MAGICAL, "SPELL", "CURSED_BEAM3", 4, .10),
+    MAGICAL32(CrateList.MAGICAL, "SPELL", "LIFE_ENDER3", 4, .10),
+    MAGICAL34(CrateList.MAGICAL, "SPELL", "CORRUPT3", 4, .10),
+    MAGICAL36(CrateList.MAGICAL, "SPELL", "ARCANE_RIFT3", 4, .10),
+    MAGICAL38(CrateList.MAGICAL, "SPELL", "CONTAMINATION_RITUAL3", 4, .10),
 
     ;
 
@@ -141,6 +179,8 @@ public enum Crates implements Weighted, ItemGenerator {
     @Override
     public ItemStack generateItem() {
         final ItemStack itemStack = MMOItems.plugin.getItem(type, id);
+        System.out.println(id);
+
         if (itemStack != null) {
             List<Component> lore = itemStack.lore();
             if (lore == null) {
