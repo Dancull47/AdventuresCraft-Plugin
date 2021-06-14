@@ -74,7 +74,7 @@ public class Trails extends BaseCommand {
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
-//        OutlinePane display3 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
+        OutlinePane display3 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
         StaticPane button = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
@@ -84,8 +84,8 @@ public class Trails extends BaseCommand {
         page.addPane(0, button);
         page.addPane(1, background);
         page.addPane(1, display2);
-//        page.addPane(2, background);
-//        page.addPane(2, display3);
+        page.addPane(2, background);
+        page.addPane(2, display3);
 
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
@@ -98,8 +98,8 @@ public class Trails extends BaseCommand {
                 display.addItem(trailGenerator(player, trail));
             } else if (i >= 15 && i < 30) {
                 display2.addItem(trailGenerator(player, trail));
-//            } else if (i >= 30 && i < 45) {
-//                display3.addItem(trailGenerator(player, trail));
+            } else if (i >= 30 && i < 45) {
+                display3.addItem(trailGenerator(player, trail));
             }
             i++;
         }
@@ -124,6 +124,7 @@ public class Trails extends BaseCommand {
             }), 0, 0);
         }
 
+        button.addItem(ownedItem(player), 0, 2);
         button.addItem(menuItem(player, Rarity.COMMON), 2, 5);
         button.addItem(menuItem(player, Rarity.UNCOMMON), 3, 5);
         button.addItem(menuItem(player, Rarity.RARE), 4, 5);
@@ -203,6 +204,99 @@ public class Trails extends BaseCommand {
         itemStack.setLore(lore);
 
         return new GuiItem(itemStack, e -> player.performCommand("trails " + rarity.getName()));
+    }
+
+    @CommandAlias("TrailsOwned")
+    public void ownedTrails(Player player) {
+        ChestGui gui = new ChestGui(6, guiHelper.guiName("Owned Trails"));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
+        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+        OutlinePane display = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
+        OutlinePane display2 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
+//        OutlinePane display3 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
+        StaticPane button = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
+        StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
+        StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
+
+        page.addPane(0, background);
+        page.addPane(0, display);
+        page.addPane(0, button);
+        page.addPane(1, background);
+        page.addPane(1, display2);
+//        page.addPane(2, background);
+//        page.addPane(2, display3);
+
+        background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
+        background.setRepeat(true);
+
+        final List<TrailList> guiContents = TrailList.getTrail();
+
+        int i = 0;
+        for (TrailList trail : guiContents) {
+            if (player.hasPermission(trail.getName())) {
+                if (i < 15) {
+                    display.addItem(trailGenerator(player, trail));
+                } else if (i >= 15 && i < 30) {
+                    display2.addItem(trailGenerator(player, trail));
+//            } else if (i >= 30 && i < 45) {
+//                display3.addItem(trailGenerator(player, trail));
+                }
+                i++;
+            }
+        }
+
+        if (!display2.getItems().isEmpty()) {
+            back.addItem(new GuiItem((guiHelper.previousPageButton()), event -> {
+                page.setPage(page.getPage() - 1);
+                if (page.getPage() == 0) {
+                    back.setVisible(false);
+                }
+                forward.setVisible(true);
+                gui.update();
+            }), 0, 0);
+            back.setVisible(false);
+            forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> {
+                page.setPage(page.getPage() + 1);
+                if (page.getPage() == page.getPages() - 1) {
+                    forward.setVisible(false);
+                }
+                back.setVisible(true);
+                gui.update();
+            }), 0, 0);
+        }
+
+        button.addItem(ownedItem(player), 0, 2);
+        button.addItem(menuItem(player, Rarity.COMMON), 2, 5);
+        button.addItem(menuItem(player, Rarity.UNCOMMON), 3, 5);
+        button.addItem(menuItem(player, Rarity.RARE), 4, 5);
+        button.addItem(menuItem(player, Rarity.LEGENDARY), 5, 5);
+        button.addItem(menuItem(player, Rarity.EXOTIC), 6, 5);
+
+        gui.addPane(page);
+        gui.addPane(back);
+        gui.addPane(forward);
+        gui.addPane(button);
+        gui.show(player);
+    }
+
+    private GuiItem ownedItem(Player player) {
+        String trail = ChatColor.GREEN + "Owned Trails";
+        ItemStack itemStack = new ItemStack(Material.CHEST);
+
+        final ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(trail);
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setLore(lore);
+
+        return new GuiItem(itemStack, e -> player.performCommand("trailsOwned"));
     }
 
 }

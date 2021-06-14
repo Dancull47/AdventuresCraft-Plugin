@@ -409,7 +409,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void lobbyLoad() {
 //        Commands
         manager.registerCommand(new Trails(this, soundManager, guiHelper));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Lobby.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Lobby.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Lobby.Commands.DropTablesView(this, guiHelper));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new CancelDrops(this), this);

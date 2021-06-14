@@ -47,11 +47,15 @@ public class ServerSelect extends BaseCommand {
         display.addItem(adventure(player), 2, 1);
         if (!plugin.SERVER.equals("Lobby"))
             display.addItem(lobby(player), 4, 1);
-        display.addItem(prison(player), 6, 1);
 
-        display.addItem(store(player), 2, 3);
-        display.addItem(website(player), 4, 3);
-        display.addItem(discord(player), 6, 3);
+            display.addItem(prison(player), 6, 1);
+
+
+        display.addItem(store(player), 1, 3);
+        display.addItem(website(player), 3, 3);
+        display.addItem(discord(player), 5, 3);
+        if (plugin.SERVER.equals("Lobby"))
+            display.addItem(trails(player), 7, 3);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -113,6 +117,16 @@ public class ServerSelect extends BaseCommand {
                 "Store", new String[]{"",
                 Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"
         }), e -> player.performCommand("store"));
+    }
+
+    private GuiItem trails(Player player) {
+        return new GuiItem(guiHelper.itemCreator(Material.BLAZE_POWDER, ChatColor.GREEN +
+                "Trails", new String[]{"",
+                ChatColor.GRAY + "Obtain cool " + ChatColor.GOLD + "Trails " + ChatColor.GRAY + "which",
+                ChatColor.GRAY + "follow behind as you run around!",
+                "",
+                Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"
+        }), e -> player.performCommand("trails"));
     }
 
     private GuiItem website(Player player) {
