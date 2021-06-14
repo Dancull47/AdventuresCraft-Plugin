@@ -74,20 +74,18 @@ public class Trails extends BaseCommand {
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
-        OutlinePane display3 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
+//        OutlinePane display3 = new OutlinePane(2, 1, 5, 6, Pane.Priority.LOW);
         StaticPane button = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
         StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
-        StaticPane firstPage = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
-        StaticPane lastPage = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
 
         page.addPane(0, background);
         page.addPane(0, display);
         page.addPane(0, button);
         page.addPane(1, background);
         page.addPane(1, display2);
-        page.addPane(2, background);
-        page.addPane(2, display3);
+//        page.addPane(2, background);
+//        page.addPane(2, display3);
 
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
@@ -98,79 +96,33 @@ public class Trails extends BaseCommand {
         for (TrailList trail : guiContents) {
             if (i < 15) {
                 display.addItem(trailGenerator(player, trail));
-                i++;
             } else if (i >= 15 && i < 30) {
                 display2.addItem(trailGenerator(player, trail));
-            } else if (i >= 30 && i < 45) {
-                display3.addItem(trailGenerator(player, trail));
+//            } else if (i >= 30 && i < 45) {
+//                display3.addItem(trailGenerator(player, trail));
             }
+            i++;
         }
 
         if (!display2.getItems().isEmpty()) {
             back.addItem(new GuiItem((guiHelper.previousPageButton()), event -> {
                 page.setPage(page.getPage() - 1);
                 if (page.getPage() == 0) {
-                    firstPage.setVisible(false);
                     back.setVisible(false);
                 }
                 forward.setVisible(true);
-                lastPage.setVisible(true);
                 gui.update();
             }), 0, 0);
             back.setVisible(false);
-
-            firstPage.addItem(new GuiItem((guiHelper.firstPageButton()), event -> {
-                page.setPage(page.getPages() - page.getPages());
-                if (page.getPage() == page.getPages() - page.getPages()) {
-                    firstPage.setVisible(false);
-                    back.setVisible(false);
-                }
-                forward.setVisible(true);
-                lastPage.setVisible(true);
-                gui.update();
-            }), 0, 0);
-            firstPage.setVisible(false);
-
             forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> {
                 page.setPage(page.getPage() + 1);
                 if (page.getPage() == page.getPages() - 1) {
                     forward.setVisible(false);
-                    lastPage.setVisible(false);
                 }
                 back.setVisible(true);
-                firstPage.setVisible(true);
-                gui.update();
-            }), 0, 0);
-
-            lastPage.addItem(new GuiItem((guiHelper.lastPageButton()), event -> {
-                page.setPage(page.getPages() - 1);
-                if (page.getPage() == page.getPages() - 1) {
-                    forward.setVisible(false);
-                    lastPage.setVisible(false);
-                }
-                back.setVisible(true);
-                firstPage.setVisible(true);
                 gui.update();
             }), 0, 0);
         }
-
-        if (page.getPage() == 0) {
-            back.setVisible(false);
-            firstPage.setVisible(false);
-            forward.setVisible(true);
-            lastPage.setVisible(true);
-        } else if (page.getPage() == 1 && !display3.getItems().isEmpty()) {
-            back.setVisible(true);
-            firstPage.setVisible(true);
-            forward.setVisible(true);
-            lastPage.setVisible(true);
-        } else if (page.getPage() == 1 && display3.getItems().isEmpty()) {
-            back.setVisible(true);
-            firstPage.setVisible(true);
-            forward.setVisible(false);
-            lastPage.setVisible(false);
-        }
-
 
         button.addItem(menuItem(player, Rarity.COMMON), 2, 5);
         button.addItem(menuItem(player, Rarity.UNCOMMON), 3, 5);
@@ -178,8 +130,6 @@ public class Trails extends BaseCommand {
         button.addItem(menuItem(player, Rarity.LEGENDARY), 5, 5);
         button.addItem(menuItem(player, Rarity.EXOTIC), 6, 5);
 
-        gui.addPane(firstPage);
-        gui.addPane(lastPage);
         gui.addPane(page);
         gui.addPane(back);
         gui.addPane(forward);
