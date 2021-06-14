@@ -250,6 +250,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void adventureShared() {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.Boss(this, consoleCommand, permissionLP, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
@@ -425,7 +426,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         consoleCommand = new ConsoleCommandImpl(getServer());
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl(numberFormat);
-        purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager);
         itemAdder = new ItemAdderImpl();
         areaCheck = new AreaCheckImpl(displayNameFlag);
         calculateEnchantments = new CalculateEnchantmentsImpl();
@@ -444,6 +444,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
         }
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
+        purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
         achievementGUIBuilder = new AchievementItemBuilder(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand);
         progressBar = new ProgressBarImpl();

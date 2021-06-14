@@ -70,21 +70,21 @@ public enum DonationItemList {
 
 
     private DonationShops shop;
-    private int coinPrice;
+    private int acPrice;
     private int maxPurchaseAmount;
     private String type;
     private String ID;
 
     DonationItemList(DonationShops shop, int price, int maxPurchaseAmount, String type, String id) {
         this.shop = shop;
-        this.coinPrice = price;
+        this.acPrice = price;
         this.maxPurchaseAmount = maxPurchaseAmount;
         this.type = type;
         this.ID = id;
     }
 
-    public int getCoinPrice() {
-        return coinPrice;
+    public int getAcPrice() {
+        return acPrice;
     }
 
     public String getType() {

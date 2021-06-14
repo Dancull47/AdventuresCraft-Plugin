@@ -24,6 +24,7 @@ public enum AdventureStatsDisplay {
     VOID_DAMAGE(ChatColor.DARK_PURPLE + "☠ Void Damage"),
 
     COINS(ChatColor.YELLOW + "⛂ Coins"),
+    EXP(ChatColor.AQUA + "Ξ Levels "),
     ;
 
     private final String name;

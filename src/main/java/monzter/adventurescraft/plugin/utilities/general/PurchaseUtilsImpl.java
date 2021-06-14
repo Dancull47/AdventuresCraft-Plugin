@@ -4,6 +4,7 @@ import io.lumine.mythic.lib.api.item.NBTItem;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationItemList;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ItemList;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.Indyuce.mmoitems.MMOItems;
@@ -79,7 +80,7 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                     }
                     if (itemList.getExpPrice() > 0) {
                         player.setLevel(player.getLevel() - (itemList.getExpPrice() * amount));
-                        player.sendMessage(ChatColor.AQUA + "Ξ Levels " + numberFormat.numberFormat(itemList.getExpPrice() * amount) + ChatColor.RED + " has been deducted from your account!");
+                        player.sendMessage(ChatColor.GOLD + numberFormat.numberFormat(itemList.getExpPrice() * amount) + ChatColor.AQUA + " Ξ Levels " + ChatColor.RED + "have been deducted from your account!");
                     }
                     soundManager.soundYes(player, 1);
                 }
@@ -88,13 +89,17 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
     }
 
     public void purchase(Player player, DonationItemList itemList, int amount) {
-        if (betonPointsManager.getPoints("items.AdventureCoin", BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints()) >= itemList.getCoinPrice() * amount) {
+        int balance = betonPointsManager.getPoints("items.AdventureCoin", BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints());
+        System.out.println("v" + balance);
+
+        if (balance >= itemList.getAcPrice() * amount) {
             if (!fullInventory.fullInventory(player)) {
                 player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
                         mmoItems.getItem(itemList.getType(), itemList.getID()).getItemMeta().getDisplayName() + ChatColor.GREEN + " for:");
                 player.getInventory().addItem(mmoItems.getItem(itemList.getType(), itemList.getID()).asQuantity(amount));
-                if (itemList.getCoinPrice() > 0) {
-                    economy.takeMoney(player, itemList.getCoinPrice() * amount);
+                if (itemList.getAcPrice() > 0) {
+                    betonPointsManager.takePointACs(player, itemList.getAcPrice() * amount);
+                    player.sendMessage(ChatColor.GOLD + numberFormat.numberFormat(itemList.getAcPrice() * amount) + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.RED + " have been deducted from your account!");
                     soundManager.soundYes(player, 1);
                 }
             }

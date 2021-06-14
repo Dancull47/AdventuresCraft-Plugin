@@ -171,7 +171,7 @@ public class DonationShopsBuilder extends BaseCommand {
     }
 
     public GuiItem generateItem(Player player, DonationItemList donationItemList, String shop, Material backgroundColor) {
-        if (donationItemList.getMaxPurchaseAmount() == 0 && donationItemList.getCoinPrice() == 0 && donationItemList.getType() == null && donationItemList.getID() == null)
+        if (donationItemList.getMaxPurchaseAmount() == 0 && donationItemList.getAcPrice() == 0 && donationItemList.getType() == null && donationItemList.getID() == null)
             return new GuiItem(guiHelper.background(backgroundColor));
 
         ItemStack itemStack;
@@ -182,7 +182,7 @@ public class DonationShopsBuilder extends BaseCommand {
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(Component.empty());
-        lore.add(Component.text(ChatColor.WHITE + "Price: " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + " " + numberFormat.numberFormat(donationItemList.getCoinPrice())));
+        lore.add(Component.text(ChatColor.WHITE + "Price: " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + " " + numberFormat.numberFormat(donationItemList.getAcPrice())));
         for (Component itemLore : itemLore(player, donationItemList))
             lore.add(itemLore);
 
@@ -192,13 +192,13 @@ public class DonationShopsBuilder extends BaseCommand {
         return new GuiItem(itemStack, event -> {
             int balance = betonPointsManager.getPoints("items.AdventureCoin", BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints());
             if (!donationItemList.getShop().equals(DonationShops.CRATES)) {
-                if (event.isLeftClick() && !event.isShiftClick() && balance >= donationItemList.getCoinPrice())
+                if (event.isLeftClick() && !event.isShiftClick() && balance >= donationItemList.getAcPrice())
                     purchaseUtils.purchase(player, donationItemList, 1);
-                if (event.isRightClick() && !event.isShiftClick() && balance >= donationItemList.getCoinPrice() * 16 && donationItemList.getMaxPurchaseAmount() >= 16)
+                if (event.isRightClick() && !event.isShiftClick() && balance >= donationItemList.getAcPrice() * 16 && donationItemList.getMaxPurchaseAmount() >= 16)
                     purchaseUtils.purchase(player, donationItemList, 16);
-                if (event.isLeftClick() && event.isShiftClick() && balance >= donationItemList.getCoinPrice() * 32 && donationItemList.getMaxPurchaseAmount() >= 32)
+                if (event.isLeftClick() && event.isShiftClick() && balance >= donationItemList.getAcPrice() * 32 && donationItemList.getMaxPurchaseAmount() >= 32)
                     purchaseUtils.purchase(player, donationItemList, 32);
-                if (event.isRightClick() && event.isShiftClick() && balance >= donationItemList.getCoinPrice() * 64 && donationItemList.getMaxPurchaseAmount() >= 64)
+                if (event.isRightClick() && event.isShiftClick() && balance >= donationItemList.getAcPrice() * 64 && donationItemList.getMaxPurchaseAmount() >= 64)
                     purchaseUtils.purchase(player, donationItemList, 64);
                 player.performCommand(shop + "Shop");
             } else {
@@ -216,19 +216,19 @@ public class DonationShopsBuilder extends BaseCommand {
         List<Component> lore = new ArrayList<>();
         int balance = betonPointsManager.getPoints("items.AdventureCoin", BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints());
         if (!donationItemList.getShop().equals(DonationShops.CRATES)) {
-            if (balance >= donationItemList.getCoinPrice() && donationItemList.getMaxPurchaseAmount() > 0) {
+            if (balance >= donationItemList.getAcPrice() && donationItemList.getMaxPurchaseAmount() > 0) {
                 lore.add(Component.text(""));
                 lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-                if (balance >= donationItemList.getCoinPrice() * 16 && donationItemList.getMaxPurchaseAmount() >= 16)
-                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.RED + "(◎ " + numberFormat.numberFormat(donationItemList.getCoinPrice() * 16) + ")"));
-                if (balance >= donationItemList.getCoinPrice() * 32 && donationItemList.getMaxPurchaseAmount() >= 32)
-                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.RED + "(◎ " + numberFormat.numberFormat(donationItemList.getCoinPrice() * 32) + ")"));
-                if (balance >= donationItemList.getCoinPrice() * 64 && donationItemList.getMaxPurchaseAmount() >= 64)
-                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.RED + "(◎ " + numberFormat.numberFormat(donationItemList.getCoinPrice() * 64) + ")"));
+                if (balance >= donationItemList.getAcPrice() * 16 && donationItemList.getMaxPurchaseAmount() >= 16)
+                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.RED + "(◎ " + numberFormat.numberFormat(donationItemList.getAcPrice() * 16) + ")"));
+                if (balance >= donationItemList.getAcPrice() * 32 && donationItemList.getMaxPurchaseAmount() >= 32)
+                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.RED + "(◎ " + numberFormat.numberFormat(donationItemList.getAcPrice() * 32) + ")"));
+                if (balance >= donationItemList.getAcPrice() * 64 && donationItemList.getMaxPurchaseAmount() >= 64)
+                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.RED + "(◎ " + numberFormat.numberFormat(donationItemList.getAcPrice() * 64) + ")"));
             }
         } else {
             lore.add(Component.text(""));
-            if (balance >= donationItemList.getCoinPrice() && donationItemList.getMaxPurchaseAmount() > 0)
+            if (balance >= donationItemList.getAcPrice() && donationItemList.getMaxPurchaseAmount() > 0)
                 lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
             lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Loot Table"));
         }
