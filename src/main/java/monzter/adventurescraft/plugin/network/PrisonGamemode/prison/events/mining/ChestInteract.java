@@ -49,7 +49,7 @@ public class ChestInteract implements Listener {
                         10, .5, .5, .5);
                 RandomSelector<Treasure> commonTreasureChest = RandomSelector.weighted((Treasure.getTreasure(Rarity.COMMON)));
                 Treasure commonTreasureReward = commonTreasureChest.pick();
-                dropTablesDelivery.giveReward(player.getPlayer(), commonTreasureReward.getDisplayName(), commonTreasureReward.getType(), commonTreasureReward.getId(), commonTreasureReward.getWeight());
+                dropTablesDelivery.giveReward(player.getPlayer(), commonTreasureReward.getDisplayName(), commonTreasureReward.getType(), commonTreasureReward.getId(), commonTreasureReward.getWeight(), commonTreasureReward.getAmount());
             }
         }
     }

@@ -131,6 +131,26 @@ public enum Crates implements Weighted, ItemGenerator {
     MAGICAL36(CrateList.MAGICAL, "SPELL", "ARCANE_RIFT3", 4, .10),
     MAGICAL38(CrateList.MAGICAL, "SPELL", "CONTAMINATION_RITUAL3", 4, .10),
 
+    BORG20(CrateList.BORG, "STEW", "MINERS_SNACK", 1, .30),
+    BORG14(CrateList.BORG, "STEW", "SWIFT_STEW3", 1, .30),
+    BORG4(CrateList.BORG, "GEM_STONE", "HEALTH_GEM", 1, .30),
+    BORG21(CrateList.BORG, "MATERIAL", "ENCHANTED_OAK_LOG", 8, .20),
+    BORG23(CrateList.BORG, "MATERIAL", "ENCHANTED_BIRCH_LOG", 8, .20),
+    BORG25(CrateList.BORG, "MATERIAL", "ENCHANTED_DARK_OAK_LOG", 8, .20),
+    BORG27(CrateList.BORG, "MATERIAL", "ENCHANTED_JUNGLE_LOG", 8, .20),
+    BORG29(CrateList.BORG, "MATERIAL", "ENCHANTED_ACACIA_LOG", 8, .20),
+    BORG31(CrateList.BORG, "MATERIAL", "ENCHANTED_SPRUCE_LOG", 8, .20),
+    BORG37(CrateList.BORG, "BOOSTER", "MINING_BOOSTER1", 1, .20),
+    BORG33(CrateList.BORG, "SPELL", "CONTAMINATION_RITUAL2", 8, .15),
+    BORG35(CrateList.BORG, "SPELL", "CORRUPTED_FANGS2", 8, .15),
+    BORG2(CrateList.BORG, "ARMOR", "HEAVY_HELMET", 1, .15),
+    BORG9(CrateList.BORG, "ARMOR", "HEAVY_CHESTPLATE", 1, .15),
+    BORG12(CrateList.BORG, "ARMOR", "HEAVY_LEGGINGS", 1, .15),
+    BORG1(CrateList.BORG, "ARMOR", "HEAVY_BOOTS", 1, .15),
+    BORG6(CrateList.BORG, "AXE", "HEAVY_AXE", 1, .15),
+    BORG10(CrateList.BORG, "BOW", "HEAVY_BOW", 1, .15),
+    BORG18(CrateList.BORG, "CONSUMABLE", "BANK_TOKEN", 1, .10),
+    BORG8(CrateList.BORG, "MOUNT", "BORG", 1, .05),
     ;
 
     private static final Map<CrateList, List<Crates>> RARITY_LISTS = new EnumMap<>(CrateList.class);

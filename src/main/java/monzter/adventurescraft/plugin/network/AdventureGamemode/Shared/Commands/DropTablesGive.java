@@ -42,7 +42,7 @@ public class DropTablesGive extends BaseCommand {
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
-    @CommandCompletion("* hellCrate|undeadCrate|professionCrate")
+    @CommandCompletion("* hellCrate|undeadCrate|professionCrate|magicalCrate|borgsCrate")
     private void dropTable(OnlinePlayer player, String table, int amount) {
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
@@ -50,19 +50,32 @@ public class DropTablesGive extends BaseCommand {
                 case "HELLCRATE":
                     RandomSelector<Crates> hellCrate = RandomSelector.weighted((Crates.getCrates(CrateList.HELL)));
                     Crates hellCrateReward = hellCrate.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(hellCrateReward.getType(), hellCrateReward.getId()).getItemMeta().getDisplayName(), hellCrateReward.getType(), hellCrateReward.getId(), hellCrateReward.getWeight());
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(hellCrateReward.getType(), hellCrateReward.getId()).getItemMeta().getDisplayName(), hellCrateReward.getType(), hellCrateReward.getId(), hellCrateReward.getWeight(), hellCrateReward.getAmount());
                     break;
                 case "UNDEAD_BOX":
                 case "UNDEADCRATE":
                     RandomSelector<Crates> undeadCrate = RandomSelector.weighted((Crates.getCrates(CrateList.UNDEAD)));
                     Crates undeadCrateReward = undeadCrate.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(undeadCrateReward.getType(), undeadCrateReward.getId()).getItemMeta().getDisplayName(), undeadCrateReward.getType(), undeadCrateReward.getId(), undeadCrateReward.getWeight());
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(undeadCrateReward.getType(), undeadCrateReward.getId()).getItemMeta().getDisplayName(), undeadCrateReward.getType(), undeadCrateReward.getId(), undeadCrateReward.getWeight(), undeadCrateReward.getAmount());
                     break;
                 case "PROFESSION_BOOSTER_BOX":
                 case "PROFESSIONCRATE":
                     RandomSelector<Crates> professionCrate = RandomSelector.weighted((Crates.getCrates(CrateList.PROFESSION)));
                     Crates professionCrateReward = professionCrate.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(professionCrateReward.getType(), professionCrateReward.getId()).getItemMeta().getDisplayName(), professionCrateReward.getType(), professionCrateReward.getId(), professionCrateReward.getWeight());
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(professionCrateReward.getType(), professionCrateReward.getId()).getItemMeta().getDisplayName(), professionCrateReward.getType(), professionCrateReward.getId(), professionCrateReward.getWeight(), professionCrateReward.getAmount());
+                    break;
+                case "MAGICALCRATE":
+                case "MAGICAL_BOX":
+                    RandomSelector<Crates> magicalCrate = RandomSelector.weighted((Crates.getCrates(CrateList.MAGICAL)));
+                    Crates magicalCrateReward = magicalCrate.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(magicalCrateReward.getType(), magicalCrateReward.getId()).getItemMeta().getDisplayName(), magicalCrateReward.getType(), magicalCrateReward.getId(), magicalCrateReward.getWeight(), magicalCrateReward.getAmount());
+                    break;
+                case "BORGCRATE":
+                case "BORGSCRATE":
+                case "BORGS_BOX":
+                    RandomSelector<Crates> borgCrate = RandomSelector.weighted((Crates.getCrates(CrateList.BORG)));
+                    Crates borgCrateReward = borgCrate.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(borgCrateReward.getType(), borgCrateReward.getId()).getItemMeta().getDisplayName(), borgCrateReward.getType(), borgCrateReward.getId(), borgCrateReward.getWeight(), borgCrateReward.getAmount());
                     break;
             }
         }

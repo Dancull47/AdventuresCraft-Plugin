@@ -4,9 +4,11 @@ import org.bukkit.ChatColor;
 
 public enum CrateList {
     UNDEAD(ChatColor.DARK_GREEN, "Undead"),
-    MAGICAL(ChatColor.DARK_PURPLE, "Magical"),
     HELL(ChatColor.DARK_RED, "Hell"),
     PROFESSION(ChatColor.BLUE, "Profession"),
+
+    MAGICAL(ChatColor.DARK_PURPLE, "Magical"),
+    BORG(ChatColor.RED, "Borg"),
     ;
 
     private final ChatColor color;

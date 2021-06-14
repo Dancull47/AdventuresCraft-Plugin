@@ -57,7 +57,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.COMMON.expToHatch);
                         RandomSelector<PetEgg> commonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.COMMON)));
                         PetEgg commonPetEggListReward = commonPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), commonPetEggListReward.getDisplayName(), commonPetEggListReward.getType(), commonPetEggListReward.getId(), commonPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), commonPetEggListReward.getDisplayName(), commonPetEggListReward.getType(), commonPetEggListReward.getId(), commonPetEggListReward.getWeight(), commonPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(commonPetEggListReward.getType(), commonPetEggListReward.getId()), player);
                         break;
                     }
@@ -70,7 +70,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.UNCOMMON.expToHatch);
                         RandomSelector<PetEgg> uncommonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.UNCOMMON)));
                         PetEgg uncommonPetEggListReward = uncommonPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), uncommonPetEggListReward.getDisplayName(), uncommonPetEggListReward.getType(), uncommonPetEggListReward.getId(), uncommonPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), uncommonPetEggListReward.getDisplayName(), uncommonPetEggListReward.getType(), uncommonPetEggListReward.getId(), uncommonPetEggListReward.getWeight(), uncommonPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(uncommonPetEggListReward.getType(), uncommonPetEggListReward.getId()), player);
                         break;
                     }
@@ -83,7 +83,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.RARE.expToHatch);
                         RandomSelector<PetEgg> rarePetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.RARE)));
                         PetEgg rarePetEggListReward = rarePetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), rarePetEggListReward.getDisplayName(), rarePetEggListReward.getType(), rarePetEggListReward.getId(), rarePetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), rarePetEggListReward.getDisplayName(), rarePetEggListReward.getType(), rarePetEggListReward.getId(), rarePetEggListReward.getWeight(), rarePetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(rarePetEggListReward.getType(), rarePetEggListReward.getId()), player);
                         break;
                     }
@@ -96,7 +96,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.LEGENDARY.expToHatch);
                         RandomSelector<PetEgg> legendaryPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.LEGENDARY)));
                         PetEgg legendaryPetEggListReward = legendaryPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), legendaryPetEggListReward.getDisplayName(), legendaryPetEggListReward.getType(), legendaryPetEggListReward.getId(), legendaryPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), legendaryPetEggListReward.getDisplayName(), legendaryPetEggListReward.getType(), legendaryPetEggListReward.getId(), legendaryPetEggListReward.getWeight(), legendaryPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(legendaryPetEggListReward.getType(), legendaryPetEggListReward.getId()), player);
                         break;
                     }
@@ -109,7 +109,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.EXOTIC.expToHatch);
                         RandomSelector<PetEgg> exoticPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.EXOTIC)));
                         PetEgg exoticPetEggListReward = exoticPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), exoticPetEggListReward.getDisplayName(), exoticPetEggListReward.getType(), exoticPetEggListReward.getId(), exoticPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), exoticPetEggListReward.getDisplayName(), exoticPetEggListReward.getType(), exoticPetEggListReward.getId(), exoticPetEggListReward.getWeight(), exoticPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(exoticPetEggListReward.getType(), exoticPetEggListReward.getId()), player);
                         break;
                     }
@@ -122,7 +122,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.MYTHICAL.expToHatch);
                         RandomSelector<PetEgg> mythicalPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.MYTHICAL)));
                         PetEgg mythicalPetEggListReward = mythicalPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggListReward.getDisplayName(), mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId(), mythicalPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggListReward.getDisplayName(), mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId(), mythicalPetEggListReward.getWeight(), mythicalPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId()), player);
                         break;
                     }
@@ -135,7 +135,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.GODLY.expToHatch);
                         RandomSelector<PetEgg> godlyPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.GODLY)));
                         PetEgg godlyPetEggListReward = godlyPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggListReward.getDisplayName(), godlyPetEggListReward.getType(), godlyPetEggListReward.getId(), godlyPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggListReward.getDisplayName(), godlyPetEggListReward.getType(), godlyPetEggListReward.getId(), godlyPetEggListReward.getWeight(), godlyPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(godlyPetEggListReward.getType(), godlyPetEggListReward.getId()), player);
                         break;
                     }
@@ -148,7 +148,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.PHOENIX.expToHatch);
                         RandomSelector<PetEgg> phoenixPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.PHOENIX)));
                         PetEgg phoenixPetEggListReward = phoenixPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), phoenixPetEggListReward.getDisplayName(), phoenixPetEggListReward.getType(), phoenixPetEggListReward.getId(), phoenixPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), phoenixPetEggListReward.getDisplayName(), phoenixPetEggListReward.getType(), phoenixPetEggListReward.getId(), phoenixPetEggListReward.getWeight(), phoenixPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(phoenixPetEggListReward.getType(), phoenixPetEggListReward.getId()), player);
                         break;
                     }
@@ -161,7 +161,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.PHOENIX2.expToHatch);
                         RandomSelector<PetEgg> phoenix2PetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.PHOENIX2)));
                         PetEgg phoenix2PetEggListReward = phoenix2PetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), phoenix2PetEggListReward.getDisplayName(), phoenix2PetEggListReward.getType(), phoenix2PetEggListReward.getId(), phoenix2PetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), phoenix2PetEggListReward.getDisplayName(), phoenix2PetEggListReward.getType(), phoenix2PetEggListReward.getId(), phoenix2PetEggListReward.getWeight(), phoenix2PetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(phoenix2PetEggListReward.getType(), phoenix2PetEggListReward.getId()), player);
                         break;
                     }
@@ -174,7 +174,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.DRAGON.expToHatch);
                         RandomSelector<PetEgg> dragonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.DRAGON)));
                         PetEgg dragonPetEggListReward = dragonPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), dragonPetEggListReward.getDisplayName(), dragonPetEggListReward.getType(), dragonPetEggListReward.getId(), dragonPetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), dragonPetEggListReward.getDisplayName(), dragonPetEggListReward.getType(), dragonPetEggListReward.getId(), dragonPetEggListReward.getWeight(), dragonPetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(dragonPetEggListReward.getType(), dragonPetEggListReward.getId()), player);
                         break;
                     }
@@ -187,7 +187,7 @@ public class Hatching extends BaseCommand {
                         hatch(player, PetEggList.DRAGON2.expToHatch);
                         RandomSelector<PetEgg> dragon2PetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.DRAGON)));
                         PetEgg dragon2PetEggListReward = dragon2PetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), dragon2PetEggListReward.getDisplayName(), dragon2PetEggListReward.getType(), dragon2PetEggListReward.getId(), dragon2PetEggListReward.getWeight());
+                        dropTablesDelivery.giveReward(player.getPlayer(), dragon2PetEggListReward.getDisplayName(), dragon2PetEggListReward.getType(), dragon2PetEggListReward.getId(), dragon2PetEggListReward.getWeight(), dragon2PetEggListReward.getAmount());
                         hatchingHologram(MMOItems.plugin.getItem(dragon2PetEggListReward.getType(), dragon2PetEggListReward.getId()), player);
                         break;
                     }

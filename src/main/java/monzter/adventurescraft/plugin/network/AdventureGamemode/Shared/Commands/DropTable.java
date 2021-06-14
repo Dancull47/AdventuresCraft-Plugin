@@ -42,7 +42,7 @@ public class DropTable extends BaseCommand {
 
     @Subcommand("UndeadCrate|UNDEAD_BOX")
     private void undeadCrate(Player player) {
-        final ChestGui gui = new ChestGui(6, "Undead Crate");
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Undead Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.UNDEAD);
         createMenu(gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
@@ -50,7 +50,7 @@ public class DropTable extends BaseCommand {
 
     @Subcommand("HellCrate|HELL_BOX")
     private void hellCrate(Player player) {
-        final ChestGui gui = new ChestGui(6, "Hell Crate");
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Hell Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.HELL);
         createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
         gui.show(player);
@@ -58,7 +58,7 @@ public class DropTable extends BaseCommand {
 
     @Subcommand("ProfessionCrate|PROFESSION_BOOSTER_BOX")
     private void professionCrate(Player player) {
-        final ChestGui gui = new ChestGui(6, "Profession Crate");
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Profession Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.PROFESSION);
         createMenu(gui, guiContents, Material.CYAN_STAINED_GLASS_PANE);
         gui.show(player);
@@ -66,17 +66,29 @@ public class DropTable extends BaseCommand {
 
     @Subcommand("MagicalCrate|MAGICAL_BOX")
     private void magicalBox(Player player) {
-        final ChestGui gui = new ChestGui(6, "Magical Box");
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Magical Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.MAGICAL);
         createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
+    @Subcommand("BorgCrate|BORGS_BOX")
+    private void borgBox(Player player) {
+        final ChestGui gui = new ChestGui(5, guiHelper.guiName("Borg's Box"));
+        final List<Crates> guiContents = Crates.getCrates(CrateList.BORG);
+        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor) {
+        createMenu(gui, guiContents, backgroundColor, 6);
+    }
+
+    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor, int height) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
-        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+        PaginatedPane page = new PaginatedPane(0, 0, 9, height-1);
+        OutlinePane background = new OutlinePane(0, 0, 9, height-1, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
         StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
