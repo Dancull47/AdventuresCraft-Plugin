@@ -2,7 +2,9 @@ package monzter.adventurescraft.plugin.network.Lobby.Commands;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import me.lucko.helper.random.Weighted;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables.Crates;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.utilities.enums.CrateList;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -183,12 +185,18 @@ public enum TrailList implements Weighted, ItemGenerator {
     }
 
     public static List<TrailList> getTrail() {
-        List<TrailList> trailLists = null;
+        List<TrailList> trailLists = new ArrayList<>();
         for (TrailList trailList : TrailList.values()) {
+            System.out.println(trailList.getName());
             trailLists.add(trailList);
         }
         return trailLists;
     }
+//    public static List<TrailList> getCrates(CrateList rarity) {
+//        return RARITY_LISTS.computeIfAbsent(rarity, key -> Arrays.stream(values())
+//                .filter(lootbox -> lootbox.getCrate() == key)
+//                .collect(Collectors.toList()));
+//    }
 
 
     @Override
