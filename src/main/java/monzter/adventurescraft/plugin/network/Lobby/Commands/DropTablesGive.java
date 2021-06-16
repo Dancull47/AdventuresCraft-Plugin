@@ -36,14 +36,14 @@ public class DropTablesGive extends BaseCommand {
         this.permissionLP = permissionLP;
     }
 
-    @CommandAlias("DropTable")
+    @CommandAlias("DropTableViewer")
     @CommandPermission("*")
     @CommandCompletion("* trail")
     private void dropTable(OnlinePlayer player, String table) {
         dropTable(player, table, 1);
     }
 
-    @CommandAlias("DropTable")
+    @CommandAlias("DropTableViewer")
     @CommandPermission("*")
     @CommandCompletion("* trail")
     private void dropTable(OnlinePlayer player, String table, int amount) {

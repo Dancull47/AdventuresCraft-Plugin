@@ -17,8 +17,9 @@ import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTable;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Knowledge;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ResourceCollector;
@@ -297,8 +298,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.VoteShop(this, soundManager, guiHelper, consoleCommand, numberFormat, mmoItemsGive, betonPointsManager, economy));
         manager.registerCommand(new ShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
         manager.registerCommand(new DonationShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP, betonPointsManager));
-        manager.registerCommand(new DropTable(this, guiHelper, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
+        manager.registerCommand(new DropTableViewer(this, guiHelper, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck));
+        manager.registerCommand(new Bossdex(this, guiHelper, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager));
 
     }
 

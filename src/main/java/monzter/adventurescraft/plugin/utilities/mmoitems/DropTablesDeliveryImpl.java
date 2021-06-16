@@ -18,7 +18,6 @@ public class DropTablesDeliveryImpl implements DropTablesDelivery {
     @Override
     public void giveReward(Player player, String displayName, String rewardType, String rewardName, double chance, int amount) {
         final double multipliedChance = chance * 100;
-        player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
         mmoItemsGive.giveMMOItem(player, rewardType, rewardName, amount);
         if (multipliedChance < 50 && multipliedChance >= 25) {
             player.sendMessage(displayName + " " + ChatColor.BLUE + ChatColor.BOLD + multipliedChance + "% RARE!");
@@ -35,5 +34,4 @@ public class DropTablesDeliveryImpl implements DropTablesDelivery {
             player.sendMessage(displayName + " " + ChatColor.GREEN + multipliedChance + "%");
         }
     }
-
 }

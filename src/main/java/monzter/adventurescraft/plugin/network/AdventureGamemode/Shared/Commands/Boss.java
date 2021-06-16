@@ -24,11 +24,6 @@ public class Boss extends BaseCommand implements Listener {
         this.soundManager = soundManager;
     }
 
-    @CommandAlias("boss|bosses|bossdex")
-    private void bossDex(Player player) {
-        consoleCommand.consoleCommand("dm open Bosses " + player.getName());
-    }
-
     @CommandAlias("dryadRepeat")
     private void dryadRepeat(Player player) {
         repeat(player, "Dryad");

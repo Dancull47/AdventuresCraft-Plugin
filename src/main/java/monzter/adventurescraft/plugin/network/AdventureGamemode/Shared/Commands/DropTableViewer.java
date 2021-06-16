@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.List;
 
 @CommandAlias("DropTableViewer")
-public class DropTable extends BaseCommand {
+public class DropTableViewer extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
@@ -33,7 +33,7 @@ public class DropTable extends BaseCommand {
     private final MMOItems mmoItems;
 
 
-    public DropTable(AdventuresCraft plugin, GUIHelper guiHelper, DropTablesDelivery dropTablesDelivery, MMOItems mmoItems) {
+    public DropTableViewer(AdventuresCraft plugin, GUIHelper guiHelper, DropTablesDelivery dropTablesDelivery, MMOItems mmoItems) {
         this.plugin = plugin;
         this.guiHelper = guiHelper;
         this.dropTablesDelivery = dropTablesDelivery;

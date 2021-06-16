@@ -12,6 +12,18 @@ public enum CrateList {
     ENCHANTED_BOX(ChatColor.WHITE, "Enchanted Box"),
     ENCHANTED_BOX2(ChatColor.DARK_GREEN, "Enchanted Box"),
     ENCHANTED_BOX3(ChatColor.BLUE, "Enchanted Box"),
+
+    REAPER(ChatColor.RED, "Reaper"),
+    MORDEN(ChatColor.RED, "Morden the Undead"),
+    VOID_DRACULA(ChatColor.DARK_PURPLE, "Void Dracula"),
+    DRYAD(ChatColor.RED, "Dryad"),
+    GOBLIN_CHIEF(ChatColor.RED, "Goblin Chief"),
+    VOID_WITHER(ChatColor.DARK_PURPLE, "Void Wither"),
+    VOID_MAGMA(ChatColor.DARK_PURPLE, "Void Magma"),
+    GHASTLY(ChatColor.RED, "Ghastly"),
+    BULBLIN(ChatColor.DARK_PURPLE, "Bulblin"),
+    BULLBO(ChatColor.DARK_PURPLE, "Bullbo"),
+    ENCHANTRESS(ChatColor.DARK_PURPLE, "Enchantress"),
     ;
 
     private final ChatColor color;

@@ -166,6 +166,18 @@ public enum Crates implements Weighted, ItemGenerator {
     ENCHANTED_BOX3_2(CrateList.ENCHANTED_BOX3, "ENCHANTMENT", "ENCHANTING_STONE3", 1, .15),
     ENCHANTED_BOX3_3(CrateList.ENCHANTED_BOX3, "ENCHANTMENT", "ENCHANTING_STONE4", 1, .10),
     ENCHANTED_BOX3_4(CrateList.ENCHANTED_BOX3, "ENCHANTMENT", "ENCHANTING_STONE5", 1, .05),
+
+    REAPER1(CrateList.REAPER, "MATERIAL", "ENCHANTED_BONE", 3, .25),
+    REAPER2(CrateList.REAPER, "QUEST", "REAPER_HEAD", 1, .15),
+    REAPER3(CrateList.REAPER, "WHIP", "BONEWHIP2", 1, .10),
+    REAPER4(CrateList.REAPER, "ARMOR", "GOLDEN_SKULL", 1, .05),
+    REAPER5(CrateList.REAPER, "COMPANION", "PET_REAPER", 1, .02),
+
+    MORDEN1(CrateList.MORDEN, "CATALYST", "UNDEAD_CATALYST", 1, .5),
+    MORDEN2(CrateList.MORDEN, "QUEST", "MORDEN_HEAD", 1, .15),
+    MORDEN3(CrateList.MORDEN, "WHIP", "BONEWHIP2", 1, .10),
+    MORDEN4(CrateList.MORDEN, "ARMOR", "GOLDEN_SKULL", 1, .05),
+    MORDEN5(CrateList.MORDEN, "COMPANION", "PET_REAPER", 1, .02),
     ;
 
     private static final Map<CrateList, List<Crates>> RARITY_LISTS = new EnumMap<>(CrateList.class);

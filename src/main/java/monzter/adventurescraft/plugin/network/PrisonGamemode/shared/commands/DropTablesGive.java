@@ -17,6 +17,7 @@ import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import org.bukkit.ChatColor;
 
 import java.util.Arrays;
 
@@ -52,6 +53,7 @@ public class DropTablesGive extends BaseCommand {
     @CommandCompletion("* eggcommon|egguncommon|eggrare|egglegendary|eggexotic|lootbox|lootbox2|lootbox3|lootbox4|lootbox5|lootbox6|lootbox7|llama|vote")
     private void dropTable(OnlinePlayer player, String table, int amount) {
         final double luck = Double.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%ac_Stat_LuckMultiplier%"));
+        player.getPlayer().sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
                 case "EGGCOMMON":

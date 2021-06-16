@@ -10,10 +10,12 @@ import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables.Crates;
 import monzter.adventurescraft.plugin.utilities.enums.CrateList;
+import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmoitems.MMOItems;
+import org.bukkit.ChatColor;
 
 public class DropTablesGive extends BaseCommand {
 
@@ -23,14 +25,16 @@ public class DropTablesGive extends BaseCommand {
     private final SoundManager soundManager;
     private final DropTablesDelivery dropTablesDelivery;
     private final MMOItems mmoItems;
+    private final ChanceCheck chanceCheck;
 
 
-    public DropTablesGive(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, SoundManager soundManager, DropTablesDelivery dropTablesDelivery, MMOItems mmoItems) {
+    public DropTablesGive(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, SoundManager soundManager, DropTablesDelivery dropTablesDelivery, MMOItems mmoItems, ChanceCheck chanceCheck) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
         this.soundManager = soundManager;
         this.dropTablesDelivery = dropTablesDelivery;
         this.mmoItems = mmoItems;
+        this.chanceCheck = chanceCheck;
     }
 
     @CommandAlias("DropTable")
@@ -44,6 +48,7 @@ public class DropTablesGive extends BaseCommand {
     @CommandPermission("*")
     @CommandCompletion("* hellCrate|undeadCrate|professionCrate|magicalCrate|borgsCrate|ENCHANTED_BOX|ENCHANTED_BOX2|ENCHANTED_BOX3")
     private void dropTable(OnlinePlayer player, String table, int amount) {
+        player.getPlayer().sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
                 case "HELL_BOX":
@@ -91,6 +96,11 @@ public class DropTablesGive extends BaseCommand {
                     RandomSelector<Crates> enchantedCrate3 = RandomSelector.weighted((Crates.getCrates(CrateList.ENCHANTED_BOX3)));
                     Crates enchantedCrate3Reward = enchantedCrate3.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(enchantedCrate3Reward.getType(), enchantedCrate3Reward.getId()).getItemMeta().getDisplayName(), enchantedCrate3Reward.getType(), enchantedCrate3Reward.getId(), enchantedCrate3Reward.getWeight(), enchantedCrate3Reward.getAmount());
+                    break;
+                case "REAPER":
+                    for (Crates crates : Crates.getCrates(CrateList.REAPER))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
             }
         }
