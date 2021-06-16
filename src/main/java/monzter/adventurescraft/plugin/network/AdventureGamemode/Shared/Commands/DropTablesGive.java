@@ -107,6 +107,51 @@ public class DropTablesGive extends BaseCommand {
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
+                case "VOID_DRACULA":
+                    for (Crates crates : Crates.getCrates(CrateList.VOID_DRACULA))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "DRYAD":
+                    for (Crates crates : Crates.getCrates(CrateList.DRYAD))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "GOBLIN_CHIEF":
+                    for (Crates crates : Crates.getCrates(CrateList.GOBLIN_CHIEF))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "VOID_WITHER":
+                    for (Crates crates : Crates.getCrates(CrateList.VOID_WITHER))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "VOID_MAGMA":
+                    for (Crates crates : Crates.getCrates(CrateList.VOID_MAGMA))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "GHASTLY":
+                    for (Crates crates : Crates.getCrates(CrateList.GHASTLY))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "BULBLIN":
+                    for (Crates crates : Crates.getCrates(CrateList.BULBLIN))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "BULLBO":
+                    for (Crates crates : Crates.getCrates(CrateList.BULLBO))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
+                case "ENCHANTRESS":
+                    for (Crates crates : Crates.getCrates(CrateList.ENCHANTRESS))
+                        if (chanceCheck.chanceCheck(crates.getWeight()))
+                            dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
+                    break;
             }
         }
     }
