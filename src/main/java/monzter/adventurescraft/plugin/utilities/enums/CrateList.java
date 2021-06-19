@@ -21,8 +21,8 @@ public enum CrateList {
     VOID_WITHER(ChatColor.DARK_PURPLE, "Void Wither"),
     VOID_MAGMA(ChatColor.DARK_PURPLE, "Void Magma"),
     GHASTLY(ChatColor.RED, "Ghastly"),
-    BULBLIN(ChatColor.DARK_PURPLE, "Bulblin"),
-    BULLBO(ChatColor.DARK_PURPLE, "Bullbo"),
+    BULBLIN(ChatColor.DARK_PURPLE, "Void Bulblin"),
+    BULLBO(ChatColor.DARK_PURPLE, "Void Bullbo"),
     ENCHANTRESS(ChatColor.DARK_PURPLE, "Enchantress"),
     ;
 

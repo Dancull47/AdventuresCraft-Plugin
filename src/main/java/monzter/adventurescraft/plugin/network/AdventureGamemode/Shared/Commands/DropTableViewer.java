@@ -39,13 +39,15 @@ public class DropTableViewer extends BaseCommand {
         this.dropTablesDelivery = dropTablesDelivery;
         this.mmoItems = mmoItems;
     }
+
     int height = 6;
+
     @Subcommand("UndeadCrate|UNDEAD_BOX")
     private void undeadCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Undead Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.UNDEAD);
-        createMenu(gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
@@ -54,7 +56,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Hell Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.HELL);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
@@ -63,7 +65,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Profession Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.PROFESSION);
-        createMenu(gui, guiContents, Material.CYAN_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.CYAN_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
@@ -72,7 +74,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Magical Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.MAGICAL);
-        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
@@ -81,7 +83,7 @@ public class DropTableViewer extends BaseCommand {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Borg's Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.BORG);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
         gui.show(player);
     }
 
@@ -90,7 +92,7 @@ public class DropTableViewer extends BaseCommand {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX);
-        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2);
         gui.show(player);
     }
 
@@ -99,7 +101,7 @@ public class DropTableViewer extends BaseCommand {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX2);
-        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2);
         gui.show(player);
     }
 
@@ -108,118 +110,135 @@ public class DropTableViewer extends BaseCommand {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX3);
-        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 3);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 3);
         gui.show(player);
     }
 
     @Subcommand("Reaper")
     private void reaper(Player player) {
-        height = 3;
+        height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Reaper"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.REAPER);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2, true);
         gui.show(player);
     }
 
-    @Subcommand("Morden")
+    @Subcommand("Morden|MordenTheUndead")
     private void morden(Player player) {
-        height = 4;
+        height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Morden"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.MORDEN);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
     @Subcommand("Dracula|VoidDracula")
     private void voidDracula(Player player) {
-        height = 4;
+        height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Dracula"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.VOID_DRACULA);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
     @Subcommand("Dryad")
     private void dryad(Player player) {
-        height = 3;
+        height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Dryad"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.DRYAD);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
     @Subcommand("GoblinChief")
     private void goblinChief(Player player) {
-        height = 3;
+        height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Goblin Chief"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.GOBLIN_CHIEF);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2, true);
         gui.show(player);
     }
 
     @Subcommand("VoidWither")
     private void voidWither(Player player) {
-        height = 4;
+        height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Void Wither"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.VOID_WITHER);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
     @Subcommand("VoidMagma")
     private void voidMagma(Player player) {
-        height = 3;
+        height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Void Magma"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.VOID_MAGMA);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 3);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2, true);
         gui.show(player);
     }
 
     @Subcommand("Ghastly")
     private void ghastly(Player player) {
-        height = 3;
+        height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Ghastly"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.GHASTLY);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
-    @Subcommand("Bulblin")
+    @Subcommand("Bulblin|VoidBulblin")
     private void bulblin(Player player) {
-        height = 4;
+        height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Bulblin"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.BULBLIN);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
-    @Subcommand("Bullbo")
+    @Subcommand("Bullbo|VoidBullbo")
     private void bullbo(Player player) {
-        height = 4;
+        height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Bullbo"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.BULLBO);
-        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
 
-    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor) {
-        createMenu(gui, guiContents, backgroundColor, 6, 1);
+    @Subcommand("Enchantress")
+    private void enchantress(Player player) {
+        height = 5;
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchantress"));
+        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTRESS);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
+        gui.show(player);
     }
 
-    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor, int height, int startX) {
+    private void createMenu(Player player, ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor) {
+        createMenu(player, gui, guiContents, backgroundColor, 6, 1);
+    }
+
+    private void createMenu(Player player, ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor, int height, int startX) {
+        createMenu(player, gui, guiContents, backgroundColor, 6, 1, true);
+    }
+
+    //  BROKEN
+    private void createMenu(Player player, ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor, int height, int startX, boolean bossdex) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, height);
         OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(startX, 1, 7, 4, Pane.Priority.LOW);
         OutlinePane display2 = new OutlinePane(startX, 1, 7, 4, Pane.Priority.LOW);
-        StaticPane back = new StaticPane(0, 5, 1, 1, Pane.Priority.HIGH);
-        StaticPane forward = new StaticPane(8, 5, 1, 1, Pane.Priority.HIGH);
+        StaticPane back = new StaticPane(0, height - 1, 1, 1, Pane.Priority.HIGH);
+        StaticPane forward = new StaticPane(8, height - 1, 1, 1, Pane.Priority.HIGH);
+        StaticPane backButton = new StaticPane(4, height - 1, 1, 1, Pane.Priority.HIGHEST);
 
         page.addPane(0, background);
         page.addPane(0, display);
+        page.addPane(0, backButton);
         page.addPane(1, background);
         page.addPane(1, display2);
+        page.addPane(1, backButton);
 
         background.addItem(new GuiItem(guiHelper.background(backgroundColor)));
         background.setRepeat(true);
@@ -253,6 +272,9 @@ public class DropTableViewer extends BaseCommand {
                 gui.update();
             }), 0, 0);
         }
+
+        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("bossdex")), 0, 0);
+
 
         gui.addPane(page);
         gui.addPane(back);

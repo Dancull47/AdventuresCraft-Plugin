@@ -46,7 +46,7 @@ public class DropTablesGive extends BaseCommand {
 
     @CommandAlias("DropTable")
     @CommandPermission("*")
-    @CommandCompletion("* hellCrate|undeadCrate|professionCrate|magicalCrate|borgsCrate|ENCHANTED_BOX|ENCHANTED_BOX2|ENCHANTED_BOX3")
+    @CommandCompletion("* hellCrate|undeadCrate|professionCrate|magicalCrate|borgsCrate|ENCHANTED_BOX|ENCHANTED_BOX2|ENCHANTED_BOX3|reaper|morden|VOID_DRACULA|dryad|GOBLIN_CHIEF|VOID_WITHER|VOID_MAGMA|ghastly|bulblin|bullbo|enchantress")
     private void dropTable(OnlinePlayer player, String table, int amount) {
         player.getPlayer().sendMessage(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
         for (int i = 0; i < amount; i++) {
