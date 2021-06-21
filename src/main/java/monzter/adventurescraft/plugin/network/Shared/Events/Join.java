@@ -5,6 +5,7 @@ import net.Indyuce.mmocore.api.player.PlayerData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public class Join implements Listener {
         final Player player = event.getPlayer();
 
         player.setCollidable(true);
+        player.setGameMode(GameMode.SURVIVAL);
 
         switch (plugin.SERVER) {
             case "Prison":
@@ -42,6 +44,21 @@ public class Join implements Listener {
             case "Lobby":
                 player.sendMessage(ChatColor.GREEN + "Welcome back " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + "!");
                 break;
+        }
+
+        switch (plugin.SERVER) {
+            case "Adventure":
+            case "Home":
+                if (player.hasPermission("RP.DOWNLOAD")) {
+                    player.performCommand("rp download");
+                    player.sendMessage(ChatColor.GREEN + "The " + ChatColor.GOLD + "Resource Pack Prompt " + ChatColor.GREEN + "has been sent!");
+                } else
+                    player.sendMessage(ChatColor.RED + "We recommend using the " + ChatColor.GOLD + "Resource Pack " + ChatColor.RED + "for an enhanced experience! You can enable it by using " + ChatColor.GOLD + "/RP Enable" + ChatColor.GREEN + "!");
+                if (!player.hasPermission("Flint.Talked"))
+                    if (player.getWorld().getName().equals("Spawn"))
+                        player.sendMessage(ChatColor.GREEN + "Welcome, speak with " + ChatColor.GOLD + "Flint " + ChatColor.GREEN + "infront of you!");
+                break;
+
         }
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -68,10 +85,12 @@ public class Join implements Listener {
             }
         event.joinMessage(Component.text(""));
     }
+
     @EventHandler
     public void onKick(PlayerKickEvent event) {
         event.leaveMessage(Component.text(""));
     }
+
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         event.quitMessage(Component.text(""));
