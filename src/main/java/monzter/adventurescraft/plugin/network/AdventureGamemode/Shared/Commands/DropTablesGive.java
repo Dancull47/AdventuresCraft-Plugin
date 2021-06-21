@@ -17,6 +17,8 @@ import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 
+import java.util.Random;
+
 public class DropTablesGive extends BaseCommand {
 
     @Dependency
@@ -103,6 +105,9 @@ public class DropTablesGive extends BaseCommand {
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
                 case "MORDEN":
+                case "MORDEN_THE_UNDEAD":
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "MORDEN_FLESH", new Random().nextInt(4));
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_BONE", new Random().nextInt(4));
                     for (Crates crates : Crates.getCrates(CrateList.MORDEN))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
@@ -113,6 +118,12 @@ public class DropTablesGive extends BaseCommand {
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
                 case "DRYAD":
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_OAK_LOG", new Random().nextInt(2));
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_DARK_OAK_LOG", new Random().nextInt(2));
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_JUNGLE_LOG", new Random().nextInt(2));
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_ACACIA_LOG", new Random().nextInt(2));
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_BIRCH_LOG", new Random().nextInt(2));
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_SPRUCE_LOG", new Random().nextInt(2));
                     for (Crates crates : Crates.getCrates(CrateList.DRYAD))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
@@ -128,26 +139,29 @@ public class DropTablesGive extends BaseCommand {
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
                 case "VOID_MAGMA":
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "MAGMA_COIN", new Random().nextInt(3));
                     for (Crates crates : Crates.getCrates(CrateList.VOID_MAGMA))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
                 case "GHASTLY":
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "QUEST", "GHASTLY_TEAR", 1);
                     for (Crates crates : Crates.getCrates(CrateList.GHASTLY))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
-                case "BULBLIN":
+                case "VOID_BULBLIN":
                     for (Crates crates : Crates.getCrates(CrateList.BULBLIN))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
-                case "BULLBO":
+                case "VOID_BULLBO":
                     for (Crates crates : Crates.getCrates(CrateList.BULLBO))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
-                case "ENCHANTRESS":
+                case "VOID_ENCHANTRESS":
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "MATERIAL", "ENCHANTED_OBSIDIAN", new Random().nextInt(3));
                     for (Crates crates : Crates.getCrates(CrateList.ENCHANTRESS))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());

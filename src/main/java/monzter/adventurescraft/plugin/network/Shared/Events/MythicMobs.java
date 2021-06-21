@@ -21,7 +21,6 @@ public class MythicMobs extends BaseCommand implements Listener {
     private final SoundManager soundManager;
 
 
-
     public MythicMobs(AdventuresCraft plugin, FullInventory fullInventory, BetonPointsManager betonPointsManager, SoundManager soundManager) {
         this.plugin = plugin;
         this.fullInventory = fullInventory;
@@ -46,16 +45,15 @@ public class MythicMobs extends BaseCommand implements Listener {
                         case "GOBLIN_CHIEF":
                         case "VOID_WITHER":
                         case "VOID_MAGMA":
-                        case "GHASTLY":
-                        case "BULBLIN":
-                        case "BULLBO":
-                        case "ENCHANTRESS":
+                        case "VOID_BULBLIN":
+                        case "VOID_BULLBO":
+                        case "VOID_ENCHANTRESS":
                             for (AbstractEntity abstractEntity : event.getMob().getThreatTable().getAllThreatTargets())
                                 if (abstractEntity.isPlayer()) {
                                     Player player1 = Bukkit.getPlayer(abstractEntity.getName());
                                     betonPointsManager.givePoint(player1, "bossReward." + event.getMobType().getInternalName().toUpperCase(), 1);
-                                    player1.sendMessage(ChatColor.GREEN + "You helped defeat the " + event.getMob().getDisplayName() + ChatColor.GREEN + " and earned a " + ChatColor.GOLD + "reward" + ChatColor.GREEN + "!"
-                                            + ChatColor.GREEN + "Claim your reward by using " + ChatColor.GOLD + "/bossdex" + ChatColor.GREEN + "!");
+                                    player1.sendMessage(ChatColor.GREEN + "You helped defeat the " + event.getMob().getDisplayName() + ChatColor.GREEN + "! "
+                                            + ChatColor.GREEN + "Claim your reward by using " + ChatColor.GOLD + ChatColor.BOLD + "/Bossdex" + ChatColor.GREEN + "!");
                                     player1.playSound(player1.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1);
                                 }
                             break;

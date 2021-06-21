@@ -47,8 +47,7 @@ public class ServerSelect extends BaseCommand {
         display.addItem(adventure(player), 2, 1);
         if (!plugin.SERVER.equals("Lobby"))
             display.addItem(lobby(player), 4, 1);
-
-            display.addItem(prison(player), 6, 1);
+        display.addItem(prison(player), 6, 1);
 
 
         display.addItem(store(player), 1, 3);

@@ -23,7 +23,7 @@ public enum CrateList {
     GHASTLY(ChatColor.RED, "Ghastly"),
     BULBLIN(ChatColor.DARK_PURPLE, "Void Bulblin"),
     BULLBO(ChatColor.DARK_PURPLE, "Void Bullbo"),
-    ENCHANTRESS(ChatColor.DARK_PURPLE, "Enchantress"),
+    ENCHANTRESS(ChatColor.DARK_PURPLE, "Void Enchantress"),
     ;
 
     private final ChatColor color;

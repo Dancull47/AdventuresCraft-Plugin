@@ -208,7 +208,7 @@ public enum Crates implements Weighted, ItemGenerator {
     GOBLIN_CHIEF2(CrateList.GOBLIN_CHIEF, "CONSUMABLE", "CHIEF_HEAD", 1, .05),
     GOBLIN_CHIEF3(CrateList.GOBLIN_CHIEF, "QUEST", "CHIEF_HEAD", 1, .05),
     GOBLIN_CHIEF4(CrateList.GOBLIN_CHIEF, "HAMMER", "CHIEF_HAMMER", 1, .02),
-//    execute console command "/mm items give %player% CHIEF_JUKE_ITEM"
+    GOBLIN_CHIEF5(CrateList.GOBLIN_CHIEF, "WAND", "CHIEF_JUKEBOX", 1, .01),
 
     VOID_WITHER1(CrateList.VOID_WITHER, "QUEST", "WITHER_HEAD", 1, .05),
     VOID_WITHER2(CrateList.VOID_WITHER, "CONSUMABLE", "WITHER_HEAD", 1, .05),

@@ -204,7 +204,7 @@ public class DropTableViewer extends BaseCommand {
         gui.show(player);
     }
 
-    @Subcommand("Enchantress")
+    @Subcommand("Enchantress|VoidEnchantress")
     private void enchantress(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchantress"));

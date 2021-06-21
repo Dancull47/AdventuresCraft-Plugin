@@ -120,7 +120,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Track bosses all around the world.");
         lore.add(ChatColor.GRAY + "Browse their loot and when they spawn!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
         bossdex.setItemMeta(bossdexItemMeta);
         bossdex.setLore(lore);

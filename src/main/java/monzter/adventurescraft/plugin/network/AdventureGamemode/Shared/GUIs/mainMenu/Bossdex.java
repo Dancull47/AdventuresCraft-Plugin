@@ -8,6 +8,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import io.lumine.mythic.utils.Schedulers;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
@@ -24,6 +25,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import pl.betoncraft.betonquest.BetonQuest;
 
 import java.util.ArrayList;
@@ -36,8 +38,6 @@ public class Bossdex extends BaseCommand {
     @Dependency
     private final AdventuresCraft plugin;
     private final GUIHelper guiHelper;
-    private final Material LOCKED = Material.RED_STAINED_GLASS_PANE;
-    private final String LOCKED_TEXT = ChatColor.DARK_GRAY + "- " + ChatColor.RED + ChatColor.BOLD + "LOCKED";
     private final MMOItems mmoItems;
     private final BetonPointsManager betonPointsManager;
     private final ConsoleCommand consoleCommand;
@@ -56,7 +56,6 @@ public class Bossdex extends BaseCommand {
 
         ChestGui gui = new ChestGui(5, guiHelper.guiName("Bossdex"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
-//      Add button explaining Bossdex and viewing respawn timers
         OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(1, 1, 7, 3, Pane.Priority.LOW);
         StaticPane backButton = new StaticPane(4, 4, 1, 1, Pane.Priority.HIGHEST);
@@ -74,6 +73,18 @@ public class Bossdex extends BaseCommand {
         gui.addPane(display);
         gui.addPane(backButton);
         gui.show(player);
+
+        Schedulers.sync().runLater(new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (player.getOpenInventory() == null) return;
+                if (player.getOpenInventory().getTopInventory() == null) return;
+                if (player.getOpenInventory().getTopInventory().getItem(0) == null) return;
+                if (player.getOpenInventory().getTopInventory().getItem(0).getType() != Material.RED_STAINED_GLASS_PANE)
+                    return;
+                map(player);
+            }
+        }, 60);
     }
 
     private GuiItem itemGenerator(Player player, Bosses boss) {
@@ -99,11 +110,9 @@ public class Bossdex extends BaseCommand {
         }
         lore.add("");
         lore.add(ChatColor.GRAY + "Rewards Available: " + ChatColor.GOLD + ChatColor.BOLD + points);
-        if (points > 0) {
-            lore.add("");
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Claim Reward");
-        }
         lore.add("");
+        if (points > 0)
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Claim Reward");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Drop Table");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to View Achievements");
 
@@ -113,7 +122,7 @@ public class Bossdex extends BaseCommand {
         return new GuiItem(itemStack, e -> {
             if (e.isLeftClick() && points > 0 && !e.isShiftClick()) {
                 betonPointsManager.takePoint(player, "bossReward." + boss.getName().toUpperCase().replace(' ', '_'), 1);
-                consoleCommand.consoleCommand("droptable " + player.getName() + " " + boss.getName() + " 1");
+                consoleCommand.consoleCommand("droptable " + player.getName() + " " + boss.getName().toUpperCase().replace(' ', '_') + " 1");
                 player.performCommand("bossdex");
             } else if (e.isRightClick() && !e.isShiftClick()) {
                 player.performCommand("DropTableViewer " + boss.getName().replace(" ", ""));
@@ -123,26 +132,25 @@ public class Bossdex extends BaseCommand {
         });
     }
 
-
     private String spawner(Bosses bosses) {
         if (bosses.equals(Bosses.BULLBO))
             bosses = Bosses.BULBLIN;
 
-        Iterator var3 = MythicMobs.inst().getSpawnerManager().listSpawners.iterator();
+        Iterator spawnerIterator = MythicMobs.inst().getSpawnerManager().listSpawners.iterator();
 
         MythicSpawner spawner;
         do {
-            if (!var3.hasNext())
+            if (!spawnerIterator.hasNext())
                 return null;
-            spawner = (MythicSpawner) var3.next();
+            spawner = (MythicSpawner) spawnerIterator.next();
         } while (!bosses.getName().replace(' ', '_').toUpperCase().equals(spawner.getName()));
         String message = null;
         if (!spawner.isOnWarmup()) {
             boolean alive = false;
-            Iterator var7 = spawner.getAssociatedMobs().iterator();
+            Iterator uuidIterator = spawner.getAssociatedMobs().iterator();
 
-            while (var7.hasNext()) {
-                UUID mob = (UUID) var7.next();
+            while (uuidIterator.hasNext()) {
+                UUID mob = (UUID) uuidIterator.next();
                 if (!((ActiveMob) MythicMobs.inst().getMobManager().getActiveMob(mob).get()).isDead() && !alive) {
                     alive = true;
                     message = ChatColor.GREEN + "now!";
