@@ -22,9 +22,7 @@ public class VoidMythicMob extends SkillMechanic implements ITargetedEntitySkill
         this.mmoItems = mmoItems;
         this.setAsyncSafe(false);
 
-        this.duration = config.getInteger(new String[] {"duration", "d"}, 100);
-
-        System.out.println("Blinder mechanic loaded");
+        this.duration = config.getInteger(new String[]{"duration", "d"}, 100);
     }
 
     @Override

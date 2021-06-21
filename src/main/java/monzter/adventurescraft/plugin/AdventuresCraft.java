@@ -16,6 +16,7 @@ import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
@@ -255,6 +256,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.Boss(this, consoleCommand, permissionLP, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractLootboxes(this, soundManager, permissionLP, consoleCommand, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Pickup(this, betonPointsManager, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
 //        Main GUIs
