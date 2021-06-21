@@ -148,7 +148,7 @@ public enum Crates implements Weighted, ItemGenerator {
     BORG12(CrateList.BORG, "ARMOR", "HEAVY_LEGGINGS3", 1, .15),
     BORG1(CrateList.BORG, "ARMOR", "HEAVY_BOOTS3", 1, .15),
     BORG6(CrateList.BORG, "AXE", "HEAVY_AXE", 1, .15),
-    BORG10(CrateList.BORG, "BOW", "HEAVY_BOW", 1, .15),
+    BORG10(CrateList.BORG, "BOW", "HEAVY_BOW3", 1, .15),
     BORG18(CrateList.BORG, "CONSUMABLE", "BANK_TOKEN", 1, .075),
     BORG8(CrateList.BORG, "MOUNT", "BORG", 1, .05),
 

@@ -47,7 +47,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Undead Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.UNDEAD);
-        createMenu(player, gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.GREEN_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
 
@@ -56,7 +56,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Hell Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.HELL);
-        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
 
@@ -65,7 +65,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Profession Crate"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.PROFESSION);
-        createMenu(player, gui, guiContents, Material.CYAN_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.CYAN_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
 
@@ -74,7 +74,7 @@ public class DropTableViewer extends BaseCommand {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Magical Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.MAGICAL);
-        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
 
@@ -83,7 +83,7 @@ public class DropTableViewer extends BaseCommand {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Borg's Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.BORG);
-        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1);
+        createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
 
@@ -92,7 +92,7 @@ public class DropTableViewer extends BaseCommand {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX);
-        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2, false);
         gui.show(player);
     }
 
@@ -101,7 +101,7 @@ public class DropTableViewer extends BaseCommand {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX2);
-        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2, false);
         gui.show(player);
     }
 
@@ -110,7 +110,7 @@ public class DropTableViewer extends BaseCommand {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
         final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX3);
-        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 3);
+        createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 3, false);
         gui.show(player);
     }
 
@@ -273,8 +273,8 @@ public class DropTableViewer extends BaseCommand {
             }), 0, 0);
         }
 
-        backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("bossdex")), 0, 0);
-
+        if (bossdex)
+            backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("bossdex")), 0, 0);
 
         gui.addPane(page);
         gui.addPane(back);
