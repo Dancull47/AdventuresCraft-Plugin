@@ -69,9 +69,9 @@ public class GeneralCommands extends BaseCommand implements Listener {
     @CommandAlias("rp|resourcePack|texturePack")
     private void resourcePack(Player player) {
         player.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Resource Pack Commands");
-        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW  + "/RP Enable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Enable the Resource Pack.");
-        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW  + "/RP Disable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Disable the Resource Pack.");
-        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW  + "/RP Download " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Download the Resource Pack.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/RP Enable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Enable the Resource Pack.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/RP Disable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Disable the Resource Pack.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/RP Download " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Download the Resource Pack.");
         player.sendMessage(resourcePack);
     }
 
@@ -141,6 +141,38 @@ public class GeneralCommands extends BaseCommand implements Listener {
                     player.sendMessage(ChatColor.RED + "Your volume cannot be louder than 100!");
                     soundManager.soundNo(player, 1);
                 }
+                break;
+        }
+    }
+
+    @CommandAlias("shops")
+    @CommandCompletion("farming|foraging|mining|gems|slayer|cooking|wand|wands|hell|void|enchanted|material|enchantedMaterials")
+    private void shop(Player player, String shop) {
+        switch (shop.toLowerCase()) {
+            case "farming":
+            case "foraging":
+            case "gems":
+            case "slayer":
+            case "wand":
+            case "hell":
+            case "void":
+                consoleCommand.consoleCommand("mmoitems stations open " + shop + " " + player.getName());
+                break;
+            case "wands":
+                consoleCommand.consoleCommand("mmoitems stations open " + "wand" + " " + player.getName());
+                break;
+            case "enchanted":
+            case "material":
+            case "materials":
+            case "enchantedmaterial":
+            case "enchantedmaterials":
+                consoleCommand.consoleCommand("mmoitems stations open " + "enchanted-materials" + " " + player.getName());
+                break;
+            case "cooking":
+                consoleCommand.consoleCommand("mmoitems stations open " + "stews" + " " + player.getName());
+                break;
+            case "mining":
+                consoleCommand.consoleCommand("mmoitems stations open " + "miner-shop" + " " + player.getName());
                 break;
         }
     }

@@ -56,7 +56,7 @@ public class Join implements Listener {
                     player.sendMessage(ChatColor.RED + "We recommend using the " + ChatColor.GOLD + "Resource Pack " + ChatColor.RED + "for an enhanced experience! You can enable it by using " + ChatColor.GOLD + "/RP Enable" + ChatColor.GREEN + "!");
                 if (!player.hasPermission("Flint.Talked"))
                     if (player.getWorld().getName().equals("Spawn"))
-                        player.sendMessage(ChatColor.GREEN + "Welcome, speak with " + ChatColor.GOLD + "Flint " + ChatColor.GREEN + "infront of you!");
+                        player.sendMessage(ChatColor.GREEN + "Welcome, speak with " + ChatColor.GOLD + "Flint " + ChatColor.GREEN + "in-front of you!");
                 break;
 
         }
