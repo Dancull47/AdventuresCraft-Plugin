@@ -21,7 +21,8 @@ public class BlockBreak implements Listener {
         switch (plugin.SERVER) {
             case "Adventure":
                 if (event.getPlayer() != null)
-                    betonPointsManager.givePoint(event.getPlayer(), "blocks." + event.getBlock().getType(), 1);
+                    if (event.canBreak())
+                        betonPointsManager.givePoint(event.getPlayer(), "blocks." + event.getBlock().getType(), 1);
         }
     }
 }
