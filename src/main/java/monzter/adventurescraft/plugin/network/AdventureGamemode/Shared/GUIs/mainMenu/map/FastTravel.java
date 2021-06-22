@@ -63,7 +63,7 @@ public class FastTravel extends BaseCommand {
         display.addItem(new GuiItem(ghastly(player), e -> player.performCommand("warp Ghastly")), 1, 2);
         display.addItem(new GuiItem(voidBullbo(player), e -> player.performCommand("warp voidBullbo")), 2, 2);
 
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("map")), 4, 4);
 
         gui.addPane(background);
         gui.addPane(display);
