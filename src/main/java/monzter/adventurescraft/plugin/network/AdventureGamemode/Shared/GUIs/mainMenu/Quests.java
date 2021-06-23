@@ -44,11 +44,11 @@ public class Quests extends BaseCommand {
 
     @CommandAlias("Quests|Quest|Questsss")
     public void questMenu(Player player) {
-        int i = 0;
+        int questAmount = 0;
         for (QuestGiver questGiver : QuestGiver.values())
-            i += questGiver.getQuestAmount();
+            questAmount += questGiver.getQuestAmount();
 
-        ChestGui gui = new ChestGui(5, guiHelper.guiName("Quests " + parsePlaceholder(player, "betonquest_default-Points:point.QuestTotal.amount") + "/" + i));
+        ChestGui gui = new ChestGui(5, guiHelper.guiName("Quests " + parsePlaceholder(player, "betonquest_default-Points:point.QuestTotal.amount") + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
@@ -62,22 +62,8 @@ public class Quests extends BaseCommand {
         for (QuestArea questArea : QuestArea.values())
             main.addItem(itemGenerator(player, questArea));
 
-//        main.addItem(new GuiItem(town(player), e -> player.performCommand("QuestMenu graveyard")));
-//        main.addItem(new GuiItem(farm(player), e -> player.performCommand("QuestMenu graveyard")));
-//        main.addItem(new GuiItem(forest(player), e -> player.performCommand("QuestMenu graveyard")));
-//        main.addItem(new GuiItem(mines(player), e -> player.performCommand("QuestMenu graveyard")));
-//        main.addItem(new GuiItem(graveyard(player), e -> player.performCommand("QuestMenu graveyard")));
-//        main.addItem(new GuiItem(courtyard(player), e -> player.performCommand("QuestMenu courtyard")));
-//        main.addItem(new GuiItem(castle(player), e -> player.performCommand("QuestMenu castle")));
-//        main.addItem(new GuiItem(valley(player), e -> player.performCommand("QuestMenu valley")));
-//        main.addItem(new GuiItem(estate(player), e -> player.performCommand("QuestMenu estate")));
-//        main.addItem(new GuiItem(goblinTown(player), e -> player.performCommand("QuestMenu goblinTown")));
-//        main.addItem(new GuiItem(spiritGrounds(player), e -> player.performCommand("QuestMenu spiritGrounds")));
-//        main.addItem(new GuiItem(hell(player), e -> player.performCommand("QuestMenu hell")));
-//        main.addItem(new GuiItem(theVoid(player), e -> player.performCommand("QuestMenu void")));
-
         display.addItem(new GuiItem(achievements(player), e -> player.performCommand("QuestMenu Active")), 2, 4);
-        display.addItem(new GuiItem(activeQuests(player), e -> player.performCommand("QuestMenu Active")), 3, 4);
+        display.addItem(new GuiItem(activeQuests(), e -> player.performCommand("QuestMenu Active")), 3, 4);
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
         display.addItem(new GuiItem(unclaimedQuests(player), e -> player.performCommand("fastTravel")), 5, 4);
         display.addItem(new GuiItem(jobs(player), e -> player.performCommand("fastTravel")), 6, 4);
@@ -107,219 +93,10 @@ public class Quests extends BaseCommand {
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
-        return new GuiItem(item, e -> player.performCommand("questmenu " + questArea.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage")));
+        return new GuiItem(item, e -> player.performCommand("QuestAreaMenu " + questArea.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage")));
     }
 
-
-    private ItemStack town(Player player) {
-        final ItemStack farm = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUyY2M0MjAxNWU2Njc4ZjhmZDQ5Y2NjMDFmYmY3ODdmMWJhMmMzMmJjZjU1OWEwMTUzMzJmYzVkYjUwIn19fQ=="));
-        final ItemMeta farmItemMeta = farm.getItemMeta();
-
-        farmItemMeta.displayName(Component.text(ChatColor.GREEN + "The Town " + parsePlaceholder(player, "betonquest_default-Points:point.Town.amount") + ChatColor.GREEN + "/" + "9"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        farm.setItemMeta(farmItemMeta);
-        farm.setLore(lore);
-
-        return farm;
-    }
-
-    private ItemStack farm(Player player) {
-        final ItemStack farm = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWFmMzI4Yzg3YjA2ODUwOWFjYTk4MzRlZmFjZTE5NzcwNWZlNWQ0ZjA4NzE3MzFiN2IyMWNkOTliOWZkZGMifX19"));
-        final ItemMeta farmItemMeta = farm.getItemMeta();
-
-        farmItemMeta.displayName(Component.text(ChatColor.GREEN + "The Farm " + parsePlaceholder(player, "betonquest_default-Points:point.Farm.amount") + ChatColor.GREEN + "/" + "7"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        farm.setItemMeta(farmItemMeta);
-        farm.setLore(lore);
-
-        return farm;
-    }
-
-    private ItemStack forest(Player player) {
-        final ItemStack forest = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjBjZDEzMjIzYThkOWMxNzNjZWRjZTZjNGJlYmViYTA2YTI0YTFiYTI3NWRkM2ViNWM3OTMzZjlhNzRiYTAxMSJ9fX0="));
-        final ItemMeta forestItemMeta = forest.getItemMeta();
-
-        forestItemMeta.displayName(Component.text(ChatColor.GREEN + "The Forest " + parsePlaceholder(player, "betonquest_default-Points:point.Forest.amount") + ChatColor.GREEN + "/" + "14"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to View Quests");
-
-        forest.setItemMeta(forestItemMeta);
-        forest.setLore(lore);
-
-        return forest;
-    }
-
-    private ItemStack mines(Player player) {
-        final ItemStack mines = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzQyMDcwYWNjODE0YmM5NDZlNTk4NzllYzdkYTQ1ZGU5ODRkM2VlOWExNTkzOTNkZWZiNTk4NTNhYmUzYjYifX19"));
-        final ItemMeta minesItemMeta = mines.getItemMeta();
-
-        minesItemMeta.displayName(Component.text(ChatColor.GREEN + "The Mines " + parsePlaceholder(player, "betonquest_default-Points:point.Mine.amount") + ChatColor.GREEN + "/" + "26"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to View Quests");
-
-        mines.setItemMeta(minesItemMeta);
-        mines.setLore(lore);
-
-        return mines;
-    }
-
-    private ItemStack graveyard(Player player) {
-        final ItemStack graveyard = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2YzYmU2NDAxNjczNmJlNDRiMWQ1YTVmM2FkYWI2ZDRjMDQzNzgyYzE3ZGQyOWMzYjhjNGNiNmU3M2Y5ODk4In19fQ=="));
-        final ItemMeta graveyardItemMeta = graveyard.getItemMeta();
-
-        graveyardItemMeta.displayName(Component.text(ChatColor.GREEN + "The Graveyard " + parsePlaceholder(player, "betonquest_default-Points:point.Graveyard.amount") + ChatColor.GREEN + "/" + "5"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        graveyard.setItemMeta(graveyardItemMeta);
-        graveyard.setLore(lore);
-
-        return graveyard;
-    }
-
-    private ItemStack courtyard(Player player) {
-        ItemStack courtyard = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE5ZmIyZTQ5NzAzYzZjYjk1MTE2YmUxNTM2M2M5ZDU2ODllZjIyOWE3NWM2NTVlZjU3NmJlMzYwZWMzY2JlYiJ9fX0="));
-        final ItemMeta courtyardItemMeta = courtyard.getItemMeta();
-
-        courtyardItemMeta.displayName(Component.text(ChatColor.GREEN + "The Courtyard " + parsePlaceholder(player, "betonquest_default-Points:point.Courtyard.amount") + ChatColor.GREEN + "/" + "5"));
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        courtyard.setItemMeta(courtyardItemMeta);
-        courtyard.setLore(lore);
-
-        return courtyard;
-    }
-
-    private ItemStack castle(Player player) {
-        ItemStack castle = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDljMTgzMmU0ZWY1YzRhZDljNTE5ZDE5NGIxOTg1MDMwZDI1NzkxNDMzNGFhZjI3NDVjOWRmZDYxMWQ2ZDYxZCJ9fX0=="));
-        final ItemMeta castleItemMeta = castle.getItemMeta();
-
-        castleItemMeta.displayName(Component.text(ChatColor.GREEN + "The Castle " + parsePlaceholder(player, "betonquest_default-Points:point.Castle.amount") + ChatColor.GREEN + "/" + "1"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        castle.setItemMeta(castleItemMeta);
-        castle.setLore(lore);
-
-        return castle;
-    }
-
-    private ItemStack valley(Player player) {
-        ItemStack estate = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTZhNjA1MWY3ZjZmNDM5ZDhmMjE0YzIzNGU4ZTJjNDc3NjMwMDUyNDMyZTQyNjA3ZjA0MDRiODQwYjUzY2VhYiJ9fX0="));
-        final ItemMeta estateItemMeta = estate.getItemMeta();
-
-        estateItemMeta.displayName(Component.text(ChatColor.GREEN + "The Valley " + parsePlaceholder(player, "betonquest_default-Points:point.Valley.amount") + ChatColor.GREEN + "/" + "1"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        estate.setItemMeta(estateItemMeta);
-        estate.setLore(lore);
-
-        return estate;
-    }
-
-    private ItemStack estate(Player player) {
-        ItemStack estate = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzlkYmEyOWM4ODI4YTQ5MDliOTRhZWU0MmRkYTg4ZTgwNGM1YzJkOGZlZTcwODQ3ZmM2NTRjYzI3MGZmNWQzNiJ9fX0="));
-        final ItemMeta estateItemMeta = estate.getItemMeta();
-
-        estateItemMeta.displayName(Component.text(ChatColor.GREEN + "The Estate " + parsePlaceholder(player, "betonquest_default-Points:point.Estate.amount") + ChatColor.GREEN + "/" + "3"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        estate.setItemMeta(estateItemMeta);
-        estate.setLore(lore);
-
-        return estate;
-    }
-
-    private ItemStack goblinTown(Player player) {
-        ItemStack goblinTown = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZiOTcyZTMyZDc2MWIxOTI2MjZlNWQ2ZDAxZWRjMDk0OTQwOTEwMTAzY2VhNWUyZTJkMWYyMzFhZGI3NTVkNSJ9fX0="));
-        final ItemMeta goblinTownItemMeta = goblinTown.getItemMeta();
-
-        goblinTownItemMeta.displayName(Component.text(ChatColor.GREEN + "The Goblin Town " + parsePlaceholder(player, "betonquest_default-Points:point.GoblinVillage.amount") + ChatColor.GREEN + "/" + "3"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        goblinTown.setItemMeta(goblinTownItemMeta);
-        goblinTown.setLore(lore);
-
-        return goblinTown;
-    }
-
-    private ItemStack spiritGrounds(Player player) {
-        ItemStack spiritGrounds = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI2NWQ5OWVlODgxYjc0MTQ2ZTBmMTk4MDkxMmQ0NzZmZmViYmEyOWUxNTQ5MDM4ZTFkOTQ4ZjQwMTQ0MjJlYiJ9fX0="));
-        final ItemMeta spiritGroundsItemMeta = spiritGrounds.getItemMeta();
-
-        spiritGroundsItemMeta.displayName(Component.text(ChatColor.GREEN + "Spirit Grounds " + parsePlaceholder(player, "betonquest_default-Points:point.SpiritGrounds.amount") + ChatColor.GREEN + "/" + "3"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        spiritGrounds.setItemMeta(spiritGroundsItemMeta);
-        spiritGrounds.setLore(lore);
-
-        return spiritGrounds;
-    }
-
-    private ItemStack hell(Player player) {
-        ItemStack hell = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0="));
-        final ItemMeta hellItemMeta = hell.getItemMeta();
-
-        hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell " + parsePlaceholder(player, "betonquest_default-Points:point.Hell.amount") + ChatColor.GREEN + "/" + "7"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        hell.setItemMeta(hellItemMeta);
-        hell.setLore(lore);
-
-        return hell;
-    }
-
-    private ItemStack theVoid(Player player) {
-        ItemStack theVoid = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0="));
-        final ItemMeta voidItemMeta = theVoid.getItemMeta();
-
-        voidItemMeta.displayName(Component.text(ChatColor.GREEN + "Void " + parsePlaceholder(player, "betonquest_default-Points:point.Void.amount") + ChatColor.GREEN + "/" + "17"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
-
-        theVoid.setItemMeta(voidItemMeta);
-        theVoid.setLore(lore);
-
-        return theVoid;
-    }
-
-
-    private ItemStack activeQuests(Player player) {
+    private ItemStack activeQuests() {
         final ItemStack activeQuests = new ItemStack(Material.BOOK);
         final ItemMeta activeQuestsItemMeta = activeQuests.getItemMeta();
 
