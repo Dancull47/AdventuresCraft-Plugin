@@ -170,6 +170,5 @@ public class QuestAreaMenu extends BaseCommand {
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
     }
-
 }
 
