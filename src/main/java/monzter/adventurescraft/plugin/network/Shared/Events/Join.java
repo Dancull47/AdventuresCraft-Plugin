@@ -1,6 +1,7 @@
 package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -18,9 +19,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class Join implements Listener {
     private final AdventuresCraft plugin;
+    private final PermissionLP permissionLP;
 
-    public Join(AdventuresCraft plugin) {
+
+    public Join(AdventuresCraft plugin, PermissionLP permissionLP) {
         this.plugin = plugin;
+        this.permissionLP = permissionLP;
     }
 
     @EventHandler
