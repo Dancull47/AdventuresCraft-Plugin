@@ -20,6 +20,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Knowledge;
@@ -802,15 +803,21 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     private final String blinder = "blinder";
+    private final String dismount = "customDismount";
 
     @EventHandler
     public void onMythicMechanicLoad(MythicMechanicLoadEvent event) {
         this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
         switch (event.getMechanicName().toLowerCase()) {
             case blinder:
-                SkillMechanic mechanic = new VoidMythicMob(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
-                event.register(mechanic);
-                this.getLogger().info("-- Registered " + blinder + " mechanic!");
+                SkillMechanic blinder = new VoidMythicMob(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
+                event.register(blinder);
+                this.getLogger().info("-- Registered Blinder mechanic!");
+                break;
+            case dismount:
+                SkillMechanic dismount = new Mount(event.getConfig());
+                event.register(dismount);
+                this.getLogger().info("-- Registered customDismount mechanic!");
                 break;
         }
     }
