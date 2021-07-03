@@ -279,6 +279,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     private void adventureShared() {
+//        Placeholder
+        new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Placeholder(this, displayNameFlag).register();
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, consoleCommand));

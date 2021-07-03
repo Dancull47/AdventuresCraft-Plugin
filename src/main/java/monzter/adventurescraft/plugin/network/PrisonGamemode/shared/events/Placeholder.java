@@ -415,7 +415,7 @@ public class Placeholder extends PlaceholderExpansion {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query = container.createQuery();
             ApplicableRegionSet set = query.getApplicableRegions(location);
-            if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag).equals(null)) {
+            if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag) == null) {
                 return "Unknown!";
             } else {
                 return set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag);
