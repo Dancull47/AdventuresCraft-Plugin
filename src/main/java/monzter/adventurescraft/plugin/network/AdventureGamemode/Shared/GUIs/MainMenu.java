@@ -68,7 +68,7 @@ public class MainMenu extends BaseCommand {
             }
         }), 5, 1);
 
-        display.addItem(new GuiItem(reputation(player), e -> player.performCommand("reputation")), 2, 2);
+        display.addItem(new GuiItem(reputation(player), e -> player.sendMessage(ChatColor.RED + "This is still under development!")), 2, 2);
         display.addItem(new GuiItem(professions(player), e -> player.performCommand("professions")), 3, 2);
         display.addItem(new GuiItem(profile(player), e -> player.performCommand("profiles")), 4, 2);
         display.addItem(new GuiItem(quests(player), e -> {
@@ -79,12 +79,7 @@ public class MainMenu extends BaseCommand {
         }), 5, 2);
         display.addItem(new GuiItem(wiki(player), e -> player.performCommand("wiki")), 6, 2);
 
-        display.addItem(new GuiItem(knowledge(player), e -> {
-            if (e.isLeftClick())
-                player.performCommand("pets");
-            if (e.isRightClick())
-                player.performCommand("warp Pet");
-        }), 2, 3);
+        display.addItem(new GuiItem(knowledge(player), e -> player.performCommand("knowledge")), 2, 3);
         display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
         display.addItem(new GuiItem(settings(player), e -> player.performCommand("settingmenu")), 4, 3);
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank open")), 5, 3);
