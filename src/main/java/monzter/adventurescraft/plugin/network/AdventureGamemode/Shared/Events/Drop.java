@@ -1,9 +1,11 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events;
 
+import io.lumine.mythic.lib.api.item.NBTItem;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
+import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,18 +55,20 @@ public class Drop implements Listener {
             case "Adventure":
             case "Home":
                 Player player = event.getPlayer();
-                if (fullInventory.fullInventory(player))
-                    for (String lore : event.getItemDrop().getItemStack().getLore())
-                        if (lore.contains(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "ACCOUNT BOUND")) {
+                for (String lore : event.getItemDrop().getItemStack().getLore()) {
+                    if (lore.contains(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "ACCOUNT BOUND")) {
+                        if (player.getInventory().firstEmpty() > -1) {
                             event.setCancelled(true);
                             soundManager.soundNo(player, 1);
                             player.sendMessage(ChatColor.RED + "This item cannot be dropped!");
                         } else {
                             player.sendMessage(ChatColor.RED + "Your inventory was full and this item cannot be dropped, so it has been destroyed!");
+                            betonPointsManager.givePoint(player, "refund." + MMOItems.plugin.getID(NBTItem.get(event.getItemDrop().getItemStack())), 1);
                             soundManager.soundNo(player, 2);
-                            event.setCancelled(true);
-                            betonPointsManager.givePoint(player, "refund." + event.getItemDrop().getItemStack().getItemMeta().getDisplayName(), 1);
+                            event.getItemDrop().remove();
                         }
+                    }
+                }
         }
     }
 }
