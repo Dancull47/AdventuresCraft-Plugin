@@ -71,6 +71,7 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Place
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Voting;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Stats;
+import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
@@ -238,6 +239,24 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        SQL.disconnect();
     }
 
+    private void networkShared() {
+//        Commands
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.ServerSelect(this, soundManager, guiHelper));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Debug(this));
+//        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand, shopOpener), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager, soundManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
+        manager.registerCommand(new Ranks(this, soundManager, guiHelper, consoleCommand, betonPointsManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
+    }
+
+
     private void adventureLoad() {
 //        Commands
 //        Events
@@ -252,7 +271,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void adventureShared() {
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, consoleCommand));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.Boss(this, consoleCommand, permissionLP, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
@@ -334,22 +353,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
 //        Event
-    }
-
-    private void networkShared() {
-//        Commands
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.ServerSelect(this, soundManager, guiHelper));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Debug(this));
-//        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Join(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand, shopOpener), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager, soundManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
     }
 
     private void prisonShared() {

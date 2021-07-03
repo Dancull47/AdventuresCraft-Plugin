@@ -7,6 +7,7 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
+import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -20,14 +21,16 @@ public class AdminCommands extends BaseCommand {
     private final PermissionLP permissionLP;
     private final BetonPointsManager betonPointsManager;
     private final NumberFormat numberFormat;
+    private final ConsoleCommand consoleCommand;
 
 
-    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, NumberFormat numberFormat) {
+    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, NumberFormat numberFormat, ConsoleCommand consoleCommand) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
         this.betonPointsManager = betonPointsManager;
         this.numberFormat = numberFormat;
+        this.consoleCommand = consoleCommand;
     }
 
     @CommandAlias("reward")
@@ -47,6 +50,12 @@ public class AdminCommands extends BaseCommand {
             case "adventureCoins":
                 targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointACs(targetPlayer.player, amount);
+                break;
+            case "bankSlots":
+            case "slots":
+            case "bs":
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + ChatColor.GREEN + "Bank Slots" + ChatColor.GREEN + "!");
+                consoleCommand.consoleCommand("bank admin slots add " + targetPlayer.getPlayer().getName() + " " + amount);
                 break;
         }
     }

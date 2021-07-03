@@ -25,6 +25,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.betoncraft.betonquest.BetonQuest;
@@ -78,8 +79,10 @@ public class DonationMenu extends BaseCommand {
 
 
         display.addItem(new GuiItem(adventureCoins(player), e -> player.sendMessage(donate)), 2, 1);
-        display.addItem(new GuiItem(crates(player), e -> player.performCommand("crateshop")), 4, 1);
-        display.addItem(new GuiItem(skins(player), e -> player.performCommand("skinshop")), 6, 1);
+        display.addItem(new GuiItem(crates(player), e -> player.performCommand("crateshop")), 3, 1);
+        display.addItem(new GuiItem(skins(player), e -> player.performCommand("skinshop")), 4, 1);
+        display.addItem(new GuiItem(boosters(player), e -> player.performCommand("boosterShop")), 5, 1);
+        display.addItem(new GuiItem(ranks(player), e -> player.performCommand("ranks")), 6, 1);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
 
@@ -152,5 +155,53 @@ public class DonationMenu extends BaseCommand {
 
         return adventureShop;
     }
+
+    private ItemStack boosters(Player player) {
+        final ItemStack adventureShop = new ItemStack(Material.POTION);
+        final ItemMeta adventureShopItemMeta = adventureShop.getItemMeta();
+        adventureShopItemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+
+        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "Boosters"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Use your " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GRAY + " to purchase");
+        lore.add(ChatColor.GREEN + "Boosters " + ChatColor.GRAY + "for the entire Server!");
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        adventureShop.setItemMeta(adventureShopItemMeta);
+        adventureShop.setLore(lore);
+
+        return adventureShop;
+    }
+
+    private ItemStack ranks(Player player) {
+        final ItemStack adventureShop = new ItemStack(Material.NAME_TAG);
+        final ItemMeta adventureShopItemMeta = adventureShop.getItemMeta();
+
+        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "Ranks"));
+
+        String rank = ChatColor.GRAY + "Default";
+        if (player.hasPermission("Alpha.Rank"))
+            rank = ChatColor.YELLOW + "Alpha";
+        if (player.hasPermission("Rank1"))
+            rank = ChatColor.GREEN + "Explorer";
+        if (player.hasPermission("Rank2"))
+            rank = ChatColor.BLUE + "Adventurer";
+        if (player.hasPermission("Rank3"))
+            rank = ChatColor.RED + "Conquerer";
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.WHITE + "Current Rank: " + rank);
+        lore.add("");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
+
+        adventureShop.setItemMeta(adventureShopItemMeta);
+        adventureShop.setLore(lore);
+
+        return adventureShop;
+    }
+
 }
 
