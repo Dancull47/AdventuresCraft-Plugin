@@ -36,7 +36,7 @@ public class Warps implements TabExecutor {
             Player player = ((Player) sender).getPlayer();
             if (args.length == 0) {
                 Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), "dm open Map " + player.getName()); // Adds to Total Blocks
-            } else if (args[0].toLowerCase().equals("setwarp")) {
+            } else if (args[0].equalsIgnoreCase("setwarp")) {
                 if (player.isOp()) {
                     switch (args.length) {
                         default:
@@ -65,25 +65,19 @@ public class Warps implements TabExecutor {
                         final ConfigurationSection warpKeysSection = warps.getConfigurationSection(currentWarpName);
                         final Set<String> warpKeys = warpKeysSection.getKeys(false);
                         for (String currentWarpKey : warpKeys) {
-                            if (currentWarpKey.contains("Name")) {
+                            if (currentWarpKey.contains("Name"))
                                 name = warpKeysSection.getString(currentWarpKey);
-                            }
-                            if (currentWarpKey.contains("PermissionLP")) {
+                            if (currentWarpKey.contains("PermissionLP"))
                                 permission = warpKeysSection.getString(currentWarpKey);
-                            }
-                            if (currentWarpKey.contains("LockedMessage")) {
+                            if (currentWarpKey.contains("LockedMessage"))
                                 lockedMessage = warpKeysSection.getString(currentWarpKey);
-                            }
-                            if (currentWarpKey.contains("Location")) {
+                            if (currentWarpKey.contains("Location"))
                                 location = warpKeysSection.getLocation(currentWarpKey);
-                            }
                         }
-                        if (location != null && permission != null && lockedMessage != null) {
+                        if (location != null && permission != null && lockedMessage != null)
                             sendToLocation(player, location, name, permission, lockedMessage);
-                        }
-                        if (location != null && permission == null) {
+                        if (location != null && permission == null)
                             sendToLocation(player, location, name);
-                        }
 //                    } else{
 //                        player.sendMessage(ChatColor.RED + "That area does not exist!");
                     }

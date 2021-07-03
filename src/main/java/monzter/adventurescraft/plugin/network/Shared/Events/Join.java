@@ -58,13 +58,10 @@ public class Join implements Listener {
                     if (player.getWorld().getName().equals("Spawn"))
                         player.sendMessage(ChatColor.GREEN + "Welcome, speak with " + ChatColor.GOLD + "Flint " + ChatColor.GREEN + "in-front of you!");
                 break;
-
         }
 
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-
             player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-
             switch (plugin.SERVER) {
                 case "Prison":
                 case "Adventure":

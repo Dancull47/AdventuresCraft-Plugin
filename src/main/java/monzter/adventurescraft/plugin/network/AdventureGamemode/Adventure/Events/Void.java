@@ -92,9 +92,9 @@ public class Void implements Listener {
     private void potion(Player player, PotionEffectType potionEffectType) {
         if (areaCheck(player, ChatColor.DARK_PURPLE + "Void Maze"))
             if (!player.hasPotionEffect(potionEffectType)) {
-                if (potionEffectType.equals(DAMAGE_RESISTANCE) || potionEffectType.equals(REGENERATION)) {
+                if (potionEffectType.equals(DAMAGE_RESISTANCE) || potionEffectType.equals(REGENERATION))
                     player.addPotionEffect(new PotionEffect(potionEffectType, duration, 2));
-                } else
+                else
                     player.addPotionEffect(new PotionEffect(potionEffectType, duration, 5));
                 soundManager.playSound(player, Sound.ENTITY_WITCH_DRINK, 1, 1);
             }
@@ -107,7 +107,6 @@ public class Void implements Listener {
         ApplicableRegionSet set = query.getApplicableRegions(location);
         if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player), displayNameFlag).equals(area))
             return true;
-
         return false;
     }
 }
