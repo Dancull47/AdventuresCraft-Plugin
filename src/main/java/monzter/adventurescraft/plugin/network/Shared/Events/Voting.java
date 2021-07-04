@@ -1,12 +1,8 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events;
+package monzter.adventurescraft.plugin.network.Shared.Events;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.VoteRewardList;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -24,7 +20,7 @@ import org.bukkit.event.Listener;
 import java.util.HashMap;
 
 //https://github.com/NuVotifier/NuVotifier/wiki/Developer-Documentation
-public class Voting extends BaseCommand implements Listener {
+public class Voting implements Listener {
     private final AdventuresCraft plugin;
     private final ConsoleCommand consoleCommand;
     private final MMOItemsGive mmoItemsGive;
@@ -97,26 +93,6 @@ public class Voting extends BaseCommand implements Listener {
             } else {
                 cooldown.put(player, (System.currentTimeMillis() + (300 * 1000)));
                 Bukkit.getServer().broadcast(voteAnnounce, "");
-            }
-        }
-    }
-
-    @CommandAlias("VoteClaim")
-    private void voteClaimCommand(Player player, String rewardName) {
-        final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
-        for (VoteRewardList reward : VoteRewardList.values()) {
-            if (rewardName.equalsIgnoreCase(reward.getId())) {
-                if (voteCoins >= reward.getPrice()) {
-                    mmoItemsGive.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
-                    betonPointsManager.takePoint(player, "items.Vote", reward.getPrice());
-                    soundManager.soundYes(player, 2);
-                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                        player.sendMessage(ChatColor.GREEN + "Your purchase was successful and you now have " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%") + ChatColor.GREEN + " Vote Coins remaining!");
-                    }, 5L);
-                } else {
-                    player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + voteCoins + ChatColor.RED + "/" + ChatColor.GOLD + reward.getPrice() + ChatColor.RED + " Vote Coins!");
-                    soundManager.soundNo(player, 1);
-                }
             }
         }
     }

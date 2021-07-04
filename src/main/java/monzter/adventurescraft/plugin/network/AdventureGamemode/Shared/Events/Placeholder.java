@@ -12,6 +12,10 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import pl.betoncraft.betonquest.BetonQuest;
+import pl.betoncraft.betonquest.Point;
+
+import java.util.List;
 
 public class Placeholder extends PlaceholderExpansion {
 
@@ -55,12 +59,23 @@ public class Placeholder extends PlaceholderExpansion {
      */
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
+        final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
         switch (identifier) {
             case "Location":
                 return location(player);
+            case "Currency_VotingCoins":
+                return String.valueOf(getPoints("items.Vote", points));
             default:
                 return null;
         }
+
+    }
+
+    public int getPoints(String pointCategory, List<Point> pointList) {
+        for (final Point point : pointList)
+            if (point.getCategory().equalsIgnoreCase(pointCategory))
+                return point.getCount();
+        return 0;
     }
 
     private String location(OfflinePlayer player) {

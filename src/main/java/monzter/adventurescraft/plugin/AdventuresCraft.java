@@ -70,7 +70,7 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.*;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.InteractPetEgg;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.InteractPets;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Placeholder;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Voting;
+import monzter.adventurescraft.plugin.network.Shared.Events.Voting;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Pet;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.Stats;
 import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
@@ -251,6 +251,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.ServerSelect(this, soundManager, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Debug(this));
 //        Events
+        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
@@ -331,10 +332,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.TownHallDisplay.Bullbo(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.TownHallDisplay.VoidEnchantress(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
 //        Shop GUIs
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.VoteRewards(this, soundManager, guiHelper, mmoItemsGive, betonPointsManager));
 //        manager.registerCommand(new Farmer(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.Enchanting(this, guiHelper, shopOpener, consoleCommand, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.DailyShop(this, soundManager, guiHelper, consoleCommand, numberFormat, mmoItemsGive, betonPointsManager, economy));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.VoteShop(this, soundManager, guiHelper, consoleCommand, numberFormat, mmoItemsGive, betonPointsManager, economy));
         manager.registerCommand(new ShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
         manager.registerCommand(new DonationShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP, betonPointsManager));
         manager.registerCommand(new DropTableViewer(this, guiHelper, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
@@ -379,7 +380,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
 //        Main GUIs
         manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
@@ -387,7 +387,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new RankMap(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new PrestigeMap(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Leaderboards(this, soundManager, guiHelper, consoleCommand));
-        manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Pets(this, soundManager, guiHelper, consoleCommand, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, fullInventory));
         manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
@@ -407,6 +406,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Evolving(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, itemAdder));
         manager.registerCommand(new Enchanter(this, guiHelper, betonTagManager));
+        manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
 //        Quest GUIs
         manager.registerCommand(new Lester(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
         manager.registerCommand(new Dan(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
@@ -425,7 +425,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));
         manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery, numberFormat));
         manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
-        manager.registerCommand(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager));
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager, calculateEnchantments));
         manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
