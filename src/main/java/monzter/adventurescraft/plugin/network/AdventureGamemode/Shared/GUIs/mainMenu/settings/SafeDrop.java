@@ -46,14 +46,14 @@ public class SafeDrop extends BaseCommand {
 
     @CommandAlias("safeDrop|safeDropMenu")
     public void setting(Player player) {
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Settings"));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Safe Drop"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
         StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
 
 
-        background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
+        background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
 
@@ -63,49 +63,35 @@ public class SafeDrop extends BaseCommand {
             else
                 permissionLP.givePermission(player, "DropPerm1");
             setting(player);
-        }), 1, 1);
+        }), 2, 1);
         display.addItem(new GuiItem(uncommon(player), e -> {
             if (player.hasPermission("DropPerm2"))
                 permissionLP.takePermission(player, "DropPerm2");
             else
                 permissionLP.givePermission(player, "DropPerm2");
             setting(player);
-        }), 2, 1);
+        }), 3, 1);
         display.addItem(new GuiItem(rare(player), e -> {
             if (player.hasPermission("DropPerm3"))
                 permissionLP.takePermission(player, "DropPerm3");
             else
                 permissionLP.givePermission(player, "DropPerm3");
             setting(player);
-        }), 3, 1);
+        }), 4, 1);
         display.addItem(new GuiItem(legendary(player), e -> {
             if (player.hasPermission("DropPerm4"))
                 permissionLP.takePermission(player, "DropPerm4");
             else
                 permissionLP.givePermission(player, "DropPerm4");
             setting(player);
-        }), 4, 1);
+        }), 5, 1);
         display.addItem(new GuiItem(exotic(player), e -> {
             if (player.hasPermission("DropPerm5"))
                 permissionLP.takePermission(player, "DropPerm5");
             else
                 permissionLP.givePermission(player, "DropPerm5");
             setting(player);
-        }), 5, 1);
-        display.addItem(new GuiItem(mythical(player), e -> {
-            if (player.hasPermission("DropPerm6"))
-                permissionLP.takePermission(player, "DropPerm6");
-            else
-                permissionLP.givePermission(player, "DropPerm6");
-            setting(player);
         }), 6, 1);
-        display.addItem(new GuiItem(godly(player), e -> {
-            if (player.hasPermission("DropPerm7"))
-                permissionLP.takePermission(player, "DropPerm7");
-            else
-                permissionLP.givePermission(player, "DropPerm7");
-            setting(player);
-        }), 7, 1);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("setting")), 4, 3);
 
@@ -250,60 +236,6 @@ public class SafeDrop extends BaseCommand {
         exotic.setLore(lore);
 
         return exotic;
-    }
-    private ItemStack mythical(Player player) {
-        final ItemStack mythical = new ItemStack(Material.DIAMOND_SWORD);
-        final ItemMeta mythicalItemMeta = mythical.getItemMeta();
-        mythicalItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-        if (player.hasPermission("DropPerm6")) {
-            mythicalItemMeta.displayName(Component.text(Rarity.MYTHICAL.getColorString() + ChatColor.BOLD + "Mythical Item" + ChatColor.GREEN + " ON"));
-        } else {
-            mythicalItemMeta.displayName(Component.text(Rarity.MYTHICAL.getColorString() + ChatColor.BOLD + "Mythical Item" + ChatColor.RED + " OFF"));
-        }
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(description);
-        lore.add("");
-        if (player.hasPermission("DropPerm6")) {
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
-        } else {
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
-        }
-
-
-        mythical.setItemMeta(mythicalItemMeta);
-        mythical.setLore(lore);
-
-        return mythical;
-    }
-    private ItemStack godly(Player player) {
-        final ItemStack godly = new ItemStack(Material.NETHERITE_SWORD);
-        final ItemMeta godlyItemMeta = godly.getItemMeta();
-        godlyItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-        if (player.hasPermission("DropPerm7")) {
-            godlyItemMeta.displayName(Component.text(Rarity.GODLY.getColorString() + ChatColor.BOLD + "Godly Item" + ChatColor.GREEN + " ON"));
-        } else {
-            godlyItemMeta.displayName(Component.text(Rarity.GODLY.getColorString() + ChatColor.BOLD + "Godly Item" + ChatColor.RED + " OFF"));
-        }
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(description);
-        lore.add("");
-        if (player.hasPermission("DropPerm7")) {
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");
-        } else {
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Enable");
-        }
-
-
-        godly.setItemMeta(godlyItemMeta);
-        godly.setLore(lore);
-
-        return godly;
     }
 }
 

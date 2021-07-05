@@ -58,11 +58,11 @@ public class VoteRewards extends BaseCommand {
     public void voteRewards(Player player) {
         player.sendMessage(vote);
 
-        ChestGui gui = new ChestGui(3, guiHelper.guiName("Vote"));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Vote"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
+        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
 
 
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
@@ -88,13 +88,13 @@ public class VoteRewards extends BaseCommand {
 
                 switch (i) {
                     case 0:
-                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim Lootbox3")), 3, 1);
+                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim ENGRAM1")), 3, 1);
                         break;
                     case 1:
-                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim Lootbox4")), 4, 1);
+                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim ENGRAM2")), 4, 1);
                         break;
                     case 2:
-                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim Lootbox5")), 5, 1);
+                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim ENGRAM3")), 5, 1);
                         break;
                 }
                 i++;
@@ -103,7 +103,7 @@ public class VoteRewards extends BaseCommand {
 
         display.addItem(new GuiItem(voting(player), e -> player.performCommand("vote")), 4, 0);
 
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 2);
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
 
         gui.addPane(background);
         gui.addPane(display);

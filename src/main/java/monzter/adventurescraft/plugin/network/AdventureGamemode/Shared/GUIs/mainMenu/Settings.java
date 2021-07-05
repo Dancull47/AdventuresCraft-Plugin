@@ -17,6 +17,7 @@ import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -55,7 +56,7 @@ public class Settings extends BaseCommand {
 
 
         display.addItem(new GuiItem(stuck(player), e -> player.performCommand("spawn")), 2, 1);
-        display.addItem(new GuiItem(battleTag(player), e -> player.performCommand("BattleTags")), 3, 1);
+        display.addItem(new GuiItem(battleTag(player), e -> consoleCommand.consoleCommand("dm open BattleTags " + player.getName())), 3, 1);
         display.addItem(new GuiItem(questCompass(player), e -> {
             if (e.isLeftClick()) {
                 player.performCommand("calebcompass show");
@@ -64,30 +65,32 @@ public class Settings extends BaseCommand {
             }
         }), 4, 1);
         display.addItem(new GuiItem(tips(player), e -> {
-            if (player.hasPermission("TIPS"))
+            if (player.hasPermission("TIPS")) {
                 permissionLP.takePermission(player, "TIPS");
-            else
+                player.sendMessage(ChatColor.GOLD + "Tips " + ChatColor.RED + "have been turned off!");
+                soundManager.playSound(player, Sound.BLOCK_STONE_BUTTON_CLICK_OFF, 1, 1);
+            } else {
                 permissionLP.givePermission(player, "TIPS");
+                player.sendMessage(ChatColor.GOLD + "Tips " + ChatColor.GREEN + "have been turned on!");
+                soundManager.playSound(player, Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+            }
             setting(player);
         }), 5, 1);
         display.addItem(new GuiItem(safeDrop(player), e -> player.performCommand("safeDrop")), 6, 1);
 
         display.addItem(new GuiItem(resourcePack(player), e -> {
             if (player.hasPermission("RP.DOWNLOAD"))
-                permissionLP.takePermission(player, "RP.DOWNLOAD");
+                player.performCommand("rp disable");
             else
-                permissionLP.givePermission(player, "RP.DOWNLOAD");
-            setting(player);
-
+                player.performCommand("rp enable");
         }), 3, 2);
 
         display.addItem(new GuiItem(music(player), e -> {
             if (player.hasPermission("Music.ON"))
-                permissionLP.takePermission(player, "Music.ON");
+                player.performCommand("music off");
             else
-                permissionLP.givePermission(player, "Music.ON");
+                player.performCommand("rp on");
             setting(player);
-
         }), 5, 2);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
@@ -158,9 +161,9 @@ public class Settings extends BaseCommand {
         final ItemMeta tipsItemMeta = tips.getItemMeta();
 
         if (player.hasPermission("TIPS")) {
-            tipsItemMeta.displayName(Component.text(ChatColor.GREEN + "Tips" + ChatColor.GREEN + " ON"));
+            tipsItemMeta.displayName(Component.text(ChatColor.GREEN + "Tips" + ChatColor.DARK_GRAY + " - " + ChatColor.GREEN + "ON"));
         } else {
-            tipsItemMeta.displayName(Component.text(ChatColor.GREEN + "Tips" + ChatColor.RED + " OFF"));
+            tipsItemMeta.displayName(Component.text(ChatColor.GREEN + "Tips" + ChatColor.DARK_GRAY + " - " + ChatColor.RED + "OFF"));
         }
 
         List<String> lore = new ArrayList<>();
@@ -233,7 +236,7 @@ public class Settings extends BaseCommand {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Download the Music upon logging in!");
+        lore.add(ChatColor.GRAY + "Hear Music upon logging in!");
         lore.add("");
         if (player.hasPermission("Music.ON"))
             lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Disable");

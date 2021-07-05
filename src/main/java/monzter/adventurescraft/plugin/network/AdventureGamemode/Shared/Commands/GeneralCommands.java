@@ -112,11 +112,21 @@ public class GeneralCommands extends BaseCommand implements Listener {
     }
 
     @CommandAlias("music")
-    @CommandCompletion("enable|disable|on|off|play|start|volume 0|25|50|75|100")
-    private void music(Player player, String command, int volume) {
+    private void musicMessage(Player player) {
+        player.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Music Commands");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/Music Enable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Enable hearing the Music.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/Music Disable " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Disable hearing the Music.");
+        player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/Music Volume 0-100 " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Adjust the volume of the Music.");
+    }
+
+    @CommandAlias("music")
+    @CommandCompletion("enable|disable|on|off|play|start")
+    private void music(Player player, String command) {
         switch (command) {
             case "enable":
             case "on":
+            case "play":
+            case "start":
                 player.sendMessage(ChatColor.GREEN + "You will now hear Music!");
                 soundManager.soundYes(player, 1);
                 permissionLP.givePermission(player, "Music.ON");
@@ -129,19 +139,24 @@ public class GeneralCommands extends BaseCommand implements Listener {
                 permissionLP.givePermission(player, "Music.OFF");
                 player.performCommand("anbs song stop");
                 break;
-            case "volume":
-                if (volume <= 100 && volume >= 0) {
-                    player.sendMessage(ChatColor.GREEN + "Your Music volume has been adjusted to " + ChatColor.GOLD + volume + ChatColor.GREEN + "!");
-                    soundManager.soundYes(player, 1);
-                    player.performCommand("anbs song volume " + volume);
-                } else if (volume < 0) {
-                    player.sendMessage(ChatColor.RED + "Your volume must be at least 0!");
-                    soundManager.soundNo(player, 1);
-                } else if (volume > 100) {
-                    player.sendMessage(ChatColor.RED + "Your volume cannot be louder than 100!");
-                    soundManager.soundNo(player, 1);
-                }
-                break;
+        }
+    }
+
+    @CommandAlias("music")
+    @CommandCompletion("volume 0|25|50|75|100")
+    private void music(Player player, String command, int volume) {
+        if (command.equals("volume")) {
+            if (volume <= 100 && volume >= 0) {
+                player.sendMessage(ChatColor.GREEN + "Your Music volume has been adjusted to " + ChatColor.GOLD + volume + ChatColor.GREEN + "!");
+                soundManager.soundYes(player, 1);
+                player.performCommand("anbs song volume " + volume);
+            } else if (volume < 0) {
+                player.sendMessage(ChatColor.RED + "Your volume must be at least 0!");
+                soundManager.soundNo(player, 1);
+            } else if (volume > 100) {
+                player.sendMessage(ChatColor.RED + "Your volume cannot be louder than 100!");
+                soundManager.soundNo(player, 1);
+            }
         }
     }
 
