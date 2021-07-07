@@ -59,14 +59,7 @@ public class MainMenu extends BaseCommand {
 
         display.addItem(new GuiItem(town(player), e -> player.performCommand("town")), 3, 1);
         display.addItem(new GuiItem(map(player), e -> player.performCommand("map")), 4, 1);
-        display.addItem(new GuiItem(cell(player), e -> {
-            if (e.isLeftClick())
-                player.performCommand("home");
-            if (plugin.SERVER.equals("Cell")) {
-                if (e.isRightClick())
-                    player.performCommand("cellmenu");
-            }
-        }), 5, 1);
+        display.addItem(new GuiItem(cell(player), e -> player.performCommand("home travel")), 5, 1);
 
         display.addItem(new GuiItem(reputation(player), e -> player.sendMessage(ChatColor.RED + "This is still under development!")), 2, 2);
         display.addItem(new GuiItem(professions(player), e -> player.performCommand("professions")), 3, 2);

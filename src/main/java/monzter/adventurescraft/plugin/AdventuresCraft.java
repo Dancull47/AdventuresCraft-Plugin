@@ -18,6 +18,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Mount;
@@ -277,6 +278,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void homeLoad() {
 //        Commands
+        manager.registerCommand(new HomeCommands(this, consoleCommand, permissionLP, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Events.Join(this, permissionLP), this);
     }
