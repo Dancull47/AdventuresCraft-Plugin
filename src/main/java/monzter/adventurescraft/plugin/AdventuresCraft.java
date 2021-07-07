@@ -804,7 +804,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     private final String blinder = "blinder";
-    private final String dismount = "customDismount";
+    private final String dismount = "customdismount";
 
     @EventHandler
     public void onMythicMechanicLoad(MythicMechanicLoadEvent event) {
