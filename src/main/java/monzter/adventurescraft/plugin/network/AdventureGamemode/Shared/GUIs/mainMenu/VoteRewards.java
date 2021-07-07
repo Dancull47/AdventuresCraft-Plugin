@@ -88,13 +88,22 @@ public class VoteRewards extends BaseCommand {
 
                 switch (i) {
                     case 0:
-                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim ENGRAM1")), 3, 1);
+                        display.addItem(new GuiItem(itemStack.asQuantity(1), e -> {
+                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> player.performCommand("Vote"), 5L);
+                            player.performCommand("VoteClaim ENGRAM1");
+                        }), 3, 1);
                         break;
                     case 1:
-                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim ENGRAM2")), 4, 1);
+                        display.addItem(new GuiItem(itemStack.asQuantity(1), e -> {
+                            player.performCommand("VoteClaim ENGRAM2");
+                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> player.performCommand("Vote"), 5L);
+                        }), 4, 1);
                         break;
                     case 2:
-                        display.addItem(new GuiItem(itemStack.asQuantity(5), e -> player.performCommand("VoteClaim ENGRAM3")), 5, 1);
+                        display.addItem(new GuiItem(itemStack.asQuantity(1), e -> {
+                            player.performCommand("VoteClaim ENGRAM3");
+                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> player.performCommand("Vote"), 5L);
+                        }), 5, 1);
                         break;
                 }
                 i++;
@@ -143,7 +152,7 @@ public class VoteRewards extends BaseCommand {
     @CommandAlias("VoteClaim")
     private void voteClaimCommand(Player player, String rewardName) {
         final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
-        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.VoteRewardList reward : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.VoteRewardList.values()) {
+        for (VoteRewardList reward : VoteRewardList.values()) {
             if (rewardName.equalsIgnoreCase(reward.getId())) {
                 if (voteCoins >= reward.getPrice()) {
                     mmoItemsGive.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());

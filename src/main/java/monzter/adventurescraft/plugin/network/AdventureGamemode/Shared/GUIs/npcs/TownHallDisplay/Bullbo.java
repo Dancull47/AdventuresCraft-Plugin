@@ -49,8 +49,8 @@ public class Bullbo extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.PURPLE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BULLBO_HEAD")), 4, 1);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BULBLIN_CHEST")), 4, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BULLBO_HEAD5")), 4, 1);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BULBLIN_CHEST5")), 4, 2);
         display.addItem(new GuiItem(mmoItems.getItem("SWORD", "BULBLIN_SWORD2")), 5, 2);
         display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BULBLIN_LEGS")), 4, 3);
         display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BULLBO_FEET")), 4, 4);

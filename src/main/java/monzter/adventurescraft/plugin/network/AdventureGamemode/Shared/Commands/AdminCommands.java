@@ -36,7 +36,7 @@ public class AdminCommands extends BaseCommand {
     @CommandAlias("reward")
     @CommandPermission("*")
     @Description("Reward stats to a Player")
-    @CommandCompletion("experience|exp|ac|adventureCoin|adventureCoins @nothing *")
+    @CommandCompletion("experience|exp|ac|adventureCoin|adventureCoins|bs|bankSlots @nothing *")
     public void rewardCommand(String stat, int amount, OnlinePlayer targetPlayer) {
         switch (stat.toLowerCase()) {
             case "experience":
