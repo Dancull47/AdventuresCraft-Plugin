@@ -47,14 +47,14 @@ public class Professions extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(farming(player), e -> player.performCommand("farming")), 2, 1);
-        display.addItem(new GuiItem(foraging(player), e -> player.performCommand("foraging")), 3, 1);
-        display.addItem(new GuiItem(mining(player), e -> player.performCommand("mining")), 4, 1);
-        display.addItem(new GuiItem(slayer(player), e -> player.performCommand("slayer")), 5, 1);
-        display.addItem(new GuiItem(enchanting(player), e -> player.performCommand("enchanting")), 6, 1);
+        display.addItem(new GuiItem(farming(player), e -> player.performCommand("farmingProfession")), 2, 1);
+        display.addItem(new GuiItem(foraging(player), e -> player.performCommand("foragingProfession")), 3, 1);
+        display.addItem(new GuiItem(mining(player), e -> player.performCommand("miningProfession")), 4, 1);
+        display.addItem(new GuiItem(slayer(player), e -> player.performCommand("slayerProfession")), 5, 1);
+        display.addItem(new GuiItem(enchanting(player), e -> player.performCommand("enchantingProfession")), 6, 1);
 
-        display.addItem(new GuiItem(cooking(player), e -> player.performCommand("cooking")), 3, 2);
-        display.addItem(new GuiItem(spellforging(player), e -> player.performCommand("spellforging")), 4, 2);
+        display.addItem(new GuiItem(cooking(player), e -> player.performCommand("cookingProfession")), 3, 2);
+        display.addItem(new GuiItem(spellforging(player), e -> player.performCommand("spellforgingProfession")), 4, 2);
         display.addItem(new GuiItem(fishing(player)), 5, 2);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);

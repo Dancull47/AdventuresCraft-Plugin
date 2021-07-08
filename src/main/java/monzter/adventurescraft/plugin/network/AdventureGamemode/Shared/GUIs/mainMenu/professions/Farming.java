@@ -58,7 +58,7 @@ public class Farming extends BaseCommand {
 
         int i = 1;
         int amount = 0;
-        for (FarmingLevels reward : FarmingLevels.values()) {
+        for (ProfessionLevels reward : ProfessionLevels.values()) {
             ItemStack itemStack = new ItemStack(Material.WOODEN_HOE);
             final ItemMeta itemMeta = itemStack.getItemMeta();
 
