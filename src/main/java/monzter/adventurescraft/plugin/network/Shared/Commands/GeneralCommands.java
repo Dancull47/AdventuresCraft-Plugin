@@ -32,13 +32,6 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
             .append(Component.text(" for"))
             .append(Component.text(" Giveaways, Support, and more", NamedTextColor.GOLD))
             .append(Component.text("!"));
-    private final TextComponent donate = Component.text("You can donate to get epic rewards from our")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Store", NamedTextColor.GOLD))
-            .append(Component.text("!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
     private final TextComponent website = Component.text("You can checkout our ")
             .color(NamedTextColor.GREEN)
             .append(Component.text("Website ", NamedTextColor.GOLD))
@@ -164,11 +157,6 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
     @CommandAlias("wiki")
     private void wikiCommand(Player player) {
         player.sendMessage(wiki);
-    }
-
-    @CommandAlias("donate|store|shop")
-    private void donateCommand(Player player) {
-        player.sendMessage(donate);
     }
 
     @CommandAlias("website")

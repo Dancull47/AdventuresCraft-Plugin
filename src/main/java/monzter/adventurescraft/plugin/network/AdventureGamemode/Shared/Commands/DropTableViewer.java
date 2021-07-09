@@ -42,7 +42,7 @@ public class DropTableViewer extends BaseCommand {
 
     int height = 6;
 
-    @Subcommand("UndeadCrate|UNDEAD_BOX")
+    @Subcommand("UndeadCrate|UNDEAD_BOX|UNDEAD_BOX5")
     private void undeadCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Undead Crate"));
@@ -51,7 +51,7 @@ public class DropTableViewer extends BaseCommand {
         gui.show(player);
     }
 
-    @Subcommand("HellCrate|HELL_BOX")
+    @Subcommand("HellCrate|HELL_BOX|HELL_BOX5")
     private void hellCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Hell Crate"));
@@ -60,7 +60,7 @@ public class DropTableViewer extends BaseCommand {
         gui.show(player);
     }
 
-    @Subcommand("ProfessionCrate|PROFESSION_BOOSTER_BOX")
+    @Subcommand("ProfessionCrate|PROFESSION_BOOSTER_BOX|PROFESSION_BOOSTER_BOX5")
     private void professionCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Profession Crate"));

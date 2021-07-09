@@ -81,7 +81,7 @@ public class VoteRewards extends BaseCommand {
                 }
                 lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.GOLD + item.getPrice() + ChatColor.GREEN + " Vote Coins"));
                 lore.add(Component.text(" "));
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Buy (" + ChatColor.GOLD + parsePlaceholder(player, "ac_Currency_VotingCoins") + " Available" + ChatColor.YELLOW + ")"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
 
                 itemMeta.lore(lore);
                 itemStack.setItemMeta(itemMeta);

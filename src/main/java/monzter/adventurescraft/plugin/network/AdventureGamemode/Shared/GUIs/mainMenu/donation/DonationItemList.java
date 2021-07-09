@@ -54,9 +54,9 @@ public enum DonationItemList {
     COOKINGBoostersITEM4(DonationShops.BOOSTERS, 400, 1, "BOOSTER", "COOKING_BOOSTER4"),
     COOKINGBoostersITEM5(DonationShops.BOOSTERS, 500, 1, "BOOSTER", "COOKING_BOOSTER5"),
 
-    CratesITEM1(DonationShops.CRATES, 100, 64, "CONSUMABLE", "HELL_BOX"),
-    CratesITEM2(DonationShops.CRATES, 100, 64, "CONSUMABLE", "UNDEAD_BOX"),
-    CratesITEM3(DonationShops.CRATES, 100, 64, "CONSUMABLE", "PROFESSION_BOOSTER_BOX"),
+    CratesITEM1(DonationShops.CRATES, 100, 64, "CONSUMABLE", "HELL_BOX5"),
+    CratesITEM2(DonationShops.CRATES, 100, 64, "CONSUMABLE", "UNDEAD_BOX5"),
+    CratesITEM3(DonationShops.CRATES, 100, 64, "CONSUMABLE", "PROFESSION_BOOSTER_BOX5"),
     ;
 
 

@@ -103,7 +103,7 @@ public class DailyShop extends BaseCommand {
             lore.add(Component.text(ChatColor.WHITE + "Price: " + ChatColor.GOLD + numberFormat.numberFormat(reward.getPrice()) + ChatColor.GREEN + " Daily Tokens"));
             if (dailyPoints >= reward.getPrice()) {
                 lore.add(Component.text(" "));
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Purchase"));
             }
 //            if (reward.itemID.equalsIgnoreCase("ENGRAM1") || reward.itemID.equalsIgnoreCase("MAGICAL_BOX")
 //                    || reward.itemID.equalsIgnoreCase("PROFESSION_BOOSTER_BOX"))
@@ -114,7 +114,7 @@ public class DailyShop extends BaseCommand {
             itemStack.setItemMeta(itemMeta);
 
             display.addItem(new GuiItem(itemStack.asQuantity(reward.getAmount()), e -> {
-                if (dailyPoints >= reward.getPrice() ) {
+                if (dailyPoints >= reward.getPrice()) {
                     reward(player, reward);
                     takePoints(player, reward.getPrice());
                     player.performCommand("daily");
