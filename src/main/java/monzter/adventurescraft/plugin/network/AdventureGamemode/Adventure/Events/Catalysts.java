@@ -60,78 +60,78 @@ public class Catalysts implements Listener {
                                 switch (event.getBlock().getType()) {
                                     case COAL_ORE:
                                     case COAL_BLOCK:
-                                        if (id.equals("COAL_CATALYST"))
+                                        if (id.equals("COAL_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.COAL, randomNumber));
                                         break;
                                     case IRON_ORE:
                                     case IRON_BLOCK:
-                                        if (id.equals("IRON_CATALYST"))
+                                        if (id.equals("IRON_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.IRON_INGOT, randomNumber));
                                         break;
                                     case GOLD_ORE:
                                     case GOLD_BLOCK:
-                                        if (id.equals("GOLD_CATALYST"))
+                                        if (id.equals("GOLD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.GOLD_INGOT, randomNumber));
                                         break;
                                     case REDSTONE_ORE:
                                     case REDSTONE_BLOCK:
-                                        if (id.equals("REDSTONE_CATALYST"))
+                                        if (id.equals("REDSTONE_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.REDSTONE, randomNumber));
                                         break;
                                     case LAPIS_ORE:
                                     case LAPIS_BLOCK:
-                                        if (id.equals("LAPIS_CATALYST"))
+                                        if (id.equals("LAPIS_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.LAPIS_LAZULI, randomNumber));
                                         break;
                                     case DIAMOND_ORE:
                                     case DIAMOND_BLOCK:
-                                        if (id.equals("DIAMOND_CATALYST"))
+                                        if (id.equals("DIAMOND_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.DIAMOND, randomNumber));
                                         break;
                                     case EMERALD_ORE:
                                     case EMERALD_BLOCK:
-                                        if (id.equals("EMERALD_CATALYST"))
+                                        if (id.equals("EMERALD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.EMERALD, randomNumber));
                                         break;
                                     case OAK_LOG:
-                                        if (id.equals("WOOD_CATALYST"))
+                                        if (id.equals("WOOD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.OAK_LOG, randomNumber));
-                                        else if (id.equals("WOOD_CATALYST2"))
+                                        else if (id.equals("WOOD_CATALYST4"))
                                             if (chanceCheck.chanceCheck(chance))
                                                 itemAdder.itemAdder(player, mmoItems.getItem("MATERIAL", "ENCHANTED_OAK_LOG"));
                                         break;
                                     case SPRUCE_LOG:
-                                        if (id.equals("WOOD_CATALYST"))
+                                        if (id.equals("WOOD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.SPRUCE_LOG, randomNumber));
-                                        else if (id.equals("WOOD_CATALYST2"))
+                                        else if (id.equals("WOOD_CATALYST4"))
                                             if (chanceCheck.chanceCheck(chance))
                                                 itemAdder.itemAdder(player, mmoItems.getItem("MATERIAL", "ENCHANTED_SPRUCE_LOG"));
                                         break;
                                     case DARK_OAK_LOG:
-                                        if (id.equals("WOOD_CATALYST"))
+                                        if (id.equals("WOOD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.DARK_OAK_LOG, randomNumber));
-                                        else if (id.equals("WOOD_CATALYST2"))
+                                        else if (id.equals("WOOD_CATALYST4"))
                                             if (chanceCheck.chanceCheck(chance))
                                                 itemAdder.itemAdder(player, mmoItems.getItem("MATERIAL", "ENCHANTED_DARK_OAK_LOG"));
                                         break;
                                     case BIRCH_LOG:
-                                        if (id.equals("WOOD_CATALYST"))
+                                        if (id.equals("WOOD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.BIRCH_LOG, randomNumber));
-                                        else if (id.equals("WOOD_CATALYST2"))
+                                        else if (id.equals("WOOD_CATALYST4"))
                                             if (chanceCheck.chanceCheck(chance))
                                                 itemAdder.itemAdder(player, mmoItems.getItem("MATERIAL", "ENCHANTED_BIRCH_LOG"));
                                         break;
                                     case ACACIA_LOG:
-                                        if (id.equals("WOOD_CATALYST"))
+                                        if (id.equals("WOOD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.ACACIA_LOG, randomNumber));
-                                        else if (id.equals("WOOD_CATALYST2"))
+                                        else if (id.equals("WOOD_CATALYST4"))
                                             if (chanceCheck.chanceCheck(chance))
                                                 itemAdder.itemAdder(player, mmoItems.getItem("MATERIAL", "ENCHANTED_ACACIA_LOG"));
                                         break;
                                     case JUNGLE_LOG:
-                                        if (id.equals("WOOD_CATALYST"))
+                                        if (id.equals("WOOD_CATALYST3"))
                                             itemAdder.itemAdder(player, new ItemStack(Material.JUNGLE_LOG, randomNumber));
-                                        else if (id.equals("WOOD_CATALYST2"))
+                                        else if (id.equals("WOOD_CATALYST4"))
                                             if (chanceCheck.chanceCheck(chance))
                                                 itemAdder.itemAdder(player, mmoItems.getItem("MATERIAL", "ENCHANTED_JUNGLE_LOG"));
                                         break;
@@ -153,7 +153,7 @@ public class Catalysts implements Listener {
                             final NBTItem nbtItem = NBTItem.get(event.getPlayer().getInventory().getItemInOffHand());
                             final String id = MMOItems.plugin.getID(nbtItem);
                             if (id != null)
-                                if (id.equals("HASTY_VOID"))
+                                if (id.equals("HASTY_VOID4"))
                                     player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20 * 5, 7));
                         }
                     }

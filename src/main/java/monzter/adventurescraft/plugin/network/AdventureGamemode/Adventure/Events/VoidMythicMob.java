@@ -29,9 +29,9 @@ public class VoidMythicMob extends SkillMechanic implements ITargetedEntitySkill
     public boolean castAtEntity(SkillMetadata data, AbstractEntity target) {
         Player player = (Player) BukkitAdapter.adapt(target);
         if (player != null)
-            if (!player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER"))
-                    && !player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER2"))
-                    && !player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "UNBLINDER"))) {
+            if (!player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER3"))
+                    && !player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER4"))
+                    && !player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "UNBLINDER3"))) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 2));
                 return true;
             }
