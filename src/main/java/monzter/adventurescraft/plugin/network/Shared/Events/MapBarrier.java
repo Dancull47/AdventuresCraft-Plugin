@@ -4,7 +4,6 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import monzter.adventurescraft.plugin.AdventuresCraft;
@@ -33,14 +32,12 @@ public class MapBarrier implements Listener {
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 RegionQuery query = container.createQuery();
                 ApplicableRegionSet set = query.getApplicableRegions(location);
-                for (ProtectedRegion region : set) {
-                    if (region.getId().isEmpty()) {
-                        if (!player.isOp()) {
-                            player.sendMessage(ChatColor.RED + "You cannot escape the map! If you believe this is an error, please report these coordinates: "
-                                    + ChatColor.YELLOW + location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ() + ChatColor.RED + " to an Admin on Discord!");
-                            player.performCommand("spawn");
-                            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, .5f, 1f);
-                        }
+                if (set.getRegions().size() == 0) {
+                    if (!player.isOp()) {
+                        player.sendMessage(ChatColor.RED + "You cannot escape the map! If you believe this is an error, please report these coordinates: "
+                                + ChatColor.YELLOW + location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ() + ChatColor.RED + " to an Admin on Discord!");
+                        player.performCommand("spawn");
+                        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, .5f, 1f);
                     }
                 }
                 break;

@@ -79,8 +79,8 @@ public class Void implements Listener {
                 if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.BEDROCK))
                     if (areaCheck(player, ChatColor.DARK_PURPLE + "Void Maze") || areaCheck(player, ChatColor.DARK_PURPLE + "Void")
                             || areaCheck(player, ChatColor.DARK_PURPLE + "Void Abyss")) {
-                        if (!player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER"))
-                                && !player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER2"))) {
+                        if (!player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER3"))
+                                && !player.getInventory().getItemInOffHand().equals(mmoItems.getItem("CATALYST", "CORRUPTION_REVOLTER4"))) {
                             player.damage(player.getHealth() * .15);
                             if (!player.hasPotionEffect(PotionEffectType.POISON))
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20, 2));

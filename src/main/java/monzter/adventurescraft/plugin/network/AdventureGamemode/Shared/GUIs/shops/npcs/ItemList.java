@@ -131,9 +131,9 @@ public enum ItemList {
     EnchanterITEM9(Shops.ENCHANTER, null, 350, 35, null, 1, "CONSUMABLE", "ENCHANTED_BOX3"),
     EnchanterITEMF1(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
     EnchanterITEMF2(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
-    EnchanterITEM10(Shops.ENCHANTER, null, 15, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;1"}, 1, "CONSUMABLE", "EXP_BOTTLE"),
-    EnchanterITEM11(Shops.ENCHANTER, null, 100, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;8"}, 1, "CONSUMABLE", "EXP_BOTTLE2"),
-    EnchanterITEM13(Shops.ENCHANTER, null, 500, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;16"}, 1, "CONSUMABLE", "EXP_BOTTLE2"),
+    EnchanterITEM10(Shops.ENCHANTER, null, 15, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;1"}, 1, "CONSUMABLE", "XP_BOTTLE"),
+    EnchanterITEM11(Shops.ENCHANTER, null, 100, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;8"}, 1, "CONSUMABLE", "XP_BOTTLE2"),
+    EnchanterITEM13(Shops.ENCHANTER, null, 500, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;16"}, 1, "CONSUMABLE", "XP_BOTTLE2"),
 
     ;
 

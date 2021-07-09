@@ -50,11 +50,11 @@ public class Jenny extends BaseCommand {
         display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI3MTgwOWJhOTFiNDJmYjQ4NzVhZjRiYTI5OGU1ZTU1ZjQ1ZWQ3MzcyMWJjZWE4NWE0NWRiOTI2Mjg1NzRmIn19fQ==",
                 ChatColor.GREEN + "Home", new String[]{"", ChatColor.GRAY + "Visit your home where you", ChatColor.GRAY + "can store your extra materials", ChatColor.GRAY + "and hangout with " + ChatColor.GREEN + "Freinds" + ChatColor.GRAY + "!",
                         "", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel"}),
-                e -> player.performCommand("home")), 3, 1);
-        display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzZjUwYmE2MmNiZGEzZWNmNTQ3OWI2MmZlZGViZDYxZDc2NTg5NzcxY2MxOTI4NmJmMjc0NWNkNzFlNDdjNiJ9fX0=",
-                ChatColor.GREEN + "Home Guide", new String[]{"", ChatColor.GRAY + "Learn how you can", ChatColor.GRAY + "moderate your house to", ChatColor.GRAY + "prevent unwanted company!",
-                        "", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                e -> player.performCommand("homeGuide")), 5, 1);
+                e -> player.performCommand("home")), 4, 1);
+//        display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUzZjUwYmE2MmNiZGEzZWNmNTQ3OWI2MmZlZGViZDYxZDc2NTg5NzcxY2MxOTI4NmJmMjc0NWNkNzFlNDdjNiJ9fX0=",
+//                ChatColor.GREEN + "Home Guide", new String[]{"", ChatColor.GRAY + "Learn how you can", ChatColor.GRAY + "moderate your house to", ChatColor.GRAY + "prevent unwanted company!",
+//                        "", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
+//                e -> player.performCommand("homeGuide")), 5, 1);
 
         gui.addPane(background);
         gui.addPane(display);
