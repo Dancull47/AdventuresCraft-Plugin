@@ -21,6 +21,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Enchant;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
@@ -260,8 +261,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Enchant(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand, shopOpener), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager, soundManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager, soundManager, chanceCheck, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
         manager.registerCommand(new Ranks(this, soundManager, guiHelper, consoleCommand, betonPointsManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
     }

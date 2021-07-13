@@ -29,7 +29,9 @@ public class BlockInteractions implements Listener {
     private final List<Material> blocks = Arrays.asList(Material.ENCHANTING_TABLE, Material.CAULDRON, Material.ANVIL, Material.CHEST,
             Material.CHEST_MINECART, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.CHEST, Material.BEACON, Material.BEE_NEST,
             Material.SMITHING_TABLE, Material.BARREL, Material.BREWING_STAND, Material.COMMAND_BLOCK,
-            Material.CARTOGRAPHY_TABLE, Material.SHULKER_BOX, Material.GRINDSTONE, Material.LECTERN);
+            Material.CARTOGRAPHY_TABLE, Material.SHULKER_BOX, Material.GRINDSTONE, Material.LECTERN, Material.ACACIA_TRAPDOOR, Material.BIRCH_TRAPDOOR,
+            Material.CRIMSON_TRAPDOOR, Material.IRON_TRAPDOOR, Material.OAK_TRAPDOOR, Material.DARK_OAK_TRAPDOOR, Material.JUNGLE_TRAPDOOR, Material.SPRUCE_TRAPDOOR,
+            Material.WARPED_TRAPDOOR);
     private final List<Material> tools = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
             Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL,
             Material.IRON_AXE, Material.IRON_HOE, Material.IRON_PICKAXE, Material.IRON_SHOVEL,

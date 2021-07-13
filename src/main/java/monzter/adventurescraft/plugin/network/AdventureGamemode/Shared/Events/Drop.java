@@ -39,13 +39,14 @@ public class Drop implements Listener {
             case "Adventure":
             case "Home":
                 Player player = event.getPlayer();
-                for (String lore : event.getItem().getItemStack().getLore())
-                    if (lore.contains(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "ACCOUNT BOUND")) {
-                        event.setCancelled(true);
-                        event.getItem().remove();
-                        soundManager.soundNo(player, 1);
-                        player.sendMessage(ChatColor.RED + "This item cannot be picked up and has been deleted!");
-                    }
+                if (event.getItem().getItemStack().getLore() != null)
+                    for (String lore : event.getItem().getItemStack().getLore())
+                        if (lore.contains(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "ACCOUNT BOUND")) {
+                            event.setCancelled(true);
+                            event.getItem().remove();
+                            soundManager.soundNo(player, 1);
+                            player.sendMessage(ChatColor.RED + "This item cannot be picked up and has been deleted!");
+                        }
         }
     }
 

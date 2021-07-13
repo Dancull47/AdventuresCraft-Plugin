@@ -2,38 +2,52 @@ package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import co.aikar.commands.BaseCommand;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
+import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
+import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
+import monzter.adventurescraft.plugin.utilities.general.ItemAdder;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
+import net.Indyuce.mmoitems.MMOItems;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Random;
 
 public class MythicMobs extends BaseCommand implements Listener {
     private final AdventuresCraft plugin;
     private final FullInventory fullInventory;
     private final BetonPointsManager betonPointsManager;
     private final SoundManager soundManager;
+    private final ChanceCheck chanceCheck;
+    private final ItemAdder itemAdder;
 
 
-    public MythicMobs(AdventuresCraft plugin, FullInventory fullInventory, BetonPointsManager betonPointsManager, SoundManager soundManager) {
+    public MythicMobs(AdventuresCraft plugin, FullInventory fullInventory, BetonPointsManager betonPointsManager, SoundManager soundManager, ChanceCheck chanceCheck, ItemAdder itemAdder) {
         this.plugin = plugin;
         this.fullInventory = fullInventory;
         this.betonPointsManager = betonPointsManager;
         this.soundManager = soundManager;
+        this.chanceCheck = chanceCheck;
+        this.itemAdder = itemAdder;
     }
 
     @EventHandler
     public void mobTrack(MythicMobDeathEvent event) {
         Player player = (Player) event.getKiller();
+        Location location = event.getEntity().getLocation();
         if (player != null)
             switch (plugin.SERVER) {
                 case "Prison":
+                    betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
+                    betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction().toUpperCase(), 1);
+                    break;
                 case "Adventure":
                     betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
                     betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction().toUpperCase(), 1);
@@ -58,9 +72,190 @@ public class MythicMobs extends BaseCommand implements Listener {
                                 }
                             break;
                     }
+
+                    switch (event.getMobType().getInternalName()) {
+                        /*
+                         *   Graveyard
+                         */
+                        case "UNDEAD_SKELETON":
+                            giveItem(location, Material.BONE, 2);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 2);
+                            if (chanceCheck.chanceCheck(.001))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETON3"), player);
+                            break;
+                        case "UNDEAD_ARCHER":
+                            giveItem(location, Material.BONE, 2);
+                            giveItem(location, Material.ARROW, 3);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 3);
+                            if (chanceCheck.chanceCheck(.001))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETONARCHER3"), player);
+                            break;
+                        case "LOST_SOUL":
+                            if (chanceCheck.chanceCheck(.33))
+                                giveItem(event.getEntity().getLocation(), MMOItems.plugin.getItem("CONSUMABLE", "SOUL4"), 1);
+                            if (chanceCheck.chanceCheck(.25))
+                                giveItem(event.getEntity().getLocation(), MMOItems.plugin.getItem("MATERIAL", "LOST_SOUL"), 1);
+                            break;
+                        case "REAPER":
+                            giveItem(event.getEntity().getLocation(), MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 15);
+                            giveItem(event.getEntity().getLocation(), Material.BONE, 25);
+                            break;
+                        /*
+                         *   Courtyard
+                         */
+                        case "UNDEAD_SKELETON2":
+                            giveItem(location, Material.BONE, 5);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
+                            if (chanceCheck.chanceCheck(.005))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETON3"), player);
+                            break;
+                        case "UNDEAD_ARCHER2":
+                            giveItem(location, Material.BONE, 5);
+                            giveItem(location, Material.ARROW, 5);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
+                            if (chanceCheck.chanceCheck(.005))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETONARCHER3"), player);
+                            break;
+                        case "ALPHA_SOUL":
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "ALPHA_SOUL"), 1);
+                            if (chanceCheck.chanceCheck(.005))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_ALPHA_SOUL3"), player);
+                            if (chanceCheck.chanceCheck(.66))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("CONSUMABLE", "SOUL4"), player);
+                            if (chanceCheck.chanceCheck(.50))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("MATERIAL", "LOST_SOUL"), player);
+                            break;
+                        case "UNDEAD_SPIDER":
+                            giveItem(location, Material.STRING, 3);
+                            giveItem(location, Material.SPIDER_EYE, 3);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 4);
+                            if (chanceCheck.chanceCheck(.001))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_UNDEAD_SPIDER3"), player);
+                            break;
+                        case "UNDEAD_CASTER":
+                            giveItem(location, Material.BONE, 4);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
+                            if (chanceCheck.chanceCheck(.001))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_UNDEAD_CASTER3"), player);
+                            if (chanceCheck.chanceCheck(.2))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("CONSUMABLE", "MAGICAL_ESSENSE2"), player);
+                            break;
+                        /*
+                         *   Castle
+                         */
+                        case "UNDEAD_WARRIOR":
+                            giveItem(location, Material.BONE, 5);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
+                            break;
+                        /*
+                         *   Estate
+                         */
+                        case "BABY_GOBLIN":
+                            giveItem(location, Material.ROTTEN_FLESH, 3);
+                            if (chanceCheck.chanceCheck(.01))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                            break;
+                        case "BABY_GOBLIN2":
+                        case "GOBLIN":
+                            giveItem(location, Material.ROTTEN_FLESH, 4);
+                            if (chanceCheck.chanceCheck(.0125))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                            break;
+                        case "GOBLIN2":
+                            giveItem(location, Material.ROTTEN_FLESH, 5);
+                            if (chanceCheck.chanceCheck(.015))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                            break;
+                        case "ARCHER_GOBLIN":
+                            giveItem(location, Material.ROTTEN_FLESH, 4);
+                            giveItem(location, Material.ARROW, 3);
+                            if (chanceCheck.chanceCheck(.015))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                            break;
+                        /*
+                         *   Spirit Grounds
+                         */
+                        case "SPIRIT_BULL":
+                            giveItem(location, Material.RED_MUSHROOM, 3);
+                            giveItem(location, Material.BROWN_MUSHROOM, 2);
+                            if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.MELON_SLICE, 4);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.PUMPKIN, 2);
+                            break;
+                        case "SPIRIT_SPIDER":
+                            giveItem(location, Material.SPIDER_EYE, 2);
+                            giveItem(location, Material.STRING, 2);
+                            if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.MELON_SLICE, 4);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.PUMPKIN, 2);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.RED_MUSHROOM, 2);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.BROWN_MUSHROOM, 2);
+                            break;
+                        case "SPIRIT_WITCH":
+                            if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.GLASS_BOTTLE, 4);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.BLAZE_ROD, 2);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.FERMENTED_SPIDER_EYE, 2);
+                            else if (chanceCheck.chanceCheck(.25))
+                                giveItem(location, Material.GHAST_TEAR, 2);
+                            break;
+                        /*
+                         *   Forest
+                         */
+                        case "BEE1":
+                            forestDropTable(location);
+                            giveItem(location, Material.HONEYCOMB, 2);
+                            if (chanceCheck.chanceCheck(.005))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("ARMOR", "BEE_WINGS2"), player);
+                            break;
+                        case "HARE":
+                            forestDropTable(location);
+                            if (chanceCheck.chanceCheck(.33))
+                                giveItem(location, Material.RABBIT_HIDE, 2);
+                            else if (chanceCheck.chanceCheck(.33))
+                                giveItem(location, Material.RABBIT, 2);
+                            else if (chanceCheck.chanceCheck(.33))
+                                giveItem(location, Material.RABBIT_FOOT, 2);
+                            break;
+                        case "WILD_CAT":
+                        case "DRYAD_HARE":
+                            forestDropTable(location);
+                            break;
+                        case "WASP":
+                            forestDropTable(location);
+                            giveItem(location, Material.HONEYCOMB, 4);
+                            if (chanceCheck.chanceCheck(.005))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("ARMOR", "BEE_WINGS2"), player);
+                            break;
+                        case "QUEEN_BEE":
+                            forestDropTable(location);
+                            giveItem(location, Material.HONEYCOMB, 5);
+                            if (chanceCheck.chanceCheck(.0075))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("ARMOR", "BEE_WINGS3"), player);
+                            break;
+                        /*
+                         *   Castle
+                         */
+                    }
+                    if (chanceCheck.chanceCheck(.001))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("CONSUMABLE", "BORGS_BOX5"), player);
+                    else if (chanceCheck.chanceCheck(.025))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("CONSUMABLE", "MAGICAL_BOX5"), player);
+                    else if (chanceCheck.chanceCheck(.0095))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("MATERIAL", "ENGRAM1"), player);
+                    else if (chanceCheck.chanceCheck(.00075))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("MATERIAL", "ENGRAM2"), player);
+                    break;
             }
     }
-//    @EventHandler
+
+    //    @EventHandler
 //    public void petEgg(MythicMobDeathEvent event) {
 //        Player player = (Player) event.getKiller();
 //        if (player != null) {
@@ -88,4 +283,60 @@ public class MythicMobs extends BaseCommand implements Listener {
 //            }
 //        }
 //    }
+    private void giveItem(Location location, Material material, int max) {
+        giveItem(location, material, 0, max);
+    }
+
+    private void giveItem(Location location, Material material, int min, int max) {
+        if (min == 0) {
+            int amount = new Random().nextInt(max + 1);
+            if (amount > 0)
+                location.getWorld().dropItem(location, new ItemStack(material).asQuantity(amount));
+        }
+    }
+
+    private void giveItem(Location location, ItemStack itemStack, int max) {
+        giveItem(location, itemStack, 0, max);
+    }
+
+    private void giveItem(Location location, ItemStack itemStack, int min, int max) {
+        if (min == 0) {
+            int amount = new Random().nextInt(max + 1);
+            if (amount > 0)
+                location.getWorld().dropItem(location, itemStack.asQuantity(amount));
+        }
+    }
+
+    private void rareItem(ActiveMob activeMob, ItemStack itemStack, Player winner) {
+        itemAdder.itemAdder(winner, itemStack);
+        winner.sendMessage(ChatColor.GREEN + "You just got a " + itemStack.getItemMeta().getDisplayName() + ChatColor.GREEN + "!");
+        soundManager.playSound(winner, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            for (Player player : Bukkit.getOnlinePlayers())
+                if (player.getLocation().distance(BukkitAdapter.adapt(activeMob.getLocation())) <= 50) {
+                    player.sendMessage(ChatColor.GREEN + winner.getName() + ChatColor.GREEN + " just got really lucky because a " + activeMob.getDisplayName() + ChatColor.GREEN + " just dropped a " + itemStack.getItemMeta().getDisplayName() + ChatColor.GREEN + "! ");
+                }
+        });
+    }
+
+    /*
+     *
+     * DROP TABLES
+     *
+     * */
+
+    private void forestDropTable(Location location) {
+        if (chanceCheck.chanceCheck(.15))
+            giveItem(location, Material.JUNGLE_LOG, 2);
+        else if (chanceCheck.chanceCheck(.15))
+            giveItem(location, Material.OAK_LOG, 2);
+        else if (chanceCheck.chanceCheck(.15))
+            giveItem(location, Material.DARK_OAK_LOG, 2);
+        else if (chanceCheck.chanceCheck(.15))
+            giveItem(location, Material.SPRUCE_LOG, 2);
+        else if (chanceCheck.chanceCheck(.15))
+            giveItem(location, Material.BIRCH_LOG, 2);
+        else if (chanceCheck.chanceCheck(.15))
+            giveItem(location, Material.ACACIA_LOG, 2);
+    }
 }
