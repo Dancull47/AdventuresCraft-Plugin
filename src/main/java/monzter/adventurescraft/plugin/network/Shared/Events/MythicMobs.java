@@ -240,6 +240,120 @@ public class MythicMobs extends BaseCommand implements Listener {
                                 rareItem(event.getMob(), MMOItems.plugin.getItem("ARMOR", "BEE_WINGS3"), player);
                             break;
                         /*
+                         *   Mine
+                         */
+                        case "ANGRY_BAT":
+                            giveItem(location, Material.IRON_INGOT, 1);
+                            giveItem(location, Material.COAL, 2);
+                            break;
+                        case "ANGRY_SPIDER":
+                            giveItem(location, Material.IRON_INGOT, 1);
+                            giveItem(location, Material.GOLD_INGOT, 2);
+                            giveItem(location, Material.COAL, 1);
+                            giveItem(location, Material.SPIDER_EYE, 2);
+                            giveItem(location, Material.STRING, 2);
+                            break;
+
+                        case "VOID_BAT":
+                            mineDropTable(location, event.getMob(), player);
+                            giveItem(location, Material.REDSTONE, 2);
+                            giveItem(location, Material.LAPIS_LAZULI, 2);
+                            break;
+                        case "VOID_BOOMER":
+                            mineDropTable(location, event.getMob(), player);
+                            voidBoomer(location, event.getMob(), player);
+                            giveItem(location, Material.REDSTONE, 2);
+                            giveItem(location, Material.LAPIS_LAZULI, 2);
+                            giveItem(location, Material.GUNPOWDER, 3);
+                            break;
+                        case "VOID_SPIDER":
+                            mineDropTable(location, event.getMob(), player);
+                            giveItem(location, Material.REDSTONE, 2);
+                            giveItem(location, Material.LAPIS_LAZULI, 2);
+                            giveItem(location, Material.SPIDER_EYE, 3);
+                            giveItem(location, Material.STRING, 3);
+                            break;
+                        case "VOID_VAMPIRE":
+                            mineDropTable(location, event.getMob(), player);
+                            voidVampire(location, event.getMob(), player);
+                            giveItem(location, Material.REDSTONE, 2);
+                            giveItem(location, Material.LAPIS_LAZULI, 2);
+                            giveItem(location, Material.BONE, 3);
+                            break;
+                        case "VOID_ANT":
+                            giveItem(location, Material.EMERALD, 1);
+                            giveItem(location, Material.DIAMOND, 1);
+                            break;
+                        case "VOID_VAMPIRE2":
+                            mineDropTable(location, event.getMob(), player);
+                            voidVampire(location, event.getMob(), player);
+                            giveItem(location, Material.EMERALD, 2);
+                            giveItem(location, Material.DIAMOND, 2);
+                            giveItem(location, Material.BONE, 3);
+                            break;
+                        case "VOID_DRACULA":
+                            mineDropTable(location, event.getMob(), player);
+                            voidVampire(location, event.getMob(), player);
+                            giveItem(location, Material.EMERALD, 5);
+                            giveItem(location, Material.DIAMOND, 5);
+                            giveItem(location, Material.BONE, 5);
+                            break;
+                        /*
+                         *   Hell
+                         */
+                        case "VOID_PIGMAN":
+                            hellDropTable(location, event.getMob(), player);
+                            voidPigman(location, event.getMob(), player);
+                            giveItem(location, Material.ROTTEN_FLESH, 4);
+                            break;
+                        case "VOID_DEMON":
+                            hellDropTable(location, event.getMob(), player);
+                            voidDemon(location, event.getMob(), player);
+                            giveItem(location, Material.ROTTEN_FLESH, 4);
+                            break;
+                        case "VOID_NECROMANCER":
+                            hellDropTable(location, event.getMob(), player);
+                            voidNecromancer(location, event.getMob(), player);
+                            giveItem(location, Material.ROTTEN_FLESH, 4);
+                            break;
+                        case "VOID_BLAZE":
+                            hellDropTable(location, event.getMob(), player);
+                            voidBlaze(location, event.getMob(), player);
+                            giveItem(location, Material.BLAZE_ROD, 3);
+                            break;
+                        case "VOID_PROTECTOR":
+                            hellDropTable(location, event.getMob(), player);
+                            giveItem(location, Material.IRON_INGOT, 3);
+                            break;
+                        case "VOID_HEALER":
+                            hellDropTable(location, event.getMob(), player);
+                            voidHealer(location, event.getMob(), player);
+                            giveItem(location, Material.BONE, 3);
+                            break;
+
+                        case "VOID_MAGMA":
+                        case "VOID_MAGMA2":
+                        case "VOID_MAGMA3":
+                            voidMagma(location, event.getMob(), player);
+                            hellDropTable(location, event.getMob(), player);
+                            giveItem(location, Material.MAGMA_CREAM, 4);
+                            break;
+                        case "VOID_SKELETON":
+                            hellDropTable(location, event.getMob(), player);
+                            giveItem(location, Material.BONE, 4);
+                            break;
+                        case "VOID_PIGMAN2":
+                            hellDropTable(location, event.getMob(), player);
+                            voidPigman(location, event.getMob(), player);
+                            giveItem(location, Material.ROTTEN_FLESH, 5);
+                            break;
+                        case "VOID_NECROMANCER2":
+                            hellDropTable(location, event.getMob(), player);
+                            voidNecromancer(location, event.getMob(), player);
+                            giveItem(location, Material.BONE, 4);
+                            break;
+
+                        /*
                          *   Castle
                          */
                     }
@@ -339,4 +453,85 @@ public class MythicMobs extends BaseCommand implements Listener {
         else if (chanceCheck.chanceCheck(.15))
             giveItem(location, Material.ACACIA_LOG, 2);
     }
+
+    private void mineDropTable(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("CONSUMABLE", "HEART"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "VOID_GEM"), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "VOID_GEM2"), player);
+        else if (chanceCheck.chanceCheck(.0085))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "VOID_GEM3"), player);
+    }
+
+    private void hellDropTable(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "HEATED_GEM3"), player);
+        else if (chanceCheck.chanceCheck(.0075))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "HEATED_GEM2"), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "HEATED_GEM"), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("CATALYST", "FIRE_CATALYST4"), player);
+        else if (chanceCheck.chanceCheck(.25))
+            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "VOID_SHARD"), 3);
+    }
+
+    private void voidBoomer(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "BLACK_HOLE2").asQuantity(2), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "BLACK_HOLE3").asQuantity(2), player);
+    }
+
+    private void voidVampire(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("DAGGER", "STEAK2"), player);
+        else if (chanceCheck.chanceCheck(.50))
+            rareItem(activeMob, MMOItems.plugin.getItem("QUEST", "VAMPIRE_FANG2"), player);
+    }
+
+    private void voidBlaze(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "BLAZE_CHEST4"), player);
+        else if (chanceCheck.chanceCheck(.0075))
+            rareItem(activeMob, MMOItems.plugin.getItem("DAGGER", "BLAZE_ARM3"), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "CURSED_BEAM2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "CURSED_BEAM3"), player);
+    }
+
+    private void voidNecromancer(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("STAFF", "NECROMANCER_STAFF2"), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("CONSUMABLE", "MAGICAL_ESSENSE3"), player);
+    }
+
+    private void voidHealer(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "HEALER_HEAD4"), player);
+    }
+
+    private void voidDemon(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.0075))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "DEMON_HEAD4"), player);
+        else if (chanceCheck.chanceCheck(.20))
+            rareItem(activeMob, MMOItems.plugin.getItem("QUEST", "DEMON_CLAW"), player);
+    }
+
+    private void voidPigman(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.0075))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "PIGMAN_HEAD3"), player);
+    }
+
+    private void voidMagma(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "MAGMA_FISSURE2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "MAGMA_FISSURE3"), player);
+    }
+
 }

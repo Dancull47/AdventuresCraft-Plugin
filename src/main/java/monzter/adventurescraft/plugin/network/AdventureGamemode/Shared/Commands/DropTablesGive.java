@@ -145,7 +145,7 @@ public class DropTablesGive extends BaseCommand {
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());
                     break;
                 case "GHASTLY":
-                    mmoItemsGive.giveMMOItem(player.getPlayer(), "QUEST", "GHASTLY_TEAR", 1);
+                    mmoItemsGive.giveMMOItem(player.getPlayer(), "QUEST", "GHASTLY_TEAR3", 1);
                     for (Crates crates : Crates.getCrates(CrateList.GHASTLY))
                         if (chanceCheck.chanceCheck(crates.getWeight()))
                             dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(crates.getType(), crates.getId()).getItemMeta().getDisplayName(), crates.getType(), crates.getId(), crates.getWeight(), crates.getAmount());

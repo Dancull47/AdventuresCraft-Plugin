@@ -8,7 +8,6 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import io.lumine.mythic.utils.Schedulers;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
@@ -25,7 +24,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import pl.betoncraft.betonquest.BetonQuest;
 
 import java.util.ArrayList;
@@ -73,18 +71,6 @@ public class Bossdex extends BaseCommand {
         gui.addPane(display);
         gui.addPane(backButton);
         gui.show(player);
-
-        Schedulers.sync().runLater(new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (player.getOpenInventory() == null) return;
-                if (player.getOpenInventory().getTopInventory() == null) return;
-                if (player.getOpenInventory().getTopInventory().getItem(0) == null) return;
-                if (player.getOpenInventory().getTopInventory().getItem(0).getType() != Material.RED_STAINED_GLASS_PANE)
-                    return;
-                map(player);
-            }
-        }, 60);
     }
 
     private GuiItem itemGenerator(Player player, Bosses boss) {
@@ -114,7 +100,7 @@ public class Bossdex extends BaseCommand {
         if (points > 0)
             lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Claim Reward");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Drop Table");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to View Achievements");
+//        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to View Achievements");
 
         itemStack.setItemMeta(itemMeta);
         itemStack.setLore(lore);
@@ -126,8 +112,8 @@ public class Bossdex extends BaseCommand {
                 player.performCommand("bossdex");
             } else if (e.isRightClick() && !e.isShiftClick()) {
                 player.performCommand("DropTableViewer " + boss.getName().replace(" ", ""));
-            } else if (e.isShiftClick()) {
-                player.performCommand("Achievements " + boss.getName().replace(" ", ""));
+//            } else if (e.isShiftClick()) {
+//                player.performCommand("Achievements " + boss.getName().replace(" ", ""));
             }
         });
     }
