@@ -78,12 +78,14 @@ public class MythicMobs extends BaseCommand implements Listener {
                          *   Graveyard
                          */
                         case "UNDEAD_SKELETON":
+                            undeadSkeleton(location, event.getMob(), player);
                             giveItem(location, Material.BONE, 2);
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 2);
                             if (chanceCheck.chanceCheck(.001))
                                 rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETON3"), player);
                             break;
                         case "UNDEAD_ARCHER":
+                            undeadSkeleton(location, event.getMob(), player);
                             giveItem(location, Material.BONE, 2);
                             giveItem(location, Material.ARROW, 3);
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 3);
@@ -104,12 +106,14 @@ public class MythicMobs extends BaseCommand implements Listener {
                          *   Courtyard
                          */
                         case "UNDEAD_SKELETON2":
+                            undeadSkeleton(location, event.getMob(), player);
                             giveItem(location, Material.BONE, 5);
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
                             if (chanceCheck.chanceCheck(.005))
                                 rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETON3"), player);
                             break;
                         case "UNDEAD_ARCHER2":
+                            undeadSkeleton(location, event.getMob(), player);
                             giveItem(location, Material.BONE, 5);
                             giveItem(location, Material.ARROW, 5);
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
@@ -146,6 +150,13 @@ public class MythicMobs extends BaseCommand implements Listener {
                         case "UNDEAD_WARRIOR":
                             giveItem(location, Material.BONE, 5);
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
+                            break;
+                        /*
+                         *   Farm
+                         */
+                        case "CUCCO":
+                            giveItem(location, Material.FEATHER, 3);
+                            giveItem(location, Material.CHICKEN, 3);
                             break;
                         /*
                          *   Estate
@@ -354,6 +365,73 @@ public class MythicMobs extends BaseCommand implements Listener {
                             break;
 
                         /*
+                         *   Void
+                         */
+                        case "VOID_WORSHIPER":
+                            voidDropTable(location, event.getMob(), player);
+                            voidWorshiper(location, event.getMob(), player);
+                            giveItem(location, Material.ENDER_PEARL, 4);
+                            break;
+                        case "VOID_SOURCE":
+                            voidDropTable(location, event.getMob(), player);
+                            voidSource(location, event.getMob(), player);
+                            giveItem(location, Material.SHULKER_SHELL, 4);
+                            break;
+                        case "VOID_THRALL":
+                            voidDropTable(location, event.getMob(), player);
+                            voidThrall(location, event.getMob(), player);
+                            giveItem(location, Material.OBSIDIAN, 3);
+                            break;
+                        case "VOID_ASSASSIN":
+                            voidDropTable(location, event.getMob(), player);
+                            voidAssassin(location, event.getMob(), player);
+                            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "CHORUS_SEED"), 3);
+                            giveItem(location, Material.OBSIDIAN, 2);
+                            break;
+                        case "VOID_VEIN":
+                            voidDropTable(location, event.getMob(), player);
+                            giveItem(location, Material.WITHER_ROSE, 5);
+                            break;
+
+                        case "VOID_MONITOR":
+                            voidDropTable(location, event.getMob(), player);
+                            voidMonitor(location, event.getMob(), player);
+                            giveItem(location, Material.OBSIDIAN, 3);
+                            break;
+                        case "VOID_MEGA_BOOMER":
+                            voidDropTable(location, event.getMob(), player);
+                            voidMegaBoomer(location, event.getMob(), player);
+                            giveItem(location, Material.GUNPOWDER, 5);
+                            break;
+                        case "VOID_CHAMPION":
+                            voidDropTable(location, event.getMob(), player);
+                            voidChampion(location, event.getMob(), player);
+                            giveItem(location, Material.NETHERITE_INGOT, 5);
+                            break;
+
+                        case "VOID_BOSS_DEFENDER":
+                            voidDropTable(location, event.getMob(), player);
+                            voidDefender(location, event.getMob(), player);
+                            giveItem(location, Material.OBSIDIAN, 5);
+                            break;
+                        case "VOID_BOSS_DEFENDER2":
+                            voidDropTable(location, event.getMob(), player);
+                            voidDefender(location, event.getMob(), player);
+                            giveItem(location, Material.NETHERITE_INGOT, 3);
+                            break;
+                        case "VOID_BOSS_DEFENDER3":
+                            voidDropTable(location, event.getMob(), player);
+                            voidDefender(location, event.getMob(), player);
+                            giveItem(location, Material.NETHERITE_INGOT, 3);
+                            giveItem(location, Material.OBSIDIAN, 5);
+                            break;
+                        case "VOID_BOSS_DEFENDER4":
+                            voidDropTable(location, event.getMob(), player);
+                            voidDefender(location, event.getMob(), player);
+                            giveItem(location, Material.ENDER_PEARL, 3);
+                            break;
+
+                        /*
                          *   Castle
                          */
                     }
@@ -478,6 +556,36 @@ public class MythicMobs extends BaseCommand implements Listener {
             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "VOID_SHARD"), 3);
     }
 
+    private void voidDropTable(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "VOID_GEM3"), player);
+        else if (chanceCheck.chanceCheck(.0075))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "VOID_GEM2"), player);
+        else if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("GEM_STONE", "VOID_GEM"), player);
+        else if (chanceCheck.chanceCheck(.25))
+            giveItem(location, MMOItems.plugin.getItem("MATERIAL", "VOID_SHARD"), 5);
+    }
+
+//
+
+    private void undeadSkeleton(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "SKELETON_SKULL3"), player);
+        else if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "SKELETON_CHESTPLATE3"), player);
+        else if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "SKELETON_LEGS3"), player);
+        else if (chanceCheck.chanceCheck(.005))
+            rareItem(activeMob, MMOItems.plugin.getItem("ARMOR", "SKELETON_FEET3"), player);
+        else if (chanceCheck.chanceCheck(.0045))
+            rareItem(activeMob, MMOItems.plugin.getItem("BOW", "UNDEAD_BOW3"), player);
+        else if (chanceCheck.chanceCheck(.0035))
+            rareItem(activeMob, MMOItems.plugin.getItem("AXE", "BONE_AXE3"), player);
+        else if (chanceCheck.chanceCheck(.0025))
+            rareItem(activeMob, MMOItems.plugin.getItem("DAGGER", "BONE_DAGGER3"), player);
+    }
+
     private void voidBoomer(Location location, ActiveMob activeMob, Player player) {
         if (chanceCheck.chanceCheck(.02))
             rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "BLACK_HOLE2").asQuantity(2), player);
@@ -532,6 +640,66 @@ public class MythicMobs extends BaseCommand implements Listener {
             rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "MAGMA_FISSURE2"), player);
         else if (chanceCheck.chanceCheck(.02))
             rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "MAGMA_FISSURE3"), player);
+    }
+
+    private void voidWorshiper(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "ENDER_METEOR2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "ENDER_METEOR3"), player);
+        else if (chanceCheck.chanceCheck(.5))
+            rareItem(activeMob, MMOItems.plugin.getItem("QUEST", "VOID_DNA"), player);
+    }
+
+    private void voidSource(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "SHULKER_MISSILE2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "SHULKER_MISSILE3"), player);
+    }
+
+    private void voidThrall(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "LIFE_ENDER2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "LIFE_ENDER3"), player);
+        else if (chanceCheck.chanceCheck(.5))
+            rareItem(activeMob, MMOItems.plugin.getItem("MATERIAL", "THRALL_EGG"), player);
+    }
+
+    private void voidAssassin(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("DAGGER", "SHADOW_DAGGER3"), player);
+        else if (chanceCheck.chanceCheck(.5))
+            rareItem(activeMob, MMOItems.plugin.getItem("MATERIAL", "SHADOW_ESSENCE"), player);
+    }
+
+
+    private void voidMonitor(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "MONITOR_MUTE2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "MONITOR_MUTE3"), player);
+    }
+
+    private void voidMegaBoomer(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "CURSED_BEAM2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "CURSED_BEAM3"), player);
+    }
+
+    private void voidChampion(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.01))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "ENDER_METEOR2"), player);
+        else if (chanceCheck.chanceCheck(.02))
+            rareItem(activeMob, MMOItems.plugin.getItem("SPELL", "ENDER_METEOR3"), player);
+    }
+
+
+    private void voidDefender(Location location, ActiveMob activeMob, Player player) {
+        if (chanceCheck.chanceCheck(.1))
+            rareItem(activeMob, MMOItems.plugin.getItem("MATERIAL", "DEFENDER_FLESH"), player);
     }
 
 }
