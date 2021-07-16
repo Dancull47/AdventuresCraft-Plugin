@@ -255,7 +255,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.Shared.Commands.Debug(this));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new MapBarrier(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
+
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.Shared.Commands.GeneralCommands(this, consoleCommand, soundManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockPhysics(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
@@ -733,7 +733,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                         .color(NamedTextColor.GREEN)
                         .append(Component.text(" Jobs ", NamedTextColor.GOLD))
                         .append(Component.text("are repeatable tasks you can get from folks within the"))
-                        .append(Component.text(" Yard", NamedTextColor.GOLD))
+                        .append(Component.text(" Town", NamedTextColor.GOLD))
                         .append(Component.text("!")),
                 Component.text(prefix + "Your ")
                         .color(NamedTextColor.GREEN)
@@ -761,7 +761,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 Component.text(prefix + "Use")
                         .color(NamedTextColor.GREEN)
                         .append(Component.text(" /Spawn ", NamedTextColor.GOLD))
-                        .hoverEvent(Component.text("Click to return to the Yard!", NamedTextColor.GREEN))
+                        .hoverEvent(Component.text("Click to return to the Town!", NamedTextColor.GREEN))
                         .clickEvent(ClickEvent.suggestCommand("/Spawn"))
                         .append(Component.text("if you're stuck!")),
                 Component.text(prefix + "You can")

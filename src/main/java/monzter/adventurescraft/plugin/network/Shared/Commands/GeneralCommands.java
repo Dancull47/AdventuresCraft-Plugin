@@ -183,8 +183,8 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         switch (plugin.SERVER) {
             case "Prison":
                 soundManager.soundTeleport(player);
-                player.sendMessage(ChatColor.GREEN + "You've traveled to the " + ChatColor.YELLOW + "Yard" + ChatColor.GREEN + "!");
-                player.teleport(new Location(player.getWorld(), 1181.5, 202, 1603.5, 89.8f, -0.7f));
+                player.sendMessage(ChatColor.GREEN + "You've traveled to the " + ChatColor.YELLOW + "Town" + ChatColor.GREEN + "!");
+                player.teleport(new Location(player.getWorld(), 1680.5, 28, 3824.5, 90.5f, 0.0f));
                 break;
             case "Cell":
             case "Home":

@@ -71,7 +71,7 @@ public class Quests extends BaseCommand {
         final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
         final ItemMeta yardItemMeta = yard.getItemMeta();
 
-        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Yard " + parsePlaceholder(player, "betonquest_default-Points:point.Yard.amount") + ChatColor.GREEN + "/" + "4"));
+        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Town " + parsePlaceholder(player, "betonquest_default-Points:point.Yard.amount") + ChatColor.GREEN + "/" + "4"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");

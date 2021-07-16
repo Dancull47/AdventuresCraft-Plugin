@@ -77,7 +77,7 @@ public class Xur implements Listener {
     private void spawnXur() {
         CitizensAPI.getNPCRegistry().getById(60).spawn(location);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(Prefix.PREFIX.getString() + ChatColor.DARK_PURPLE + "Rux " + ChatColor.GREEN + "has arrived in the " + ChatColor.YELLOW + "Yard" + ChatColor.GREEN + "!");
+            player.sendMessage(Prefix.PREFIX.getString() + ChatColor.DARK_PURPLE + "Rux " + ChatColor.GREEN + "has arrived in the " + ChatColor.YELLOW + "Town" + ChatColor.GREEN + "!");
             soundManager.playSound(player, Sound.BLOCK_BELL_USE, 1, 1);
         }
     }

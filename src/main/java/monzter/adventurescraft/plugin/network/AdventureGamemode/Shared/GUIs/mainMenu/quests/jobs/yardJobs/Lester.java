@@ -111,7 +111,7 @@ public class Lester extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Speak with " + ChatColor.YELLOW + "Lester " + ChatColor.GRAY + "in the");
-        lore.add(ChatColor.GREEN + "Yard" + ChatColor.GRAY + ", to receive a " + ChatColor.DARK_RED + "Job" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GREEN + "Town" + ChatColor.GRAY + ", to receive a " + ChatColor.DARK_RED + "Job" + ChatColor.GRAY + "!");
 
         itemStack.setItemMeta(itemMeta);
         itemStack.setLore(lore);

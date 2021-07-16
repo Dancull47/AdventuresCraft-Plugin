@@ -109,7 +109,7 @@ public class MainMenu extends BaseCommand {
         final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
         final ItemMeta yardItemMeta = yard.getItemMeta();
 
-        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Yard"));
+        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Town"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");

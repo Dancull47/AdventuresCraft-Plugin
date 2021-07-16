@@ -117,7 +117,7 @@ public enum ItemList {
     JoyITEM1(Shops.JOY, null, 100, 0, null, 1, "CONSUMABLE", "JOY_SOUP"),
     JoyITEM2(Shops.JOY, null, 250, 0, null, 1, "CONSUMABLE", "JOY_SOUP2"),
     JoyITEM3(Shops.JOY, null, 500, 0, null, 1, "CONSUMABLE", "JOY_SOUP3"),
-    JoyITEM4(Shops.JOY, null, 5_000, 0, null, 1, "BOW", "JOYS_BOW"),
+    JoyITEM4(Shops.JOY, null, 5_000, 0, null, 1, "BOW", "JOYS_BOW2"),
 
     CatLadyITEM1(Shops.CAT_LADY, new ItemStack(Material.LEAD), 25, 0, null, 64, null, null),
 

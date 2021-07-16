@@ -41,7 +41,7 @@ public class YardJobs extends BaseCommand {
     @CommandAlias("YardJobs")
     public void questMenu(Player player) {
 
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Yard Jobs"));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Town Jobs"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);

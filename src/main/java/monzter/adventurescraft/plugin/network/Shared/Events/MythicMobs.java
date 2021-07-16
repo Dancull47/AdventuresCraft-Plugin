@@ -119,6 +119,8 @@ public class MythicMobs extends BaseCommand implements Listener {
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
                             if (chanceCheck.chanceCheck(.005))
                                 rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_SKELETONARCHER3"), player);
+                            else if (chanceCheck.chanceCheck(.005))
+                                rareItem(event.getMob(), MMOItems.plugin.getItem("BOW", "UNDEAD_BOW4ut"), player);
                             break;
                         case "ALPHA_SOUL":
                             giveItem(location, MMOItems.plugin.getItem("MATERIAL", "ALPHA_SOUL"), 1);

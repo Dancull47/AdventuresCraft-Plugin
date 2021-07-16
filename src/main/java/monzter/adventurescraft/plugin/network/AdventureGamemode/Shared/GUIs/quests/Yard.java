@@ -37,7 +37,7 @@ public class Yard extends BaseCommand {
     @CommandAlias("YardQuests")
     public void questMenu(Player player) {
 
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Yard Quests " + parsePlaceholder(player, "betonquest_default-Points:point.QuestTotal.amount")));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Town Quests " + parsePlaceholder(player, "betonquest_default-Points:point.QuestTotal.amount")));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);

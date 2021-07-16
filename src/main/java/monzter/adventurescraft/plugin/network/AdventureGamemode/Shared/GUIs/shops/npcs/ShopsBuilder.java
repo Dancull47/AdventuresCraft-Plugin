@@ -571,8 +571,8 @@ public class ShopsBuilder extends BaseCommand {
                     + ChatColor.RED + "or be within the " + area + ChatColor.RED + "!");
             player.sendMessage(donate);
             soundManager.soundNo(player, 1);
+            return false;
         }
-        return false;
     }
 
     private boolean areaCheck(Player player, String area) {

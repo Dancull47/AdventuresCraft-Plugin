@@ -65,7 +65,7 @@ public class Jobs extends BaseCommand {
         final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
         final ItemMeta yardItemMeta = yard.getItemMeta();
 
-        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Yard " + ChatColor.GOLD +"1"));
+        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Town " + ChatColor.GOLD +"1"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
