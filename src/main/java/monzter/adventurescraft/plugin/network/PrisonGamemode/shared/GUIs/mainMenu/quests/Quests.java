@@ -1,10 +1,10 @@
 package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests;
 
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.quests.Professions;
+import monzter.adventurescraft.plugin.utilities.enums.Professions;
 import org.bukkit.ChatColor;
 
 public enum Quests {
-    NOVICE_ENCHANTER(QuestGiver.WIZARD, new String[]{ChatColor.WHITE + "Bring the Wizard " + ChatColor.GREEN + "192 Paper" + ChatColor.WHITE + "!"}, new String[]{"ENCHANTMENT ENCHANTING_BOOK2 1"}, 10, new String[]{Professions.ENCHANTING.name() + " 1"}, 10),
+    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD, new String[]{ChatColor.WHITE + "Bring the Wizard " + ChatColor.GREEN + "192 Paper" + ChatColor.WHITE + "!"}, new String[]{"CONSUMABLE EQUIPMENT_LOOTBOX 1"}, 10, new String[]{Professions.ENCHANTING.name() + " 1"}, 10, 3, 1),
     ;
 
     private final QuestGiver questGiver;
@@ -13,14 +13,20 @@ public enum Quests {
     private final int rewardEXP;
     private final String[] rewardProfessionEXP;
     private final int rewardMoney;
+    private final int rewardExperience;
+    private final int rewardPetExperience;
 
-    Quests(QuestGiver questGiver, String[] questDescription, String[] rewardItems, int rewardEXP, String[] rewardProfessionEXP, int rewardMoney) {
+
+
+    Quests(QuestGiver questGiver, String[] questDescription, String[] rewardItems, int rewardEXP, String[] rewardProfessionEXP, int rewardMoney, int experience, int petExperience) {
         this.questGiver = questGiver;
         this.questDescription = questDescription;
         this.rewardItems = rewardItems;
         this.rewardEXP = rewardEXP;
         this.rewardProfessionEXP = rewardProfessionEXP;
         this.rewardMoney = rewardMoney;
+        this.rewardExperience = experience;
+        this.rewardPetExperience = petExperience;
     }
 
     public QuestGiver getQuestGiver() {
@@ -45,5 +51,13 @@ public enum Quests {
 
     public String[] getQuestDescription() {
         return questDescription;
+    }
+
+    public int getRewardExperience() {
+        return rewardExperience;
+    }
+
+    public int getRewardPetExperience() {
+        return rewardPetExperience;
     }
 }

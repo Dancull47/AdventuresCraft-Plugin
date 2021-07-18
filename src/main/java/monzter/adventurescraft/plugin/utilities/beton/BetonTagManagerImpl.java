@@ -20,4 +20,9 @@ public class BetonTagManagerImpl implements BetonTagManager {
                 return true;
         return false;
     }
+
+    @Override
+    public void giveTag(Player player, String tag) {
+        betonQuest.getPlayerData(player.getUniqueId().toString()).addTag(tag);
+    }
 }

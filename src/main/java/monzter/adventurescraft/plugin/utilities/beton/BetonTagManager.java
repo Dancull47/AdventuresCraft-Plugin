@@ -4,4 +4,5 @@ import org.bukkit.entity.Player;
 
 public interface BetonTagManager {
     boolean hasTag(Player player, String tag);
+    void giveTag(Player player, String tag);
 }
