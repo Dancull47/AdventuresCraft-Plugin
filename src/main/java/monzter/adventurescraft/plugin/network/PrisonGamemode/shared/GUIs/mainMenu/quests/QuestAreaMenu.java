@@ -189,7 +189,7 @@ public class QuestAreaMenu extends BaseCommand {
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
-        return new GuiItem(item, e -> player.performCommand("questmenu " + questGiver.getName().replace(" ", "")));
+        return new GuiItem(item, e -> player.performCommand("QuestViewer " + questGiver.getName().replace(" ", "")));
     }
 
     private String parsePlaceholder(Player player, String string) {
