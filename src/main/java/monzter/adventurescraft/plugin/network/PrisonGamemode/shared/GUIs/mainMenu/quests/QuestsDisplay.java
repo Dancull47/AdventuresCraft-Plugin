@@ -153,7 +153,7 @@ public class QuestsDisplay extends BaseCommand {
         if (quests.getRewardProfessionEXP() != null)
             for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
                 String[] professionReward = questProfessionEXPReward.split(" ");
-                lore.add(PREFIX + ChatColor.GOLD + professionReward[1] + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+                lore.add(PREFIX + ChatColor.BLUE + professionReward[1] + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
             }
         if (quests.getRewardMoney() > 0)
             lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
