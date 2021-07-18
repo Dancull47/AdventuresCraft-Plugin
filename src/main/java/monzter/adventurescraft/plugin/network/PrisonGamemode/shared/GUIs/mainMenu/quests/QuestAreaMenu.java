@@ -12,10 +12,12 @@ import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,12 +35,15 @@ public class QuestAreaMenu extends BaseCommand {
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
+    private final BetonTagManager betonTagManager;
 
-    public QuestAreaMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
+
+    public QuestAreaMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, BetonTagManager betonTagManager) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
+        this.betonTagManager = betonTagManager;
     }
 
     @CommandAlias("Town")
@@ -125,10 +130,21 @@ public class QuestAreaMenu extends BaseCommand {
 
         int questAmount = 0;
         for (QuestGiver questGiver : QuestGiver.values())
-            if (questGiver.getArea() == questArea)
+            if (questGiver.getArea() == questArea) {
                 questAmount += questGiver.getQuestAmount();
+            }
 
-        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(questArea.getName() + " Quests " + parsePlaceholder(player, "betonquest_default-Points:point." + questArea.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage") + ".amount") + "/" + questAmount));
+        int completedQuests = 0;
+        for (Quests quests : Quests.values()) {
+            if (quests.getQuestGiver().getArea() == questArea) {
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+                if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
+                    completedQuests++;
+            }
+        }
+
+
+        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(questArea.getName() + " Quests " + completedQuests + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
@@ -137,9 +153,10 @@ public class QuestAreaMenu extends BaseCommand {
 
         background.addItem(new GuiItem(guiHelper.background(backgroundColor)));
         background.setRepeat(true);
-        for (QuestGiver questGiver : QuestGiver.values())
+        for (QuestGiver questGiver : QuestGiver.values()) {
             if (questGiver.getArea() == questArea)
                 main.addItem(itemGenerator(player, questGiver));
+        }
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("quests")), 4, height);
 
@@ -154,8 +171,16 @@ public class QuestAreaMenu extends BaseCommand {
         final ItemStack item = new ItemStack(SkullCreator.itemFromBase64(questGiver.getHead()));
         final ItemMeta itemItemMeta = item.getItemMeta();
 
-        itemItemMeta.displayName(Component.text(ChatColor.GREEN + questGiver.getName() + ChatColor.GOLD + " " + questGiver.getQuestAmount()));
-//        itemItemMeta.displayName(Component.text(ChatColor.GREEN + questGiver.getName() + " " + parsePlaceholder(player, "betonquest_default-Points:point." + questGiver.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage") + ".amount") + ChatColor.GREEN + "/" + questGiver.getQuestAmount()));
+        int completedQuests = 0;
+        for (Quests quests : Quests.values()) {
+            if (quests.getQuestGiver() == questGiver) {
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+                if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
+                    completedQuests++;
+            }
+        }
+
+        itemItemMeta.displayName(Component.text(ChatColor.GREEN + questGiver.getName() + " " + completedQuests + ChatColor.GREEN + "/" + questGiver.getQuestAmount()));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
@@ -164,7 +189,7 @@ public class QuestAreaMenu extends BaseCommand {
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
-        return new GuiItem(item, e -> player.performCommand("questmenu " + questGiver.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage")));
+        return new GuiItem(item, e -> player.performCommand("questmenu " + questGiver.getName().replace(" ", "")));
     }
 
     private String parsePlaceholder(Player player, String string) {
