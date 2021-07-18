@@ -46,9 +46,10 @@ public class Enchanting extends BaseCommand {
     @CommandCompletion("Experience|Pet_Experience|Luck|Explosive|Explosive_Chance|Randomizer|Treasurer|Midas_Touch|Stat_Tracker")
     private void enchant(Player player, String enchantment) {
         for (Enchantments enchantments : Enchantments.values()) {
-            if (enchantments.getName().equals(enchantment.replace("_"," "))) {
+            if (enchantments.getName().equals(enchantment.replace("_", " "))) {
                 if (!isMaxLevel(player, enchantment, enchantments.getMaxLevel())) {
-                    int price = (calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")) * enchantments.getPrice());
+                    plugin.getLogger().info(String.valueOf(calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")) + 1));
+                    int price = (calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")) + 1) * enchantments.getPrice();
                     if (enoughPoints(player, enchantment, calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")), price)) {
                         increaseEnchantment(player, enchantment, calculateEnchantments.calculateEnchantments(player, enchantment.replace("_", " ")), price);
                     }
@@ -78,7 +79,8 @@ public class Enchanting extends BaseCommand {
         if (Integer.valueOf(exp) >= enchantmentPrice) {
             return true;
         }
-        player.sendMessage(ChatColor.DARK_PURPLE + enchantment.replace("_", " ") + ChatColor.RED + " level " + ChatColor.GREEN + enchantmentLevel + ChatColor.RED + " costs " + ChatColor.GOLD + numberFormat.numberFormat(enchantmentPrice) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED
+        player.sendMessage(ChatColor.DARK_PURPLE + enchantment.replace("_", " ") + ChatColor.RED + " level " + ChatColor.GREEN + Integer.valueOf(enchantmentLevel + 1) + ChatColor.RED
+                + " costs " + ChatColor.GOLD + enchantmentPrice + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED
                 + " and you only have " + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(exp)) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.RED + "!");
         soundManager.soundNo(player, 1);
         return false;
