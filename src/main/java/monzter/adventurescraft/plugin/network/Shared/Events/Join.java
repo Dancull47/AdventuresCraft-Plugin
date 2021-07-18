@@ -80,7 +80,7 @@ public class Join implements Listener {
         }, 20L);
 
         if (player.isOp())
-            if (!player.getAddress().getHostName().equals("c-68-80-205-205.hsd1.pa.comcast.net")) {
+            if (!player.getAddress().getHostName().equals("***REMOVED***")) {
                 player.setOp(false);
                 player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
             }
