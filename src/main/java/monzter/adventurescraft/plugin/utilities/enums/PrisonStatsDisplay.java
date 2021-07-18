@@ -33,4 +33,8 @@ public enum PrisonStatsDisplay {
     public String getName() {
         return name;
     }
+
+    public String getChatColor(String stat) {
+        return ChatColor.getLastColors(stat);
+    }
 }
