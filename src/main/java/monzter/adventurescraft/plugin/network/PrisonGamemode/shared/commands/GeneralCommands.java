@@ -11,7 +11,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -57,6 +56,11 @@ public class GeneralCommands extends BaseCommand {
     @CommandAlias("UnclaimedQuests")
     private void unclaimedQuestsCommand(Player player) {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
+    }
+
+    @CommandAlias("Tutorial")
+    private void tutorial(Player player) {
+        player.performCommand("warp Tutorial");
     }
 }
 

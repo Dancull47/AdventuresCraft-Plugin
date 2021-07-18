@@ -57,7 +57,7 @@ public class Map extends BaseCommand {
         display.addItem(new GuiItem(eventMines(player), e -> player.performCommand("EventMines")), 5, 1);
 
         display.addItem(new GuiItem(crates(player), e -> player.performCommand("warp crates")), 2, 3);
-        display.addItem(new GuiItem(yard(player), e -> player.performCommand("warp yard")), 3, 3);
+        display.addItem(new GuiItem(town(player), e -> player.performCommand("warp town")), 3, 3);
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
         display.addItem(new GuiItem(pets(player), e -> player.performCommand("warp pets")), 5, 3);
         display.addItem(new GuiItem(blackMarket(player), e -> player.performCommand("warp shop")), 6, 3);
@@ -149,15 +149,15 @@ public class Map extends BaseCommand {
         return crates;
     }
 
-    private ItemStack yard(Player player) {
-        final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
+    private ItemStack town(Player player) {
+        final ItemStack yard = SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUyY2M0MjAxNWU2Njc4ZjhmZDQ5Y2NjMDFmYmY3ODdmMWJhMmMzMmJjZjU1OWEwMTUzMzJmYzVkYjUwIn19fQ==");
         final ItemMeta yardItemMeta = yard.getItemMeta();
 
         yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Town"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Get harassed by other " + ChatColor.GOLD + "Prisoners" + ChatColor.GRAY + ",");
+        lore.add(ChatColor.GRAY + "Speak with many of the " + ChatColor.GOLD + "Townsfolk" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "make purchases from the " + ChatColor.GREEN + "Smugglers" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + " with " + ChatColor.GREEN + "Sarah" + ChatColor.GRAY + "!");
         lore.add("");

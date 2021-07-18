@@ -54,7 +54,7 @@ public class MainMenu extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(yard(player), e -> player.performCommand("yard")), 3, 1);
+        display.addItem(new GuiItem(town(player), e -> player.performCommand("yard")), 3, 1);
         display.addItem(new GuiItem(map(player), e -> player.performCommand("map")), 4, 1);
         display.addItem(new GuiItem(cell(player), e -> {
             if (e.isLeftClick())
@@ -105,15 +105,15 @@ public class MainMenu extends BaseCommand {
     }
 
 
-    private ItemStack yard(Player player) {
-        final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
+    private ItemStack town(Player player) {
+        final ItemStack yard = SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUyY2M0MjAxNWU2Njc4ZjhmZDQ5Y2NjMDFmYmY3ODdmMWJhMmMzMmJjZjU1OWEwMTUzMzJmYzVkYjUwIn19fQ==");
         final ItemMeta yardItemMeta = yard.getItemMeta();
 
         yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Town"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Get harassed by other " + ChatColor.GOLD + "Prisoners" + ChatColor.GRAY + ",");
+        lore.add(ChatColor.GRAY + "Speak with many of the " + ChatColor.GOLD + "Townsfolk" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "make purchases from the " + ChatColor.GREEN + "Smugglers" + ChatColor.GRAY + ",");
         lore.add(ChatColor.GRAY + "and hatch " + ChatColor.GREEN + "Pet Eggs" + ChatColor.GRAY + " with " + ChatColor.GREEN + "Sarah" + ChatColor.GRAY + "!");
         lore.add("");

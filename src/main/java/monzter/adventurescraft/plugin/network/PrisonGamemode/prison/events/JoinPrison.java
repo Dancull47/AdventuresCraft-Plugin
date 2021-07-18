@@ -10,7 +10,11 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,7 +41,7 @@ public class JoinPrison implements Listener {
             .append(Component.text("Tutorial", NamedTextColor.GOLD, TextDecoration.BOLD))
             .hoverEvent(Component.text("Click to visit the Tutorial!", NamedTextColor.GREEN))
             .clickEvent(ClickEvent.runCommand("/warp Tutorial"))
-            .append(Component.text(" to learn about all the unique features of our Prison!"));
+            .append(Component.text(" to learn about our Prison and receive rewards!"));
 
     public JoinPrison(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, YamlConfiguration warps) {
         this.plugin = plugin;
@@ -46,14 +50,19 @@ public class JoinPrison implements Listener {
         this.warps = warps;
     }
 
+    BossBar bossBar = Bukkit.createBossBar(ChatColor.WHITE + "Complete the " + ChatColor.GREEN + "Tutorial " + ChatColor.WHITE + "by using "
+            + ChatColor.GREEN + "/Tutorial " + ChatColor.WHITE + "for a " + ChatColor.GREEN + "reward" + ChatColor.WHITE + "!", BarColor.GREEN, BarStyle.SOLID);
+
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         if (!player.hasPermission("mines.tp.m")) {
             player.sendMessage(mining);
         }
-        if (!player.hasPermission("cmi.hologram.tutorial_pickaxe")) {
+        if (player.hasPermission("cmi.hologram.tutorial_pickaxe")) {
             player.sendMessage(tutorial);
+            bossBar.addPlayer(player);
+            Schedulers.sync().runLater(() -> bossBar.removePlayer(player), 1200);
         }
         if (!player.hasPermission("KIT.RECEIVED")) {
             Schedulers.sync().runRepeating(task -> {
