@@ -87,7 +87,15 @@ public class QuestsDisplay extends BaseCommand {
         else if (questAmount == 4)
             startX = 2;
 
-        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(questGiver.getName() + " Quests " + questAmount));
+        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().getName()) + "-" + WordUtils.capitalizeFully(questGiver.getName() + ".");
+
+        int questsCompleted = 0;
+        for (Quests quest : Quests.values())
+            if (quest.getQuestGiver() == questGiver)
+                if (betonTagManager.hasTag(player, packageBuilder + quest.name() + "_COMPLETED"))
+                    questsCompleted++;
+
+        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(questGiver.getName() + " Quests " + questsCompleted + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
@@ -111,9 +119,9 @@ public class QuestsDisplay extends BaseCommand {
 
 
     private GuiItem itemGenerator(Player player, Quests quests) {
-        String startedTag = quests.name() + ".STARTED";
-        String completedTag = quests.name() + ".COMPLETED";
-        String claimedTag = quests.name() + ".CLAIMED";
+        String startedTag = quests.name() + "_STARTED";
+        String completedTag = quests.name() + "_COMPLETED";
+        String claimedTag = quests.name() + "_CLAIMED";
         ItemStack item = new ItemStack(Material.PAPER);
         if (betonTagManager.hasTag(player, claimedTag) || betonTagManager.hasTag(player, completedTag))
             item = new ItemStack(Material.ENCHANTED_BOOK);
