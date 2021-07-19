@@ -16,7 +16,12 @@ public enum Quests {
                     ChatColor.WHITE + "Interact with the " + ChatColor.DARK_PURPLE + "Enchanter" + ChatColor.WHITE + " while",
                     ChatColor.WHITE + "holding a " + ChatColor.BOLD + "Tool" + ChatColor.WHITE + ", then purchase",
                     ChatColor.WHITE + "the " + ChatColor.GREEN + "Experience " + ChatColor.DARK_PURPLE + "Enchantment" + ChatColor.WHITE + "!"},
-            new String[]{"VOUCHER EXP_VOUCHER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 0, 0),
+            new String[]{"BOOSTER EXP_BOOSTER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 0, 0),
+    ENCHANTING_PIONEER(QuestGiver.WIZARD,
+            new String[]{ChatColor.WHITE + "Speak with " + ChatColor.GREEN + "Merle" + ChatColor.WHITE + " outside of the",
+                    ChatColor.DARK_PURPLE + "Enchanting Library " + ChatColor.WHITE + "to further increase",
+                    ChatColor.WHITE + "your " + ChatColor.DARK_PURPLE + "Enchanting " + ChatColor.WHITE + "Experience."},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 0, 0),
     ;
 
     private final QuestGiver questGiver;

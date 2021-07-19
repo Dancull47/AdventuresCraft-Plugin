@@ -138,6 +138,7 @@ public class QuestAreaMenu extends BaseCommand {
         for (Quests quests : Quests.values()) {
             if (quests.getQuestGiver().getArea() == questArea) {
                 String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+//                plugin.getLogger().info(packageBuilder + quests.name() + "_COMPLETED");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                     completedQuests++;
             }

@@ -8,12 +8,12 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Enchantments;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
-import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import monzter.adventurescraft.plugin.utilities.general.ChanceCheck;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
@@ -29,8 +29,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -179,8 +177,10 @@ public class BlockBreakMining implements Listener {
     }
 
     public void enchantmentPetExperience(Player player) {
-        double petExpMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPMultiplier%"));
-        betonPointsManager.givePointPetEXP(player, (int) petExpMultiplier);
+        if (hasEgg(player)) {
+            double petExpMultiplier = Double.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_Pet_EXPMultiplier%"));
+            betonPointsManager.givePointPetEXP(player, (int) petExpMultiplier);
+        }
     }
 
     public void enchantmentTreasurer(Player player) {
@@ -285,7 +285,7 @@ public class BlockBreakMining implements Listener {
 
     private final Material generateMaterial() {
         int randomMaterial = new Random().nextInt(WeightPrices.values().length);
-        final List<WeightPrices> VALUES = Collections.unmodifiableList(Arrays.asList(WeightPrices.values()));
+        final List<WeightPrices> VALUES = List.of(WeightPrices.values());
         return VALUES.get(randomMaterial).getMaterial();
     }
 
@@ -299,5 +299,19 @@ public class BlockBreakMining implements Listener {
 
     public static int getBlocksBroken() {
         return blocksBroken;
+    }
+
+    private boolean hasEgg(Player player) {
+        for (ItemStack item : player.getInventory()) {
+            if (item != null)
+                switch (item.getType()) {
+                    case EGG:
+                    case DRAGON_EGG:
+                    case BLAZE_SPAWN_EGG:
+                    case PLAYER_HEAD:
+                        return true;
+                }
+        }
+        return false;
     }
 }
