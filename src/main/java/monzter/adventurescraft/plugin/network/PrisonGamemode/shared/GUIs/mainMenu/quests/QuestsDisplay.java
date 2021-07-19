@@ -119,9 +119,10 @@ public class QuestsDisplay extends BaseCommand {
 
 
     private GuiItem itemGenerator(Player player, Quests quests) {
-        String startedTag = quests.name() + "_STARTED";
-        String completedTag = quests.name() + "_COMPLETED";
-        String claimedTag = quests.name() + "_CLAIMED";
+        String packageDir = "default-" + quests.getQuestGiver().getArea().getName() + "-" + quests.getQuestGiver().getName() + ".";
+        String startedTag = packageDir + quests.name() + "_STARTED";
+        String completedTag = packageDir + quests.name() + "_COMPLETED";
+        String claimedTag = packageDir + quests.name() + "_CLAIMED";
         ItemStack item = new ItemStack(Material.PAPER);
         if (betonTagManager.hasTag(player, claimedTag) || betonTagManager.hasTag(player, completedTag))
             item = new ItemStack(Material.ENCHANTED_BOOK);

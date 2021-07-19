@@ -14,10 +14,12 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestArea;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestGiver;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,22 +36,33 @@ public class Quests extends BaseCommand {
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
+    private final BetonTagManager betonTagManager;
 
-    public Quests(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
+
+    public Quests(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, BetonTagManager betonTagManager) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
+        this.betonTagManager = betonTagManager;
     }
 
 
     @CommandAlias("Quests|Quest")
     public void questMenu(Player player) {
+
+        int completedQuests = 0;
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests.values()) {
+            String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+//                plugin.getLogger().info(packageBuilder + quests.name() + "_COMPLETED");
+            if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
+                completedQuests++;
+        }
         int questAmount = 0;
         for (QuestGiver questGiver : QuestGiver.values())
             questAmount += questGiver.getQuestAmount();
 
-        ChestGui gui = new ChestGui(5, guiHelper.guiName("Quests " + parsePlaceholder(player, "betonquest_default-Points:point.QuestTotal.amount") + "/" + questAmount));
+        ChestGui gui = new ChestGui(5, guiHelper.guiName("Quests " + completedQuests + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
@@ -85,7 +98,16 @@ public class Quests extends BaseCommand {
             if (questGiver.getArea() == questArea)
                 questAmount += questGiver.getQuestAmount();
 
-        itemItemMeta.displayName(Component.text(ChatColor.GREEN + questArea.getName() + " " + parsePlaceholder(player, "betonquest_default-Points:point." + questArea.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage") + ".amount") + ChatColor.GREEN + "/" + questAmount));
+        int completedQuests = 0;
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests.values()) {
+            if (quests.getQuestGiver().getArea() == questArea) {
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+                if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
+                    completedQuests++;
+            }
+        }
+
+        itemItemMeta.displayName(Component.text(ChatColor.GREEN + questArea.getName() + " " + completedQuests + ChatColor.GREEN + "/" + questAmount));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
@@ -94,7 +116,7 @@ public class Quests extends BaseCommand {
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
-        return new GuiItem(item, e -> player.performCommand("QuestAreaMenu " + questArea.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage")));
+        return new GuiItem(item, e -> player.performCommand("QuestAreaMenu " + questArea.getName().replace(" ", "")));
     }
 
     private ItemStack activeQuests() {

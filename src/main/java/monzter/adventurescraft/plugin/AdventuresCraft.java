@@ -397,7 +397,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
         manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
-        manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand, betonTagManager));
         manager.registerCommand(new QuestsDisplay(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonTagManager, fullInventory, itemAdder, betonPointsManager, economy));
         manager.registerCommand(new QuestAreaMenu(this, soundManager, guiHelper, consoleCommand, betonTagManager));
         manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
