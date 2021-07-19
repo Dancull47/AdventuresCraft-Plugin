@@ -42,21 +42,21 @@ public class GeneralCommands extends BaseCommand {
             player.performCommand("banks open");
         } else {
             player.sendMessage(bankDeny);
-            player.teleport(new Location(player.getWorld(), 1168.5, 202, 1606.6, -88.5f, -36.1f));
+            player.teleport(new Location(player.getWorld(), 1682.5, 28, 3832.5, 0.4f, 21.8f));
             soundManager.soundTeleport(player);
             player.closeInventory();
         }
     }
 
-    @CommandAlias("ActiveQuests")
-    private void activeQuestsCommand(Player player) {
-        consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
-    }
-
-    @CommandAlias("UnclaimedQuests")
-    private void unclaimedQuestsCommand(Player player) {
-        consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
-    }
+//    @CommandAlias("ActiveQuests")
+//    private void activeQuestsCommand(Player player) {
+//        consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.active " + player.getName());
+//    }
+//
+//    @CommandAlias("UnclaimedQuests")
+//    private void unclaimedQuestsCommand(Player player) {
+//        consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
+//    }
 
     @CommandAlias("Tutorial")
     private void tutorial(Player player) {

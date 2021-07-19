@@ -62,23 +62,30 @@ public class BlockInteractions implements Listener {
         switch (plugin.SERVER) {
             case "Prison":
             case "Cell":
-                if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.ENCHANTING_TABLE)) {
-                    final Player player = event.getPlayer();
-                    final ItemStack itemStack = event.getItem();
-                    if (itemStack != null) {
-                        if (tools.contains(itemStack.getType())) {
-                            player.performCommand("enchantmentShop");
-                            soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-                            soundManager.soundNo(player, 1);
-                        }
-                    } else {
-                        player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-                        soundManager.soundNo(player, 1);
+                if (event.getClickedBlock() != null)
+                    switch (event.getClickedBlock().getType()) {
+                        case ENCHANTING_TABLE:
+                            final Player player = event.getPlayer();
+                            final ItemStack itemStack = event.getItem();
+                            if (itemStack != null) {
+                                if (tools.contains(itemStack.getType())) {
+                                    player.performCommand("enchantmentShop");
+                                    soundManager.playSound(player, Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1, 1);
+                                } else {
+                                    player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
+                                    soundManager.soundNo(player, 1);
+                                }
+                            } else {
+                                player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
+                                soundManager.soundNo(player, 1);
+                            }
+                            event.setCancelled(true);
+                            break;
+                        case SMOKER:
+                            consoleCommand.consoleCommand("bs open Pets " + event.getPlayer().getName());
+                            event.setCancelled(true);
+                            break;
                     }
-                    event.setCancelled(true);
-                }
                 break;
             case "Adventure":
             case "Home":
