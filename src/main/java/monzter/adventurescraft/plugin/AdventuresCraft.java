@@ -12,6 +12,7 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
+import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.mySQL.MySQL;
 import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
@@ -135,9 +136,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public SQLGetter data;
     private static net.milkbowl.vault.permission.Permission perms = null;
     private static net.milkbowl.vault.economy.Economy econ = null;
-    private StateFlag prisonMineFlag;
-    private StringFlag displayNameFlag;
-    private LocationFlag sellLocationFlag;
+//    private StateFlag prisonMineFlag;
+//    private StringFlag displayNameFlag;
+//    private LocationFlag sellLocationFlag;
     private long restartTime;
     private SoundManager soundManager;
     private BetonPointsManager betonPointsManager;
@@ -172,9 +173,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         switch (SERVER) {
             case "Prison":
                 try {
-                    prisonMineFlag = registerStateFlag();
-                    displayNameFlag = registerStringFlag();
-                    sellLocationFlag = registerLocationFlag();
+//                    prisonMineFlag = registerStateFlag();
+//                    displayNameFlag = registerStringFlag();
+//                    sellLocationFlag = registerLocationFlag();
                 } catch (IllegalStateException e) {
                     getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
                     this.setEnabled(false);
@@ -182,7 +183,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 break;
             case "Adventure":
                 try {
-                    displayNameFlag = registerStringFlag();
+//                    displayNameFlag = registerStringFlag();
                 } catch (IllegalStateException e) {
                     getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
                     this.setEnabled(false);
@@ -276,7 +277,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Enchantments(this, calculateEnchantments, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, AdventureRegions.getInstance().displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockBreak(this, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.UnlimitedWaterBucket(this, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
@@ -291,7 +292,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void adventureShared() {
 //        Placeholder
-        new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Placeholder(this, displayNameFlag).register();
+        new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Placeholder(this, AdventureRegions.getInstance().displayNameFlag).register();
 //        Commands
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, consoleCommand));
@@ -342,7 +343,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.VoteRewards(this, soundManager, guiHelper, mmoItemsGive, betonPointsManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.Enchanting(this, guiHelper, shopOpener, consoleCommand, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.DailyShop(this, soundManager, guiHelper, consoleCommand, numberFormat, mmoItemsGive, betonPointsManager, economy));
-        manager.registerCommand(new ShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP, displayNameFlag));
+        manager.registerCommand(new ShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP, AdventureRegions.getInstance().displayNameFlag));
         manager.registerCommand(new DonationShopsBuilder(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP, betonPointsManager));
         manager.registerCommand(new DropTableViewer(this, guiHelper, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck));
@@ -353,14 +354,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void prisonLoad() {
 //        Commands
         manager.registerCommand(new MineTeleport(this));
-        manager.registerCommand(new Sell(this, sellLocationFlag, economy, numberFormat, soundManager));
+        manager.registerCommand(new Sell(this, AdventureRegions.getInstance().sellLocationFlag, economy, numberFormat, soundManager));
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, prisonMineFlag, dropTablesDelivery), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, AdventureRegions.getInstance().prisonMineFlag, dropTablesDelivery), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, AdventureRegions.getInstance().prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Xur(this, soundManager), this);
         xur = new Xur(this, soundManager);
@@ -380,7 +381,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getLogger().info("Prison / Cell Shared Loaded");
         prisonTipMessages();
 //        Placeholder
-        new Placeholder(this, perms, numberFormat, loadPets(), displayNameFlag, restartTime, economy, calculateEnchantments).register();
+        new Placeholder(this, perms, numberFormat, loadPets(), AdventureRegions.getInstance().displayNameFlag, restartTime, economy, calculateEnchantments).register();
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
@@ -458,7 +459,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         mythicMobsSpawn = new MythicMobSpawnImpl();
         guiHelper = new GUIHelperImpl(numberFormat);
         itemAdder = new ItemAdderImpl();
-        areaCheck = new AreaCheckImpl(displayNameFlag);
+        areaCheck = new AreaCheckImpl(AdventureRegions.getInstance().displayNameFlag);
         calculateEnchantments = new CalculateEnchantmentsImpl();
         shopOpener = new ShopOpenerImpl(permissionLP);
 
