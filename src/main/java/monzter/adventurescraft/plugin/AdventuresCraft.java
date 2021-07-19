@@ -54,7 +54,6 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.minin
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.MainMenu;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.*;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.DonationShop;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.jobs.Jobs;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Achivements;
@@ -136,7 +135,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public SQLGetter data;
     private static net.milkbowl.vault.permission.Permission perms = null;
     private static net.milkbowl.vault.economy.Economy econ = null;
-//    private StateFlag prisonMineFlag;
+    //    private StateFlag prisonMineFlag;
 //    private StringFlag displayNameFlag;
 //    private LocationFlag sellLocationFlag;
     private long restartTime;
@@ -420,7 +419,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Dan(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
         manager.registerCommand(new Joy(this, guiHelper, betonTagManager));
         manager.registerCommand(new Finubar(this, guiHelper, betonTagManager));
-        manager.registerCommand(new Jobs(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
         manager.registerCommand(new AchievementGUI(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand, achievementGUIBuilder));
         manager.registerCommand(new Yard(this, guiHelper));

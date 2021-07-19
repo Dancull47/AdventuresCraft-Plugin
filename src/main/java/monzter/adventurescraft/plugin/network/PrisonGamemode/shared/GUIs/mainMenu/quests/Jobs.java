@@ -1,85 +1,88 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.jobs;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Dependency;
-import com.github.stefvanschie.inventoryframework.gui.GuiItem;
-import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
-import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
-import com.github.stefvanschie.inventoryframework.pane.Pane;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import me.clip.placeholderapi.PlaceholderAPI;
-import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
-import monzter.adventurescraft.plugin.utilities.enums.Prefix;
-import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.kyori.adventure.text.Component;
+import monzter.adventurescraft.plugin.utilities.enums.Professions;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
+public enum Jobs {
+    ROCK_HITTER(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "250 Cobblestone Blocks" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 250, 0),
+    STONE_AGE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "500 Blocks" + ChatColor.WHITE + " with a " + ChatColor.GREEN + "Stone Pickaxe" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 500, 0),
 
-public class Jobs extends BaseCommand {
+    BLUE_SUBSTANCE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "500 Lapis Ore" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 1000, 0),
+    RED_SUBSTANCE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "500 Redstone Ore" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 1000, 0),
 
-    @Dependency
-    private final AdventuresCraft plugin;
-    private final SoundManager soundManager;
-    private final GUIHelper guiHelper;
-    private final ConsoleCommand consoleCommand;
+    PURPUR_HARDNESS(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "250 Purpur Blocks" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 500"}, 0, 5000, 0),
+    QUARTZ_HARDNESS(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "250 Quartz Blocks" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 500"}, 0, 5000, 0),
 
-    public Jobs(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
-        this.plugin = plugin;
-        this.soundManager = soundManager;
-        this.guiHelper = guiHelper;
-        this.consoleCommand = consoleCommand;
+    IRON_AGE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "750 Blocks" + ChatColor.WHITE + " with an " + ChatColor.GREEN + "Iron Pickaxe" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 1500, 0),
+    GOLDEN_AGE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "750 Blocks" + ChatColor.WHITE + " with a " + ChatColor.GREEN + "Golden Pickaxe" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 1500, 0),
+    ;
+
+    private final QuestGiver questGiver;
+    private final String[] questDescription;
+    private final String[] rewardItems;
+    private final int rewardEXP;
+    private final String[] rewardProfessionEXP;
+    private final int rewardMoney;
+    private final int rewardExperience;
+    private final int rewardPetExperience;
+
+
+    Jobs(QuestGiver questGiver, String[] questDescription, String[] rewardItems, int rewardEXP, String[] rewardProfessionEXP, int rewardMoney, int experience, int petExperience) {
+        this.questGiver = questGiver;
+        this.questDescription = questDescription;
+        this.rewardItems = rewardItems;
+        this.rewardEXP = rewardEXP;
+        this.rewardProfessionEXP = rewardProfessionEXP;
+        this.rewardMoney = rewardMoney;
+        this.rewardExperience = experience;
+        this.rewardPetExperience = petExperience;
     }
 
-    @CommandAlias("Jobs|Job")
-    public void jobMenu(Player player) {
-
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Jobs"));
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
-
-
-        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
-        background.setRepeat(true);
-
-        display.addItem(new GuiItem(yard(player), e -> player.performCommand("yardJobs")), 4, 1);
-
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("quests")), 4, 3);
-
-        gui.addPane(background);
-        gui.addPane(display);
-        gui.show(player);
+    public QuestGiver getQuestGiver() {
+        return questGiver;
     }
 
-    private ItemStack yard(Player player) {
-        final ItemStack yard = new ItemStack(Material.POLISHED_ANDESITE);
-        final ItemMeta yardItemMeta = yard.getItemMeta();
-
-        yardItemMeta.displayName(Component.text(ChatColor.GREEN + "Town " + ChatColor.GOLD +"1"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Jobs");
-
-        yard.setItemMeta(yardItemMeta);
-        yard.setLore(lore);
-
-        return yard;
+    public String[] getRewardItems() {
+        return rewardItems;
     }
 
-    private String parsePlaceholder(Player player, String string) {
-        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
+    public int getRewardEXP() {
+        return rewardEXP;
     }
 
+    public String[] getRewardProfessionEXP() {
+        return rewardProfessionEXP;
+    }
+
+    public int getRewardMoney() {
+        return rewardMoney;
+    }
+
+    public String[] getQuestDescription() {
+        return questDescription;
+    }
+
+    public int getRewardExperience() {
+        return rewardExperience;
+    }
+
+    public int getRewardPetExperience() {
+        return rewardPetExperience;
+    }
 }
-

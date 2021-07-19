@@ -8,5 +8,6 @@ public enum Professions {
     ENCHANTING(),
     COOKING(),
     SPELLFORGING(),
+    COMPANIONSHIP(),
     ;
 }

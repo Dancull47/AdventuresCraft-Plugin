@@ -129,15 +129,15 @@ public class QuestAreaMenu extends BaseCommand {
             startX = 2;
 
         int questAmount = 0;
-        for (QuestGiver questGiver : QuestGiver.values())
-            if (questGiver.getArea() == questArea) {
-                questAmount += questGiver.getQuestAmount();
-            }
+        for (Quests quests : Quests.values()) {
+            if (quests.getQuestGiver().getArea() == questArea)
+                questAmount++;
+        }
 
         int completedQuests = 0;
         for (Quests quests : Quests.values()) {
             if (quests.getQuestGiver().getArea() == questArea) {
-                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
 //                plugin.getLogger().info(packageBuilder + quests.name() + "_COMPLETED");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                     completedQuests++;
@@ -145,7 +145,7 @@ public class QuestAreaMenu extends BaseCommand {
         }
 
 
-        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(questArea.getName() + " Quests " + completedQuests + "/" + questAmount));
+        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(WordUtils.capitalizeFully(questArea.name()) + " Quests " + completedQuests + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
@@ -175,22 +175,33 @@ public class QuestAreaMenu extends BaseCommand {
         int completedQuests = 0;
         for (Quests quests : Quests.values()) {
             if (quests.getQuestGiver() == questGiver) {
-                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().getName()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().getName() + ".");
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                     completedQuests++;
             }
         }
 
-        itemItemMeta.displayName(Component.text(ChatColor.GREEN + questGiver.getName() + " " + completedQuests + ChatColor.GREEN + "/" + questGiver.getQuestAmount()));
+        int questAmount = 0;
+        for (Quests quests : Quests.values()) {
+            if (quests.getQuestGiver() == questGiver)
+                questAmount++;
+        }
+        if (!questGiver.getJob())
+            itemItemMeta.displayName(Component.text(ChatColor.GREEN + WordUtils.capitalizeFully(questGiver.name()) + " " + completedQuests + ChatColor.GREEN + "/" + questAmount));
+        else
+            itemItemMeta.displayName(Component.text(ChatColor.GOLD + WordUtils.capitalizeFully(questGiver.name())));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
+        if (!questGiver.getJob())
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Quests");
+        else
+            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View Jobs");
 
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
-        return new GuiItem(item, e -> player.performCommand("QuestViewer " + questGiver.getName().replace(" ", "")));
+        return new GuiItem(item, e -> player.performCommand("QuestViewer " + questGiver.name().replace(" ", "")));
     }
 
     private String parsePlaceholder(Player player, String string) {

@@ -86,4 +86,13 @@ public class BetonPointsManagerImpl implements BetonPointsManager {
         return 0;
     }
 
+    @Override
+    public int getPoints(Player player, String pointCategory) {
+        final List<Point> points = BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints();
+        for (final Point point : points)
+            if (point.getCategory().equalsIgnoreCase(pointCategory))
+                return point.getCount();
+        return 0;
+    }
+
 }
