@@ -1,15 +1,34 @@
 package monzter.adventurescraft.plugin.utilities.GUI;
 
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
+import com.github.stefvanschie.inventoryframework.pane.Pane;
+import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
+import me.clip.placeholderapi.PlaceholderAPI;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Jobs;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.MiningPassJobs;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestGiver;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
 import monzter.adventurescraft.plugin.utilities.enums.Linebreak;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
+import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.general.FullInventory;
+import monzter.adventurescraft.plugin.utilities.general.ItemAdder;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import monzter.adventurescraft.plugin.utilities.vault.Economy;
+import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,9 +38,25 @@ import java.util.List;
 
 public class GUIHelperImpl implements GUIHelper {
     private final NumberFormat numberFormat;
+    private final BetonTagManager betonTagManager;
+    private final BetonPointsManager betonPointsManager;
+    private final FullInventory fullInventory;
+    private final ItemAdder itemAdder;
+    private final MMOItems mmoItems;
+    private final ConsoleCommand consoleCommand;
+    private final Economy economy;
 
-    public GUIHelperImpl(NumberFormat numberFormat) {
+    final String PREFIX = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + Prefix.PREFIX.getString() + " ";
+
+    public GUIHelperImpl(NumberFormat numberFormat, BetonTagManager betonTagManager, BetonPointsManager betonPointsManager, FullInventory fullInventory, ItemAdder itemAdder, MMOItems mmoItems, ConsoleCommand consoleCommand, Economy economy) {
         this.numberFormat = numberFormat;
+        this.betonTagManager = betonTagManager;
+        this.betonPointsManager = betonPointsManager;
+        this.fullInventory = fullInventory;
+        this.itemAdder = itemAdder;
+        this.mmoItems = mmoItems;
+        this.consoleCommand = consoleCommand;
+        this.economy = economy;
     }
 
 //    Background
@@ -410,6 +445,405 @@ public class GUIHelperImpl implements GUIHelper {
         unclaimed.setLore(lore);
 
         return unclaimed;
+    }
+
+    /*
+     *
+     *   Used for Prison Quests
+     *
+     * */
+
+    @Override
+    public void questMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
+        int questAmount = 0;
+        int startX = 2;
+        int startY = 1;
+        int length = 5;
+        int height = 3;
+
+        for (Quests quest : Quests.values())
+            if (quest.getQuestGiver() == questGiver)
+                questAmount += 1;
+
+        if (questAmount == 1)
+            startX = 4;
+        else if (questAmount == 2 || questAmount == 3)
+            startX = 3;
+        else if (questAmount == 4)
+            startX = 2;
+
+        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+
+        int questsCompleted = 0;
+        for (Quests quest : Quests.values())
+            if (quest.getQuestGiver() == questGiver)
+                if (betonTagManager.hasTag(player, packageBuilder + quest.name() + "_COMPLETED"))
+                    questsCompleted++;
+
+        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Quests " + questsCompleted + "/" + questAmount));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
+        OutlinePane main = new OutlinePane(startX, startY, length, height - 2, Pane.Priority.LOW);
+
+        background.addItem(new GuiItem(background(backgroundColor)));
+        background.setRepeat(true);
+
+        for (Quests quest : Quests.values())
+            if (quest.getQuestGiver() == questGiver)
+                main.addItem(questItemGenerator(player, quest));
+
+        display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
+
+        gui.addPane(background);
+        gui.addPane(display);
+        gui.addPane(main);
+        gui.show(player);
+    }
+
+    private GuiItem questItemGenerator(Player player, Quests quests) {
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
+        String startedTag = packageDir + quests.name() + "_STARTED";
+        String completedTag = packageDir + quests.name() + "_COMPLETED";
+        String claimedTag = packageDir + quests.name() + "_CLAIMED";
+        ItemStack item = new ItemStack(Material.PAPER);
+        if (betonTagManager.hasTag(player, claimedTag) || betonTagManager.hasTag(player, completedTag))
+            item = new ItemStack(Material.ENCHANTED_BOOK);
+        else if (betonTagManager.hasTag(player, startedTag))
+            item = new ItemStack(Material.BOOK);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        itemItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[INACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+        if (betonTagManager.hasTag(player, claimedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[COMPLETED] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+        else if (betonTagManager.hasTag(player, completedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.YELLOW.toString() + ChatColor.BOLD + "[UNCLAIMED] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+        else if (betonTagManager.hasTag(player, startedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[ACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String questLore : quests.getQuestDescription())
+            lore.add(questLore);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
+        if (quests.getRewardItems() != null)
+            for (String questItemReward : quests.getRewardItems()) {
+                String[] reward = questItemReward.split(" ");
+                lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
+            }
+//        if (quests.getRewardEXP() > 0) We don't use normal EXP in
+//            lore.add(PREFIX + ChatColor.DARK_PURPLE + quests.getRewardEXP() + " EXP");
+        if (quests.getRewardProfessionEXP() != null)
+            for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
+                String[] professionReward = questProfessionEXPReward.split(" ");
+                lore.add(PREFIX + ChatColor.BLUE + professionReward[1] + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+            }
+        if (quests.getRewardMoney() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+        if (quests.getRewardExperience() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardExperience() + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
+        if (quests.getRewardPetExperience() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardPetExperience() + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+
+        if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
+            lore.add("");
+            lore.add(PREFIX + ChatColor.YELLOW + "Click to Claim Reward");
+        }
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item, e -> {
+            if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
+                if (quests.getRewardItems() != null) {
+                    if (!fullInventory.fullInventory(player)) {
+                        for (String questItemReward : quests.getRewardItems()) {
+                            String[] reward = questItemReward.split(" ");
+                            itemAdder.itemAdder(player, MMOItems.plugin.getItem(reward[0], reward[1]).asQuantity(Integer.valueOf(reward[2])));
+                        }
+                        if (quests.getRewardProfessionEXP() != null)
+                            for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
+                                String[] professionReward = questProfessionEXPReward.split(" ");
+                                consoleCommand.consoleCommand("mmocore admin exp give " + player.getName() + " " + professionReward[0] + " " + professionReward[1]);
+                            }
+                        if (quests.getRewardMoney() > 0)
+                            economy.giveMoney(player, quests.getRewardMoney());
+                        if (quests.getRewardExperience() > 0)
+                            betonPointsManager.givePointEXP(player, quests.getRewardExperience());
+                        if (quests.getRewardPetExperience() > 0)
+                            betonPointsManager.givePointEXP(player, quests.getRewardPetExperience());
+                        betonTagManager.giveTag(player, claimedTag);
+                        player.performCommand("questViewer " + quests.getQuestGiver().name());
+                    }
+                } else {
+                    if (quests.getRewardProfessionEXP() != null)
+                        for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
+                            String[] professionReward = questProfessionEXPReward.split(" ");
+                            consoleCommand.consoleCommand("mmocore admin exp give " + player.getName() + " " + professionReward[0] + " " + professionReward[1]);
+                        }
+                    if (quests.getRewardMoney() > 0)
+                        economy.giveMoney(player, quests.getRewardMoney());
+                    if (quests.getRewardExperience() > 0)
+                        betonPointsManager.givePointEXP(player, quests.getRewardExperience());
+                    if (quests.getRewardPetExperience() > 0)
+                        betonPointsManager.givePointPetEXP(player, quests.getRewardPetExperience());
+                    betonTagManager.giveTag(player, claimedTag);
+                    player.performCommand("questViewer " + quests.getQuestGiver().name());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void jobMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
+        int startX = 2;
+        int startY = 1;
+        int length = 5;
+        int height = 3;
+
+        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+
+        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Jobs " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED")));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
+        OutlinePane main = new OutlinePane(startX, startY, length, height - 2, Pane.Priority.LOW);
+        OutlinePane main2 = new OutlinePane(startX, startY, length, height - 2, Pane.Priority.LOW);
+
+        background.addItem(new GuiItem(background(backgroundColor)));
+        background.setRepeat(true);
+
+        main2.addItem(jobAvailable(questGiver));
+        main2.addItem(jobAvailable(questGiver));
+        main2.addItem(jobAvailable(questGiver));
+        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 250)
+            main2.addItem(jobAvailable(questGiver));
+        else
+            main2.addItem(jobLocked(player, packageBuilder, 1));
+        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 500)
+            main2.addItem(jobAvailable(questGiver));
+        else
+            main2.addItem(jobLocked(player, packageBuilder, 2));
+
+        for (Jobs jobs : Jobs.values())
+            if (jobs.getQuestGiver() == questGiver) {
+                String startedTag = packageBuilder + jobs.name() + "_STARTED";
+//                plugin.getLogger().info(startedTag);
+                if (betonTagManager.hasTag(player, startedTag))
+                    main.addItem(jobItemGenerator(player, jobs));
+            }
+
+        display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
+
+        gui.addPane(background);
+        gui.addPane(display);
+        gui.addPane(main);
+        gui.addPane(main2);
+        gui.show(player);
+    }
+
+
+    private GuiItem jobItemGenerator(Player player, Jobs jobs) {
+        String packageDir = "default-" + WordUtils.capitalizeFully(jobs.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(jobs.getQuestGiver().name()) + ".";
+        String startedTag = packageDir + jobs.name() + "_STARTED";
+        ItemStack item = new ItemStack(Material.BOOK);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        itemItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[INACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(jobs.name().replace("_", " "))));
+        if (betonTagManager.hasTag(player, startedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[ACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(jobs.name().replace("_", " "))));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String questLore : jobs.getQuestDescription())
+            lore.add(questLore);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
+        if (jobs.getRewardItems() != null)
+            for (String questItemReward : jobs.getRewardItems()) {
+                String[] reward = questItemReward.split(" ");
+                lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
+            }
+        if (jobs.getRewardProfessionEXP() != null)
+            for (String questProfessionEXPReward : jobs.getRewardProfessionEXP()) {
+                String[] professionReward = questProfessionEXPReward.split(" ");
+                lore.add(PREFIX + ChatColor.BLUE + professionReward[1] + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+            }
+        if (jobs.getRewardMoney() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + jobs.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+        if (jobs.getRewardExperience() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + jobs.getRewardExperience() + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
+        if (jobs.getRewardPetExperience() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + jobs.getRewardPetExperience() + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item);
+    }
+
+    private GuiItem jobAvailable(QuestGiver questGiver) {
+        ItemStack item = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[AVAILABLE] Job Slot"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Speak with " + ChatColor.YELLOW + WordUtils.capitalizeFully(questGiver.name()) + ChatColor.GRAY + " for a " + ChatColor.YELLOW + "Job" + ChatColor.GRAY + "!");
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item);
+    }
+
+    private GuiItem jobLocked(Player player, String packageBuilder, int slot) {
+        ItemStack item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        itemItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[LOCKED] Job Slot"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Complete " + ChatColor.YELLOW + "Jobs " + ChatColor.GRAY + "to unlock more " + ChatColor.GREEN + "Job Slots" + ChatColor.GRAY + "!");
+        lore.add("");
+        lore.add(ChatColor.YELLOW + "Completed Jobs: " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") + "/" + slot * 250);
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item);
+    }
+
+    @Override
+    public void miningPassMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
+        int height = 5;
+
+        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+
+        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Jobs " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED")));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
+        StaticPane cover = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
+        OutlinePane daily = new OutlinePane(3, 1, 3, 1, Pane.Priority.NORMAL);
+        OutlinePane weekly = new OutlinePane(2, 2, 5, 1, Pane.Priority.NORMAL);
+        OutlinePane bonus = new OutlinePane(3, 3, 3, 1, Pane.Priority.NORMAL);
+
+        background.addItem(new GuiItem(background(backgroundColor)));
+        background.setRepeat(true);
+
+        cover.addItem(jobAvailable(questGiver), 3, 1);
+        cover.addItem(jobAvailable(questGiver), 4, 1);
+        cover.addItem(jobAvailable(questGiver), 5, 1);
+
+        cover.addItem(jobAvailable(questGiver), 2, 2);
+        cover.addItem(jobAvailable(questGiver), 3, 2);
+        cover.addItem(jobAvailable(questGiver), 4, 2);
+        cover.addItem(jobAvailable(questGiver), 5, 2);
+        cover.addItem(jobAvailable(questGiver), 6, 2);
+
+        cover.addItem(jobAvailable(questGiver), 3, 3);
+        cover.addItem(jobAvailable(questGiver), 4, 3);
+        cover.addItem(jobAvailable(questGiver), 5, 3);
+
+        for (MiningPassJobs jobs : MiningPassJobs.values()) {
+            if (jobs.isDaily()) {
+                String startedTag = packageBuilder + jobs.name() + "_STARTED";
+//                System.out.println(startedTag);
+                if (betonTagManager.hasTag(player, startedTag))
+                    daily.addItem(miningPassJobGenerator(player, jobs));
+            }
+        }
+
+        weekly.addItem(jobAvailable(questGiver));
+        weekly.addItem(jobAvailable(questGiver));
+        weekly.addItem(jobAvailable(questGiver));
+        weekly.addItem(jobAvailable(questGiver));
+        weekly.addItem(jobAvailable(questGiver));
+
+        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 50)
+            bonus.addItem(jobAvailable(questGiver));
+        else
+            bonus.addItem(bonusSlotLocked(player, packageBuilder, 1));
+        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 100)
+            bonus.addItem(jobAvailable(questGiver));
+        else
+            bonus.addItem(bonusSlotLocked(player, packageBuilder, 2));
+        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 150)
+            bonus.addItem(jobAvailable(questGiver));
+        else
+            bonus.addItem(bonusSlotLocked(player, packageBuilder, 3));
+
+        display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
+
+        gui.addPane(background);
+        gui.addPane(display);
+        gui.addPane(daily);
+        gui.addPane(weekly);
+        gui.addPane(bonus);
+        gui.addPane(cover);
+        gui.show(player);
+    }
+
+    private GuiItem bonusSlotLocked(Player player, String packageBuilder, int slot) {
+        ItemStack item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        itemItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[LOCKED] Job Slot"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.GRAY + "Complete " + ChatColor.YELLOW + "Jobs " + ChatColor.GRAY + "to unlock more " + ChatColor.GREEN + "Job Slots" + ChatColor.GRAY + "!");
+        lore.add("");
+        lore.add(ChatColor.YELLOW + "Completed Jobs: " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") + "/" + slot * 50);
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item);
+    }
+
+    private GuiItem miningPassJobGenerator(Player player, MiningPassJobs quests) {
+        String packageDir = "default-Town-Dan.";
+        String startedTag = packageDir + quests.name() + "_STARTED";
+        String completedTag = packageDir + quests.name() + "_COMPLETED";
+        ItemStack item = new ItemStack(Material.PAPER);
+        if (betonTagManager.hasTag(player, completedTag))
+            item = new ItemStack(Material.ENCHANTED_BOOK);
+        else if (betonTagManager.hasTag(player, startedTag))
+            item = new ItemStack(Material.BOOK);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        if (betonTagManager.hasTag(player, completedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[COMPLETED] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+        else if (betonTagManager.hasTag(player, startedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[ACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        for (String questLore : quests.getQuestDescription())
+            lore.add(questLore);
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
+        if (quests.getRewardMoney() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+        if (quests.getRewardMiningPassExperience() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMiningPassExperience() + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
+
+        lore.add("");
+        lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.DAILY_RESET.left%") + ChatColor.YELLOW + "!");
+
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item);
     }
 
 }

@@ -455,7 +455,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         permission = new PermissionImpl(perms, getLogger());
         consoleCommand = new ConsoleCommandImpl(getServer());
         mythicMobsSpawn = new MythicMobSpawnImpl();
-        guiHelper = new GUIHelperImpl(numberFormat);
         itemAdder = new ItemAdderImpl();
         areaCheck = new AreaCheckImpl(AdventureRegions.getInstance().displayNameFlag);
         calculateEnchantments = new CalculateEnchantmentsImpl();
@@ -473,6 +472,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         } else {
             mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
         }
+        guiHelper = new GUIHelperImpl(numberFormat, betonTagManager, betonPointsManager, fullInventory, itemAdder, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), consoleCommand, economy);
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
