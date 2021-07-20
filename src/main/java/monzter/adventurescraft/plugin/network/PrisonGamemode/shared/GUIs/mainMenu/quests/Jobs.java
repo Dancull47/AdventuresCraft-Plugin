@@ -31,6 +31,13 @@ public enum Jobs {
     GOLDEN_AGE(QuestGiver.MERLE,
             new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "750 Blocks" + ChatColor.WHITE + " with a " + ChatColor.GREEN + "Golden Pickaxe" + ChatColor.WHITE + "!"},
             null, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 1500, 0),
+
+    DIAMOND_AGE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "1,000 Blocks" + ChatColor.WHITE + " with a " + ChatColor.GREEN + "Diamond Pickaxe" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 300"}, 0, 2000, 0),
+    NETHERITE_AGE(QuestGiver.MERLE,
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "1,000 Blocks" + ChatColor.WHITE + " with a " + ChatColor.GREEN + "Netherite Pickaxe" + ChatColor.WHITE + "!"},
+            null, 0, new String[]{Professions.ENCHANTING.name() + " 300"}, 0, 2000, 0),
     ;
 
     private final QuestGiver questGiver;
