@@ -49,11 +49,11 @@ public class VoidEnchantress extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.PURPLE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_HEAD2")), 4, 1);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_CHEST2")), 4, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("STAFF", "ENCHANTRESS_STAFF2")), 5, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_LEGS2")), 4, 3);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_BOOTS2")), 4, 4);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_HEAD5")), 4, 1);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_CHEST5")), 4, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("STAFF", "ENCHANTRESS_STAFF5")), 5, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_LEGS5")), 4, 3);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "ENCHANTRESS_BOOTS5")), 4, 4);
 
         gui.addPane(background);
         gui.addPane(display);

@@ -119,14 +119,6 @@ public class GeneralCommands extends BaseCommand implements Listener {
         player.sendMessage(Prefix.PREFIX.getString() + ChatColor.YELLOW + "/Music Volume 0-100 " + ChatColor.DARK_GRAY + "- " + ChatColor.GREEN + "Adjust the volume of the Music.");
     }
 
-    @CommandAlias("home")
-    private void home(Player player) {
-        if (plugin.SERVER.equals("Adventure")) {
-            player.performCommand("server Homes");
-            player.sendMessage(ChatColor.GREEN + "Returning home...");
-        }
-    }
-
     @CommandAlias("music")
     @CommandCompletion("enable|disable|on|off|play|start")
     private void music(Player player, String command) {

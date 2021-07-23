@@ -25,7 +25,7 @@ public class Tutorial implements Listener {
     }
 
     private final Location pickaxe = new Location(Bukkit.getWorld("World"), 1990, 176, 1593);
-    private final Location gem = new Location(Bukkit.getWorld("World"), 1998, 175, 1564);
+    private final Location gem = new Location(Bukkit.getWorld("World"), 1998, 176, 1564);
 
     @EventHandler
     public void click(PlayerInteractEvent event) {
@@ -49,7 +49,5 @@ public class Tutorial implements Listener {
         Hologram hologram = HologramsAPI.createHologram(plugin, location);
         VisibilityManager visibilityManager = hologram.getVisibilityManager();
         visibilityManager.setVisibleByDefault(true);
-
-
     }
 }

@@ -42,11 +42,11 @@ public class PlayerInteractLootboxes implements Listener {
         if (event.getHand() == EquipmentSlot.HAND) {
             if (id != null)
                 switch (id) {
-                    case "BORGS_BOX":
-                    case "MAGICAL_BOX":
-                    case "PROFESSION_BOOSTER_BOX":
-                    case "UNDEAD_BOX":
-                    case "HELL_BOX":
+                    case "BORGS_BOX5":
+                    case "MAGICAL_BOX5":
+                    case "PROFESSION_BOOSTER_BOX5":
+                    case "UNDEAD_BOX5":
+                    case "HELL_BOX5":
                     case "ENCHANTED_BOX":
                     case "ENCHANTED_BOX2":
                     case "ENCHANTED_BOX3":
@@ -57,7 +57,8 @@ public class PlayerInteractLootboxes implements Listener {
                             if (!fullInventory.fullInventory(player)) {
                                 player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().asQuantity(player.getInventory().getItemInMainHand().getAmount() - 1));
                                 consoleCommand.consoleCommand("dropTable " + player.getName() + " " + id + " " + 1);
-                            }
+                            } else
+                                player.getInventory().setItemInMainHand(player.getInventory().getItemInMainHand().asQuantity(player.getInventory().getItemInMainHand().getAmount()));
                         }
                         break;
                 }
