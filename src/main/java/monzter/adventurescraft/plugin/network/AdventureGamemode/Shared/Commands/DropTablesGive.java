@@ -54,18 +54,21 @@ public class DropTablesGive extends BaseCommand {
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
                 case "HELL_BOX":
+                case "HELL_BOX5":
                 case "HELLCRATE":
                     RandomSelector<Crates> hellCrate = RandomSelector.weighted((Crates.getCrates(CrateList.HELL)));
                     Crates hellCrateReward = hellCrate.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(hellCrateReward.getType(), hellCrateReward.getId()).getItemMeta().getDisplayName(), hellCrateReward.getType(), hellCrateReward.getId(), hellCrateReward.getWeight(), hellCrateReward.getAmount());
                     break;
                 case "UNDEAD_BOX":
+                case "UNDEAD_BOX5":
                 case "UNDEADCRATE":
                     RandomSelector<Crates> undeadCrate = RandomSelector.weighted((Crates.getCrates(CrateList.UNDEAD)));
                     Crates undeadCrateReward = undeadCrate.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(undeadCrateReward.getType(), undeadCrateReward.getId()).getItemMeta().getDisplayName(), undeadCrateReward.getType(), undeadCrateReward.getId(), undeadCrateReward.getWeight(), undeadCrateReward.getAmount());
                     break;
                 case "PROFESSION_BOOSTER_BOX":
+                case "PROFESSION_BOOSTER_BOX5":
                 case "PROFESSIONCRATE":
                     RandomSelector<Crates> professionCrate = RandomSelector.weighted((Crates.getCrates(CrateList.PROFESSION)));
                     Crates professionCrateReward = professionCrate.pick();
@@ -73,6 +76,7 @@ public class DropTablesGive extends BaseCommand {
                     break;
                 case "MAGICALCRATE":
                 case "MAGICAL_BOX":
+                case "MAGICAL_BOX5":
                     RandomSelector<Crates> magicalCrate = RandomSelector.weighted((Crates.getCrates(CrateList.MAGICAL)));
                     Crates magicalCrateReward = magicalCrate.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(magicalCrateReward.getType(), magicalCrateReward.getId()).getItemMeta().getDisplayName(), magicalCrateReward.getType(), magicalCrateReward.getId(), magicalCrateReward.getWeight(), magicalCrateReward.getAmount());
@@ -80,6 +84,7 @@ public class DropTablesGive extends BaseCommand {
                 case "BORGCRATE":
                 case "BORGSCRATE":
                 case "BORGS_BOX":
+                case "BORGS_BOX5":
                     RandomSelector<Crates> borgCrate = RandomSelector.weighted((Crates.getCrates(CrateList.BORG)));
                     Crates borgCrateReward = borgCrate.pick();
                     dropTablesDelivery.giveReward(player.getPlayer(), mmoItems.getItem(borgCrateReward.getType(), borgCrateReward.getId()).getItemMeta().getDisplayName(), borgCrateReward.getType(), borgCrateReward.getId(), borgCrateReward.getWeight(), borgCrateReward.getAmount());

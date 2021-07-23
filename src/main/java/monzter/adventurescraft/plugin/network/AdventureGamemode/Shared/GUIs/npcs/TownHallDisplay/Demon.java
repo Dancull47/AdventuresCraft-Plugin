@@ -49,11 +49,11 @@ public class Demon extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.RED_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_HEAD")), 4, 1);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_CHEST")), 4, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("STAFF", "NECROMANCER_STAFF3")), 5, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_LEGS")), 4, 3);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_BOOTS")), 4, 4);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_HEAD5")), 4, 1);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_CHEST5")), 4, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("STAFF", "NECROMANCER_STAFF5")), 5, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_LEGS5")), 4, 3);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "DEVIL_BOOTS5")), 4, 4);
 
         gui.addPane(background);
         gui.addPane(display);

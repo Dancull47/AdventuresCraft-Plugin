@@ -49,11 +49,11 @@ public class Undead extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.RED_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_HEAD")), 4, 1);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_CHEST")), 4, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("SWORD", "BONE_SWORD2")), 5, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_LEGS")), 4, 3);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_FEET")), 4, 4);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_HEAD3")), 4, 1);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_CHEST3")), 4, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("SWORD", "BONE_SWORD5")), 5, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_LEGS3")), 4, 3);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "UNDEAD_FEET3")), 4, 4);
 
         gui.addPane(background);
         gui.addPane(display);

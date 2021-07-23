@@ -13,8 +13,6 @@ import io.lumine.mythicenchants.MythicEnchants;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventure.regions.plugin.AdventureRegions;
-import monzter.adventurescraft.plugin.mySQL.MySQL;
-import monzter.adventurescraft.plugin.mySQL.SQLGetter;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
@@ -131,8 +129,6 @@ import java.util.logging.Level;
 
 public class AdventuresCraft extends JavaPlugin implements Listener {
     public static final String TITLE = ChatColor.RED + "[" + ChatColor.GOLD + "AdventuresCraft" + ChatColor.RED + "] ";
-    public MySQL SQL;
-    public SQLGetter data;
     private static net.milkbowl.vault.permission.Permission perms = null;
     private static net.milkbowl.vault.economy.Economy econ = null;
     //    private StateFlag prisonMineFlag;

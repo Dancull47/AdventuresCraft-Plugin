@@ -49,11 +49,11 @@ public class UndeadHunter extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.RED_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_SKULL")), 4, 1);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_CHESTPLATE")), 4, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("SWORD", "BONE_SWORD1")), 5, 2);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_LEGS")), 4, 3);
-        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_FEET")), 4, 4);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_SKULL2")), 4, 1);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_CHESTPLATE2")), 4, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("SWORD", "BONE_SWORD3")), 5, 2);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_LEGS2")), 4, 3);
+        display.addItem(new GuiItem(mmoItems.getItem("ARMOR", "BONE_FEET2")), 4, 4);
 
         gui.addPane(background);
         gui.addPane(display);

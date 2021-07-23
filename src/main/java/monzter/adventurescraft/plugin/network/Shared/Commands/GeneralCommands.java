@@ -123,16 +123,18 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
 
     @CommandAlias("Home")
     private void homeCommand(Player player) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
-        try {
-            out.writeUTF("Connect");
-            out.writeUTF("Home");
-        } catch (Exception e) {
-            player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
-            return;
+        if (plugin.SERVER.equals("Adventure")) {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(b);
+            try {
+                out.writeUTF("Connect");
+                out.writeUTF("Home");
+            } catch (Exception e) {
+                player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
+                return;
+            }
+            player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
         }
-        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
     }
 
     @CommandAlias("Test")
