@@ -25,6 +25,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -58,7 +59,7 @@ public class Hatching extends BaseCommand {
 
     @CommandAlias("hatchingShop")
     public void pets(Player player) {
-        if (player.hasPermission("SHOPS")) {
+        if (player.hasPermission("SHOPS") || nearEntity(player)) {
             final String petExp = PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.PetExperience.amount%");
 
             ChestGui gui = new ChestGui(6, guiHelper.guiName("Hatching"));
@@ -93,7 +94,7 @@ public class Hatching extends BaseCommand {
                         if (e.isLeftClick())
                             player.performCommand("hatch " + hatching.getId());
                         if (e.isRightClick())
-                            player.performCommand("droptableviewer " + hatching.getId()+"petegg");
+                            player.performCommand("droptableviewer " + hatching.getId() + "petegg");
 
                     }));
                 if (i > 13 && i < 16)
@@ -103,7 +104,7 @@ public class Hatching extends BaseCommand {
                         if (e.isLeftClick())
                             player.performCommand("hatch " + hatching.getId());
                         if (e.isRightClick())
-                            player.performCommand("droptableviewer " + hatching.getId()+"petegg");
+                            player.performCommand("droptableviewer " + hatching.getId() + "petegg");
 
                     }));
                 if (i > 17 && i < 20)
@@ -113,7 +114,7 @@ public class Hatching extends BaseCommand {
                         if (e.isLeftClick())
                             player.performCommand("hatch " + hatching.getId());
                         if (e.isRightClick())
-                            player.performCommand("droptableviewer " + hatching.getId()+"petegg");
+                            player.performCommand("droptableviewer " + hatching.getId() + "petegg");
 
                     }));
                 i++;
@@ -182,6 +183,17 @@ public class Hatching extends BaseCommand {
         }
         return hatchingItem;
     }
+
+    private boolean nearEntity(Player player) {
+        for (Entity entity : player.getNearbyEntities(3, 3, 3)) {
+            if (entity.hasMetadata("NPC"))
+                return true;
+        }
+        soundManager.soundNo(player, 1);
+        player.sendMessage(ChatColor.RED + "You must be near the " + ChatColor.GOLD + "Vendor " + ChatColor.RED + "or purchase the " + ChatColor.BOLD + "Conquerer " + ChatColor.RED + "from our Store!");
+        return false;
+    }
+
 }
 
 enum HatchingList {

@@ -57,13 +57,15 @@ public class Settings extends BaseCommand {
 
         display.addItem(new GuiItem(stuck(player), e -> player.performCommand("spawn")), 2, 1);
         display.addItem(new GuiItem(battleTag(player), e -> consoleCommand.consoleCommand("dm open BattleTags " + player.getName())), 3, 1);
-        display.addItem(new GuiItem(questCompass(player), e -> {
-            if (e.isLeftClick()) {
-                player.performCommand("calebcompass show");
-            } else if (e.isRightClick()) {
-                player.performCommand("calebcompass hide");
-            }
-        }), 4, 1);
+        if (plugin.SERVER.equals("Home"))
+            display.addItem(new GuiItem(questCompass(player), e -> {
+                if (e.isLeftClick()) {
+                    player.performCommand("calebcompass show");
+                } else if (e.isRightClick()) {
+                    player.performCommand("calebcompass hide");
+                }
+                setting(player);
+            }), 4, 1);
         display.addItem(new GuiItem(tips(player), e -> {
             if (player.hasPermission("TIPS")) {
                 permissionLP.takePermission(player, "TIPS");
@@ -76,6 +78,7 @@ public class Settings extends BaseCommand {
             }
             setting(player);
         }), 5, 1);
+
         display.addItem(new GuiItem(safeDrop(player), e -> player.performCommand("safeDrop")), 6, 1);
 
         display.addItem(new GuiItem(resourcePack(player), e -> {
@@ -83,6 +86,7 @@ public class Settings extends BaseCommand {
                 player.performCommand("rp disable");
             else
                 player.performCommand("rp enable");
+            setting(player);
         }), 3, 2);
 
         display.addItem(new GuiItem(music(player), e -> {

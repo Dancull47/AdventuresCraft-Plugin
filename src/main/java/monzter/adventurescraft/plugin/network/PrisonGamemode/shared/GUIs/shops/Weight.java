@@ -22,6 +22,7 @@ import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -59,7 +60,7 @@ public class Weight extends BaseCommand {
 
     @CommandAlias("weightShop")
     public void pets(Player player) {
-        if (player.hasPermission("SHOPS")) {
+        if (player.hasPermission("SHOPS") || nearEntity(player)) {
 
             ChestGui gui = new ChestGui(4, guiHelper.guiName("Weight Shop"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -130,6 +131,16 @@ public class Weight extends BaseCommand {
                 soundManager.soundNo(player, 1);
             }
         }
+    }
+
+    private boolean nearEntity(Player player) {
+        for (Entity entity : player.getNearbyEntities(3, 3, 3)) {
+            if (entity.hasMetadata("NPC"))
+                return true;
+        }
+        soundManager.soundNo(player, 1);
+        player.sendMessage(ChatColor.RED + "You must be near the " + ChatColor.GOLD + "Vendor " + ChatColor.RED + "or purchase the " + ChatColor.BOLD + "Conquerer " + ChatColor.RED + "from our Store!");
+        return false;
     }
 }
 

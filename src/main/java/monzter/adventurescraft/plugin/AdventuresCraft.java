@@ -131,9 +131,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public static final String TITLE = ChatColor.RED + "[" + ChatColor.GOLD + "AdventuresCraft" + ChatColor.RED + "] ";
     private static net.milkbowl.vault.permission.Permission perms = null;
     private static net.milkbowl.vault.economy.Economy econ = null;
-    //    private StateFlag prisonMineFlag;
-//    private StringFlag displayNameFlag;
-//    private LocationFlag sellLocationFlag;
     private long restartTime;
     private SoundManager soundManager;
     private BetonPointsManager betonPointsManager;
@@ -162,30 +159,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private Xur xur;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
     public final String SERVER = this.getConfig().getString("Server");
-
-    @Override
-    public void onLoad() {
-        switch (SERVER) {
-            case "Prison":
-                try {
-//                    prisonMineFlag = registerStateFlag();
-//                    displayNameFlag = registerStringFlag();
-//                    sellLocationFlag = registerLocationFlag();
-                } catch (IllegalStateException e) {
-                    getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
-                    this.setEnabled(false);
-                }
-                break;
-            case "Adventure":
-                try {
-//                    displayNameFlag = registerStringFlag();
-                } catch (IllegalStateException e) {
-                    getLogger().log(Level.SEVERE, TITLE + ChatColor.RED + "Failed to register Region Flag!");
-                    this.setEnabled(false);
-                }
-                break;
-        }
-    }
 
     @Override
     public void onEnable() {
@@ -280,7 +253,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void homeLoad() {
 //        Commands
-        manager.registerCommand(new HomeCommands(this, consoleCommand, permissionLP, soundManager));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Events.Join(this, permissionLP), this);
     }
@@ -289,6 +261,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Placeholder
         new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Placeholder(this, AdventureRegions.getInstance().displayNameFlag).register();
 //        Commands
+        manager.registerCommand(new HomeCommands(this, consoleCommand, permissionLP, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, consoleCommand));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.Boss(this, consoleCommand, permissionLP, soundManager));
@@ -353,7 +326,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
         getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
 //        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP, areaCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, AdventureRegions.getInstance().prisonMineFlag, dropTablesDelivery), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, AdventureRegions.getInstance().prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
