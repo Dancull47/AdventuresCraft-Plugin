@@ -2,6 +2,8 @@ package monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
@@ -11,9 +13,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAlias("home|h")
-public class HomeCommands extends BaseCommand implements Listener {
+public class HomeCommands extends BaseCommand implements Listener, PluginMessageListener {
     private final AdventuresCraft plugin;
     private final ConsoleCommand consoleCommand;
     private final PermissionLP permissionLP;
@@ -24,12 +28,28 @@ public class HomeCommands extends BaseCommand implements Listener {
         this.consoleCommand = consoleCommand;
         this.permissionLP = permissionLP;
         this.soundManager = soundManager;
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+        plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
     @Default
     private void home(Player player) {
-        player.performCommand("plot home");
-        player.performCommand("home help 1");
+        plugin.getLogger().info("Called");
+        if (plugin.SERVER.equals("Adventure")) {
+            ByteArrayDataOutput b = ByteStreams.newDataOutput();
+            try {
+                b.writeUTF("Connect");
+                b.writeUTF("Homes");
+            } catch (Exception e) {
+                player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
+                return;
+            }
+            player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
+        } else {
+            plugin.getLogger().info("Else");
+            player.performCommand("plot home");
+            player.performCommand("home help 1");
+        }
     }
 
     @Subcommand("help")
@@ -172,5 +192,9 @@ public class HomeCommands extends BaseCommand implements Listener {
     @Subcommand("Confirm")
     private void homeConfirm(Player player) {
         player.performCommand("plot confirm");
+    }
+
+    @Override
+    public void onPluginMessageReceived(@NotNull String s, @NotNull Player player, @NotNull byte[] bytes) {
     }
 }

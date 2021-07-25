@@ -26,6 +26,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -70,67 +71,65 @@ public class Enchanting extends BaseCommand {
 
     @CommandAlias("enchantmentShop")
     public void pets(Player player) {
-        if (player.hasPermission("SHOPS")) {
-            if (tools.contains(player.getInventory().getItemInMainHand().getType())) {
-                final int exp = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%"));
+        if (tools.contains(player.getInventory().getItemInMainHand().getType())) {
+            final int exp = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%betonquest_items:point.Experience.amount%"));
 
-                ChestGui gui = new ChestGui(6, guiHelper.guiName("Enchantment Shop"));
-                gui.setOnGlobalClick(event -> event.setCancelled(true));
+            ChestGui gui = new ChestGui(6, guiHelper.guiName("Enchantment Shop"));
+            gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-                PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
-                OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
-                StaticPane display = new StaticPane(1, 1, 9, 5, Pane.Priority.LOW);
+            PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
+            OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
+            StaticPane display = new StaticPane(1, 1, 9, 5, Pane.Priority.LOW);
 
-                page.addPane(0, background);
-                page.addPane(0, display);
+            page.addPane(0, background);
+            page.addPane(0, display);
 
-                background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
-                background.setRepeat(true);
+            background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
+            background.setRepeat(true);
 
-                display.addItem(new GuiItem(experience(exp, calculateEnchantments.calculateEnchantments(player, "Experience") + 1), e -> {
-                    player.performCommand("enchantment Experience");
-                    pets(player);
-                }), 1, 0);
-                display.addItem(new GuiItem(petExperience(exp, calculateEnchantments.calculateEnchantments(player, "Pet Experience") + 1), e -> {
-                    player.performCommand("enchantment Pet_Experience");
-                    pets(player);
-                }), 2, 0);
-                display.addItem(new GuiItem(luck(exp, calculateEnchantments.calculateEnchantments(player, "Luck") + 1), e -> {
-                    player.performCommand("enchantment Luck");
-                    pets(player);
-                }), 3, 0);
-                display.addItem(new GuiItem(explosive(exp, calculateEnchantments.calculateEnchantments(player, "Explosive") + 1), e -> {
-                    player.performCommand("enchantment Explosive");
-                    pets(player);
-                }), 4, 0);
-                display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments.calculateEnchantments(player, "Explosive Chance") + 1), e -> {
-                    player.performCommand("enchantment Explosive_Chance");
-                    pets(player);
-                }), 5, 0);
+            display.addItem(new GuiItem(experience(exp, calculateEnchantments.calculateEnchantments(player, "Experience") + 1), e -> {
+                player.performCommand("enchantment Experience");
+                pets(player);
+            }), 1, 0);
+            display.addItem(new GuiItem(petExperience(exp, calculateEnchantments.calculateEnchantments(player, "Pet Experience") + 1), e -> {
+                player.performCommand("enchantment Pet_Experience");
+                pets(player);
+            }), 2, 0);
+            display.addItem(new GuiItem(luck(exp, calculateEnchantments.calculateEnchantments(player, "Luck") + 1), e -> {
+                player.performCommand("enchantment Luck");
+                pets(player);
+            }), 3, 0);
+            display.addItem(new GuiItem(explosive(exp, calculateEnchantments.calculateEnchantments(player, "Explosive") + 1), e -> {
+                player.performCommand("enchantment Explosive");
+                pets(player);
+            }), 4, 0);
+            display.addItem(new GuiItem(explosiveChance(exp, calculateEnchantments.calculateEnchantments(player, "Explosive Chance") + 1), e -> {
+                player.performCommand("enchantment Explosive_Chance");
+                pets(player);
+            }), 5, 0);
 
-                display.addItem(new GuiItem(randomizer(exp, calculateEnchantments.calculateEnchantments(player, "Randomizer") + 1), e -> {
-                    player.performCommand("enchantment Randomizer");
-                    pets(player);
-                }), 2, 1);
-                display.addItem(new GuiItem(treasurer(exp, calculateEnchantments.calculateEnchantments(player, "Treasurer") + 1), e -> {
-                    player.performCommand("enchantment Treasurer");
-                    pets(player);
-                }), 3, 1);
-                display.addItem(new GuiItem(midasTouch(exp, calculateEnchantments.calculateEnchantments(player, "Midas Touch") + 1), e -> {
-                    player.performCommand("enchantment Midas_Touch");
-                    pets(player);
-                }), 4, 1);
+            display.addItem(new GuiItem(randomizer(exp, calculateEnchantments.calculateEnchantments(player, "Randomizer") + 1), e -> {
+                player.performCommand("enchantment Randomizer");
+                pets(player);
+            }), 2, 1);
+            display.addItem(new GuiItem(treasurer(exp, calculateEnchantments.calculateEnchantments(player, "Treasurer") + 1), e -> {
+                player.performCommand("enchantment Treasurer");
+                pets(player);
+            }), 3, 1);
+            display.addItem(new GuiItem(midasTouch(exp, calculateEnchantments.calculateEnchantments(player, "Midas Touch") + 1), e -> {
+                player.performCommand("enchantment Midas_Touch");
+                pets(player);
+            }), 4, 1);
 
-                display.addItem(new GuiItem(statTracker(exp, calculateEnchantments.calculateEnchantments(player, "Stat Tracker") + 1), e -> {
-                    player.performCommand("enchantment Stat_Tracker");
-                    pets(player);
-                }), 3, 2);
+            display.addItem(new GuiItem(statTracker(exp, calculateEnchantments.calculateEnchantments(player, "Stat Tracker") + 1), e -> {
+                player.performCommand("enchantment Stat_Tracker");
+                pets(player);
+            }), 3, 2);
 
-                gui.addPane(page);
-                gui.show(player);
-            } else {
-                player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
-            }
+            gui.addPane(page);
+            gui.show(player);
+        } else {
+            player.sendMessage(ChatColor.RED + "You must be holding a tool to enchant!");
         }
     }
 
@@ -248,5 +247,15 @@ public class Enchanting extends BaseCommand {
             enchantmentItem.setItemMeta(enchantmentItemItemMeta);
         }
         return enchantmentItem;
+    }
+
+    private boolean nearEntity(Player player) {
+        for (Entity entity : player.getNearbyEntities(3, 3, 3)) {
+            if (entity.hasMetadata("NPC"))
+                return true;
+        }
+        soundManager.soundNo(player, 1);
+        player.sendMessage(ChatColor.RED + "You must be near the " + ChatColor.GOLD + "Vendor " + ChatColor.RED + "or purchase the " + ChatColor.BOLD + "Conquerer " + ChatColor.RED + "from our Store!");
+        return false;
     }
 }

@@ -3,6 +3,8 @@ package monzter.adventurescraft.plugin.network.Shared.Commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Dependency;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -18,9 +20,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 
 public class GeneralCommands extends BaseCommand implements Listener, PluginMessageListener {
 
@@ -58,7 +57,6 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         this.soundManager = soundManager;
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
         plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
-
     }
 
     @Override
@@ -67,11 +65,10 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
 
     @CommandAlias("Lobby|Hub")
     private void lobbyCommand(Player player) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
+        ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
-            out.writeUTF("Connect");
-            out.writeUTF("Lobby");
+            b.writeUTF("Connect");
+            b.writeUTF("Lobby");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Lobby! Report this to Monzter#4951 on Discord!");
             return;
@@ -81,11 +78,10 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
 
     @CommandAlias("Prison")
     private void prisonCommand(Player player) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
+        ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
-            out.writeUTF("Connect");
-            out.writeUTF("Prison");
+            b.writeUTF("Connect");
+            b.writeUTF("Prison");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Prison! Report this to Monzter#4951 on Discord!");
             return;
@@ -95,11 +91,10 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
 
     @CommandAlias("Cell")
     private void cellCommand(Player player) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
+        ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
-            out.writeUTF("Connect");
-            out.writeUTF("Cell");
+            b.writeUTF("Connect");
+            b.writeUTF("Cell");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Cell! Report this to Monzter#4951 on Discord!");
             return;
@@ -107,13 +102,12 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
     }
 
-    @CommandAlias("Adventure")
+    @CommandAlias("Adventure|Live2")
     private void adventureCommand(Player player) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
+        ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
-            out.writeUTF("Connect");
-            out.writeUTF("Live2");
+            b.writeUTF("Connect");
+            b.writeUTF("Live2");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Live2! Report this to Monzter#4951 on Discord!");
             return;
@@ -121,29 +115,12 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
     }
 
-    @CommandAlias("Home")
-    private void homeCommand(Player player) {
-        if (plugin.SERVER.equals("Adventure")) {
-            ByteArrayOutputStream b = new ByteArrayOutputStream();
-            DataOutputStream out = new DataOutputStream(b);
-            try {
-                out.writeUTF("Connect");
-                out.writeUTF("Home");
-            } catch (Exception e) {
-                player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
-                return;
-            }
-            player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
-        }
-    }
-
     @CommandAlias("Test")
     private void testCommand(Player player) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
+        ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
-            out.writeUTF("Connect");
-            out.writeUTF("Test");
+            b.writeUTF("Connect");
+            b.writeUTF("Test");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Test! Report this to Monzter#4951 on Discord!");
             return;

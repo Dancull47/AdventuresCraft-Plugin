@@ -59,7 +59,12 @@ public class MainMenu extends BaseCommand {
 
         display.addItem(new GuiItem(town(player), e -> player.performCommand("town")), 3, 1);
         display.addItem(new GuiItem(map(player), e -> player.performCommand("map")), 4, 1);
-        display.addItem(new GuiItem(cell(player), e -> player.performCommand("home travel")), 5, 1);
+        display.addItem(new GuiItem(cell(player), e -> {
+            if (e.isLeftClick())
+                player.performCommand("home");
+            else if (e.isRightClick())
+                player.performCommand("home help 1");
+        }), 5, 1);
 
         display.addItem(new GuiItem(reputation(player), e -> player.sendMessage(ChatColor.RED + "This is still under development!")), 2, 2);
         display.addItem(new GuiItem(professions(player), e -> player.performCommand("professions")), 3, 2);
@@ -76,7 +81,12 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
         display.addItem(new GuiItem(settings(player), e -> player.performCommand("settingmenu")), 4, 3);
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank open")), 5, 3);
-        display.addItem(new GuiItem(accessoryBag(player), e -> player.performCommand("rpginv")), 6, 3);
+        display.addItem(new GuiItem(accessoryBag(player), e -> {
+            if (plugin.SERVER.equals("Adventure"))
+                player.performCommand("rpginv");
+            else
+                player.sendMessage(ChatColor.RED + "Sorry, this cannot be access within your Home!");
+        }), 6, 3);
 
         display.addItem(new GuiItem(votingRewards(player), e -> player.performCommand("vote")), 0, 2);
         display.addItem(new GuiItem(dailyRewards(player), e -> player.performCommand("daily")), 0, 3);
@@ -306,7 +316,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Check out who the most");
-        lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Adventuerers " + ChatColor.GRAY + "are!");
+        lore.add(ChatColor.GRAY + "dedicated " + ChatColor.GREEN + "Adventurers " + ChatColor.GRAY + "are!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 
@@ -382,7 +392,7 @@ public class MainMenu extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Store extra materials you're");
         lore.add(ChatColor.GRAY + "holding without needing to");
-        lore.add(ChatColor.GRAY + "return back to your Cell!");
+        lore.add(ChatColor.GRAY + "return back to your Home!");
         lore.add("");
         if (player.hasPermission("bank.open.command")) {
             lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Open");
@@ -464,7 +474,7 @@ public class MainMenu extends BaseCommand {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Add and join together in parties with");
-        lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Adventuerers " + ChatColor.GRAY + "you meet!");
+        lore.add(ChatColor.GRAY + "other " + ChatColor.GREEN + "Adventurers " + ChatColor.GRAY + "you meet!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 

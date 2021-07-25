@@ -38,7 +38,7 @@ public class Placeholder extends PlaceholderExpansion {
     private final AdventuresCraft plugin;
     private final Permission permission;
     private final NumberFormat numberFormat;
-    
+
     private final Set<Pet> pets;
     private final StringFlag displayNameFlag;
     private long restartTime;
@@ -270,7 +270,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "Stat_PetAmount":
                 return String.valueOf(getPoints("items.PetAmount", points));
             case "Stat_MaxPetAmount":
-                return String.valueOf(getPoints("items.MaxPet", points));
+                return String.valueOf(2 + getPoints("items.MaxPet", points));
 
             case "Stat_MiningPassEXPAmount":
                 return String.valueOf(getPoints("miningPass.EXP", points));
@@ -423,7 +423,7 @@ public class Placeholder extends PlaceholderExpansion {
         }
         return null;
     }
-    
+
     private double calculatePetStats(OfflinePlayer player, Stats petStat) {
         double statSum = 0;
         for (Pet pet : pets) {
