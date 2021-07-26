@@ -393,7 +393,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Yard(this, guiHelper));
         manager.registerCommand(new YardJobs(this, guiHelper, consoleCommand));
 //        Commands
-        manager.registerCommand(new AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat));
+        manager.registerCommand(new AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, economy));
         manager.registerCommand(new GeneralCommands(this, consoleCommand, soundManager));
         manager.registerCommand(new Security(this));
         manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));

@@ -12,6 +12,7 @@ import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,15 +27,16 @@ public class AdminCommands extends BaseCommand {
     private final PermissionLP permissionLP;
     private final BetonPointsManager betonPointsManager;
     private final NumberFormat numberFormat;
+    private final Economy economy;
 
 
-
-    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, NumberFormat numberFormat) {
+    public AdminCommands(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, BetonPointsManager betonPointsManager, NumberFormat numberFormat, Economy economy) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
         this.betonPointsManager = betonPointsManager;
         this.numberFormat = numberFormat;
+        this.economy = economy;
     }
 
     @CommandAlias("stat")
@@ -74,7 +76,7 @@ public class AdminCommands extends BaseCommand {
     @CommandAlias("reward")
     @CommandPermission("*")
     @Description("Reward stats to a Player")
-    @CommandCompletion("petexperience|petexp|experience|exp|miningpass|ac|adventureCoin|adventureCoins @nothing *")
+    @CommandCompletion("petexperience|petexp|experience|exp|miningpass|ac|adventureCoin|adventureCoins|money|coins @nothing *")
     public void rewardCommand(String stat, int amount, OnlinePlayer targetPlayer) {
         switch (stat.toLowerCase()) {
             case "petexperience":
@@ -97,6 +99,11 @@ public class AdminCommands extends BaseCommand {
             case "adventureCoins":
                 targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + "!");
                 betonPointsManager.givePointACs(targetPlayer.player, amount);
+                break;
+            case "money":
+            case "coins":
+            case "coin":
+                economy.giveMoney(targetPlayer.player, amount);
                 break;
         }
     }
