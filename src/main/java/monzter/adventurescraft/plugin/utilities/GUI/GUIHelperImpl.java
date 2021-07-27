@@ -733,7 +733,9 @@ public class GUIHelperImpl implements GUIHelper {
         StaticPane cover = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
         OutlinePane daily = new OutlinePane(3, 1, 3, 1, Pane.Priority.NORMAL);
         OutlinePane weekly = new OutlinePane(2, 2, 5, 1, Pane.Priority.NORMAL);
-        OutlinePane bonus = new OutlinePane(3, 3, 3, 1, Pane.Priority.NORMAL);
+        OutlinePane bonus = new OutlinePane(3, 3, 1, 1, Pane.Priority.NORMAL);
+        OutlinePane bonus2 = new OutlinePane(4, 3, 1, 1, Pane.Priority.NORMAL);
+        OutlinePane bonus3 = new OutlinePane(5, 3, 1, 1, Pane.Priority.NORMAL);
 
         background.addItem(new GuiItem(background(backgroundColor)));
         background.setRepeat(true);
@@ -753,7 +755,7 @@ public class GUIHelperImpl implements GUIHelper {
         cover.addItem(jobAvailable(questGiver), 5, 3);
 
         for (MiningPassJobs jobs : MiningPassJobs.values()) {
-            if (jobs.isDaily()) {
+            if (jobs.getType().equalsIgnoreCase("DAILY")) {
                 String startedTag = packageBuilder + jobs.name() + "_STARTED";
 //                System.out.println(startedTag);
                 if (betonTagManager.hasTag(player, startedTag))
@@ -761,24 +763,50 @@ public class GUIHelperImpl implements GUIHelper {
             }
         }
 
-        weekly.addItem(jobAvailable(questGiver));
-        weekly.addItem(jobAvailable(questGiver));
-        weekly.addItem(jobAvailable(questGiver));
-        weekly.addItem(jobAvailable(questGiver));
-        weekly.addItem(jobAvailable(questGiver));
+        for (MiningPassJobs jobs : MiningPassJobs.values()) {
+            if (jobs.getType().equalsIgnoreCase("WEEKLY")) {
+                String startedTag = packageBuilder + jobs.name() + "_STARTED";
+                if (betonTagManager.hasTag(player, startedTag))
+                    weekly.addItem(miningPassJobGenerator(player, jobs));
+            }
+        }
+
+        for (MiningPassJobs jobs : MiningPassJobs.values()) {
+            if (jobs.getType().equalsIgnoreCase("BONUS1")) {
+                String startedTag = packageBuilder + jobs.name() + "_STARTED";
+                if (betonTagManager.hasTag(player, startedTag))
+                    bonus.addItem(miningPassJobGenerator(player, jobs));
+            }
+        }
+
+        for (MiningPassJobs jobs : MiningPassJobs.values()) {
+            if (jobs.getType().equalsIgnoreCase("BONUS2")) {
+                String startedTag = packageBuilder + jobs.name() + "_STARTED";
+                if (betonTagManager.hasTag(player, startedTag))
+                    bonus2.addItem(miningPassJobGenerator(player, jobs));
+            }
+        }
+
+        for (MiningPassJobs jobs : MiningPassJobs.values()) {
+            if (jobs.getType().equalsIgnoreCase("BONUS3")) {
+                String startedTag = packageBuilder + jobs.name() + "_STARTED";
+                if (betonTagManager.hasTag(player, startedTag))
+                    bonus3.addItem(miningPassJobGenerator(player, jobs));
+            }
+        }
 
         if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 50)
             bonus.addItem(jobAvailable(questGiver));
         else
             bonus.addItem(bonusSlotLocked(player, packageBuilder, 1));
         if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 100)
-            bonus.addItem(jobAvailable(questGiver));
+            bonus2.addItem(jobAvailable(questGiver));
         else
-            bonus.addItem(bonusSlotLocked(player, packageBuilder, 2));
+            bonus2.addItem(bonusSlotLocked(player, packageBuilder, 2));
         if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 150)
-            bonus.addItem(jobAvailable(questGiver));
+            bonus3.addItem(jobAvailable(questGiver));
         else
-            bonus.addItem(bonusSlotLocked(player, packageBuilder, 3));
+            bonus3.addItem(bonusSlotLocked(player, packageBuilder, 3));
 
         display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
 
@@ -787,6 +815,8 @@ public class GUIHelperImpl implements GUIHelper {
         gui.addPane(daily);
         gui.addPane(weekly);
         gui.addPane(bonus);
+        gui.addPane(bonus2);
+        gui.addPane(bonus3);
         gui.addPane(cover);
         gui.show(player);
     }
@@ -837,8 +867,23 @@ public class GUIHelperImpl implements GUIHelper {
             lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMiningPassExperience() + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
 
         lore.add("");
-        lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.DAILY_RESET.left%") + ChatColor.YELLOW + "!");
-
+        switch (quests.getType().toUpperCase()) {
+            case "DAILY":
+                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.DAILY_RESET.left%") + ChatColor.YELLOW + "!");
+                break;
+            case "WEEKLY":
+                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.WEEKLY_RESET.left%") + ChatColor.YELLOW + "!");
+                break;
+            case "BONUS1":
+                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.BONUS1_RESET.left%") + ChatColor.YELLOW + "!");
+                break;
+            case "BONUS2":
+                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.BONUS2_RESET.left%") + ChatColor.YELLOW + "!");
+                break;
+            case "BONUS3":
+                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.BONUS3_RESET.left%") + ChatColor.YELLOW + "!");
+                break;
+        }
 
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
