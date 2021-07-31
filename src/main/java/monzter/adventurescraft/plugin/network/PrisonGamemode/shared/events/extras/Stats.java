@@ -1,13 +1,13 @@
 package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras;
 
 public enum Stats {
-    BLOCK_MULTIPLIER(1),
-    EXPERIENCE_MULTIPLIER(1),
-    LUCK_MULTIPLIER(1),
+    BLOCK_MULTIPLIER(0),
+    EXPERIENCE_MULTIPLIER(0),
+    LUCK_MULTIPLIER(0),
     MAX_WEIGHT(0),
-    MAX_WEIGHT_MULTIPLIER(1),
-    PET_EXPERIENCE(1),
-    SELL_MULTIPLIER(1),
+    MAX_WEIGHT_MULTIPLIER(0),
+    PET_EXPERIENCE(0),
+    SELL_MULTIPLIER(0),
     ;
 
     private final double defaultValue;

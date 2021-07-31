@@ -278,7 +278,7 @@ public class Donate extends BaseCommand {
                 player.getLocation().getY(),
                 player.getLocation().getZ(), 5, .25, .25, .25);
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            int coins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins_formatted%"));
+            String coins = PlaceholderAPI.setPlaceholders(player, "%ac_Currency_AdventureCoins_formatted%");
             player.sendMessage(ChatColor.GREEN.toString() + "You now have " + ChatColor.GOLD + coins + " " + PrisonStatsDisplay.ADVENTURE_COINS.getName() + ChatColor.GREEN + " left!");
         }, 5L);
     }

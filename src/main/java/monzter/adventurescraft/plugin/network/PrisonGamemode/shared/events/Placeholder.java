@@ -214,23 +214,23 @@ public class Placeholder extends PlaceholderExpansion {
                 return numberFormat.numberFormat(Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Stat_MaxWeight%")));
 
             case "Stat_MaxWeightMultiplier":
-                return String.valueOf(calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
+                return String.valueOf(1 + calculatePetStats(player, Stats.MAX_WEIGHT_MULTIPLIER));
 
             case "Stat_BlockMultiplier":
                 String blockMultiplierDefault = PlaceholderAPI.setPlaceholders(player, "%mmoitems_stat_stamina_regeneration%");
                 return String.valueOf(calculatePetStats(player, Stats.BLOCK_MULTIPLIER) + Double.valueOf(blockMultiplierDefault) + calculateBoosterStats(player, "block"));
 
             case "Stat_SellMultiplier":
-                return String.valueOf(calculatePetStats(player, Stats.SELL_MULTIPLIER) + calculateBoosterStats(player, "sell"));
+                return String.valueOf(1 + calculatePetStats(player, Stats.SELL_MULTIPLIER) + calculateBoosterStats(player, "sell"));
 
             case "Stat_LuckMultiplier":
-                return String.valueOf((calculateEnchantments.calculateEnchantments(player, "Luck") * .5) + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
+                return String.valueOf(1 + (calculateEnchantments.calculateEnchantments(player, "Luck") * .5) + calculatePetStats(player, Stats.LUCK_MULTIPLIER) + calculateBoosterStats(player, "luck"));
 
             case "Stat_EXPMultiplier":
-                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Experience") + calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
+                return String.valueOf(1 + calculateEnchantments.calculateEnchantments(player, "Experience") + calculatePetStats(player, Stats.EXPERIENCE_MULTIPLIER) + calculateBoosterStats(player, "exp"));
 
             case "Stat_Pet_EXPMultiplier":
-                return String.valueOf(calculateEnchantments.calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
+                return String.valueOf(1 + calculateEnchantments.calculateEnchantments(player, "Pet Experience") + calculatePetStats(player, Stats.PET_EXPERIENCE) + calculateBoosterStats(player, "pet_exp"));
 
             case "Gala_Block":
                 return WordUtils.capitalizeFully(BlockBreakMining.getBlock().toString().replace("_", " "));
@@ -427,7 +427,7 @@ public class Placeholder extends PlaceholderExpansion {
     private double calculatePetStats(OfflinePlayer player, Stats petStat) {
         double statSum = 0;
         for (Pet pet : pets) {
-            if (hasPermission(player, pet.getPermission())) {
+            if (player.getPlayer().hasPermission(pet.getPermission())) {
                 OptionalDouble stat = pet.getStat(petStat);
                 if (stat.isPresent()) {
                     statSum += stat.getAsDouble();
@@ -463,20 +463,12 @@ public class Placeholder extends PlaceholderExpansion {
     }
 
     private int calculateBoosterStats(OfflinePlayer player, String booster) {
-        for (int i = 10; i > 0; i--) {
-            if (hasPermission(player, booster + ".booster." + i)) {
+        for (int i = 12; i > 0; i--) {
+            if (player.getPlayer().hasPermission(booster + ".booster." + i)) {
                 return i;
             }
         }
         return 0;
-    }
-
-    private boolean hasPermission(OfflinePlayer player, String permission) {
-        if (player.isOnline()) {
-            return player.getPlayer().hasPermission(permission);
-        } else {
-            return this.permission.playerHas(plugin.getServer().getWorlds().get(0).getName(), player, permission);
-        }
     }
 
     private String parsePlaceholder(Player player, String string) {

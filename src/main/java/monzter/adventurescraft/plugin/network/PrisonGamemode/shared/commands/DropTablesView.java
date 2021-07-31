@@ -187,6 +187,22 @@ public class DropTablesView extends BaseCommand {
         gui.show(player);
     }
 
+    @Subcommand("Lootbox6")
+    private void lootbox6(Player player) {
+        final ChestGui gui = new ChestGui(6, "Lootbox");
+        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.MYTHICAL);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
+
+    @Subcommand("Lootbox7")
+    private void lootbox7(Player player) {
+        final ChestGui gui = new ChestGui(6, "Lootbox");
+        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.GODLY);
+        createMenu(gui, guiContents);
+        gui.show(player);
+    }
+
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents) {
         backgroundItemMeta.displayName(Component.text(" "));
         previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));

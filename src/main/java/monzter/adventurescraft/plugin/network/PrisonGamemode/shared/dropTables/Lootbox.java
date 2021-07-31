@@ -171,7 +171,7 @@ public enum Lootbox implements Weighted, ItemGenerator {
     LootBox7G(Rarity.GODLY,Rarity.GODLY,"Lootbox", "CONSUMABLE", "LOOTBOX7", .1, 2),
 
     PetEgg6G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG6", .01, 1),
-    PetEgg7G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG5", .01,1);
+    PetEgg7G(Rarity.GODLY,Rarity.RARE,"Pet Egg", "PET", "PET_EGG7", .01,1);
     
     private static final Map<Rarity, List<Lootbox>> RARITY_LISTS = new EnumMap<>(Rarity.class);
 
