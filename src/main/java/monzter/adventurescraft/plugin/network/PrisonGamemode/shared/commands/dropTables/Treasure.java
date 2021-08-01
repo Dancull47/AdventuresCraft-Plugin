@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables;
 
 import me.lucko.helper.random.Weighted;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;

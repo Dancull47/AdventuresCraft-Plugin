@@ -11,7 +11,7 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

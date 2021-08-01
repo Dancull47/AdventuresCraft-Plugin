@@ -1,7 +1,7 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables;
 
 import me.lucko.helper.random.Weighted;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.enums.CrateList;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;

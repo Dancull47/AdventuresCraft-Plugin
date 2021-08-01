@@ -12,13 +12,13 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.ItemGenerator;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.LootLlama;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.Lootbox;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables.PetEgg;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.LootLlama;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.Lootbox;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.PetEgg;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
-import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
+import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -357,7 +357,7 @@ public class DropTablesView extends BaseCommand {
             final ItemStack itemStack = MMOItems.plugin.getItem(item.type, item.id);
             List<String> lore = itemStack.getLore();
             lore.add("");
-            lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight * 10 + "%");
+            lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight * 100 + "%");
             itemStack.setLore(lore);
             display.addItem(new GuiItem(itemStack));
         }

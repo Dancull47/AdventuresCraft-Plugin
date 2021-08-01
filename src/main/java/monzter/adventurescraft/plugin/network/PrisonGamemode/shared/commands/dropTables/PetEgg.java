@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.dropTables;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables;
 
 import me.lucko.helper.random.Weighted;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
@@ -9,6 +9,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -368,6 +369,8 @@ public enum PetEgg implements Weighted, ItemGenerator {
         return eggRarity;
     }
 
+    DecimalFormat df = new DecimalFormat("#.####");
+
     @Override
     public ItemStack generateItem() {
         final ItemStack itemStack = MMOItems.plugin.getItem(type, id);
@@ -378,7 +381,7 @@ public enum PetEgg implements Weighted, ItemGenerator {
             } else if (!lore.isEmpty()) {
                 lore.add(Component.empty());
             }
-            lore.add(Component.text("CHANCE: " + weight * 10 + "%", NamedTextColor.GOLD, TextDecoration.BOLD));
+            lore.add(Component.text("CHANCE: " + df.format(weight * 100) + "%", NamedTextColor.GOLD, TextDecoration.BOLD));
             itemStack.lore(lore);
             return itemStack.asQuantity(amount);
         }

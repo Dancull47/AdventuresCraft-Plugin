@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets;
 
 import java.util.*;
 
