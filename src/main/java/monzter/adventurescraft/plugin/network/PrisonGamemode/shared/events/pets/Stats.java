@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets;
 
 public enum Stats {
     BLOCK_MULTIPLIER(0),

@@ -185,7 +185,7 @@ public class Pets extends BaseCommand {
     }
 
     private ItemStack empty(Player player) {
-        final ItemStack empty = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+        final ItemStack empty = new ItemStack(Material.YELLOW_STAINED_GLASS_PANE);
         final ItemMeta emptyItemMeta = empty.getItemMeta();
 
         emptyItemMeta.displayName(Component.text(ChatColor.RED + "Empty Pet Slot"));
@@ -195,7 +195,7 @@ public class Pets extends BaseCommand {
         lore.add(ChatColor.GRAY + "This slot can be filled with a " + ChatColor.GREEN + "Pet" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(ChatColor.GRAY + "You can obtain " + ChatColor.GREEN + "Pets " + ChatColor.GRAY + "by");
-        lore.add(ChatColor.GREEN + "Enchanting " + ChatColor.GRAY + "them with " + ChatColor.GREEN + "Jenny" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GREEN + "Hatching " + ChatColor.GRAY + "them with " + ChatColor.GREEN + "Jenny" + ChatColor.GRAY + "!");
 
         empty.setItemMeta(emptyItemMeta);
         empty.setLore(lore);
