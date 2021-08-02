@@ -627,21 +627,21 @@ Yard:
   Location:
     ==: org.bukkit.Location
     world: World
-    x: 1181.5
-    y: 201.0
-    z: 1603.5
-    pitch: -0.7
-    yaw: 89.8
+    x: 1680.5
+    y: 28.0
+    z: 3824.5
+    pitch: 92.6
+    yaw: 0.8
 Spawn:
   Name: Yard
   Location:
     ==: org.bukkit.Location
     world: World
-    x: 1181.5
-    y: 201.0
-    z: 1603.5
-    pitch: -0.7
-    yaw: 89.8
+    x: 1680.5
+    y: 28.0
+    z: 3824.5
+    pitch: 92.6
+    yaw: 0.8
 Shop:
   Name: Shop
   Location:
@@ -667,31 +667,31 @@ Pet:
   Location:
     ==: org.bukkit.Location
     world: World
-    x: 1181.5
-    y: 199.0
-    z: 1686.5
-    pitch: 1.1
-    yaw: 0.0
+    x: 1637.5
+    y: 28.0
+    z: 3836.5
+    pitch: 1.2
+    yaw: -0.6
 Pets:
   Name: Pet Shop
   Location:
     ==: org.bukkit.Location
     world: World
-    x: 1181.5
-    y: 199.0
-    z: 1686.5
-    pitch: 1.1
-    yaw: 0.0
+    x: 1637.5
+    y: 28.0
+    z: 3836.5
+    pitch: 1.2
+    yaw: -0.6
 PetShop:
   Name: Pet Shop
   Location:
     ==: org.bukkit.Location
     world: World
-    x: 1181.5
-    y: 199.0
-    z: 1686.5
-    pitch: 1.1
-    yaw: 0.0
+    x: 1637.5
+    y: 28.0
+    z: 3836.5
+    pitch: 1.2
+    yaw: -0.6
 Crate:
   Name: CrateList
   Location:

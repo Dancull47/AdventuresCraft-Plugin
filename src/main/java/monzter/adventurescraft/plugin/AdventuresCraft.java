@@ -38,11 +38,9 @@ import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellFlagsGUI;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.Warp;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.Hatching;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Prison.MineTeleport;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Sell;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.commands.Warps;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.JoinPrison;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Tutorial;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.Xur;
@@ -323,8 +321,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Commands
         manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new Sell(this, AdventureRegions.getInstance().sellLocationFlag, economy, numberFormat, soundManager));
-        getCommand("Warp").setExecutor(new Warps(this, loadWarps()));
-        getCommand("Warp").setTabCompleter(new Warps(this, loadWarps()));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.Warp(this, permissionLP));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP, areaCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
@@ -337,8 +334,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     private void cellLoad() {
-//        Commands
-        manager.registerCommand(new Warp(this, mmoItemsGive, soundManager, permissionLP, loadWarps()));
 //        GUIs
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
