@@ -127,6 +127,12 @@ public class QuestAreaMenu extends BaseCommand {
             startX = 3;
         else if (npcAmount == 4)
             startX = 2;
+        else if (npcAmount == 5)
+            startX = 1;
+        else if (npcAmount == 6) {
+            startX = 1;
+            length = 6;
+        }
 
         int questAmount = 0;
         for (Quests quests : Quests.values()) {

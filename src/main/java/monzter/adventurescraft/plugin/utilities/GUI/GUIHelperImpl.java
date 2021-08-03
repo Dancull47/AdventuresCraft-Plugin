@@ -25,6 +25,7 @@ import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -502,6 +503,13 @@ public class GUIHelperImpl implements GUIHelper {
         gui.show(player);
     }
 
+//    private String[] placeholderCheck(Player player, String[] questLore) {
+//        for (String lore: questLore)
+//            if (lore.contains("%"))
+//                PlaceholderAPI.setPlaceholders(player, StringUtils.substringBetween(lore, "%", "%"));
+//    }
+
+
     private GuiItem questItemGenerator(Player player, Quests quests) {
         String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
         String startedTag = packageDir + quests.name() + "_STARTED";
@@ -524,8 +532,19 @@ public class GUIHelperImpl implements GUIHelper {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        for (String questLore : quests.getQuestDescription())
-            lore.add(questLore);
+        if (betonTagManager.hasTag(player, startedTag) && !betonTagManager.hasTag(player, completedTag))
+            for (String questLore : quests.getQuestDescription()) {
+                System.out.println(StringUtils.substringBetween(questLore, "%", "%"));
+                if (questLore.contains("%"))
+                    questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
+                lore.add(questLore);
+            }
+        else if (!betonTagManager.hasTag(player, startedTag) || betonTagManager.hasTag(player, completedTag))
+            for (String questLore : quests.getQuestDescription()) {
+                if (questLore.contains("%"))
+                    questLore = questLore.replaceAll("(%.*?%\\/)", "");
+                lore.add(questLore);
+            }
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
         if (quests.getRewardItems() != null)
@@ -658,8 +677,12 @@ public class GUIHelperImpl implements GUIHelper {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        for (String questLore : jobs.getQuestDescription())
+        for (String questLore : jobs.getQuestDescription()) {
+            System.out.println(StringUtils.substringBetween(questLore, "%", "%"));
+            if (questLore.contains("%"))
+                questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
             lore.add(questLore);
+        }
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
         if (jobs.getRewardItems() != null)
@@ -857,8 +880,19 @@ public class GUIHelperImpl implements GUIHelper {
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        for (String questLore : quests.getQuestDescription())
-            lore.add(questLore);
+        if (betonTagManager.hasTag(player, startedTag) && !betonTagManager.hasTag(player, completedTag))
+            for (String questLore : quests.getQuestDescription()) {
+                System.out.println(StringUtils.substringBetween(questLore, "%", "%"));
+                if (questLore.contains("%"))
+                    questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
+                lore.add(questLore);
+            }
+        else if (!betonTagManager.hasTag(player, startedTag) || betonTagManager.hasTag(player, completedTag))
+            for (String questLore : quests.getQuestDescription()) {
+                if (questLore.contains("%"))
+                    questLore = questLore.replaceAll("(%.*?%\\/)", "");
+                lore.add(questLore);
+            }
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
         if (quests.getRewardMoney() > 0)
