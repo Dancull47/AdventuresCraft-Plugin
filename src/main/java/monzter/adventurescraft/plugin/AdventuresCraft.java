@@ -33,10 +33,6 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.main
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Jenny;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.quests.Yard;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.quests.yard.Enchanter;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.quests.yard.Finubar;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.quests.yard.Joy;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
@@ -61,9 +57,6 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMen
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestsDisplay;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.YardJobs;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.yardJobs.Dan;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.jobs.yardJobs.Lester;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.settings.SafeDrop;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Armor;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Tools;
@@ -376,17 +369,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Evolving(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, itemAdder));
-        manager.registerCommand(new Enchanter(this, guiHelper, betonTagManager));
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
 //        Quest GUIs
-        manager.registerCommand(new Lester(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
-        manager.registerCommand(new Dan(this, guiHelper, betonTagManager, betonPointsManager, numberFormat));
-        manager.registerCommand(new Joy(this, guiHelper, betonTagManager));
-        manager.registerCommand(new Finubar(this, guiHelper, betonTagManager));
         manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
         manager.registerCommand(new AchievementGUI(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand, achievementGUIBuilder));
-        manager.registerCommand(new Yard(this, guiHelper));
-        manager.registerCommand(new YardJobs(this, guiHelper, consoleCommand));
 //        Commands
         manager.registerCommand(new AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, economy));
         manager.registerCommand(new GeneralCommands(this, consoleCommand, soundManager));

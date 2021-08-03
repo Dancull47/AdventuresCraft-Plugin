@@ -37,10 +37,17 @@ public enum Quests {
             null, 0, new String[]{Professions.COMPANIONSHIP.name() + " 250"}, 0, 0, 0),
 
     WATER_CRYSTAL(QuestGiver.ASH,
-            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Ash:point.Mine1.amount%/64 Gold Blocks" + ChatColor.WHITE + ", " + ChatColor.GREEN + "32 Emerald Blocks" + ChatColor.WHITE + ",",
-                    ChatColor.WHITE + "and " + ChatColor.GREEN + "16 Stained Glass Blocks " + ChatColor.WHITE + "while the ",
+            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Ash:point.LAPIS1.amount%/64 Lapis Blocks" + ChatColor.WHITE + ", ",
+                    ChatColor.GREEN + "%betonquest_default-Town-Ash:point.BLUE_GLASS1.amount%/32 Blue Stained Glass Blocks" + ChatColor.WHITE + "," + ChatColor.WHITE + " and",
+                    ChatColor.GREEN + "%betonquest_default-Town-Ash:point.SEA_LANTERN1.amount%/16 Sea Lanterns " + ChatColor.WHITE + "while the",
+                    ChatColor.DARK_PURPLE + "Fractured Crystal " + ChatColor.WHITE + "is within your inventory!"},
+            new String[]{"MATERIAL WATER_CRYSTAL5 1"}, 0, null, 100_000_000, 0, 500_000),
+    KINGS_CROWN(QuestGiver.ASH,
+            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Ash:point.GOLD1.amount%/64 Gold Blocks" + ChatColor.WHITE + ", ",
+                    ChatColor.GREEN + "%betonquest_default-Town-Ash:point.EMERALD1.amount%/32 Emerald Blocks" + ChatColor.WHITE + "," + ChatColor.WHITE + " and",
+                    ChatColor.GREEN + "%betonquest_default-Town-Ash:point.STAINED_GLASS1.amount%/16 Stained Glass Blocks " + ChatColor.WHITE + "while the",
                     ChatColor.DARK_PURPLE + "Broken Crown " + ChatColor.WHITE + "is within your inventory!"},
-            new String[]{"VOUCHER EXP_VOUCHER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 0, 0),
+            new String[]{"MATERIAL PHOENIX_CROWN5 1"}, 0, null, 100_000_000, 0, 500_000),
 
     ;
 
