@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 
 public enum Quests {
     UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
-            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "100 Blocks" + ChatColor.WHITE + " to earn " +
+            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Wizard:point.Mine1.amount%/100 Blocks" + ChatColor.WHITE + " to earn " +
                     PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},
             new String[]{"VOUCHER EXP_VOUCHER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 0, 0),
     NEW_ENCHANTER(QuestGiver.WIZARD,
@@ -24,7 +24,7 @@ public enum Quests {
             null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 0, 0),
 
     EGG_EXERCISE(QuestGiver.JOY,
-            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "100 Blocks" + ChatColor.WHITE + " with the " + ChatColor.BOLD + "Pet Egg" + ChatColor.WHITE + " inside",
+            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Joy:point.Mine1.amount%/100 Blocks" + ChatColor.WHITE + " with the " + ChatColor.BOLD + "Pet Egg" + ChatColor.WHITE + " inside",
                     ChatColor.WHITE + "your inventory to earn 100 " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},
             null, 0, new String[]{Professions.COMPANIONSHIP.name() + " 100"}, 0, 0, 0),
     HATCHING_AN_EGG(QuestGiver.JOY,
@@ -35,6 +35,13 @@ public enum Quests {
             new String[]{ChatColor.WHITE + "Interact with the " + ChatColor.GOLD + "Evolver" + ChatColor.WHITE + " behind the",
                     ChatColor.WHITE + "desk, to learn more about " + ChatColor.GREEN + "Evolving Pets" + ChatColor.WHITE + "!"},
             null, 0, new String[]{Professions.COMPANIONSHIP.name() + " 250"}, 0, 0, 0),
+
+    WATER_CRYSTAL(QuestGiver.ASH,
+            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Ash:point.Mine1.amount%/64 Gold Blocks" + ChatColor.WHITE + ", " + ChatColor.GREEN + "32 Emerald Blocks" + ChatColor.WHITE + ",",
+                    ChatColor.WHITE + "and " + ChatColor.GREEN + "16 Stained Glass Blocks " + ChatColor.WHITE + "while the ",
+                    ChatColor.DARK_PURPLE + "Broken Crown " + ChatColor.WHITE + "is within your inventory!"},
+            new String[]{"VOUCHER EXP_VOUCHER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 0, 0),
+
     ;
 
     private final QuestGiver questGiver;

@@ -66,6 +66,11 @@ public class QuestsDisplay extends BaseCommand {
         guiHelper.miningPassMenuGenerator(player, QuestGiver.DAN, Material.ORANGE_STAINED_GLASS_PANE);
     }
 
+    @Subcommand("Ash")
+    public void ash(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.ASH, Material.RED_STAINED_GLASS_PANE);
+    }
+
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
     }

@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 
 public enum Jobs {
     ROCK_HITTER(QuestGiver.MERLE,
-            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "250 Cobblestone Blocks" + ChatColor.WHITE + "!"},
+            new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "%betonquest_default-Town-Merle:point.ROCK_HITTER.amount%/250 Cobblestone Blocks" + ChatColor.WHITE + "!"},
             null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 250, 0),
     STONE_AGE(QuestGiver.MERLE,
             new String[]{ChatColor.WHITE + "Break " + ChatColor.GREEN + "500 Blocks" + ChatColor.WHITE + " with a " + ChatColor.GREEN + "Stone Pickaxe" + ChatColor.WHITE + "!"},
