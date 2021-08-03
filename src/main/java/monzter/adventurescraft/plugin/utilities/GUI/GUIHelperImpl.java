@@ -557,14 +557,14 @@ public class GUIHelperImpl implements GUIHelper {
         if (quests.getRewardProfessionEXP() != null)
             for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
                 String[] professionReward = questProfessionEXPReward.split(" ");
-                lore.add(PREFIX + ChatColor.BLUE + professionReward[1] + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+                lore.add(PREFIX + ChatColor.BLUE + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
             }
         if (quests.getRewardMoney() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
         if (quests.getRewardExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardExperience() + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardExperience()) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
         if (quests.getRewardPetExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardPetExperience() + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardPetExperience()) + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
 
         if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
             lore.add("");
@@ -693,14 +693,14 @@ public class GUIHelperImpl implements GUIHelper {
         if (jobs.getRewardProfessionEXP() != null)
             for (String questProfessionEXPReward : jobs.getRewardProfessionEXP()) {
                 String[] professionReward = questProfessionEXPReward.split(" ");
-                lore.add(PREFIX + ChatColor.BLUE + professionReward[1] + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+                lore.add(PREFIX + ChatColor.BLUE + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
             }
         if (jobs.getRewardMoney() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + jobs.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(jobs.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
         if (jobs.getRewardExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + jobs.getRewardExperience() + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(jobs.getRewardExperience()) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
         if (jobs.getRewardPetExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + jobs.getRewardPetExperience() + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(jobs.getRewardPetExperience()) + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
 
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
@@ -896,9 +896,9 @@ public class GUIHelperImpl implements GUIHelper {
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
         if (quests.getRewardMoney() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMoney() + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
         if (quests.getRewardMiningPassExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMiningPassExperience() + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
+            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMiningPassExperience()) + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
 
         lore.add("");
         switch (quests.getType().toUpperCase()) {
