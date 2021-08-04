@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.Dependency;
 import co.aikar.commands.annotation.Subcommand;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.QuestGiver;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
@@ -19,7 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 @CommandAlias("QuestViewer")
-public class QuestsDisplay extends BaseCommand {
+public class NPCQuestsDisplay extends BaseCommand {
 
     @Dependency
     private final AdventuresCraft plugin;
@@ -33,7 +34,7 @@ public class QuestsDisplay extends BaseCommand {
     private final BetonPointsManager betonPointsManager;
     private final Economy economy;
 
-    public QuestsDisplay(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, MMOItems mmoItems, BetonTagManager betonTagManager, FullInventory fullInventory, ItemAdder itemAdder, BetonPointsManager betonPointsManager, Economy economy) {
+    public NPCQuestsDisplay(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, MMOItems mmoItems, BetonTagManager betonTagManager, FullInventory fullInventory, ItemAdder itemAdder, BetonPointsManager betonPointsManager, Economy economy) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;

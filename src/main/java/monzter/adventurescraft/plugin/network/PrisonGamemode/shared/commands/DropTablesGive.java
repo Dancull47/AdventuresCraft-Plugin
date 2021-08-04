@@ -9,17 +9,13 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.LootLlama;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.Lootbox;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.PetEgg;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.Vote;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTableTypes;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTables;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.ChatColor;
-
-import java.util.Arrays;
 
 public class DropTablesGive extends BaseCommand {
 
@@ -57,87 +53,87 @@ public class DropTablesGive extends BaseCommand {
         for (int i = 0; i < amount; i++) {
             switch (table.toUpperCase()) {
                 case "EGGCOMMON":
-                    RandomSelector<PetEgg> commonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.COMMON)));
-                    PetEgg commonPetEggReward = commonPetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), commonPetEggReward.getDisplayName(), commonPetEggReward.getType(), commonPetEggReward.getId(), commonPetEggReward.getWeight(), commonPetEggReward.getAmount());
+                    RandomSelector<DropTables> commonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.COMMON_PET_EGG)));
+                    DropTables commonDropTablesReward = commonPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(commonDropTablesReward.getType(), commonDropTablesReward.getId()).getItemMeta().getDisplayName(), commonDropTablesReward.getType(), commonDropTablesReward.getId(), commonDropTablesReward.getWeight(), commonDropTablesReward.getAmount());
                     break;
                 case "EGGUNCOMMON":
-                    RandomSelector<PetEgg> uncommonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.UNCOMMON)));
-                    PetEgg uncommonPetEggReward = uncommonPetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), uncommonPetEggReward.getDisplayName(), uncommonPetEggReward.getType(), uncommonPetEggReward.getId(), uncommonPetEggReward.getWeight(), uncommonPetEggReward.getAmount());
+                    RandomSelector<DropTables> uncommonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.UNCOMMON_PET_EGG)));
+                    DropTables uncommonDropTablesReward = uncommonPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(uncommonDropTablesReward.getType(), uncommonDropTablesReward.getId()).getItemMeta().getDisplayName(), uncommonDropTablesReward.getType(), uncommonDropTablesReward.getId(), uncommonDropTablesReward.getWeight(), uncommonDropTablesReward.getAmount());
                     break;
                 case "EGGRARE":
-                    RandomSelector<PetEgg> rarePetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.RARE));
-                    PetEgg rarePetEggReward = rarePetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), rarePetEggReward.getDisplayName(), rarePetEggReward.getType(), rarePetEggReward.getId(), rarePetEggReward.getWeight(), rarePetEggReward.getAmount());
+                    RandomSelector<DropTables> rarePetEgg = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.RARE_PET_EGG));
+                    DropTables rareDropTablesReward = rarePetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(rareDropTablesReward.getType(), rareDropTablesReward.getId()).getItemMeta().getDisplayName(), rareDropTablesReward.getType(), rareDropTablesReward.getId(), rareDropTablesReward.getWeight(), rareDropTablesReward.getAmount());
                     break;
                 case "EGGLEGENDARY":
-                    RandomSelector<PetEgg> legendaryPetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.LEGENDARY));
-                    PetEgg legendaryPetEggReward = legendaryPetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), legendaryPetEggReward.getDisplayName(), legendaryPetEggReward.getType(), legendaryPetEggReward.getId(), legendaryPetEggReward.getWeight(), legendaryPetEggReward.getAmount());
+                    RandomSelector<DropTables> legendaryPetEgg = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.LEGENDARY_PET_EGG));
+                    DropTables legendaryDropTablesReward = legendaryPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(legendaryDropTablesReward.getType(), legendaryDropTablesReward.getId()).getItemMeta().getDisplayName(), legendaryDropTablesReward.getType(), legendaryDropTablesReward.getId(), legendaryDropTablesReward.getWeight(), legendaryDropTablesReward.getAmount());
                     break;
                 case "EGGEXOTIC":
-                    RandomSelector<PetEgg> exoticPetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.EXOTIC));
-                    PetEgg exoticPetEggReward = exoticPetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), exoticPetEggReward.getDisplayName(), exoticPetEggReward.getType(), exoticPetEggReward.getId(), exoticPetEggReward.getWeight(), exoticPetEggReward.getAmount());
+                    RandomSelector<DropTables> exoticPetEgg = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.EXOTIC_PET_EGG));
+                    DropTables exoticDropTablesReward = exoticPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(exoticDropTablesReward.getType(), exoticDropTablesReward.getId()).getItemMeta().getDisplayName(), exoticDropTablesReward.getType(), exoticDropTablesReward.getId(), exoticDropTablesReward.getWeight(), exoticDropTablesReward.getAmount());
                     break;
                 case "EGGMYTHICAL":
-                    RandomSelector<PetEgg> mythicalPetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.MYTHICAL));
-                    PetEgg mythicalPetEggReward = mythicalPetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggReward.getDisplayName(), mythicalPetEggReward.getType(), mythicalPetEggReward.getId(), mythicalPetEggReward.getWeight(), mythicalPetEggReward.getAmount());
+                    RandomSelector<DropTables> mythicalPetEgg = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.MYTHICAL_PET_EGG));
+                    DropTables mythicalDropTablesReward = mythicalPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(mythicalDropTablesReward.getType(), mythicalDropTablesReward.getId()).getItemMeta().getDisplayName(), mythicalDropTablesReward.getType(), mythicalDropTablesReward.getId(), mythicalDropTablesReward.getWeight(), mythicalDropTablesReward.getAmount());
                     break;
                 case "EGGGODLY":
-                    RandomSelector<PetEgg> godlyPetEgg = RandomSelector.weighted(PetEgg.getEggs(Rarity.GODLY));
-                    PetEgg godlyPetEggReward = godlyPetEgg.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggReward.getDisplayName(), godlyPetEggReward.getType(), godlyPetEggReward.getId(), godlyPetEggReward.getWeight(), godlyPetEggReward.getAmount());
+                    RandomSelector<DropTables> godlyPetEgg = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.GODLY_PET_EGG));
+                    DropTables godlyDropTablesReward = godlyPetEgg.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(godlyDropTablesReward.getType(), godlyDropTablesReward.getId()).getItemMeta().getDisplayName(), godlyDropTablesReward.getType(), godlyDropTablesReward.getId(), godlyDropTablesReward.getWeight(), godlyDropTablesReward.getAmount());
                     break;
 
                 case "LOOTBOX":
-                    RandomSelector<Lootbox> lootbox = RandomSelector.weighted(Lootbox.getLootbox(Rarity.COMMON));
-                    Lootbox lootboxReward = lootbox.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootboxReward.getDisplayName(), lootboxReward.getType(), lootboxReward.getId(), lootboxReward.getWeight(), lootboxReward.getAmount());
+                    RandomSelector<DropTables> lootbox = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.COMMON_LOOTBOX));
+                    DropTables lootboxReward = lootbox.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootboxReward.getType(), lootboxReward.getId()).getItemMeta().getDisplayName(), lootboxReward.getType(), lootboxReward.getId(), lootboxReward.getWeight(), lootboxReward.getAmount());
                     break;
                 case "LOOTBOX2":
-                    RandomSelector<Lootbox> lootbox2 = RandomSelector.weighted(Lootbox.getLootbox(Rarity.UNCOMMON));
-                    Lootbox lootbox2Reward = lootbox2.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootbox2Reward.getDisplayName(), lootbox2Reward.getType(), lootbox2Reward.getId(), lootbox2Reward.getWeight(), lootbox2Reward.getAmount());
+                    RandomSelector<DropTables> lootbox2 = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.UNCOMMON_LOOTBOX));
+                    DropTables lootbox2Reward = lootbox2.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootbox2Reward.getType(), lootbox2Reward.getId()).getItemMeta().getDisplayName(), lootbox2Reward.getType(), lootbox2Reward.getId(), lootbox2Reward.getWeight(), lootbox2Reward.getAmount());
                     break;
                 case "LOOTBOX3":
-                    RandomSelector<Lootbox> lootbox3 = RandomSelector.weighted(Lootbox.getLootbox(Rarity.RARE));
-                    Lootbox lootbox3Reward = lootbox3.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootbox3Reward.getDisplayName(), lootbox3Reward.getType(), lootbox3Reward.getId(), lootbox3Reward.getWeight(), lootbox3Reward.getAmount());
+                    RandomSelector<DropTables> lootbox3 = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.RARE_LOOTBOX));
+                    DropTables lootbox3Reward = lootbox3.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootbox3Reward.getType(), lootbox3Reward.getId()).getItemMeta().getDisplayName(), lootbox3Reward.getType(), lootbox3Reward.getId(), lootbox3Reward.getWeight(), lootbox3Reward.getAmount());
                     break;
                 case "LOOTBOX4":
-                    RandomSelector<Lootbox> lootbox4 = RandomSelector.weighted(Lootbox.getLootbox(Rarity.LEGENDARY));
-                    Lootbox lootbox4Reward = lootbox4.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootbox4Reward.getDisplayName(), lootbox4Reward.getType(), lootbox4Reward.getId(), lootbox4Reward.getWeight(), lootbox4Reward.getAmount());
+                    RandomSelector<DropTables> lootbox4 = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.LEGENDARY_LOOTBOX));
+                    DropTables lootbox4Reward = lootbox4.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootbox4Reward.getType(), lootbox4Reward.getId()).getItemMeta().getDisplayName(), lootbox4Reward.getType(), lootbox4Reward.getId(), lootbox4Reward.getWeight(), lootbox4Reward.getAmount());
                     break;
                 case "LOOTBOX5":
-                    RandomSelector<Lootbox> lootbox5 = RandomSelector.weighted(Lootbox.getLootbox(Rarity.EXOTIC));
-                    Lootbox lootbox5Reward = lootbox5.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootbox5Reward.getDisplayName(), lootbox5Reward.getType(), lootbox5Reward.getId(), lootbox5Reward.getWeight(), lootbox5Reward.getAmount());
+                    RandomSelector<DropTables> lootbox5 = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.EXOTIC_LOOTBOX));
+                    DropTables lootbox5Reward = lootbox5.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootbox5Reward.getType(), lootbox5Reward.getId()).getItemMeta().getDisplayName(), lootbox5Reward.getType(), lootbox5Reward.getId(), lootbox5Reward.getWeight(), lootbox5Reward.getAmount());
                     break;
                 case "LOOTBOX6":
-                    RandomSelector<Lootbox> lootbox6 = RandomSelector.weighted(Lootbox.getLootbox(Rarity.MYTHICAL));
-                    Lootbox lootbox6Reward = lootbox6.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootbox6Reward.getDisplayName(), lootbox6Reward.getType(), lootbox6Reward.getId(), lootbox6Reward.getWeight(), lootbox6Reward.getAmount());
+                    RandomSelector<DropTables> lootbox6 = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.MYTHICAL_LOOTBOX));
+                    DropTables lootbox6Reward = lootbox6.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootbox6Reward.getType(), lootbox6Reward.getId()).getItemMeta().getDisplayName(), lootbox6Reward.getType(), lootbox6Reward.getId(), lootbox6Reward.getWeight(), lootbox6Reward.getAmount());
                     break;
                 case "LOOTBOX7":
-                    RandomSelector<Lootbox> lootbox7 = RandomSelector.weighted(Lootbox.getLootbox(Rarity.GODLY));
-                    Lootbox lootbox7Reward = lootbox7.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootbox7Reward.getDisplayName(), lootbox7Reward.getType(), lootbox7Reward.getId(), lootbox7Reward.getWeight(), lootbox7Reward.getAmount());
+                    RandomSelector<DropTables> lootbox7 = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.GODLY_LOOTBOX));
+                    DropTables lootbox7Reward = lootbox7.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootbox7Reward.getType(), lootbox7Reward.getId()).getItemMeta().getDisplayName(), lootbox7Reward.getType(), lootbox7Reward.getId(), lootbox7Reward.getWeight(), lootbox7Reward.getAmount());
                     break;
 
                 case "VOTE":
-                    RandomSelector<Vote> vote = RandomSelector.weighted(Arrays.asList(Vote.values()));
-                    Vote voteReward = vote.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), voteReward.getDisplayName(), voteReward.getType(), voteReward.id, voteReward.getWeight(), voteReward.getAmount());
+                    RandomSelector<DropTables> vote = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.VOTE));
+                    DropTables voteReward = vote.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(voteReward.getType(), voteReward.getId()).getItemMeta().getDisplayName(), voteReward.getType(), voteReward.getId(), voteReward.getWeight(), voteReward.getAmount());
                     break;
 
                 case "LLAMA":
-                    RandomSelector<LootLlama> lootLlama = RandomSelector.weighted(Arrays.asList(LootLlama.values()));
-                    LootLlama lootLlamaReward = lootLlama.pick();
-                    dropTablesDelivery.giveReward(player.getPlayer(), lootLlamaReward.getDisplayName(), lootLlamaReward.getType(), lootLlamaReward.id, lootLlamaReward.getWeight(), lootLlamaReward.getAmount());
+                    RandomSelector<DropTables> lootLlama = RandomSelector.weighted(DropTables.getEggs(DropTableTypes.LLAMA));
+                    DropTables lootLlamaReward = lootLlama.pick();
+                    dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(lootLlamaReward.getType(), lootLlamaReward.getId()).getItemMeta().getDisplayName(), lootLlamaReward.getType(), lootLlamaReward.getId(), lootLlamaReward.getWeight(), lootLlamaReward.getAmount());
                     break;
             }
         }

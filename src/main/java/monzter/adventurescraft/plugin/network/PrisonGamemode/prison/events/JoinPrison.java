@@ -2,6 +2,7 @@ package monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events;
 
 import io.lumine.mythic.utils.Schedulers;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.Warps;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.craftersland.data.bridge.PD;
@@ -15,20 +16,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import java.util.Set;
 
 public class JoinPrison implements Listener {
     private final AdventuresCraft plugin;
     private final MMOItemsGive mmoItemsGive;
     private final PermissionLP permissionLP;
     private int tries = 0;
-    private final YamlConfiguration warps;
 
     private final TextComponent mining = Component.text("You can start mining by using ")
             .color(NamedTextColor.GREEN)
@@ -43,27 +40,29 @@ public class JoinPrison implements Listener {
             .clickEvent(ClickEvent.runCommand("/warp Tutorial"))
             .append(Component.text(" to learn about our Prison and receive rewards!"));
 
-    public JoinPrison(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP, YamlConfiguration warps) {
+    public JoinPrison(AdventuresCraft plugin, MMOItemsGive mmoItemsGive, PermissionLP permissionLP) {
         this.plugin = plugin;
         this.mmoItemsGive = mmoItemsGive;
         this.permissionLP = permissionLP;
-        this.warps = warps;
     }
 
-    BossBar bossBar = Bukkit.createBossBar(ChatColor.WHITE + "Complete the " + ChatColor.GREEN + "Tutorial " + ChatColor.WHITE + "by using "
+    private final BossBar bossBar = Bukkit.createBossBar(ChatColor.WHITE + "Complete the " + ChatColor.GREEN + "Tutorial " + ChatColor.WHITE + "by using "
             + ChatColor.GREEN + "/Tutorial " + ChatColor.WHITE + "for a " + ChatColor.GREEN + "reward" + ChatColor.WHITE + "!", BarColor.GREEN, BarStyle.SOLID);
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
+//        Guide #1 to point Players where to go
         if (!player.hasPermission("mines.tp.m")) {
             player.sendMessage(mining);
         }
+//        Guide #2 to point Players where to go & sends them to tutorial
         if (player.hasPermission("cmi.hologram.tutorial_pickaxe")) {
             player.sendMessage(tutorial);
             bossBar.addPlayer(player);
             Schedulers.sync().runLater(() -> bossBar.removePlayer(player), 1200);
         }
+        //        Gives player the Starter Kit
         if (!player.hasPermission("KIT.RECEIVED")) {
             Schedulers.sync().runRepeating(task -> {
                 if (PD.api.isInventoryArmorSyncComplete(player)) {
@@ -82,12 +81,11 @@ public class JoinPrison implements Listener {
                 tries++;
             }, 20, 60);
         }
-
+        //        Warps player to Warp if they used the Warp while in Cells
         if (!player.isOp()) {
-            Set<String> warpNames = warps.getKeys(false);
-            for (String currentWarpName : warpNames) {
-                if (player.hasPermission("CELL.WARP." + currentWarpName)) {
-                    player.performCommand("warp " + currentWarpName);
+            for (Warps warp : Warps.values()) {
+                if (player.hasPermission("CELL.WARP." + warp.name().toUpperCase())) {
+                    player.performCommand("warp " + warp.getWarpNames().get(0));
                     break;
                 }
             }

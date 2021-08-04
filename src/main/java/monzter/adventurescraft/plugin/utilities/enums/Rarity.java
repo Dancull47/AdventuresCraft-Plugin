@@ -10,13 +10,7 @@ public enum Rarity {
     EXOTIC(ChatColor.YELLOW, "Exotic"),
     MYTHICAL(ChatColor.LIGHT_PURPLE, "Mythical"),
     GODLY(ChatColor.RED, "Godly"),
-
-    PHOENIX(ChatColor.BLUE, null),
-    PHOENIX2(ChatColor.DARK_PURPLE, null),
-
-    DRAGON(ChatColor.BLUE, null),
-    DRAGON2(ChatColor.DARK_PURPLE, null);
-
+;
     private final ChatColor color;
     private final String name;
 

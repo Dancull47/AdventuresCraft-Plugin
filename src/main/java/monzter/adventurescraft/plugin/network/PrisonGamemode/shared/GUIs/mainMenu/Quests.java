@@ -11,7 +11,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestArea;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.QuestArea;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
@@ -51,23 +51,23 @@ public class Quests extends BaseCommand {
     public void questMenu(Player player) {
 
         int completedQuests = 0;
-        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests.values()) {
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests.values()) {
             String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
 //                plugin.getLogger().info(packageBuilder + quests.name() + "_COMPLETED");
             if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                 completedQuests++;
         }
         int questAmount = 0;
-        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests.values()) {
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests.values()) {
             questAmount++;
         }
 
-        ChestGui gui = new ChestGui(5, guiHelper.guiName("Quests " + completedQuests + "/" + questAmount));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Quests " + completedQuests + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
-        OutlinePane main = new OutlinePane(1, 1, 7, 3, Pane.Priority.LOW);
+        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
+        OutlinePane main = new OutlinePane(4, 1, 7, 2, Pane.Priority.LOW);
 
 
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
@@ -76,11 +76,11 @@ public class Quests extends BaseCommand {
         for (QuestArea questArea : QuestArea.values())
             main.addItem(itemGenerator(player, questArea));
 
-        display.addItem(new GuiItem(achievements(player), e -> consoleCommand.consoleCommand("dm open Achievements " + player.getName())), 2, 4);
-        display.addItem(new GuiItem(activeQuests(), e -> player.performCommand("activequests")), 3, 4);
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
-        display.addItem(new GuiItem(unclaimedQuests(player), e -> player.performCommand("unclaimedquests")), 5, 4);
-        display.addItem(new GuiItem(jobs(player), e -> consoleCommand.consoleCommand("dm open Bounty " + player.getName())), 6, 4);
+//        display.addItem(new GuiItem(achievements(player), e -> consoleCommand.consoleCommand("dm open Achievements " + player.getName())), 2, 4);
+//        display.addItem(new GuiItem(activeQuests(), e -> player.performCommand("activequests")), 3, 4);
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
+//        display.addItem(new GuiItem(unclaimedQuests(player), e -> player.performCommand("unclaimedquests")), 5, 4);
+//        display.addItem(new GuiItem(jobs(player), e -> consoleCommand.consoleCommand("dm open Bounty " + player.getName())), 6, 4);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -94,13 +94,13 @@ public class Quests extends BaseCommand {
         final ItemMeta itemItemMeta = item.getItemMeta();
 
         int questAmount = 0;
-        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests.values()) {
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests.values()) {
             if (quests.getQuestGiver().getArea() == questArea)
                 questAmount++;
         }
 
         int completedQuests = 0;
-        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Quests.values()) {
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests quests : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests.values()) {
             if (quests.getQuestGiver().getArea() == questArea) {
                 String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))

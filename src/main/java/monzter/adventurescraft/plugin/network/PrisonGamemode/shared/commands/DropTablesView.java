@@ -10,22 +10,15 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTableTypes;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTables;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.LootLlama;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.Lootbox;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.PetEgg;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
-import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
-import net.Indyuce.mmoitems.MMOItems;
-import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,16 +37,9 @@ public class DropTablesView extends BaseCommand {
         this.guiHelper = guiHelper;
     }
 
-    private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-    private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
-    private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
-    private final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
-    private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
-
     @Subcommand("backpack")
     private void backpack(Player player) {
-        final ChestGui gui = new ChestGui(6, "Backpack");
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Backpack"));
         final List<WeightPrices> guiContents = Arrays.asList(WeightPrices.values());
         createMenu(gui, guiContents, player);
         gui.show(player);
@@ -61,155 +47,164 @@ public class DropTablesView extends BaseCommand {
 
     @Subcommand("CommonPetEgg")
     private void commonPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Common Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.COMMON);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Common Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.COMMON_PET_EGG);
+        createMenu(gui, guiContents, Material.WHITE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("UncommonPetEgg")
     private void uncommonPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Uncommon Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.UNCOMMON);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Uncommon Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.UNCOMMON_PET_EGG);
+        createMenu(gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("RarePetEgg")
     private void rarePetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Rare Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.RARE);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Rare Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.RARE_PET_EGG);
+        createMenu(gui, guiContents, Material.BLUE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("LegendaryPetEgg")
     private void legendaryPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Legendary Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.LEGENDARY);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Legendary Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.LEGENDARY_PET_EGG);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("ExoticPetEgg")
     private void exoticPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Exotic Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.EXOTIC);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Exotic Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.EXOTIC_PET_EGG);
+        createMenu(gui, guiContents, Material.YELLOW_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("MythicalPetEgg")
     private void mythicalPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Mythical Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.MYTHICAL);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Mythical Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.MYTHICAL_PET_EGG);
+        createMenu(gui, guiContents, Material.PINK_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("GodlyPetEgg")
     private void godlyPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Godly Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.GODLY);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Godly Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.GODLY_PET_EGG);
+        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("PhoenixPetEgg")
     private void phoenixPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Phoenix Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.PHOENIX);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Phoenix Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.PHOENIX_PET_EGG);
+        createMenu(gui, guiContents, Material.ORANGE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("PhoenixPetEgg2|Phoenix2PetEgg")
     private void phoenixPetEgg2(Player player) {
-        final ChestGui gui = new ChestGui(6, "Phoenix Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.PHOENIX2);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Phoenix Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.PHOENIX_PET_EGG2);
+        createMenu(gui, guiContents, Material.ORANGE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("DragonPetEgg")
     private void dragonPetEgg(Player player) {
-        final ChestGui gui = new ChestGui(6, "Dragon Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.DRAGON);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Dragon Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.DRAGON_PET_EGG);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("DragonPetEgg2|Dragon2PetEgg")
     private void dragonPetEgg2(Player player) {
-        final ChestGui gui = new ChestGui(6, "Dragon Pet Egg");
-        final List<PetEgg> guiContents = PetEgg.getEggs(Rarity.DRAGON2);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Dragon Pet Egg"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.DRAGON_PET_EGG2);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox")
     private void lootbox(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.COMMON);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Common Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.COMMON_LOOTBOX);
+        createMenu(gui, guiContents, Material.WHITE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox2")
     private void lootbox2(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.UNCOMMON);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Uncommon Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.UNCOMMON_LOOTBOX);
+        createMenu(gui, guiContents, Material.GREEN_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox3")
     private void lootbox3(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.RARE);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Rare Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.RARE_LOOTBOX);
+        createMenu(gui, guiContents, Material.BLUE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox4")
     private void lootbox4(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.LEGENDARY);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Legendary Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.LEGENDARY_LOOTBOX);
+        createMenu(gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox5")
     private void lootbox5(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.EXOTIC);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Exotic Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.EXOTIC_LOOTBOX);
+        createMenu(gui, guiContents, Material.YELLOW_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox6")
     private void lootbox6(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.MYTHICAL);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Mythical Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.MYTHICAL_LOOTBOX);
+        createMenu(gui, guiContents, Material.PINK_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     @Subcommand("Lootbox7")
     private void lootbox7(Player player) {
-        final ChestGui gui = new ChestGui(6, "Lootbox");
-        final List<Lootbox> guiContents = Lootbox.getLootbox(Rarity.GODLY);
-        createMenu(gui, guiContents);
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Godly Lootbox"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.GODLY_LOOTBOX);
+        createMenu(gui, guiContents, Material.RED_STAINED_GLASS_PANE);
+        gui.show(player);
+    }
+
+    @Subcommand("Llama")
+    private void llama(Player player) {
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Llama"));
+        final List<DropTables> guiContents = DropTables.getEggs(DropTableTypes.LLAMA);
+        createMenu(gui, guiContents, Material.PINK_STAINED_GLASS_PANE);
         gui.show(player);
     }
 
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents) {
-        backgroundItemMeta.displayName(Component.text(" "));
-        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
-        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
-        backgroundItem.setItemMeta(backgroundItemMeta);
-        previousPageItem.setItemMeta(previousPageItemMeta);
-        nextPageItem.setItemMeta(nextPageItemMeta);
+        createMenu(gui, guiContents, Material.BLACK_STAINED_GLASS_PANE);
+    }
+
+    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Material backgroundColor) {
+        ItemStack backgroundItem = guiHelper.background(backgroundColor);
+        ItemStack previousPageItem = guiHelper.previousPageButton();
+        ItemStack nextPageItem = guiHelper.nextPageButton();
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -264,16 +259,13 @@ public class DropTablesView extends BaseCommand {
     }
 
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player) {
-        createMenu(gui, guiContents, player, "");
+        createMenu(gui, guiContents, player, "", Material.BLACK_STAINED_GLASS_PANE);
     }
 
-    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player, String guiName) {
-        backgroundItemMeta.displayName(Component.text(" "));
-        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
-        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
-        backgroundItem.setItemMeta(backgroundItemMeta);
-        previousPageItem.setItemMeta(previousPageItemMeta);
-        nextPageItem.setItemMeta(nextPageItemMeta);
+    private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player, String guiName, Material backgroundColor) {
+        ItemStack backgroundItem = guiHelper.background(backgroundColor);
+        ItemStack previousPageItem = guiHelper.previousPageButton();
+        ItemStack nextPageItem = guiHelper.nextPageButton();
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -323,7 +315,7 @@ public class DropTablesView extends BaseCommand {
                 gui.update();
             }), 0, 0);
         }
-        if (guiName.equals("PetEgg"))
+        if (guiName.equals("DropTables"))
             backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("hatchingshop")), 0, 0);
 
         gui.addPane(page);
@@ -331,39 +323,5 @@ public class DropTablesView extends BaseCommand {
         gui.addPane(backButton);
         gui.addPane(forward);
     }
-
-
-    @Subcommand("Llama")
-    private void llama(Player player) {
-        backgroundItemMeta.displayName(Component.text(" "));
-        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
-        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
-        backgroundItem.setItemMeta(backgroundItemMeta);
-
-        ChestGui gui = new ChestGui(6, "Loot Llama Loot Table");
-        gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-        PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
-        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
-        OutlinePane display = new OutlinePane(1, 1, 7, 4, Pane.Priority.LOW);
-
-        page.addPane(0, background);
-        page.addPane(0, display);
-
-        background.addItem(new GuiItem(backgroundItem));
-        background.setRepeat(true);
-
-        for (LootLlama item : LootLlama.values()) {
-            final ItemStack itemStack = MMOItems.plugin.getItem(item.type, item.id);
-            List<String> lore = itemStack.getLore();
-            lore.add("");
-            lore.add(ChatColor.GOLD.toString() + ChatColor.BOLD + "CHANCE: " + item.weight * 100 + "%");
-            itemStack.setLore(lore);
-            display.addItem(new GuiItem(itemStack));
-        }
-        gui.addPane(page);
-        gui.show(player);
-    }
-
 }
 

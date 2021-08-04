@@ -1,6 +1,6 @@
 package monzter.adventurescraft.plugin.utilities.GUI;
 
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestGiver;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.QuestGiver;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
