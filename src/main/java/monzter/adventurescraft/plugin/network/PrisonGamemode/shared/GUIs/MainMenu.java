@@ -68,12 +68,7 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(backpack(player), e -> player.performCommand("backpack")), 2, 2);
         display.addItem(new GuiItem(prestiges(player), e -> player.performCommand("prestiges")), 3, 2);
         display.addItem(new GuiItem(profile(player), e -> player.performCommand("profiles")), 4, 2);
-        display.addItem(new GuiItem(quests(player), e -> {
-            if (e.isLeftClick())
-                player.performCommand("quest");
-            if (e.isRightClick())
-                player.performCommand("journal");
-        }), 5, 2);
+        display.addItem(new GuiItem(quests(player), e -> player.performCommand("quest")), 5, 2);
         display.addItem(new GuiItem(miningPass(player), e -> player.performCommand("miningpassmenu")), 6, 2);
         display.addItem(new GuiItem(leaderboards(player), e -> player.performCommand("leaderboards")), 7, 2);
 
@@ -259,8 +254,7 @@ public class MainMenu extends BaseCommand {
         lore.add(ChatColor.GRAY + "Explore the Prison and");
         lore.add(ChatColor.GRAY + "help others for rewards!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to open Quest Menu");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to get a Quest Journal");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to open Quest Menu");
 
         quests.setItemMeta(questsItemMeta);
         quests.setLore(lore);
