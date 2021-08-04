@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums;
 
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.enums.Professions;

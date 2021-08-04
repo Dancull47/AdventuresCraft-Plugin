@@ -15,16 +15,14 @@ public class MineTeleport extends BaseCommand {
         this.plugin = plugin;
     }
 
-    String ranks = "zyxwvutsrqponmlkjlhgfedcba";
+    //  The idea with the p's is to have a Prestige mine every 10 or so Prestiges
+    String ranks = "p10,p1,z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k,j,l,h,g,f,e,d,c,b,a";
 
     @CommandAlias("mine")
     public void mineCommand(Player player) {
-        for (int i = 0; i < ranks.length(); i++) {
-            if (player.hasPermission("mines.tp." + ranks.charAt(i))) {
-                player.performCommand("warp " + ranks.charAt(i));
-                break;
-            }
-        }
+        for (String rank : ranks.split(","))
+            if (player.hasPermission("mines.tp." + rank))
+                player.performCommand("warp mine" + rank);
     }
 
 }

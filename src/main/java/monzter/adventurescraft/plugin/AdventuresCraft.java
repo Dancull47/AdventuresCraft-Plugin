@@ -54,7 +54,7 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMen
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Achivements;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestAreaMenu;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestsDisplay;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.NPCQuestsDisplay;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.settings.SafeDrop;
@@ -317,7 +317,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.Warp(this, permissionLP));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP, areaCheck), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP, loadWarps()), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, AdventureRegions.getInstance().prisonMineFlag, dropTablesDelivery), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, AdventureRegions.getInstance().prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
@@ -355,7 +355,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand, betonTagManager));
-        manager.registerCommand(new QuestsDisplay(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonTagManager, fullInventory, itemAdder, betonPointsManager, economy));
+        manager.registerCommand(new NPCQuestsDisplay(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonTagManager, fullInventory, itemAdder, betonPointsManager, economy));
         manager.registerCommand(new QuestAreaMenu(this, soundManager, guiHelper, consoleCommand, betonTagManager));
         manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
@@ -368,7 +368,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Evolving(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, itemAdder));
         manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
 //        Quest GUIs
         manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
@@ -493,15 +492,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         return petSet;
     }
 
-    private YamlConfiguration loadWarps() {
-        File warpsFile = new File(getDataFolder(), "warps.yml");
-        if (!warpsFile.exists()) {
-            saveResource("warps.yml", false);
-        }
-        YamlConfiguration warpConfig = YamlConfiguration.loadConfiguration(warpsFile);
-        return warpConfig;
-    }
-
     private YamlConfiguration loadPetsConfig() {
         File petsFile = new File(getDataFolder(), "pets.yml");
         if (!petsFile.exists()) {
@@ -509,10 +499,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         }
         YamlConfiguration petsConfig = YamlConfiguration.loadConfiguration(petsFile);
         return petsConfig;
-    }
-
-    public File getWarpsFile() {
-        return new File(getDataFolder(), "warps.yml");
     }
 
     /**
@@ -568,84 +554,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             }
         }
     }
-
-//    public void createTable() {
-//        String sql = "CREATE TABLE IF NOT EXISTS adventuresCraft (Player varchar(200), dailyLogin double);";
-//// prepare the statement to be executed
-//        try {
-//            PreparedStatement stmt = connection.prepareStatement(sql);
-//            // use executeUpdate() to update the databases table.
-//            stmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-//
-//    //https://www.spigotmc.org/wiki/mysql-database-integration-with-your-plugin/
-//    //https://www.spigotmc.org/threads/using-mysql-with-java-basic-tutorial.222291/
-//    public void addToDB(Player player) {
-//        String sql = "UPDATE adventuresCraft SET dailyLogin=? WHERE Player=?";
-//        try {
-//            PreparedStatement stmt = connection.prepareStatement(sql);
-//            stmt.setString(2, player.getUniqueId().toString());
-//            stmt.setLong(1, Instant.now().getEpochSecond());
-//            int update = stmt.executeUpdate();
-//            if (update == 0) {
-//                sql = "INSERT INTO adventuresCraft (Player, dailyLogin) VALUES (?, ?);";
-//                stmt = connection.prepareStatement(sql);
-//                stmt.setString(1, player.getUniqueId().toString());
-//                stmt.setLong(2, Instant.now().getEpochSecond());
-//                stmt.execute();
-//                stmt.close();
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-//
-//    public void checkFromDB(Player player) {
-//        String sql = "SELECT dailyLogin FROM adventuresCraft WHERE Player=?";
-//        PreparedStatement stmt = null;
-//        try {
-//            stmt = connection.prepareStatement(sql);
-//            stmt.setString(1, player.getUniqueId().toString()); // Set first "?" to query string
-//            ResultSet results = stmt.executeQuery();
-//            if (!results.next()) {
-//                System.out.println("Failed");
-//            } else {
-//                System.out.println(results.getString("dailyLogin"));
-//                System.out.println("Success");
-//            }
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//    }
-
-//    public void restart() {
-//        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-//            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//            Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 10 minutes!");
-//            Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-//                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//                Bukkit.broadcastMessage(ChatColor.YELLOW + "Server will be restarting in 5 minutes!");
-//                Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-//                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//                    Bukkit.broadcastMessage(ChatColor.GOLD + "Server will be restarting in 3 minutes!");
-//                    Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-//                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//                        Bukkit.broadcastMessage(ChatColor.DARK_RED + "Server is now restarting!");
-//                        Bukkit.broadcastMessage(ChatColor.RED + "---------------------------------");
-//                        this.setEnabled(false);
-//                    }, 3600L);
-//                }, 2400L);
-//            }, 6000L);
-//        }, 420000L);
-//    }
 
     private void prisonTipMessages() {
         String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.YELLOW + "♦" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;

@@ -8,9 +8,10 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.Treasure;
-import monzter.adventurescraft.plugin.utilities.enums.Rarity;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTableTypes;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTables;
 import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
+import net.Indyuce.mmoitems.MMOItems;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -47,9 +48,9 @@ public class ChestInteract implements Listener {
                         event.getClickedBlock().getLocation().getY(),
                         event.getClickedBlock().getLocation().getZ(),
                         10, .5, .5, .5);
-                RandomSelector<Treasure> commonTreasureChest = RandomSelector.weighted((Treasure.getTreasure(Rarity.COMMON)));
-                Treasure commonTreasureReward = commonTreasureChest.pick();
-                dropTablesDelivery.giveReward(player.getPlayer(), commonTreasureReward.getDisplayName(), commonTreasureReward.getType(), commonTreasureReward.getId(), commonTreasureReward.getWeight(), commonTreasureReward.getAmount());
+                RandomSelector<DropTables> commonTreasureChest = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.TREASURE)));
+                DropTables commonTreasureReward = commonTreasureChest.pick();
+                dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(commonTreasureReward.getType(), commonTreasureReward.getId()).getItemMeta().getDisplayName(), commonTreasureReward.getType(), commonTreasureReward.getId(), commonTreasureReward.getWeight(), commonTreasureReward.getAmount());
             }
         }
     }

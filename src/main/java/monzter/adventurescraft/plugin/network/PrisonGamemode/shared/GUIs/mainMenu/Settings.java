@@ -15,10 +15,6 @@ import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.event.ClickEvent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,22 +32,6 @@ public class Settings extends BaseCommand {
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
     private final PermissionLP permissionLP;
-
-    final TextComponent setting = Component.text("You can setting to get epic rewards from our")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Store", NamedTextColor.GOLD))
-            .append(Component.text("!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
-
-    final TextComponent miningPass = Component.text("Earn ")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text(" Special Rewards ", NamedTextColor.GOLD))
-            .append(Component.text("while mining through the Prison!"))
-            .append(Component.text(" <- CLICK HERE", NamedTextColor.GOLD, TextDecoration.BOLD))
-            .hoverEvent(Component.text("Click to visit the Store's Battle Pass!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net"));
 
     public Settings(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, PermissionLP permissionLP) {
         this.plugin = plugin;

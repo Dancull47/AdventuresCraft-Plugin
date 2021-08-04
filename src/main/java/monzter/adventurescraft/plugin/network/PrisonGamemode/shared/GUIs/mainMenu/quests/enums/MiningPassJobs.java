@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums;
 
 import org.bukkit.ChatColor;
 

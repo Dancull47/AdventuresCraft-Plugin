@@ -11,7 +11,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.lucko.helper.Events;
 import me.lucko.helper.random.RandomSelector;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.PetEgg;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTableTypes;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTables;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
@@ -55,10 +56,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG", Rarity.COMMON + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.COMMON + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.COMMON.expToHatch);
-                        RandomSelector<PetEgg> commonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.COMMON)));
-                        PetEgg commonPetEggListReward = commonPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), commonPetEggListReward.getDisplayName(), commonPetEggListReward.getType(), commonPetEggListReward.getId(), commonPetEggListReward.getWeight(), commonPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(commonPetEggListReward.getType(), commonPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> commonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.COMMON_PET_EGG)));
+                        DropTables commonDropTablesListReward = commonPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(commonDropTablesListReward.getType(), commonDropTablesListReward.getId()).getItemMeta().getDisplayName(), commonDropTablesListReward.getType(), commonDropTablesListReward.getId(), commonDropTablesListReward.getWeight(), commonDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(commonDropTablesListReward.getType(), commonDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -68,10 +69,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG2", Rarity.UNCOMMON + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.UNCOMMON + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.UNCOMMON.expToHatch);
-                        RandomSelector<PetEgg> uncommonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.UNCOMMON)));
-                        PetEgg uncommonPetEggListReward = uncommonPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), uncommonPetEggListReward.getDisplayName(), uncommonPetEggListReward.getType(), uncommonPetEggListReward.getId(), uncommonPetEggListReward.getWeight(), uncommonPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(uncommonPetEggListReward.getType(), uncommonPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> uncommonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.UNCOMMON_PET_EGG)));
+                        DropTables uncommonDropTablesListReward = uncommonPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(uncommonDropTablesListReward.getType(), uncommonDropTablesListReward.getId()).getItemMeta().getDisplayName(), uncommonDropTablesListReward.getType(), uncommonDropTablesListReward.getId(), uncommonDropTablesListReward.getWeight(), uncommonDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(uncommonDropTablesListReward.getType(), uncommonDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -81,10 +82,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG3", Rarity.RARE + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.RARE.expToHatch);
-                        RandomSelector<PetEgg> rarePetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.RARE)));
-                        PetEgg rarePetEggListReward = rarePetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), rarePetEggListReward.getDisplayName(), rarePetEggListReward.getType(), rarePetEggListReward.getId(), rarePetEggListReward.getWeight(), rarePetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(rarePetEggListReward.getType(), rarePetEggListReward.getId()), player);
+                        RandomSelector<DropTables> rarePetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.RARE_PET_EGG)));
+                        DropTables rareDropTablesListReward = rarePetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(rareDropTablesListReward.getType(), rareDropTablesListReward.getId()).getItemMeta().getDisplayName(), rareDropTablesListReward.getType(), rareDropTablesListReward.getId(), rareDropTablesListReward.getWeight(), rareDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(rareDropTablesListReward.getType(), rareDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -94,10 +95,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG4", Rarity.LEGENDARY + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.LEGENDARY.expToHatch);
-                        RandomSelector<PetEgg> legendaryPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.LEGENDARY)));
-                        PetEgg legendaryPetEggListReward = legendaryPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), legendaryPetEggListReward.getDisplayName(), legendaryPetEggListReward.getType(), legendaryPetEggListReward.getId(), legendaryPetEggListReward.getWeight(), legendaryPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(legendaryPetEggListReward.getType(), legendaryPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> legendaryPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.LEGENDARY_PET_EGG)));
+                        DropTables legendaryDropTablesListReward = legendaryPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(legendaryDropTablesListReward.getType(), legendaryDropTablesListReward.getId()).getItemMeta().getDisplayName(), legendaryDropTablesListReward.getType(), legendaryDropTablesListReward.getId(), legendaryDropTablesListReward.getWeight(), legendaryDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(legendaryDropTablesListReward.getType(), legendaryDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -107,10 +108,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG5", Rarity.EXOTIC + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.EXOTIC + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.EXOTIC.expToHatch);
-                        RandomSelector<PetEgg> exoticPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.EXOTIC)));
-                        PetEgg exoticPetEggListReward = exoticPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), exoticPetEggListReward.getDisplayName(), exoticPetEggListReward.getType(), exoticPetEggListReward.getId(), exoticPetEggListReward.getWeight(), exoticPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(exoticPetEggListReward.getType(), exoticPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> exoticPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.EXOTIC_PET_EGG)));
+                        DropTables exoticDropTablesListReward = exoticPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(exoticDropTablesListReward.getType(), exoticDropTablesListReward.getId()).getItemMeta().getDisplayName(), exoticDropTablesListReward.getType(), exoticDropTablesListReward.getId(), exoticDropTablesListReward.getWeight(), exoticDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(exoticDropTablesListReward.getType(), exoticDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -120,10 +121,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG6", Rarity.MYTHICAL + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.MYTHICAL + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.MYTHICAL.expToHatch);
-                        RandomSelector<PetEgg> mythicalPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.MYTHICAL)));
-                        PetEgg mythicalPetEggListReward = mythicalPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), mythicalPetEggListReward.getDisplayName(), mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId(), mythicalPetEggListReward.getWeight(), mythicalPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(mythicalPetEggListReward.getType(), mythicalPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> mythicalPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.MYTHICAL_PET_EGG)));
+                        DropTables mythicalDropTablesListReward = mythicalPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(mythicalDropTablesListReward.getType(), mythicalDropTablesListReward.getId()).getItemMeta().getDisplayName(), mythicalDropTablesListReward.getType(), mythicalDropTablesListReward.getId(), mythicalDropTablesListReward.getWeight(), mythicalDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(mythicalDropTablesListReward.getType(), mythicalDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -133,10 +134,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PET_EGG7", Rarity.GODLY + "Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.GODLY + "Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.GODLY.expToHatch);
-                        RandomSelector<PetEgg> godlyPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.GODLY)));
-                        PetEgg godlyPetEggListReward = godlyPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), godlyPetEggListReward.getDisplayName(), godlyPetEggListReward.getType(), godlyPetEggListReward.getId(), godlyPetEggListReward.getWeight(), godlyPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(godlyPetEggListReward.getType(), godlyPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> godlyPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.GODLY_PET_EGG)));
+                        DropTables godlyDropTablesListReward = godlyPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(godlyDropTablesListReward.getType(), godlyDropTablesListReward.getId()).getItemMeta().getDisplayName(), godlyDropTablesListReward.getType(), godlyDropTablesListReward.getId(), godlyDropTablesListReward.getWeight(), godlyDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(godlyDropTablesListReward.getType(), godlyDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -146,10 +147,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PHOENIX_EGG", Rarity.RARE + "Phoenix Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE + "Phoenix Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.PHOENIX.expToHatch);
-                        RandomSelector<PetEgg> phoenixPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.PHOENIX)));
-                        PetEgg phoenixPetEggListReward = phoenixPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), phoenixPetEggListReward.getDisplayName(), phoenixPetEggListReward.getType(), phoenixPetEggListReward.getId(), phoenixPetEggListReward.getWeight(), phoenixPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(phoenixPetEggListReward.getType(), phoenixPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> phoenixPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.PHOENIX_PET_EGG)));
+                        DropTables phoenixDropTablesListReward = phoenixPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(phoenixDropTablesListReward.getType(), phoenixDropTablesListReward.getId()).getItemMeta().getDisplayName(), phoenixDropTablesListReward.getType(), phoenixDropTablesListReward.getId(), phoenixDropTablesListReward.getWeight(), phoenixDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(phoenixDropTablesListReward.getType(), phoenixDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -159,10 +160,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "PHOENIX_EGG2", Rarity.LEGENDARY + "Phoenix Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY + "Phoenix Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.PHOENIX2.expToHatch);
-                        RandomSelector<PetEgg> phoenix2PetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.PHOENIX2)));
-                        PetEgg phoenix2PetEggListReward = phoenix2PetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), phoenix2PetEggListReward.getDisplayName(), phoenix2PetEggListReward.getType(), phoenix2PetEggListReward.getId(), phoenix2PetEggListReward.getWeight(), phoenix2PetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(phoenix2PetEggListReward.getType(), phoenix2PetEggListReward.getId()), player);
+                        RandomSelector<DropTables> phoenix2PetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.PHOENIX_PET_EGG2)));
+                        DropTables phoenix2DropTablesListReward = phoenix2PetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(phoenix2DropTablesListReward.getType(), phoenix2DropTablesListReward.getId()).getItemMeta().getDisplayName(), phoenix2DropTablesListReward.getType(), phoenix2DropTablesListReward.getId(), phoenix2DropTablesListReward.getWeight(), phoenix2DropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(phoenix2DropTablesListReward.getType(), phoenix2DropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -172,10 +173,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "DRAGON_EGG", Rarity.RARE + "Dragon Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE + "Dragon Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.DRAGON.expToHatch);
-                        RandomSelector<PetEgg> dragonPetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.DRAGON)));
-                        PetEgg dragonPetEggListReward = dragonPetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), dragonPetEggListReward.getDisplayName(), dragonPetEggListReward.getType(), dragonPetEggListReward.getId(), dragonPetEggListReward.getWeight(), dragonPetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(dragonPetEggListReward.getType(), dragonPetEggListReward.getId()), player);
+                        RandomSelector<DropTables> dragonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.DRAGON_PET_EGG)));
+                        DropTables dragonDropTablesListReward = dragonPetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(dragonDropTablesListReward.getType(), dragonDropTablesListReward.getId()).getItemMeta().getDisplayName(), dragonDropTablesListReward.getType(), dragonDropTablesListReward.getId(), dragonDropTablesListReward.getWeight(), dragonDropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(dragonDropTablesListReward.getType(), dragonDropTablesListReward.getId()), player);
                         break;
                     }
                 }
@@ -185,10 +186,10 @@ public class Hatching extends BaseCommand {
                     if (hasItem(player, "DRAGON_EGG2", Rarity.LEGENDARY + "Dragon Pet Egg")) {
                         player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY + "Dragon Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.DRAGON2.expToHatch);
-                        RandomSelector<PetEgg> dragon2PetEgg = RandomSelector.weighted((PetEgg.getEggs(Rarity.DRAGON)));
-                        PetEgg dragon2PetEggListReward = dragon2PetEgg.pick();
-                        dropTablesDelivery.giveReward(player.getPlayer(), dragon2PetEggListReward.getDisplayName(), dragon2PetEggListReward.getType(), dragon2PetEggListReward.getId(), dragon2PetEggListReward.getWeight(), dragon2PetEggListReward.getAmount());
-                        hatchingHologram(MMOItems.plugin.getItem(dragon2PetEggListReward.getType(), dragon2PetEggListReward.getId()), player);
+                        RandomSelector<DropTables> dragon2PetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.DRAGON_PET_EGG2)));
+                        DropTables dragon2DropTablesListReward = dragon2PetEgg.pick();
+                        dropTablesDelivery.giveReward(player.getPlayer(), MMOItems.plugin.getItem(dragon2DropTablesListReward.getType(), dragon2DropTablesListReward.getId()).getItemMeta().getDisplayName(), dragon2DropTablesListReward.getType(), dragon2DropTablesListReward.getId(), dragon2DropTablesListReward.getWeight(), dragon2DropTablesListReward.getAmount());
+                        hatchingHologram(MMOItems.plugin.getItem(dragon2DropTablesListReward.getType(), dragon2DropTablesListReward.getId()), player);
                         break;
                     }
                 }
