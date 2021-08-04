@@ -343,7 +343,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
 //        Main GUIs
-        manager.registerCommand(new MainMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new MainMenu(this, soundManager, guiHelper, betonTagManager));
         manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
         manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new RankMap(this, soundManager, guiHelper, consoleCommand));

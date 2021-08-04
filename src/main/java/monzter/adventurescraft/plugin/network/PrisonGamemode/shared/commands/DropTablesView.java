@@ -315,7 +315,8 @@ public class DropTablesView extends BaseCommand {
                 gui.update();
             }), 0, 0);
         }
-        if (guiName.equals("DropTables"))
+//        Doesnt work, but good idea
+        if (guiName.contains("Pet Egg"))
             backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("hatchingshop")), 0, 0);
 
         gui.addPane(page);

@@ -12,10 +12,12 @@ import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,12 +35,14 @@ public class MainMenu extends BaseCommand {
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
-    private final int MAX_QUESTS = 4;
+    private final BetonTagManager betonTagManager;
 
-    public MainMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper) {
+
+    public MainMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, BetonTagManager betonTagManager) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
+        this.betonTagManager = betonTagManager;
     }
 
     @CommandAlias("Menu|MainMenu|Main")
@@ -245,7 +249,19 @@ public class MainMenu extends BaseCommand {
         final ItemStack quests = new ItemStack(Material.BOOK);
         final ItemMeta questsItemMeta = quests.getItemMeta();
 
-        questsItemMeta.displayName(Component.text(ChatColor.GREEN + "Quests " + parsePlaceholder(player, "betonquest_default-Points:point.QuestTotal.amount") + "/" + MAX_QUESTS));
+        int completedQuests = 0;
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests quests1 : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests.values()) {
+            String packageBuilder = "default-" + WordUtils.capitalizeFully(quests1.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests1.getQuestGiver().name() + ".");
+            if (betonTagManager.hasTag(player, packageBuilder + quests1.name() + "_COMPLETED"))
+                completedQuests++;
+        }
+
+        int questAmount = 0;
+        for (monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests quests2 : monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Quests.values()) {
+            questAmount++;
+        }
+
+        questsItemMeta.displayName(Component.text(ChatColor.GREEN + "Quests " + completedQuests + "/" + questAmount));
         questsItemMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 1, true);
         questsItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
