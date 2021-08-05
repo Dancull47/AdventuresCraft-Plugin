@@ -17,7 +17,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Commands.HomeCommands;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Enchant;
@@ -368,7 +368,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
-        manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand));
+        manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand, mmoItemsGive, betonPointsManager));
 //        Quest GUIs
         manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
         manager.registerCommand(new AchievementGUI(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand, achievementGUIBuilder));

@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.AdventureGamemode.Home.Commands;
+package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
@@ -34,7 +34,6 @@ public class HomeCommands extends BaseCommand implements Listener, PluginMessage
 
     @Default
     private void home(Player player) {
-        plugin.getLogger().info("Called");
         if (plugin.SERVER.equals("Adventure")) {
             ByteArrayDataOutput b = ByteStreams.newDataOutput();
             try {
@@ -46,7 +45,6 @@ public class HomeCommands extends BaseCommand implements Listener, PluginMessage
             }
             player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
         } else {
-            plugin.getLogger().info("Else");
             player.performCommand("plot home");
             player.performCommand("home help 1");
         }

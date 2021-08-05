@@ -57,7 +57,7 @@ public class ProfileMenu extends BaseCommand {
 
         display.addItem(new GuiItem(booster(player)), 3, 1);
         display.addItem(new GuiItem(profile(player)), 4, 1);
-        display.addItem(new GuiItem(attributes(player)), 5, 1);
+        display.addItem(new GuiItem(attributes(player), e -> player.performCommand("attributes")), 5, 1);
 
         display.addItem(new GuiItem(hp(player)), 2, 2);
         display.addItem(new GuiItem(mana(player)), 3, 2);

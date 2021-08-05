@@ -54,16 +54,16 @@ public class Settings extends BaseCommand {
         background.setRepeat(true);
 
 
-        display.addItem(new GuiItem(stuck(player), e -> player.performCommand("warp Yard")), 2, 1);
-        display.addItem(new GuiItem(battleTag(player), e -> player.performCommand("BattleTags")), 3, 1);
+        display.addItem(new GuiItem(stuck(player), e -> player.performCommand("warp Town")), 3, 1);
+//        display.addItem(new GuiItem(battleTag(player), e -> player.performCommand("BattleTags")), 3, 1);
         display.addItem(new GuiItem(tips(player), e -> {
             if (player.hasPermission("TIPS"))
                 permissionLP.takePermission(player, "TIPS");
             else
                 permissionLP.givePermission(player, "TIPS");
             setting(player);
-        }), 5, 1);
-        display.addItem(new GuiItem(safeDrop(player), e -> player.performCommand("safeDrop")), 6, 1);
+        }), 4, 1);
+        display.addItem(new GuiItem(safeDrop(player), e -> player.performCommand("safeDrop")), 5, 1);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
 

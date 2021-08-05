@@ -27,11 +27,14 @@ public class BlockInteractions implements Listener {
 
 
     private final List<Material> blocks = Arrays.asList(Material.ENCHANTING_TABLE, Material.CAULDRON, Material.ANVIL, Material.CHEST,
-            Material.CHEST_MINECART, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.CHEST, Material.BEACON, Material.BEE_NEST,
+            Material.CHEST_MINECART, Material.ENDER_CHEST, Material.TRAPPED_CHEST, Material.BEACON, Material.BEE_NEST,
             Material.SMITHING_TABLE, Material.BARREL, Material.BREWING_STAND, Material.COMMAND_BLOCK,
             Material.CARTOGRAPHY_TABLE, Material.SHULKER_BOX, Material.GRINDSTONE, Material.LECTERN, Material.ACACIA_TRAPDOOR, Material.BIRCH_TRAPDOOR,
             Material.CRIMSON_TRAPDOOR, Material.IRON_TRAPDOOR, Material.OAK_TRAPDOOR, Material.DARK_OAK_TRAPDOOR, Material.JUNGLE_TRAPDOOR, Material.SPRUCE_TRAPDOOR,
             Material.WARPED_TRAPDOOR);
+    private final List<Material> homeBlocks = Arrays.asList(Material.ENCHANTING_TABLE, Material.CAULDRON, Material.ANVIL,
+            Material.ENDER_CHEST, Material.BEACON, Material.SMITHING_TABLE, Material.BARREL, Material.BREWING_STAND, Material.COMMAND_BLOCK,
+            Material.CARTOGRAPHY_TABLE, Material.SHULKER_BOX, Material.GRINDSTONE, Material.LECTERN);
     private final List<Material> tools = Arrays.asList(Material.WOODEN_AXE, Material.WOODEN_HOE, Material.WOODEN_PICKAXE, Material.WOODEN_SHOVEL,
             Material.STONE_AXE, Material.STONE_HOE, Material.STONE_PICKAXE, Material.STONE_SHOVEL,
             Material.IRON_AXE, Material.IRON_HOE, Material.IRON_PICKAXE, Material.IRON_SHOVEL,
@@ -49,11 +52,24 @@ public class BlockInteractions implements Listener {
 
     @EventHandler
     public void cancel(PlayerInteractEvent event) {
-        if (event.getClickedBlock() != null)
-            if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
-                if (!event.getPlayer().isOp())
-                    if (blocks.contains(event.getClickedBlock().getType()))
-                        event.setCancelled(true);
+        switch (plugin.SERVER) {
+            case "Prison":
+            case "Adventure":
+                if (event.getClickedBlock() != null)
+                    if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+                        if (!event.getPlayer().isOp())
+                            if (blocks.contains(event.getClickedBlock().getType()))
+                                event.setCancelled(true);
+                break;
+            case "Home":
+            case "Cell":
+                if (event.getClickedBlock() != null)
+                    if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+                        if (!event.getPlayer().isOp())
+                            if (homeBlocks.contains(event.getClickedBlock().getType()))
+                                event.setCancelled(true);
+                break;
+        }
     }
 
 
