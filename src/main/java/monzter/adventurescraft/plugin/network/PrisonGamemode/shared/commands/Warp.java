@@ -27,7 +27,8 @@ public class Warp extends BaseCommand {
     }
 
     @CommandAlias("warp|travel")
-    @CommandCompletion("Town|Spawn|MineA|MineB")
+    @CommandCompletion("Town|Spawn|MineA|MineB|MineC|MineD|MineE|MineF|MineG|MineH|MineI|MineJ|MineK|MineL|MineM|MineN|MineO|MineP|MineQ|MineR|MineS|MineT|MineU|MineV|MineW|MineX|MineY|MineZ|" +
+            "Crates|Enchanter|Enchanting|Pets|PetShop|Enchanting")
     public void warp(Player player, String warpName) {
         Warps warps = warpExists(warpName);
         if (warps != null) {

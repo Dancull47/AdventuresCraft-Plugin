@@ -176,7 +176,7 @@ public class MainMenu extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Examine the resources currently");
         lore.add(ChatColor.GRAY + "stored within your backpack");
-        lore.add(ChatColor.GRAY + "and information about them!!");
+        lore.add(ChatColor.GRAY + "and information about them!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 

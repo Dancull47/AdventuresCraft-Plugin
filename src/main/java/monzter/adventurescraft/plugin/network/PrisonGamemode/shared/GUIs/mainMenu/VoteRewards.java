@@ -10,16 +10,19 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.VoteRewardList;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.VoteRewardList;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,6 +39,8 @@ public class VoteRewards extends BaseCommand {
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
     private final ConsoleCommand consoleCommand;
+    private final MMOItemsGive mmoItemsGive;
+    private final BetonPointsManager betonPointsManager;
     final TextComponent vote = Component.text("You can")
             .color(NamedTextColor.GREEN)
             .append(Component.text(" Vote ", NamedTextColor.GOLD))
@@ -43,11 +48,13 @@ public class VoteRewards extends BaseCommand {
             .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/vote/"))
             .append(Component.text("for our Server, to receive awesome rewards every day!"));
 
-    public VoteRewards(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
+    public VoteRewards(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand, MMOItemsGive mmoItemsGive, BetonPointsManager betonPointsManager) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
         this.consoleCommand = consoleCommand;
+        this.mmoItemsGive = mmoItemsGive;
+        this.betonPointsManager = betonPointsManager;
     }
 
     @CommandAlias("Vote|VoteRewards")
@@ -140,6 +147,26 @@ public class VoteRewards extends BaseCommand {
         voting.setLore(lore);
 
         return voting;
+    }
+
+    @CommandAlias("VoteClaim")
+    private void voteClaimCommand(Player player, String rewardName) {
+        final Integer voteCoins = Integer.valueOf(PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%"));
+        for (VoteRewardList reward : VoteRewardList.values()) {
+            if (rewardName.equalsIgnoreCase(reward.getId())) {
+                if (voteCoins >= reward.getPrice()) {
+                    mmoItemsGive.giveMMOItem(player, reward.getType(), reward.getId(), reward.getAmount());
+                    betonPointsManager.takePoint(player, "items.Vote", reward.getPrice());
+                    soundManager.soundYes(player, 2);
+                    Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        player.sendMessage(ChatColor.GREEN + "Your purchase was successful and you now have " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%ac_Currency_VotingCoins%") + ChatColor.GREEN + " Vote Coins remaining!");
+                    }, 5L);
+                } else {
+                    player.sendMessage(ChatColor.RED + "You only have " + ChatColor.GOLD + voteCoins + ChatColor.RED + "/" + ChatColor.GOLD + reward.getPrice() + ChatColor.RED + " Vote Coins!");
+                    soundManager.soundNo(player, 1);
+                }
+            }
+        }
     }
 
     private String parsePlaceholder(Player player, String string) {

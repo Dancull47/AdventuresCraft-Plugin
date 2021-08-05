@@ -1,12 +1,13 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras;
+package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables;
 
 public enum VoteRewardList {
     RareLootbox5("CONSUMABLE", "LOOTBOX3", 5, 5),
     LegendaryLootbox5("CONSUMABLE", "LOOTBOX4", 10, 5),
     ExoticLootbox5("CONSUMABLE", "LOOTBOX5", 15, 5),
-    RareEgg5("PET", "PET_EGG3", 5, 5),
-    LegendaryEgg5("PET", "PET_EGG4", 10, 5),
-    ExoticEgg5("PET", "PET_EGG5", 15, 5);
+
+    RareEgg5("PET", "PET_EGG3", 5, 1),
+    LegendaryEgg5("PET", "PET_EGG4", 10, 1),
+    ExoticEgg5("PET", "PET_EGG5", 15, 1);
 
     public final String type;
     public final String id;
