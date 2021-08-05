@@ -37,6 +37,8 @@ public enum Warps {
     Enchanting_Library(Arrays.asList("Enchanting","Enchanter", "Enchant", "EnchantingLibrary"), null, new Location(Bukkit.getWorld("World"), 1654.5, 28, 3805.5, 180F, 5.2F)),
     Pet_Shop(Arrays.asList("Pet", "Pets", "PetShop"), null, new Location(Bukkit.getWorld("World"), 1637.5, 28, 3836.5, 1.2F, -0.6F)),
     Crates(Arrays.asList("Crates", "Crate"), null, new Location(Bukkit.getWorld("World"), 1692.5, 28.5, 3785.5, -90F, 1F)),
+
+    Beach(Arrays.asList("Beach"), null, new Location(Bukkit.getWorld("World"), 1180.5, 209.5, 2458.5, -180F, 0F)),
     ;
 
     public final List<String> warpNames;

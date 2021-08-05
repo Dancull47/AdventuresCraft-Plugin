@@ -54,13 +54,13 @@ public class Map extends BaseCommand {
 
         display.addItem(new GuiItem(rankMines(player), e -> player.performCommand("RankMines")), 3, 1);
         display.addItem(new GuiItem(prestigeMines(player), e -> player.performCommand("PrestigeMines")), 4, 1);
-        display.addItem(new GuiItem(eventMines(player), e -> player.performCommand("EventMines")), 5, 1);
+        display.addItem(new GuiItem(eventMines(player), e -> player.performCommand("warp Beach")), 5, 1);
 
         display.addItem(new GuiItem(crates(player), e -> player.performCommand("warp crates")), 2, 3);
         display.addItem(new GuiItem(town(player), e -> player.performCommand("warp town")), 3, 3);
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
         display.addItem(new GuiItem(pets(player), e -> player.performCommand("warp pets")), 5, 3);
-        display.addItem(new GuiItem(blackMarket(player), e -> player.performCommand("warp shop")), 6, 3);
+        display.addItem(new GuiItem(enchanter(player), e -> player.performCommand("warp Enchant")), 6, 3);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -173,7 +173,7 @@ public class Map extends BaseCommand {
         final ItemStack pets = new ItemStack(SkullCreator.itemFromBase64("ewogICJ0aW1lc3RhbXAiIDogMTYxNTkwMTYzMzU0OSwKICAicHJvZmlsZUlkIiA6ICJhYTZhNDA5NjU4YTk0MDIwYmU3OGQwN2JkMzVlNTg5MyIsCiAgInByb2ZpbGVOYW1lIiA6ICJiejE0IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2E5ZWJlNDk2OGIzMjk2NDcwM2RlMmM1NDNiZTI5NmRjZWNkNjkxNmRkZmE3NjM5NWY3N2RmZGJjNjdkMTQzODMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=="));
         final ItemMeta petsItemMeta = pets.getItemMeta();
 
-        petsItemMeta.displayName(Component.text(ChatColor.GREEN + "Pets"));
+        petsItemMeta.displayName(Component.text(ChatColor.GREEN + "Pet Shop"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
@@ -188,16 +188,15 @@ public class Map extends BaseCommand {
         return pets;
     }
 
-    private ItemStack blackMarket(Player player) {
-        final ItemStack blackMarket = new ItemStack(Material.SUNFLOWER);
+    private ItemStack enchanter(Player player) {
+        final ItemStack blackMarket = new ItemStack(Material.ENCHANTING_TABLE);
         final ItemMeta blackMarketItemMeta = blackMarket.getItemMeta();
 
-        blackMarketItemMeta.displayName(Component.text(ChatColor.GREEN + "Black Market"));
+        blackMarketItemMeta.displayName(Component.text(ChatColor.GREEN + "Enchanting Library"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Purchase a wide variety of " + ChatColor.GREEN + "Gear, Items, Buffs,");
-        lore.add(ChatColor.GREEN + "Enchantments, " + ChatColor.GRAY + "and more from the " + ChatColor.YELLOW + "Vendors" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "Improve your " + ChatColor.GREEN + "Gear " + ChatColor.GRAY + "with " + ChatColor.DARK_PURPLE + "Enchantments" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
 

@@ -94,7 +94,7 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
             b.writeUTF("Connect");
-            b.writeUTF("Cell");
+            b.writeUTF("prisonCell");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Cell! Report this to Monzter#4951 on Discord!");
             return;
@@ -107,7 +107,7 @@ public class GeneralCommands extends BaseCommand implements Listener, PluginMess
         ByteArrayDataOutput b = ByteStreams.newDataOutput();
         try {
             b.writeUTF("Connect");
-            b.writeUTF("Live2");
+            b.writeUTF("adventure");
         } catch (Exception e) {
             player.sendMessage(ChatColor.RED + "Error travelling to the Live2! Report this to Monzter#4951 on Discord!");
             return;
