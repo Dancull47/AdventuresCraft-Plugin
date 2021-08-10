@@ -38,7 +38,7 @@ public class HomeCommands extends BaseCommand implements Listener, PluginMessage
             ByteArrayDataOutput b = ByteStreams.newDataOutput();
             try {
                 b.writeUTF("Connect");
-                b.writeUTF("Homes");
+                b.writeUTF("adventureHomes");
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
                 return;

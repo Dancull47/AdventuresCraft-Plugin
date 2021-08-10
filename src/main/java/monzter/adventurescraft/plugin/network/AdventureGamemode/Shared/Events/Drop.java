@@ -56,20 +56,21 @@ public class Drop implements Listener {
             case "Adventure":
             case "Home":
                 Player player = event.getPlayer();
-                for (String lore : event.getItemDrop().getItemStack().getLore()) {
-                    if (lore.contains(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "ACCOUNT BOUND")) {
-                        if (player.getInventory().firstEmpty() > -1) {
-                            event.setCancelled(true);
-                            soundManager.soundNo(player, 1);
-                            player.sendMessage(ChatColor.RED + "This item cannot be dropped!");
-                        } else {
-                            player.sendMessage(ChatColor.RED + "Your inventory was full and this item cannot be dropped, so it has been destroyed!");
-                            betonPointsManager.givePoint(player, "refund." + MMOItems.plugin.getID(NBTItem.get(event.getItemDrop().getItemStack())), 1);
-                            soundManager.soundNo(player, 2);
-                            event.getItemDrop().remove();
+                if (event.getItemDrop().getItemStack().getLore() != null && !event.getItemDrop().getItemStack().getLore().isEmpty())
+                    for (String lore : event.getItemDrop().getItemStack().getLore()) {
+                        if (lore.contains(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "ACCOUNT BOUND")) {
+                            if (player.getInventory().firstEmpty() > -1) {
+                                event.setCancelled(true);
+                                soundManager.soundNo(player, 1);
+                                player.sendMessage(ChatColor.RED + "This item cannot be dropped!");
+                            } else {
+                                player.sendMessage(ChatColor.RED + "Your inventory was full and this item cannot be dropped, so it has been destroyed!");
+                                betonPointsManager.givePoint(player, "refund." + MMOItems.plugin.getID(NBTItem.get(event.getItemDrop().getItemStack())), 1);
+                                soundManager.soundNo(player, 2);
+                                event.getItemDrop().remove();
+                            }
                         }
                     }
-                }
         }
     }
 }

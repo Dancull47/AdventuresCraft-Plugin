@@ -31,7 +31,7 @@ public class CancelDrops implements Listener {
     private void removeTrail(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             Player player = (Player) event.getWhoClicked();
-            if (event.getInventory().getHolder().equals(player)) {
+            if (player != null && event.getInventory().getHolder() != null && event.getInventory().getHolder().equals(player)) {
                 if (event.getCurrentItem() != null)
                     switch (event.getSlot()) {
                         case 37:
