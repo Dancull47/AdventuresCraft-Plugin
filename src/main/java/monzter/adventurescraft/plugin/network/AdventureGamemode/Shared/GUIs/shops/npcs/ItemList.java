@@ -115,8 +115,8 @@ public enum ItemList {
     EstateITEM8(Shops.ESTATE, new ItemStack(Material.BROWN_MUSHROOM), 6, 0, null, 64, null, null),
 
     JoyITEM1(Shops.JOY, null, 100, 0, null, 1, "CONSUMABLE", "JOY_SOUP"),
-    JoyITEM2(Shops.JOY, null, 250, 0, null, 1, "CONSUMABLE", "JOY_SOUP2"),
-    JoyITEM3(Shops.JOY, null, 500, 0, null, 1, "CONSUMABLE", "JOY_SOUP3"),
+    JoyITEM2(Shops.JOY, null, 250, 0, null, 1, "CONSUMABLE", "JOY_SOUP3"),
+    JoyITEM3(Shops.JOY, null, 500, 0, null, 1, "CONSUMABLE", "JOY_SOUP4"),
     JoyITEM4(Shops.JOY, null, 5_000, 0, null, 1, "BOW", "JOYS_BOW2"),
 
     CatLadyITEM1(Shops.CAT_LADY, new ItemStack(Material.LEAD), 25, 0, null, 64, null, null),
@@ -133,7 +133,7 @@ public enum ItemList {
     EnchanterITEMF2(Shops.ENCHANTER, null, 0, 0, null, 0, null, null),
     EnchanterITEM10(Shops.ENCHANTER, null, 15, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;1"}, 1, "CONSUMABLE", "XP_BOTTLE"),
     EnchanterITEM11(Shops.ENCHANTER, null, 100, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;8"}, 1, "CONSUMABLE", "XP_BOTTLE2"),
-    EnchanterITEM13(Shops.ENCHANTER, null, 500, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;16"}, 1, "CONSUMABLE", "XP_BOTTLE2"),
+    EnchanterITEM13(Shops.ENCHANTER, null, 500, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;16"}, 1, "CONSUMABLE", "XP_BOTTLE3"),
 
     ;
 

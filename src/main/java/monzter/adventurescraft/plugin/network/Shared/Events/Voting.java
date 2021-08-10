@@ -51,14 +51,22 @@ public class Voting implements Listener {
         final Vote vote = event.getVote();
         final Player player = Bukkit.getPlayer(vote.getUsername());
         final String serviceName = vote.getServiceName();
-        switch (serviceName) {
-            case "minestatus.net":
-            case "MinecraftServers.org":
-            case "MCSL":
-            case "Minecraft-MP.com":
+        switch (plugin.SERVER) {
+            case "Adventure":
+            case "Home":
+            case "Prison":
+            case "Cell":
+                switch (serviceName) {
+                    case "minestatus.net":
+                    case "MinecraftServers.org":
+                    case "MCSL":
+                    case "Minecraft-MP.com":
 //                voteReward(player, vote.getUsername());
-                voteAnnounce(vote.getUsername());
-                consoleCommand.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
+                        voteAnnounce(vote.getUsername());
+                        consoleCommand.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
+                        break;
+                }
+                break;
         }
     }
 
