@@ -330,6 +330,15 @@
             </systemPath>
         </dependency>
         <dependency>
+            <groupId>Register</groupId>
+            <artifactId>vegdedes.mysql</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>
+                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MySQL-1.0.jar
+            </systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
