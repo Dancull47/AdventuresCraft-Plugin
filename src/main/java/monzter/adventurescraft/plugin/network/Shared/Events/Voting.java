@@ -2,6 +2,8 @@ package monzter.adventurescraft.plugin.network.Shared.Events;
 
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
+import me.vagdedes.mysql.database.MySQL;
+import me.vagdedes.mysql.database.SQL;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
@@ -17,7 +19,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 //https://github.com/NuVotifier/NuVotifier/wiki/Developer-Documentation
 public class Voting implements Listener {
@@ -63,7 +71,23 @@ public class Voting implements Listener {
                     case "Minecraft-MP.com":
 //                voteReward(player, vote.getUsername());
                         voteAnnounce(vote.getUsername());
-                        consoleCommand.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
+                        if (exists(player.getUniqueId().toString(), serviceName)) {
+                            Timestamp timeOfLastVote = (Timestamp) SQL.get("last_vote", new String[]{"uuid = " + "'" + player.getUniqueId() + "'", "vote_site = " + "'" + serviceName + "'"}, "ac_votes");
+                            player.sendMessage(timeOfLastVote + "time of last");
+                            Instant instant = Instant.now().minus(24, ChronoUnit.HOURS);
+                            player.sendMessage(Timestamp.from(instant) + " ago");
+                            int comparison = timeOfLastVote.compareTo(Timestamp.from(instant));
+                            if (comparison <= 0) {
+                                SQL.set("last_vote", Timestamp.valueOf(LocalDateTime.now()), new String[]{"uuid = " + "'" + player.getUniqueId() + "'", "vote_site = " + "'" + serviceName + "'"}, "ac_votes");
+                            } else {
+                                player.sendMessage(ChatColor.RED + "You must wait " + ChatColor.GOLD + time(timeOfLastVote) + ChatColor.RED + " until voting again!");
+                            }
+                            plugin.getLogger().info("Exists");
+                        } else {
+                            plugin.getLogger().info("Doesn't exist!");
+                            SQL.insertData("uuid, vote_site, last_vote", "'" + player.getUniqueId() + "'" + ", '" + serviceName + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "'", "ac_votes");
+                        }
+//                        consoleCommand.consoleCommand("VoteGive " + player.getName() + " " + serviceName);
                         break;
                 }
                 break;
@@ -104,4 +128,51 @@ public class Voting implements Listener {
             }
         }
     }
+
+    public boolean exists(String uuid, String site) {
+        try {
+            ResultSet rs = MySQL.query("SELECT * FROM " + "ac_votes" + " WHERE " + "uuid " + "= " + "'" + uuid + "'" + " AND vote_site = " + "'" + site + "'" + " ;");
+            if (rs.next()) {
+                return true;
+            }
+        } catch (Exception var4) {
+        }
+
+        return false;
+    }
+
+    public String time(Timestamp timestamp) {
+        Long timeUntil = (timestamp.getTime() + 86_400_000) - System.currentTimeMillis();
+        long hours = TimeUnit.MILLISECONDS.toHours(timeUntil);
+        timeUntil -= TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeUntil);
+        timeUntil -= TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);
+        StringBuilder sb = new StringBuilder();
+        sb.append(hours);
+        if (hours > 1) {
+            sb.append(" Hours ");
+        } else if (hours == 1) {
+            sb.append(" Hour ");
+        }
+        sb.append(minutes);
+        if (minutes > 1) {
+            sb.append(" Minutes ");
+        } else if (minutes == 1) {
+            sb.append(" Minute ");
+        }
+        if (hours < 1 && seconds > 1) {
+            sb.append(seconds);
+            sb.append(" Seconds ");
+        } else if (hours < 1 && seconds < 1) {
+            sb.append(seconds);
+            sb.append(" Second ");
+        }
+        if (hours < 1 && minutes < 1 && seconds < 1) {
+            sb.append("Ready");
+        }
+//        plugin.getLogger().info("Hours " + hours + "Minutes " + minutes + "Seconds " + seconds);
+        return (sb.toString());
+    }
+
 }

@@ -9,6 +9,7 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.zaxxer.hikari.HikariDataSource;
 import io.lumine.mythicenchants.MythicEnchants;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
@@ -17,8 +18,8 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Enchant;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Mount;
@@ -53,8 +54,8 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMen
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.prestigeMap.PrestigeMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.map.rankMap.RankMap;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.Achivements;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestAreaMenu;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.NPCQuestsDisplay;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.QuestAreaMenu;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementGUI;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.settings.SafeDrop;
@@ -71,6 +72,8 @@ import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
+import monzter.adventurescraft.plugin.utilities.MySQL.MySQL;
+import monzter.adventurescraft.plugin.utilities.MySQL.SQLConfig;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerImpl;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
@@ -107,6 +110,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.betoncraft.betonquest.BetonQuest;
@@ -148,11 +152,25 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private ProgressBar progressBar;
     private ShopOpener shopOpener;
     private Xur xur;
+    private HikariDataSource hikari;
+    public static Plugin plugin;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
     public final String SERVER = this.getConfig().getString("Server");
 
     @Override
     public void onEnable() {
+        PluginDescriptionFile description = this.getDescription();
+        if (description.getName().equalsIgnoreCase("MySQL") && this.validDouble(description.getVersion()) && description.getDescription().equalsIgnoreCase("A simplified API that will help you work with your Minecraft related database.") && description.getWebsite().equalsIgnoreCase("https://www.spigotmc.org/resources/23932") && description.getAuthors().toString().equalsIgnoreCase("[Evangelos Dedes @Vagdedes]")) {
+            SQLConfig.create();
+            MySQL.connect();
+        } else {
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
+        if (MySQL.isConnected()) {
+            getLogger().info("Adventures is connected to MySQL!");
+            hikari = new HikariDataSource();
+        }
         saveDefaultConfig();
         manager = new PaperCommandManager(this);
 //        restartTime = System.currentTimeMillis() + 21600000;
@@ -205,9 +223,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        monzter.adventurescraft.plugin.utilities.MySQL.MySQL.disconnect();
+        if (!MySQL.isConnected())
+            getLogger().info("Adventures has disconnected to MySQL!");
         getLogger().info(TITLE + ChatColor.GREEN + "has shut down!");
-//        Bukkit.getServer().shutdown();
-//        SQL.disconnect();
     }
 
     private void networkShared() {
@@ -683,6 +702,19 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 event.register(dismount);
                 this.getLogger().info("-- Registered customDismount mechanic!");
                 break;
+        }
+    }
+
+    public HikariDataSource getHikari(){
+        return hikari;
+    }
+
+    private boolean validDouble(String s) {
+        try {
+            Double.valueOf(s);
+            return true;
+        } catch (Exception var3) {
+            return false;
         }
     }
 
