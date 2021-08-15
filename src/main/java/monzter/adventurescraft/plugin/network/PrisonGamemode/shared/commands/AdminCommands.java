@@ -6,6 +6,7 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.vagdedes.mysql.database.SQL;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
@@ -13,10 +14,15 @@ import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 public class AdminCommands extends BaseCommand {
@@ -116,6 +122,37 @@ public class AdminCommands extends BaseCommand {
         String restartTimeSeconds = PlaceholderAPI.setPlaceholders(player, "%ac_Restart%");
         player.sendMessage(ChatColor.GREEN + "There is " + ChatColor.GOLD + restartTime + ChatColor.GREEN + " until restart!");
         player.sendMessage(ChatColor.GOLD + restartTimeSeconds + ChatColor.GREEN + " seconds!");
+    }
+
+
+    @CommandAlias("aMySQLTableCreate")
+    @CommandPermission("*")
+    public void mySqlTableCreate(Player player) {
+        SQL.createTable("ac_votes", "uuid CHAR (36) NOT NULL, vote_site VARCHAR (100), last_vote TIMESTAMP, PRIMARY KEY (vote_site)");
+    }
+
+    @CommandAlias("aMySQLCollumCreate")
+    @CommandPermission("*")
+    public void mySqlCreate(Player player) {
+        SQL.insertData("uuid, vote_site, last_vote", "'" + player.getUniqueId() + "'" + ", 'testSite', '" + Timestamp.valueOf(LocalDateTime.now()) + "'", "ac_votes");
+    }
+
+    @CommandAlias("aMySQLCollumCreate")
+    @CommandPermission("*")
+    public void mySqlCreate(Player player, String site) {
+        SQL.insertData("uuid, vote_site, last_vote", "'" + player.getUniqueId() + "'" + ", '" + site + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "'", "ac_votes");
+    }
+
+    @CommandAlias("aMySQLCollumUpdate")
+    @CommandPermission("*")
+    public void mySqlTest(Player player, String site) {
+        SQL.set("last_vote", Timestamp.valueOf(LocalDateTime.now()), new String[]{"uuid = " + "'" + player.getUniqueId() + "'", "vote_site = " + "'" + site + "'"}, "ac_votes");
+    }
+
+    @CommandAlias("aMySQLCollumGet")
+    @CommandPermission("*")
+    public void mySqlGet(Player player, String site) {
+        player.sendMessage(String.valueOf(SQL.get("last_vote", new String[]{"uuid = " + "'" + player.getUniqueId() + "'", "vote_site = " + "'" + site + "'"}, "ac_votes")));
     }
 
 
