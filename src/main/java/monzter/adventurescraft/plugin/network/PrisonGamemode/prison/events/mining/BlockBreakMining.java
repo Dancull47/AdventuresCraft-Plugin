@@ -139,10 +139,9 @@ public class BlockBreakMining implements Listener {
     private void minedBlock(Player player, Material material, int amount, int weight, boolean explosive) {
         if (!explosive)
             betonPointsManager.givePoint(player, "items.TotalModifierBlocks", amount); // I forget, but I think this is meant for non-explosive
-        betonPointsManager.givePoint(player, "items.TotalBlocks", 1); // Adds to Total Blocks for analytics & Achievements
         betonPointsManager.givePointWeight(player, weight); // Adds to current Weight
         betonPointsManager.givePoint(player, "items." + material, amount); // Adds to individual item for Sell
-        betonPointsManager.givePoint(player, "blocks." + material, 1); // Gives a point for each specific block mined, used for Achievements
+        betonPointsManager.givePoint(player, "blocks." + material, 1); // Gives a point for each specific block mined used for analytics
     }
 
     public void lootboxes(Player player) {

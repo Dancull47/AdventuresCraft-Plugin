@@ -12,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class MapBarrier implements Listener {
@@ -41,6 +42,15 @@ public class MapBarrier implements Listener {
                     }
                 }
                 break;
+        }
+    }
+
+    @EventHandler
+    public void voidDamage(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.VOID && event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            if (player != null && player.isOnline())
+                player.setHealth(0);
         }
     }
 }

@@ -40,11 +40,14 @@ public class GeneralCommands extends BaseCommand {
     private void bankCommand(Player player) {
         if (player.hasPermission("bank.open.command")) {
             player.performCommand("banks open");
-        } else {
+        } else if (plugin.SERVER.equals("Prison")) {
             player.sendMessage(bankDeny);
             player.teleport(new Location(player.getWorld(), 1682.5, 28, 3832.5, 0.4f, 21.8f));
             soundManager.soundTeleport(player);
             player.closeInventory();
+        } else if (plugin.SERVER.equals("Cell")) {
+            player.sendMessage(bankDeny);
+            soundManager.soundNo(player, 1);
         }
     }
 
@@ -61,6 +64,11 @@ public class GeneralCommands extends BaseCommand {
     @CommandAlias("Tutorial")
     private void tutorial(Player player) {
         player.performCommand("warp Tutorial");
+    }
+
+    @CommandAlias("home")
+    private void home(Player player) {
+        player.performCommand("cell");
     }
 }
 

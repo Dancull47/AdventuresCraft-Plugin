@@ -65,12 +65,6 @@ public class CellDisplayGUI extends BaseCommand {
         this.guiHelper = guiHelper;
     }
 
-    private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-    private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-
-    private final ItemStack backButton = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
-    private final ItemMeta backButtonItemMeta = backButton.getItemMeta();
-
     private final ItemStack viewTeamManager = new ItemStack(Material.TOTEM_OF_UNDYING);
     private final ItemMeta viewTeamManagerItemMeta = viewTeamManager.getItemMeta();
 
@@ -84,10 +78,7 @@ public class CellDisplayGUI extends BaseCommand {
     @Subcommand("Menu")
     @CommandAlias("CellMenu|CellManager")
     public void cellMenu(Player player) {
-        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
-
-        backgroundItemMeta.displayName(Component.text(" "));
-        backgroundItem.setItemMeta(backgroundItemMeta);
+        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell"), player.getUniqueId());
 
         viewTeamManagerItemMeta.displayName(Component.text(ChatColor.GREEN + "Team Manager"));
         viewTeamManager.setItemMeta(viewTeamManagerItemMeta);
@@ -110,7 +101,7 @@ public class CellDisplayGUI extends BaseCommand {
         viewCellSettings.setLore(lore2);
 
 
-        ChestGui gui = new ChestGui(4, "Cell Manager");
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Cell Manager"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, 4);
@@ -120,7 +111,7 @@ public class CellDisplayGUI extends BaseCommand {
         page.addPane(0, background);
         page.addPane(0, display);
 
-        background.addItem(new GuiItem(backgroundItem));
+        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
         for (UUID playerUUID : island.getMemberSet()) {
@@ -148,14 +139,9 @@ public class CellDisplayGUI extends BaseCommand {
     @Subcommand("TeamManager")
     @CommandAlias("CellTeamManager")
     public void cellTeamManager(Player player) {
-        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
-        backgroundItemMeta.displayName(Component.text(" "));
-        backgroundItem.setItemMeta(backgroundItemMeta);
+        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell"), player.getUniqueId());
 
-        backButtonItemMeta.displayName(Component.text(ChatColor.GREEN + "Go Back"));
-        backButton.setItemMeta(backButtonItemMeta);
-
-        ChestGui gui = new ChestGui(6, "Cell Team Manager");
+        ChestGui gui = new ChestGui(6, guiHelper.guiName("Cell Team Manager"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
@@ -166,10 +152,10 @@ public class CellDisplayGUI extends BaseCommand {
         page.addPane(0, display);
         page.addPane(0, back);
 
-        background.addItem(new GuiItem(backgroundItem));
+        background.addItem(new GuiItem(guiHelper.background(Material.BLUE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        back.addItem(new GuiItem(backButton, e -> cellMenu(player)), 0, 0);
+        back.addItem(new GuiItem(guiHelper.backButton(), e -> cellMenu(player)), 0, 0);
 
         display.addItem(new GuiItem(mainCell(island, player), e -> {
             if (e.getClick().isLeftClick())
@@ -204,14 +190,11 @@ public class CellDisplayGUI extends BaseCommand {
                 mainTarget = player;
             }
         } else {
-            island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), target.player.getUniqueId());
+            island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell"), target.player.getUniqueId());
             mainTarget = target.player;
         }
         if (island != null) {
-            backgroundItemMeta.displayName(Component.text(" "));
-            backgroundItem.setItemMeta(backgroundItemMeta);
-
-            ChestGui gui = new ChestGui(6, "Cell Team Manager");
+            ChestGui gui = new ChestGui(6, guiHelper.guiName("Cell Team Manager"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
             PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
@@ -221,7 +204,7 @@ public class CellDisplayGUI extends BaseCommand {
             page.addPane(0, background);
             page.addPane(0, display);
 
-            background.addItem(new GuiItem(backgroundItem));
+            background.addItem(new GuiItem(guiHelper.background(Material.ORANGE_STAINED_GLASS_PANE)));
             background.setRepeat(true);
 
             display.addItem(new GuiItem(mainCell(island, mainTarget)), 3, 0);
@@ -237,7 +220,7 @@ public class CellDisplayGUI extends BaseCommand {
 
     @CommandAlias("cellTeamDetails")
     public void cellTeamDeatils(Player player) {
-        showMembers(bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId()), bentoBox.getPlayers().getUser(player.getUniqueId()));
+        showMembers(bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell"), player.getUniqueId()), bentoBox.getPlayers().getUser(player.getUniqueId()));
     }
 
     private void showMembers(Island island, User user) {

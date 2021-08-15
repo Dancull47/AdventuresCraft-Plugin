@@ -13,25 +13,31 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BeachEvent;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BlockBreakMining;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.miningPass.MiningPassLevels;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.extras.DonationRewardList;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets.Pet;
+import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets.Stats;
 import monzter.adventurescraft.plugin.utilities.enchanting.CalculateEnchantments;
 import monzter.adventurescraft.plugin.utilities.enums.PetEggList;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets.Stats;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.prison.events.mining.BeachEvent;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.Point;
+import world.bentobox.bentobox.BentoBox;
+import world.bentobox.bentobox.database.objects.Island;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.Set;
 
 public class Placeholder extends PlaceholderExpansion {
 
@@ -43,12 +49,13 @@ public class Placeholder extends PlaceholderExpansion {
     private final StringFlag displayNameFlag;
     private long restartTime;
     private final Economy economy;
+    private final BentoBox bentoBox;
 
     private CalculateEnchantments calculateEnchantments;
     private final List<MiningPassLevels> reversedList = Lists.reverse(Arrays.asList(MiningPassLevels.values()));
 //    List<Point> global = BetonQuest.getInstance().getGlobalData().getPoints();
 
-    public Placeholder(AdventuresCraft plugin, Permission permission, NumberFormat numberFormat, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, Economy economy, CalculateEnchantments calculateEnchantments) {
+    public Placeholder(AdventuresCraft plugin, Permission permission, NumberFormat numberFormat, Set<Pet> pets, StringFlag displayNameFlag, long restartTime, Economy economy, BentoBox bentoBox, CalculateEnchantments calculateEnchantments) {
         this.plugin = plugin;
         this.permission = permission;
         this.numberFormat = numberFormat;
@@ -56,6 +63,7 @@ public class Placeholder extends PlaceholderExpansion {
         this.displayNameFlag = displayNameFlag;
         this.restartTime = restartTime;
         this.economy = economy;
+        this.bentoBox = bentoBox;
         this.calculateEnchantments = calculateEnchantments;
     }
 
@@ -312,20 +320,6 @@ public class Placeholder extends PlaceholderExpansion {
             case "Location":
                 return location(player);
 
-            // ACHIEVEMENTS
-            case "Achievement_Ores":
-                int coal = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.COAL_ORE.amount"));
-                int iron = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.IRON_ORE.amount"));
-                int gold = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.GOLD_ORE.amount"));
-                int lapis = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.LAPIS_ORE.amount"));
-                int redstone = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.REDSTONE_ORE.amount"));
-                int diamond = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.DIAMOND_ORE.amount"));
-                int emerald = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.EMERALD_ORE.amount"));
-                int netherQuartz = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.NETHER_QUARTZ_ORE.amount"));
-                int netherGold = Integer.valueOf(parsePlaceholder((Player) player, "betonquest_blocks:point.NETHER_GOLD_ORE.amount"));
-                int total = coal + iron + gold + lapis + redstone + diamond + emerald + netherQuartz + netherGold;
-                return String.valueOf(total);
-
 
 //            case "Restart":
 //                long timeUntil = restartTime - System.currentTimeMillis();
@@ -409,18 +403,28 @@ public class Placeholder extends PlaceholderExpansion {
     }
 
     private String location(OfflinePlayer player) {
-        if (player.getPlayer().isOnline()) {
-            Player player1 = player.getPlayer();
-            Location location = BukkitAdapter.adapt(player1.getLocation());
-            RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            RegionQuery query = container.createQuery();
-            ApplicableRegionSet set = query.getApplicableRegions(location);
-            if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag) == null) {
-                return "Unknown!";
-            } else {
-                return set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag);
+        if (plugin.SERVER.equals("Prison")) {
+            if (player.getPlayer().isOnline()) {
+                Player player1 = player.getPlayer();
+                Location location = BukkitAdapter.adapt(player1.getLocation());
+                RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                RegionQuery query = container.createQuery();
+                ApplicableRegionSet set = query.getApplicableRegions(location);
+                if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag) == null) {
+                    return "Unknown!";
+                } else {
+                    return set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player1), displayNameFlag);
+                }
             }
-        }
+        } else if (plugin.SERVER.equals("Cell"))
+            if (player.getPlayer().isOnline()) {
+                Player player1 = player.getPlayer();
+                Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell"), player1.getUniqueId());
+                if (island != null)
+                    return ChatColor.GOLD + Bukkit.getPlayer(island.getOwner()).getName() + ChatColor.GREEN + "'s Cell";
+                else
+                    return "Unknown!";
+            }
         return null;
     }
 

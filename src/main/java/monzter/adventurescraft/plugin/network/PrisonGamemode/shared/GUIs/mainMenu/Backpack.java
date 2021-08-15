@@ -9,19 +9,14 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,28 +37,16 @@ public class Backpack extends BaseCommand {
         this.consoleCommand = consoleCommand;
     }
 
-    @CommandAlias("Farming|Backpacks")
+    @CommandAlias("Backpack|Backpacks")
     private void backpack(Player player) {
-        final ChestGui gui = new ChestGui(6, "Farming");
+        final ChestGui gui = new ChestGui(6, guiHelper.guiName("Backpack"));
         final List<WeightPrices> guiContents = Arrays.asList(WeightPrices.values());
         createMenu(gui, guiContents, player);
         gui.show(player);
     }
 
-    private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-    private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
-    private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
-    private final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
-    private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
     private void createMenu(ChestGui gui, Collection<? extends ItemGenerator> guiContents, Player player) {
-        backgroundItemMeta.displayName(Component.text(" "));
-        previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
-        nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
-        backgroundItem.setItemMeta(backgroundItemMeta);
-        previousPageItem.setItemMeta(previousPageItemMeta);
-        nextPageItem.setItemMeta(nextPageItemMeta);
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -82,7 +65,7 @@ public class Backpack extends BaseCommand {
         page.addPane(1, display2);
         page.addPane(1, backButton);
 
-        background.addItem(new GuiItem(backgroundItem));
+        background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
         int i = 0;
@@ -97,7 +80,7 @@ public class Backpack extends BaseCommand {
         }
 
         if (!display2.getItems().isEmpty()) {
-            back.addItem(new GuiItem((previousPageItem), event -> {
+            back.addItem(new GuiItem((guiHelper.previousPageButton()), event -> {
                 page.setPage(page.getPage() - 1);
                 if (page.getPage() == 0) {
                     back.setVisible(false);
@@ -106,7 +89,7 @@ public class Backpack extends BaseCommand {
                 gui.update();
             }), 0, 0);
             back.setVisible(false);
-            forward.addItem(new GuiItem((nextPageItem), event -> {
+            forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> {
                 page.setPage(page.getPage() + 1);
                 if (page.getPage() == page.getPages() - 1) {
                     forward.setVisible(false);

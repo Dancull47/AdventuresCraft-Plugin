@@ -62,7 +62,7 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(map(player), e -> player.performCommand("map")), 4, 1);
         display.addItem(new GuiItem(cell(player), e -> {
             if (e.isLeftClick())
-                player.performCommand("home");
+                player.performCommand("cell");
             if (plugin.SERVER.equals("Cell")) {
                 if (e.isRightClick())
                     player.performCommand("cellmenu");

@@ -9,10 +9,9 @@ import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
-import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,38 +32,23 @@ public class CellFlagsGUI extends BaseCommand {
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final BentoBox bentoBox;
+    private final GUIHelper guiHelper;
+
 
     private final String prefix = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "» ";
 
-    public CellFlagsGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox) {
+    public CellFlagsGUI(AdventuresCraft plugin, SoundManager soundManager, BentoBox bentoBox, GUIHelper guiHelper) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.bentoBox = bentoBox;
+        this.guiHelper = guiHelper;
     }
-
-    private final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-    private final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
-    private final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
-    private final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
-    private final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
-    private final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
-
-    private final ItemStack backButton = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
-    private final ItemMeta backButtonItemMeta = backButton.getItemMeta();
 
     @CommandAlias("cellSettings")
     public void cellFlagsGUI(Player player) {
-        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell_world"), player.getUniqueId());
-        if (island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
-            backgroundItemMeta.displayName(Component.text(" "));
-            previousPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Previous Page"));
-            nextPageItemMeta.displayName(Component.text(ChatColor.GREEN + "Next Page"));
-            backgroundItem.setItemMeta(backgroundItemMeta);
-
-            backButtonItemMeta.displayName(Component.text(ChatColor.GREEN + "Go Back"));
-            backButton.setItemMeta(backButtonItemMeta);
-
-            ChestGui gui = new ChestGui(6, "Cell Settings");
+        Island island = bentoBox.getIslands().getIsland(Bukkit.getWorld("Cell"), player.getUniqueId());
+        if (island != null && island.getRank(player.getUniqueId()) >= RanksManager.OWNER_RANK) {
+            ChestGui gui = new ChestGui(6, guiHelper.guiName("Cell Settings"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
             PaginatedPane page = new PaginatedPane(0, 0, 9, 6);
@@ -77,10 +61,10 @@ public class CellFlagsGUI extends BaseCommand {
             page.addPane(0, back);
 
 
-            background.addItem(new GuiItem(backgroundItem));
+            background.addItem(new GuiItem(guiHelper.background(Material.LIGHT_BLUE_STAINED_GLASS_PANE)));
             background.setRepeat(true);
 
-            back.addItem(new GuiItem(backButton, e -> player.performCommand("CellMenu")), 0, 0);
+            back.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("CellMenu")), 0, 0);
 /*
   #   VISITOR   = 0
   #   COOP      = 200

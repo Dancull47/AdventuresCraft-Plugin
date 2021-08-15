@@ -1,15 +1,21 @@
 package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.Dependency;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.jetbrains.annotations.NotNull;
 
-public class Warp extends BaseCommand {
+public class Warp extends BaseCommand implements PluginMessageListener {
 
     @Dependency
     private final AdventuresCraft plugin;
@@ -19,6 +25,8 @@ public class Warp extends BaseCommand {
     public Warp(AdventuresCraft plugin, PermissionLP permissionLP) {
         this.plugin = plugin;
         this.permissionLP = permissionLP;
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+        plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
     @CommandAlias("warp|travel")
@@ -58,7 +66,15 @@ public class Warp extends BaseCommand {
     //    If Player is on the Cell server
     private void sendToPrison(Player player, String name) {
         permissionLP.givePermission(player, "CELL.WARP." + name);
-        player.performCommand("server Prison");
+        ByteArrayDataOutput b = ByteStreams.newDataOutput();
+        try {
+            b.writeUTF("Connect");
+            b.writeUTF("Prison");
+        } catch (Exception e) {
+            player.sendMessage(ChatColor.RED + "Error travelling to the Home! Report this to Monzter#4951 on Discord!");
+            return;
+        }
+        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
     }
 
     private boolean hasPermission(Player player, Warps warps) {
@@ -77,6 +93,11 @@ public class Warp extends BaseCommand {
                 if (name.equalsIgnoreCase(warp))
                     return warps;
         return null;
+    }
+
+    @Override
+    public void onPluginMessageReceived(@NotNull String s, @NotNull Player player, @NotNull byte[] bytes) {
+
     }
 }
 

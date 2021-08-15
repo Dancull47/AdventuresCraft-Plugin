@@ -315,7 +315,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Commands
         manager.registerCommand(new MineTeleport(this));
         manager.registerCommand(new Sell(this, AdventureRegions.getInstance().sellLocationFlag, economy, numberFormat, soundManager));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.Warp(this, permissionLP));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP, areaCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP), this);
@@ -329,7 +328,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void cellLoad() {
 //        GUIs
-        manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance()));
+        manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
 //        Event
     }
@@ -338,7 +337,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         getLogger().info("Prison / Cell Shared Loaded");
         prisonTipMessages();
 //        Placeholder
-        new Placeholder(this, perms, numberFormat, loadPets(), AdventureRegions.getInstance().displayNameFlag, restartTime, economy, calculateEnchantments).register();
+        new Placeholder(this, perms, numberFormat, loadPets(), AdventureRegions.getInstance().displayNameFlag, restartTime, economy, BentoBox.getInstance(), calculateEnchantments).register();
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
@@ -384,6 +383,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager, calculateEnchantments));
         manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
         manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.Warp(this, permissionLP));
     }
 
     private void lobbyLoad() {
