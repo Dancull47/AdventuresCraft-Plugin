@@ -37,7 +37,7 @@ public class MapBarrier implements Listener {
                     if (!player.isOp()) {
                         player.sendMessage(ChatColor.RED + "You cannot escape the map! If you believe this is an error, please report these coordinates: "
                                 + ChatColor.YELLOW + location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ() + ChatColor.RED + " to an Admin on Discord!");
-                        player.performCommand("spawn");
+                        player.performCommand("Spawn");
                         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, .5f, 1f);
                     }
                 }
