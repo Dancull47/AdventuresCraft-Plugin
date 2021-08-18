@@ -92,7 +92,6 @@ import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import monzter.adventurescraft.plugin.utilities.vault.EconomyImpl;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
 import monzter.adventurescraft.plugin.utilities.vault.PermissionImpl;
-import mySQL.library.MySQL;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.comp.mythicenchants.MythicEnchantsSupport;
 import net.kyori.adventure.text.Component;
@@ -109,7 +108,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.betoncraft.betonquest.BetonQuest;
@@ -158,10 +156,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        PluginDescriptionFile description = this.getDescription();
-        if (MySQL.isConnected()) {
-            getLogger().info("Adventures is connected to MySQL!");
-        }
+//        if (MySQL.isConnected())
+//            getLogger().info("Adventures is connected to MySQL!");
         saveDefaultConfig();
         manager = new PaperCommandManager(this);
 //        restartTime = System.currentTimeMillis() + 21600000;
@@ -214,8 +210,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        if (!MySQL.isConnected())
-            getLogger().info("Adventures has disconnected to MySQL!");
+//        if (!MySQL.isConnected())
+//            getLogger().info("Adventures has disconnected to MySQL!");
         getLogger().info(TITLE + ChatColor.GREEN + "has shut down!");
     }
 
@@ -339,6 +335,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        GUIs
         manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
         manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.PrisonGamemode.cell.events.Join(this, permissionLP, BentoBox.getInstance()), this);
 //        Event
     }
 

@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Warps {
-    Town(Arrays.asList("Town", "Spawn"), null, new Location(Bukkit.getWorld("World"), 1680.5, 28.5, 3824.5, 90.5F, 0F)),
+    Town(Arrays.asList("Town", "Spawn", "Hub"), null, new Location(Bukkit.getWorld("World"), 1680.5, 28.5, 3824.5, 90.5F, 0F)),
+    Tutorial(Arrays.asList("Tutorial"), null, new Location(Bukkit.getWorld("World"), 1993.5, 176.5, 1593.5, 89.8F, 4.9F)),
     Mine_A(Arrays.asList("MineA", "A"), Arrays.asList("mines.tp.a"), new Location(Bukkit.getWorld("World"), 1480.5, 29, 3844.5, 135.4F, 2.4F)),
     Mine_B(Arrays.asList("MineB", "B"), Arrays.asList("mines.tp.b"), new Location(Bukkit.getWorld("World"), -368.5, 170, 786.5, 90.6F, -0.8F)),
     Mine_C(Arrays.asList("MineC", "C"), Arrays.asList("mines.tp.c"), new Location(Bukkit.getWorld("World"), -829.5, 167, 774.5, -89.6F, 3.0F)),
