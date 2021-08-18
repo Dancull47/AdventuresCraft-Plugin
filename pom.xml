@@ -65,7 +65,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-<!--                    <outputDirectory>C:\Users\Monzt\Documents\Minecraft Server\Live Prison Server\plugins</outputDirectory>-->
+                    <outputDirectory>C:\Users\Monzt\Documents\Minecraft Server\Live Prison Server\plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -331,11 +331,11 @@
         </dependency>
         <dependency>
             <groupId>Register</groupId>
-            <artifactId>vegdedes.mysql</artifactId>
+            <artifactId>mySQL.library</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>
-                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MySQL-1.0.jar
+                C:/Users/Monzt/Documents/GitHub/AdventuresCraft-Plugin/.idea/libraries/MySQL.jar
             </systemPath>
         </dependency>
         <dependency>

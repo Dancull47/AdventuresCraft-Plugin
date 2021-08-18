@@ -72,8 +72,6 @@ import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
-import monzter.adventurescraft.plugin.utilities.MySQL.MySQL;
-import monzter.adventurescraft.plugin.utilities.MySQL.SQLConfig;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerImpl;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
@@ -94,6 +92,7 @@ import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import monzter.adventurescraft.plugin.utilities.vault.EconomyImpl;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
 import monzter.adventurescraft.plugin.utilities.vault.PermissionImpl;
+import mySQL.library.MySQL;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.comp.mythicenchants.MythicEnchantsSupport;
 import net.kyori.adventure.text.Component;
@@ -160,16 +159,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         PluginDescriptionFile description = this.getDescription();
-        if (description.getName().equalsIgnoreCase("MySQL") && this.validDouble(description.getVersion()) && description.getDescription().equalsIgnoreCase("A simplified API that will help you work with your Minecraft related database.") && description.getWebsite().equalsIgnoreCase("https://www.spigotmc.org/resources/23932") && description.getAuthors().toString().equalsIgnoreCase("[Evangelos Dedes @Vagdedes]")) {
-            SQLConfig.create();
-            MySQL.connect();
-        } else {
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
-
         if (MySQL.isConnected()) {
             getLogger().info("Adventures is connected to MySQL!");
-            hikari = new HikariDataSource();
         }
         saveDefaultConfig();
         manager = new PaperCommandManager(this);
@@ -223,7 +214,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        monzter.adventurescraft.plugin.utilities.MySQL.MySQL.disconnect();
         if (!MySQL.isConnected())
             getLogger().info("Adventures has disconnected to MySQL!");
         getLogger().info(TITLE + ChatColor.GREEN + "has shut down!");
@@ -246,7 +236,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand, shopOpener), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager, soundManager, chanceCheck, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
+//        Bukkit.getServer().getPluginManager().registerEvents(new Voting(this, consoleCommand, mmoItemsGive, soundManager, betonPointsManager), this);
         manager.registerCommand(new Ranks(this, soundManager, guiHelper, consoleCommand, betonPointsManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), permissionLP));
     }
 
