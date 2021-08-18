@@ -20,9 +20,12 @@ public class MineTeleport extends BaseCommand {
 
     @CommandAlias("mine")
     public void mineCommand(Player player) {
-        for (String rank : ranks.split(","))
-            if (player.hasPermission("mines.tp." + rank))
+        for (String rank : ranks.split(",")) {
+            if (player.hasPermission("mines.tp." + rank)) {
                 player.performCommand("warp mine" + rank);
+                break;
+            }
+        }
     }
 
 }
