@@ -9,7 +9,6 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
-import com.zaxxer.hikari.HikariDataSource;
 import io.lumine.mythicenchants.MythicEnchants;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
@@ -149,7 +148,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private ProgressBar progressBar;
     private ShopOpener shopOpener;
     private Xur xur;
-    private HikariDataSource hikari;
     public static Plugin plugin;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
     public final String SERVER = this.getConfig().getString("Server");
@@ -691,18 +689,4 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 break;
         }
     }
-
-    public HikariDataSource getHikari(){
-        return hikari;
-    }
-
-    private boolean validDouble(String s) {
-        try {
-            Double.valueOf(s);
-            return true;
-        } catch (Exception var3) {
-            return false;
-        }
-    }
-
 }

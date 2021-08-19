@@ -1,34 +1,9 @@
-//package monzter.adventurescraft.plugin.network.Shared.Events;
-//
-//import com.vexsoftware.votifier.model.Vote;
-//import com.vexsoftware.votifier.model.VotifierEvent;
-//import monzter.adventurescraft.plugin.AdventuresCraft;
-//import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
-//import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
-//import monzter.adventurescraft.plugin.utilities.general.SoundManager;
-//import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
-//import mySQL.library.MySQL;
-//import mySQL.library.SQL;
-//import net.kyori.adventure.text.Component;
-//import net.kyori.adventure.text.TextComponent;
-//import net.kyori.adventure.text.event.ClickEvent;
-//import net.kyori.adventure.text.format.NamedTextColor;
-//import org.bukkit.Bukkit;
-//import org.bukkit.ChatColor;
-//import org.bukkit.entity.Player;
-//import org.bukkit.event.EventHandler;
-//import org.bukkit.event.Listener;
-//
-//import java.sql.ResultSet;
-//import java.sql.Timestamp;
-//import java.time.Instant;
-//import java.time.LocalDateTime;
-//import java.time.temporal.ChronoUnit;
-//import java.util.HashMap;
-//import java.util.concurrent.TimeUnit;
-//
+package monzter.adventurescraft.plugin.network.Shared.Events;
+
+import org.bukkit.event.Listener;
+
 ////https://github.com/NuVotifier/NuVotifier/wiki/Developer-Documentation
-//public class Voting implements Listener {
+public class Voting implements Listener {
 //    private final AdventuresCraft plugin;
 //    private final ConsoleCommand consoleCommand;
 //    private final MMOItemsGive mmoItemsGive;
@@ -170,5 +145,5 @@
 ////        plugin.getLogger().info("Hours " + hours + "Minutes " + minutes + "Seconds " + seconds);
 //        return (sb.toString());
 //    }
-//
-//}
+
+}
