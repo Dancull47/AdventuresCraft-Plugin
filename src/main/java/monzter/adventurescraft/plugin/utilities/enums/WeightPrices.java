@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum WeightPrices implements ItemGenerator {
-    COBBLESTONE(Material.COBBLESTONE, "Cobblestone", 1, 1, 5),
+    COBBLESTONE(Material.COBBLESTONE, "Cobblestone", 1, 1, 2.5),
     ANDESITE(Material.ANDESITE, "Andesite", 2, 2, 5.5),
     DIORITE(Material.DIORITE, "Diorite", 2, 2, 6),
     STONE(Material.STONE, "Stone", 2, 2, 6.5),

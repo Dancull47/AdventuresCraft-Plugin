@@ -23,7 +23,7 @@ public enum Warps {
     Mine_L(Arrays.asList("MineL", "L"), Arrays.asList("mines.tp.l"), new Location(Bukkit.getWorld("World"), -1641.5, 162, 786.5, 89.6F, -0.3F)),
     Mine_M(Arrays.asList("MineM", "M"), Arrays.asList("mines.tp.m"), new Location(Bukkit.getWorld("World"), -3032.5, 192, 769.5, -90.1F, 2.0F)),
     Mine_N(Arrays.asList("MineN", "N"), Arrays.asList("mines.tp.n"), new Location(Bukkit.getWorld("World"), -1502.5, 166, 787.5, 89.6F, -0.3F)),
-    Mine_O(Arrays.asList("MineO", "O"), Arrays.asList("mines.tp.o"), new Location(Bukkit.getWorld("World"), -1248.5, 180, 756.5, 88.9F, 1F)),
+    Mine_O(Arrays.asList("MineO", "O"), Arrays.asList("mines.tp.o"), new Location(Bukkit.getWorld("World"), -1248.5, 180, 786.5, -90.2F, 2.2F)),
     Mine_P(Arrays.asList("MineP", "P"), Arrays.asList("mines.tp.p"), new Location(Bukkit.getWorld("World"), -515.5, 175, 787.5, 90.6F, -0.8F)),
     Mine_Q(Arrays.asList("MineQ", "Q"), Arrays.asList("mines.tp.q"), new Location(Bukkit.getWorld("World"), -1957.5, 170, 758.5, -89.6F, 0.5F)),
     Mine_R(Arrays.asList("MineR", "R"), Arrays.asList("mines.tp.r"), new Location(Bukkit.getWorld("World"), -3190.5, 192, 770.5, -90.1F, 2.0F)),

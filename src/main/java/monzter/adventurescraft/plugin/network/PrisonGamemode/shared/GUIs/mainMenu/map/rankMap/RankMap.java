@@ -63,7 +63,6 @@ public class RankMap extends BaseCommand {
         backButton.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("map")), 0, 0);
 
         for (Ranks rank : Ranks.values()) {
-
             if (player.hasPermission("mines.tp." + rank.getName().toLowerCase())) {
 
                 ItemStack rankIcon = new ItemStack(rank.getItemStack());
@@ -79,7 +78,8 @@ public class RankMap extends BaseCommand {
                 display.addItem(new GuiItem(rankIcon, e -> player.performCommand("warp " + rank.getName())));
 
             } else {
-                ItemStack rankIcon = new ItemStack(Material.RED_STAINED_GLASS_PANE);;
+                ItemStack rankIcon = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+                ;
                 ItemMeta rankIconItemMeta = rankIcon.getItemMeta();
 
                 rankIconItemMeta.setDisplayName(ChatColor.GREEN + "Mine " + rank.getName() + ChatColor.RED + ChatColor.BOLD + " Locked");

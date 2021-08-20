@@ -13,7 +13,6 @@ import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
-import mySQL.library.SQL;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
@@ -21,8 +20,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Random;
 
 public class AdminCommands extends BaseCommand {
@@ -124,37 +121,19 @@ public class AdminCommands extends BaseCommand {
         player.sendMessage(ChatColor.GOLD + restartTimeSeconds + ChatColor.GREEN + " seconds!");
     }
 
-
-    @CommandAlias("aMySQLTableCreate")
+    @CommandAlias("adminReset")
     @CommandPermission("*")
-    public void mySqlTableCreate(Player player) {
-        SQL.createTable("ac_votes", "uuid CHAR (36) NOT NULL, vote_site VARCHAR (100), last_vote TIMESTAMP, PRIMARY KEY (vote_site)");
+    @Description("Resets Player for testing")
+    @CommandCompletion("*")
+    public void reset(Player player, OnlinePlayer onlinePlayer) {
+        player.performCommand("mmocore admin reset all " + onlinePlayer.getPlayer().getName());
+        player.performCommand("ranks set rank " + onlinePlayer.getPlayer().getName() + " A default");
+        player.performCommand("lp user " + onlinePlayer.getPlayer().getName() + " clear");
+        player.performCommand("bq purge " + onlinePlayer.getPlayer().getName());
+        player.performCommand("money set " + onlinePlayer.getPlayer().getName() + " 0");
+        player.sendMessage(ChatColor.GREEN + "You have reset " + ChatColor.GOLD + onlinePlayer.getPlayer().getName() + "'s " + ChatColor.GREEN + "Stats!");
+        onlinePlayer.getPlayer().sendMessage(ChatColor.RED + "Your Stats have been reset by " + ChatColor.GOLD + player.getName() + ChatColor.RED + "!");
     }
-
-    @CommandAlias("aMySQLCollumCreate")
-    @CommandPermission("*")
-    public void mySqlCreate(Player player) {
-        SQL.insertData("uuid, vote_site, last_vote", "'" + player.getUniqueId() + "'" + ", 'testSite', '" + Timestamp.valueOf(LocalDateTime.now()) + "'", "ac_votes");
-    }
-
-    @CommandAlias("aMySQLCollumCreate")
-    @CommandPermission("*")
-    public void mySqlCreate(Player player, String site) {
-        SQL.insertData("uuid, vote_site, last_vote", "'" + player.getUniqueId() + "'" + ", '" + site + "', '" + Timestamp.valueOf(LocalDateTime.now()) + "'", "ac_votes");
-    }
-
-    @CommandAlias("aMySQLCollumUpdate")
-    @CommandPermission("*")
-    public void mySqlTest(Player player, String site) {
-        SQL.set("last_vote", Timestamp.valueOf(LocalDateTime.now()), new String[]{"uuid = " + "'" + player.getUniqueId() + "'", "vote_site = " + "'" + site + "'"}, "ac_votes");
-    }
-
-    @CommandAlias("aMySQLCollumGet")
-    @CommandPermission("*")
-    public void mySqlGet(Player player, String site) {
-        player.sendMessage(String.valueOf(SQL.get("last_vote", new String[]{"uuid = " + "'" + player.getUniqueId() + "'", "vote_site = " + "'" + site + "'"}, "ac_votes")));
-    }
-
 
     private void booster(String boosterType, Player player, int boosterTier, int boosterDuration) {
         double x = player.getLocation().getX();

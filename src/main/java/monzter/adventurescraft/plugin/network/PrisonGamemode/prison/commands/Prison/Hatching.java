@@ -308,7 +308,7 @@ public class Hatching extends BaseCommand {
                             e.setCancelled(true);
                 });
 
-        loc.createExplosion(4, false, false);
+        loc.createExplosion(1, false, false);
 
 
         hologram.appendTextLine(itemStack.getItemMeta().getDisplayName() + " Pet");

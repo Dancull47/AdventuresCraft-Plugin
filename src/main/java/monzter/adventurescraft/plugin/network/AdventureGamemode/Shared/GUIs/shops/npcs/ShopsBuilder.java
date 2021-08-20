@@ -248,7 +248,7 @@ public class ShopsBuilder extends BaseCommand {
 
     @CommandAlias("ForestShop|LumberjackShop")
     private void lumberjackShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Forest")) {
+        if (check(player, ChatColor.DARK_GREEN + "Forest")) {
             int height = 6;
             final ChestGui gui = new ChestGui(height, guiHelper.guiName("Lumberjack Shop"));
             final List<ItemList> guiContents = ItemList.getShop(Shops.LUMBERJACK);
