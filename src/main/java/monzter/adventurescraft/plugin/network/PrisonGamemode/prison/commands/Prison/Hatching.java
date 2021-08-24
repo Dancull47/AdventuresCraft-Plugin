@@ -54,7 +54,7 @@ public class Hatching extends BaseCommand {
             case "COMMON":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG", Rarity.COMMON + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.COMMON + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.COMMON.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.COMMON.expToHatch);
                         RandomSelector<DropTables> commonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.COMMON_PET_EGG)));
                         DropTables commonDropTablesListReward = commonPetEgg.pick();
@@ -67,7 +67,7 @@ public class Hatching extends BaseCommand {
             case "UNCOMMON":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG2", Rarity.UNCOMMON + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.UNCOMMON + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.UNCOMMON.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.UNCOMMON.expToHatch);
                         RandomSelector<DropTables> uncommonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.UNCOMMON_PET_EGG)));
                         DropTables uncommonDropTablesListReward = uncommonPetEgg.pick();
@@ -80,7 +80,7 @@ public class Hatching extends BaseCommand {
             case "RARE":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG3", Rarity.RARE + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.RARE.expToHatch);
                         RandomSelector<DropTables> rarePetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.RARE_PET_EGG)));
                         DropTables rareDropTablesListReward = rarePetEgg.pick();
@@ -93,7 +93,7 @@ public class Hatching extends BaseCommand {
             case "LEGENDARY":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG4", Rarity.LEGENDARY + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.LEGENDARY.expToHatch);
                         RandomSelector<DropTables> legendaryPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.LEGENDARY_PET_EGG)));
                         DropTables legendaryDropTablesListReward = legendaryPetEgg.pick();
@@ -106,7 +106,7 @@ public class Hatching extends BaseCommand {
             case "EXOTIC":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG5", Rarity.EXOTIC + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.EXOTIC + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.EXOTIC.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.EXOTIC.expToHatch);
                         RandomSelector<DropTables> exoticPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.EXOTIC_PET_EGG)));
                         DropTables exoticDropTablesListReward = exoticPetEgg.pick();
@@ -119,7 +119,7 @@ public class Hatching extends BaseCommand {
             case "MYTHICAL":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG6", Rarity.MYTHICAL + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.MYTHICAL + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.MYTHICAL.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.MYTHICAL.expToHatch);
                         RandomSelector<DropTables> mythicalPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.MYTHICAL_PET_EGG)));
                         DropTables mythicalDropTablesListReward = mythicalPetEgg.pick();
@@ -132,7 +132,7 @@ public class Hatching extends BaseCommand {
             case "GODLY":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PET_EGG7", Rarity.GODLY + "Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.GODLY + "Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.GODLY.getName() + " Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.GODLY.expToHatch);
                         RandomSelector<DropTables> godlyPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.GODLY_PET_EGG)));
                         DropTables godlyDropTablesListReward = godlyPetEgg.pick();
@@ -145,7 +145,7 @@ public class Hatching extends BaseCommand {
             case "PHOENIX":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PHOENIX_EGG", Rarity.RARE + "Phoenix Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE + "Phoenix Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE.getName() + " Phoenix Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.PHOENIX.expToHatch);
                         RandomSelector<DropTables> phoenixPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.PHOENIX_PET_EGG)));
                         DropTables phoenixDropTablesListReward = phoenixPetEgg.pick();
@@ -158,7 +158,7 @@ public class Hatching extends BaseCommand {
             case "PHOENIX2":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "PHOENIX_EGG2", Rarity.LEGENDARY + "Phoenix Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY + "Phoenix Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY.getName() + " Phoenix Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.PHOENIX2.expToHatch);
                         RandomSelector<DropTables> phoenix2PetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.PHOENIX_PET_EGG2)));
                         DropTables phoenix2DropTablesListReward = phoenix2PetEgg.pick();
@@ -171,7 +171,7 @@ public class Hatching extends BaseCommand {
             case "DRAGON":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "DRAGON_EGG", Rarity.RARE + "Dragon Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE + "Dragon Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.RARE.getName() + " Dragon Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.DRAGON.expToHatch);
                         RandomSelector<DropTables> dragonPetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.DRAGON_PET_EGG)));
                         DropTables dragonDropTablesListReward = dragonPetEgg.pick();
@@ -184,7 +184,7 @@ public class Hatching extends BaseCommand {
             case "DRAGON2":
                 if (hasPetEXP(player, egg.toUpperCase(), petEXPAmount)) {
                     if (hasItem(player, "DRAGON_EGG2", Rarity.LEGENDARY + "Dragon Pet Egg")) {
-                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY + "Dragon Pet Egg" + ChatColor.GREEN + "!");
+                        player.sendMessage(ChatColor.GREEN + "You hatched a " + Rarity.LEGENDARY.getName() + " Dragon Pet Egg" + ChatColor.GREEN + "!");
                         hatch(player, PetEggList.DRAGON2.expToHatch);
                         RandomSelector<DropTables> dragon2PetEgg = RandomSelector.weighted((DropTables.getEggs(DropTableTypes.DRAGON_PET_EGG2)));
                         DropTables dragon2DropTablesListReward = dragon2PetEgg.pick();

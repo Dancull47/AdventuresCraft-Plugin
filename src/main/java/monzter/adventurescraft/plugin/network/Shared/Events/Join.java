@@ -34,6 +34,8 @@ public class Join implements Listener {
         player.setCollidable(true);
         player.setGameMode(GameMode.SURVIVAL);
 
+        event.joinMessage(Component.text(""));
+
         switch (plugin.SERVER) {
             case "Prison":
             case "Cell":
@@ -80,11 +82,10 @@ public class Join implements Listener {
         }, 20L);
 
         if (player.isOp())
-            if (!player.getAddress().getHostName().equals("***REMOVED***")) {
+            if (!player.getAddress().getHostName().equals("***REMOVED***") || !player.getAddress().getHostName().equals("127.0.0.1 ")) {
                 player.setOp(false);
                 player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
             }
-        event.joinMessage(Component.text(""));
     }
 
     @EventHandler
@@ -98,7 +99,7 @@ public class Join implements Listener {
     }
 
     private void openBook(Player player) {
-        if (player.getInventory().getItem(8).getType() != null)
+        if (player.getInventory() != null && player.getInventory().getItem(8).getType() != null)
             if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
                 final ItemStack book = player.getInventory().getItem(8);
                 if (book != null || book.getType() == Material.WRITTEN_BOOK)

@@ -320,7 +320,6 @@ public class Placeholder extends PlaceholderExpansion {
             case "Location":
                 return location(player);
 
-
 //            case "Restart":
 //                long timeUntil = restartTime - System.currentTimeMillis();
 //                long seconds = TimeUnit.MILLISECONDS.toSeconds(timeUntil);

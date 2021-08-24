@@ -132,10 +132,10 @@ public class VoteRewards extends BaseCommand {
         lore.add(ChatColor.GRAY + "a " + ChatColor.GREEN + "Vote Coin" + ChatColor.GRAY + ", which can be redeemed");
         lore.add(ChatColor.GRAY + "for special rewards from this Shop!");
         lore.add("");
-        lore.add(ChatColor.GOLD + "Voting Site #1: " + ChatColor.GREEN + parsePlaceholder(player, "custom_vote1"));
-        lore.add(ChatColor.GOLD + "Voting Site #2: " + ChatColor.GREEN + parsePlaceholder(player, "custom_vote2"));
-        lore.add(ChatColor.GOLD + "Voting Site #3: " + ChatColor.GREEN + parsePlaceholder(player, "custom_vote3"));
-        lore.add(ChatColor.GOLD + "Voting Site #4: " + ChatColor.GREEN + parsePlaceholder(player, "custom_vote4"));
+        lore.add(ChatColor.GOLD + "Minecraft-Server-List: " + votePlaceholder(player, "MCSL"));
+        lore.add(ChatColor.GOLD + "Planet Minecraft: " + votePlaceholder(player, "PlanetMinecraft_com"));
+        lore.add(ChatColor.GOLD + "Minecraft-MP: " + votePlaceholder(player, "Minecraft-MP_com"));
+        lore.add(ChatColor.GOLD + "Minestatus: " + votePlaceholder(player, "minestatus_net"));
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Vote");
 
@@ -144,6 +144,15 @@ public class VoteRewards extends BaseCommand {
 
         return voting;
     }
+
+    private String votePlaceholder(Player player, String service) {
+        String placeholderValue = parsePlaceholder(player.getPlayer(), "VotingPlugin_Next_" + service);
+        if (placeholderValue.equals("Go Vote!"))
+            return ChatColor.GREEN + "Ready!";
+        else
+            return ChatColor.YELLOW + placeholderValue;
+    }
+
 
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
