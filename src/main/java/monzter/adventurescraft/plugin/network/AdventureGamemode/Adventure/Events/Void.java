@@ -8,6 +8,8 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
@@ -87,6 +89,20 @@ public class Void implements Listener {
                         }
                     }
         }
+    }
+
+    public static long enchantressCooldown = 0;
+
+    @EventHandler
+    public void enchantressSpawn(MythicMobSpawnEvent event) {
+        if (event.getMobType().getInternalName().equals("VOID_ENCHANTRESS"))
+            enchantressCooldown = System.currentTimeMillis() + 10 * 60000;
+    }
+
+    @EventHandler
+    public void enchantressDeath(MythicMobDeathEvent event) {
+        if (event.getMobType().getInternalName().equals("VOID_ENCHANTRESS"))
+            enchantressCooldown = 0;
     }
 
     private void potion(Player player, PotionEffectType potionEffectType) {

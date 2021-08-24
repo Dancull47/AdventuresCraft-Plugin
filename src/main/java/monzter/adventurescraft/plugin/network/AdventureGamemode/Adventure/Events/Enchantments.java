@@ -78,7 +78,6 @@ public class Enchantments implements Listener {
     int maxOreRedLapis;
 
     private void fortune(Player player, int enchantmentLevel, Material material) {
-        plugin.getLogger().info("RAN!");
         switch (enchantmentLevel) {
             case 1:
                 maxOre = 1;

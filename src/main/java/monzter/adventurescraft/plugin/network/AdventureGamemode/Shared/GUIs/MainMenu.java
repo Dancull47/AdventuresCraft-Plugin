@@ -15,6 +15,7 @@ import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
+import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -34,12 +35,15 @@ public class MainMenu extends BaseCommand {
     private final AdventuresCraft plugin;
     private final SoundManager soundManager;
     private final GUIHelper guiHelper;
+    private final ConsoleCommand consoleCommand;
+
     private final int MAX_QUESTS = 101;
 
-    public MainMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper) {
+    public MainMenu(AdventuresCraft plugin, SoundManager soundManager, GUIHelper guiHelper, ConsoleCommand consoleCommand) {
         this.plugin = plugin;
         this.soundManager = soundManager;
         this.guiHelper = guiHelper;
+        this.consoleCommand = consoleCommand;
     }
 
     @CommandAlias("Menu|MainMenu|Main")
@@ -78,7 +82,12 @@ public class MainMenu extends BaseCommand {
         display.addItem(new GuiItem(wiki(player), e -> player.performCommand("wiki")), 6, 2);
 
         display.addItem(new GuiItem(knowledge(player), e -> player.performCommand("knowledge")), 2, 3);
-        display.addItem(new GuiItem(crafting(player), e -> player.performCommand("craft")), 3, 3);
+        display.addItem(new GuiItem(crafting(player), e -> {
+            if (e.isLeftClick())
+                player.performCommand("craft");
+            if (e.isRightClick())
+                consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName());
+        }), 3, 3);
         display.addItem(new GuiItem(settings(player), e -> player.performCommand("settingmenu")), 4, 3);
         display.addItem(new GuiItem(bank(player), e -> player.performCommand("bank open")), 5, 3);
         display.addItem(new GuiItem(accessoryBag(player), e -> {
@@ -355,7 +364,8 @@ public class MainMenu extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.GRAY + "Combine materials to create items!");
         lore.add("");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Use");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Open Crafting Table");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Open Knowledge Crafting");
 
         crafting.setItemMeta(craftingItemMeta);
         crafting.setLore(lore);

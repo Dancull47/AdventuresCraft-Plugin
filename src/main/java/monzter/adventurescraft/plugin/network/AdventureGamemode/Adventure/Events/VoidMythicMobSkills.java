@@ -11,17 +11,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class VoidMythicMob extends SkillMechanic implements ITargetedEntitySkill {
+public class VoidMythicMobSkills extends SkillMechanic implements ITargetedEntitySkill {
 
     private final MMOItems mmoItems;
     private final int duration;
 
 
-    public VoidMythicMob(MythicLineConfig config, MMOItems mmoItems) {
+    public VoidMythicMobSkills(MythicLineConfig config, MMOItems mmoItems) {
         super(config.getLine(), config);
         this.mmoItems = mmoItems;
         this.setAsyncSafe(false);
-
         this.duration = config.getInteger(new String[]{"duration", "d"}, 100);
     }
 

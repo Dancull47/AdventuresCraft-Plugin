@@ -20,7 +20,7 @@ public class Join implements Listener {
 
 
     @EventHandler
-    public void pickup(PlayerJoinEvent event) {
+    public void join(PlayerJoinEvent event) {
         switch (plugin.SERVER) {
             case "Home":
                 Player player = event.getPlayer();

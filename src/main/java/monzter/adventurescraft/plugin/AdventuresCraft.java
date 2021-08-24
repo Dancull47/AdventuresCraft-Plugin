@@ -13,10 +13,7 @@ import io.lumine.mythicenchants.MythicEnchants;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventure.regions.plugin.AdventureRegions;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.VoidMythicMob;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
@@ -68,6 +65,7 @@ import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.Place
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets.Pet;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.events.pets.Stats;
 import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
+import monzter.adventurescraft.plugin.network.Shared.Events.BlockInteractions;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
@@ -122,7 +120,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public static final String TITLE = ChatColor.RED + "[" + ChatColor.GOLD + "AdventuresCraft" + ChatColor.RED + "] ";
     private static net.milkbowl.vault.permission.Permission perms = null;
     private static net.milkbowl.vault.economy.Economy econ = null;
-    private long restartTime;
+    public static long restartTime;
+    public static boolean restarting = false;
     private SoundManager soundManager;
     private BetonPointsManager betonPointsManager;
     private BetonTagManager betonTagManager;
@@ -158,7 +157,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //            getLogger().info("Adventures is connected to MySQL!");
         saveDefaultConfig();
         manager = new PaperCommandManager(this);
-//        restartTime = System.currentTimeMillis() + 21600000;
+        restart();
         setupPermissions();
 
         initializeDependencies();
@@ -241,7 +240,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Enchantments(this, calculateEnchantments, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, AdventureRegions.getInstance().displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockBreak(this, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Statistics(this, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.UnlimitedWaterBucket(this, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
@@ -267,7 +266,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Pickup(this, betonPointsManager, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
 //        Main GUIs
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.MainMenu(this, soundManager, guiHelper));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.MainMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Map(this, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Quests(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.quests.QuestAreaMenu(this, soundManager, guiHelper, consoleCommand));
@@ -678,7 +677,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
         switch (event.getMechanicName().toLowerCase()) {
             case blinder:
-                SkillMechanic blinder = new VoidMythicMob(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
+                SkillMechanic blinder = new VoidMythicMobSkills(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
                 event.register(blinder);
                 this.getLogger().info("-- Registered Blinder mechanic!");
                 break;
@@ -688,5 +687,39 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 this.getLogger().info("-- Registered customDismount mechanic!");
                 break;
         }
+    }
+
+    public void restart() {
+        restartTime = System.currentTimeMillis() + 21600000;
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            broadcastRestart("minutes", 10);
+            restarting = true;
+        }, 20 * 21000);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("minutes", 5), 20 * 21300);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("minutes", 4), 20 * 21360);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("minutes", 3), 20 * 21420);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("minutes", 2), 20 * 21480);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("minutes", 1), 20 * 21540);
+
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 30), 20 * 21570);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 15), 20 * 21585);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 10), 20 * 21590);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 5), 20 * 21595);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 4), 20 * 21596);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 3), 20 * 21597);
+        Bukkit.getScheduler().runTaskLater(this, () -> broadcastRestart("seconds", 2), 20 * 21598);
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            broadcastRestart("seconds", 1);
+            consoleCommand.consoleCommand("mm mobs killall");
+            consoleCommand.consoleCommand("killall -named");
+        }, 20 * 21599);
+        Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getServer().shutdown(), 20 * 21600);
+    }
+
+    public void broadcastRestart(String timeUnit, int time) {
+        Bukkit.getServer().broadcast(Component.text(NamedTextColor.RED + "---------------------------------"));
+        Bukkit.getServer().broadcast(Component.text(NamedTextColor.YELLOW + "Server will be " + NamedTextColor.GOLD + "restarting " +
+                NamedTextColor.YELLOW + "in " + NamedTextColor.GOLD + TextDecoration.BOLD + time + NamedTextColor.YELLOW + " " + timeUnit + "!"));
+        Bukkit.getServer().broadcast(Component.text(NamedTextColor.RED + "---------------------------------"));
     }
 }
