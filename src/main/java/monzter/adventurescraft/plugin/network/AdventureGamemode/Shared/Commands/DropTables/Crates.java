@@ -10,6 +10,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -311,11 +312,11 @@ public enum Crates implements Weighted, ItemGenerator {
         return crate;
     }
 
+    DecimalFormat df = new DecimalFormat("#.####");
+
     @Override
     public ItemStack generateItem() {
         final ItemStack itemStack = MMOItems.plugin.getItem(type, id);
-        System.out.println(id);
-
         if (itemStack != null) {
             List<Component> lore = itemStack.lore();
             if (lore == null) {
@@ -323,7 +324,7 @@ public enum Crates implements Weighted, ItemGenerator {
             } else if (!lore.isEmpty()) {
                 lore.add(Component.empty());
             }
-            lore.add(Component.text("CHANCE: " + weight * 100 + "%", NamedTextColor.GOLD, TextDecoration.BOLD));
+            lore.add(Component.text("CHANCE: " + df.format(weight * 100) + "%", NamedTextColor.GOLD, TextDecoration.BOLD));
             itemStack.lore(lore);
             return itemStack.asQuantity(amount);
         }
