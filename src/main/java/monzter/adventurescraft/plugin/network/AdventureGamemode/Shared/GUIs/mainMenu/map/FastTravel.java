@@ -52,16 +52,16 @@ public class FastTravel extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.PINK_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(enchanter(player), e -> player.performCommand("skript:warp Enchanter")), 1, 1);
-        display.addItem(new GuiItem(auction(player), e -> player.performCommand("skript:warp Auction")), 2, 1);
-        display.addItem(new GuiItem(dracula(player), e -> player.performCommand("skript:warp Dracula")), 3, 1);
-        display.addItem(new GuiItem(reaper(player), e -> player.performCommand("skript:warp Reaper")), 4, 1);
-        display.addItem(new GuiItem(morden(player), e -> player.performCommand("skript:warp Morden")), 5, 1);
-        display.addItem(new GuiItem(voidWither(player), e -> player.performCommand("skript:warp voidWither")), 6, 1);
-        display.addItem(new GuiItem(voidMagma(player), e -> player.performCommand("skript:warp voidMagma")), 7, 1);
+        display.addItem(new GuiItem(enchanter(player), e -> player.performCommand("warp Enchanter")), 1, 1);
+        display.addItem(new GuiItem(auction(player), e -> player.performCommand("warp Auction")), 2, 1);
+        display.addItem(new GuiItem(dracula(player), e -> player.performCommand("warp Dracula")), 3, 1);
+        display.addItem(new GuiItem(reaper(player), e -> player.performCommand("warp Reaper")), 4, 1);
+        display.addItem(new GuiItem(morden(player), e -> player.performCommand("warp Morden")), 5, 1);
+        display.addItem(new GuiItem(voidWither(player), e -> player.performCommand("warp voidWither")), 6, 1);
+        display.addItem(new GuiItem(voidMagma(player), e -> player.performCommand("warp voidMagma")), 7, 1);
 
-        display.addItem(new GuiItem(ghastly(player), e -> player.performCommand("skript:warp Ghastly")), 1, 2);
-        display.addItem(new GuiItem(voidBullbo(player), e -> player.performCommand("skript:warp voidBullbo")), 2, 2);
+        display.addItem(new GuiItem(ghastly(player), e -> player.performCommand("warp Ghastly")), 1, 2);
+        display.addItem(new GuiItem(voidBullbo(player), e -> player.performCommand("warp voidBullbo")), 2, 2);
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("map")), 4, 4);
 

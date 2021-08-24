@@ -50,35 +50,35 @@ public class Map extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.LIGHT_BLUE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(farm(), e -> player.performCommand("skript:warp farm")), 1, 1);
+        display.addItem(new GuiItem(farm(), e -> player.performCommand("warp farm")), 1, 1);
         display.addItem(new GuiItem(forest(), e -> {
             if (e.isLeftClick())
-                player.performCommand("skript:warp forest");
+                player.performCommand("warp forest");
             else if (e.isRightClick())
                 player.performCommand("forestMap");
         }), 2, 1);
         display.addItem(new GuiItem(mines(), e -> {
             if (e.isLeftClick())
-                player.performCommand("skript:warp mines");
+                player.performCommand("warp mines");
             else if (e.isRightClick())
                 player.performCommand("mineMap");
         }), 3, 1);
-        display.addItem(new GuiItem(graveyard(), e -> player.performCommand("skript:warp graveyard")), 4, 1);
-        display.addItem(new GuiItem(courtyard(player), e -> player.performCommand("skript:warp courtyard")), 5, 1);
-        display.addItem(new GuiItem(castle(player), e -> player.performCommand("skript:warp castle")), 6, 1);
-        display.addItem(new GuiItem(estate(player), e -> player.performCommand("skript:warp estate")), 7, 1);
+        display.addItem(new GuiItem(graveyard(), e -> player.performCommand("warp graveyard")), 4, 1);
+        display.addItem(new GuiItem(courtyard(player), e -> player.performCommand("warp courtyard")), 5, 1);
+        display.addItem(new GuiItem(castle(player), e -> player.performCommand("warp castle")), 6, 1);
+        display.addItem(new GuiItem(estate(player), e -> player.performCommand("warp estate")), 7, 1);
 
-        display.addItem(new GuiItem(goblinTown(player), e -> player.performCommand("skript:warp goblinTown")), 1, 2);
-        display.addItem(new GuiItem(spiritGrounds(player), e -> player.performCommand("skript:warp spiritGrounds")), 2, 2);
+        display.addItem(new GuiItem(goblinTown(player), e -> player.performCommand("warp goblinTown")), 1, 2);
+        display.addItem(new GuiItem(spiritGrounds(player), e -> player.performCommand("warp spiritGrounds")), 2, 2);
         display.addItem(new GuiItem(hell(player), e -> {
             if (e.isLeftClick())
-                player.performCommand("skript:warp hell");
+                player.performCommand("warp hell");
             else if (e.isRightClick())
-                player.performCommand("skript:warp hellBottom");
+                player.performCommand("warp hellBottom");
         }), 3, 2);
-        display.addItem(new GuiItem(theVoid(player), e -> player.performCommand("skript:warp void")), 4, 2);
+        display.addItem(new GuiItem(theVoid(player), e -> player.performCommand("warp void")), 4, 2);
 
-        display.addItem(new GuiItem(townHall(player), e -> player.performCommand("skript:warp townHall")), 3, 4);
+        display.addItem(new GuiItem(townHall(player), e -> player.performCommand("warp townHall")), 3, 4);
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
         display.addItem(new GuiItem(fastTravel(player), e -> player.performCommand("fastTravel")), 5, 4);
 

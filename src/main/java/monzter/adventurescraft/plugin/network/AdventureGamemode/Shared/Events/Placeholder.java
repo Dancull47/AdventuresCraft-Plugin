@@ -71,11 +71,8 @@ public class Placeholder extends PlaceholderExpansion {
             case "Currency_VotingCoins":
                 return String.valueOf(getPoints("items.Vote", points));
             case "Void_Timer":
-                long minutes
-                        = TimeUnit.MILLISECONDS.toMinutes(Void.enchantressCooldown - System.currentTimeMillis());
-                long seconds
-                        = (TimeUnit.MILLISECONDS.toSeconds(Void.enchantressCooldown - System.currentTimeMillis())
-                        % 60);
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(Void.enchantressCooldown - System.currentTimeMillis());
+                long seconds = (TimeUnit.MILLISECONDS.toSeconds(Void.enchantressCooldown - System.currentTimeMillis()) % 60);
                 return (minutes + " Minutes and " + seconds + " seconds");
             case "Restart_Timer":
                 long hours = TimeUnit.MILLISECONDS.toHours(restartTime - System.currentTimeMillis());
