@@ -86,7 +86,6 @@ public class Warp extends BaseCommand implements PluginMessageListener {
             b.writeUTF("Adventure");
         } catch (Exception e) {
         }
-        player.sendPluginMessage(plugin, "BungeeCord", b.toByteArray());
     }
 
     private boolean hasPermission(Player player, Warps warps) {
