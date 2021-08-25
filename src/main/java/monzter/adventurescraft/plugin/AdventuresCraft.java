@@ -10,15 +10,19 @@ import com.sk89q.worldguard.protection.flags.StringFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.mythicenchants.MythicEnchants;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
+import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.LeashCondition;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.VoidMythicMobSkills;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Enchant;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Mount;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Knowledge;
@@ -678,19 +682,25 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onMythicMechanicLoad(MythicMechanicLoadEvent event) {
-        this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
+//        this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
         switch (event.getMechanicName().toLowerCase()) {
             case blinder:
                 SkillMechanic blinder = new VoidMythicMobSkills(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
                 event.register(blinder);
-                this.getLogger().info("-- Registered Blinder mechanic!");
+//                this.getLogger().info("-- Registered Blinder mechanic!");
                 break;
             case dismount:
                 SkillMechanic dismount = new Mount(event.getConfig());
                 event.register(dismount);
-                this.getLogger().info("-- Registered customDismount mechanic!");
+//                this.getLogger().info("-- Registered customDismount mechanic!");
                 break;
         }
+    }
+
+    @EventHandler
+    public void onMythicConditionLoad(MythicConditionLoadEvent event) {
+        SkillCondition leash = new LeashCondition(event.getConfig());
+        event.register(leash);
     }
 
     public void restart() {

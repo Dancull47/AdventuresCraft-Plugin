@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events;
+package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
