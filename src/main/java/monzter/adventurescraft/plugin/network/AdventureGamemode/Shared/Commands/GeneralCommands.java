@@ -61,10 +61,10 @@ public class GeneralCommands extends BaseCommand implements Listener {
         consoleCommand.consoleCommand("rpgmenu open default-Menus-menu.unclaimed " + player.getName());
     }
 
-    @CommandAlias("Quests|Quest")
-    private void quests(Player player) {
-        consoleCommand.consoleCommand("dm open Quests " + player.getName());
-    }
+//    @CommandAlias("Quests|Quest")
+//    private void quests(Player player) {
+//        consoleCommand.consoleCommand("dm open Quests " + player.getName());
+//    }
 
     @CommandAlias("rp|resourcePack|texturePack")
     private void resourcePack(Player player) {

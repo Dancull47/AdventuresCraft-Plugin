@@ -1,6 +1,6 @@
 package monzter.adventurescraft.plugin.utilities.GUI;
 
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.QuestGiver;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.enums.QuestGiver;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -43,13 +43,13 @@ public interface GUIHelper {
 
     ItemStack questUnclaimed(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);
 
-    ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String questGiver, String questGiverArea);
-
-    ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String resetTime);
+//    ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String questGiver, String questGiverArea);
+//
+//    ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String resetTime);
 
     void questMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
 
-    void jobMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
+//    void jobMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
 
-    void miningPassMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
+//    void miningPassMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
 }
