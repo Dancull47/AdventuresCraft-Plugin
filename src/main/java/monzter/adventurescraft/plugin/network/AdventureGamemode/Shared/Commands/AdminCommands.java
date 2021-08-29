@@ -41,8 +41,8 @@ public class AdminCommands extends BaseCommand {
         switch (stat.toLowerCase()) {
             case "experience":
             case "exp":
-                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + "x " + AdventureStatsDisplay.EXP.getName() + ChatColor.GREEN + "!");
-                targetPlayer.getPlayer().setLevel(targetPlayer.getPlayer().getLevel() + amount);
+                targetPlayer.getPlayer().sendMessage(ChatColor.GREEN + "You gained +" + ChatColor.GOLD + numberFormat.numberFormat(amount) + ChatColor.GREEN + " " + AdventureStatsDisplay.EXP.getName() + ChatColor.GREEN + "!");
+                consoleCommand.consoleCommand("mmocore admin exp give " + targetPlayer.getPlayer().getName() + " main " + amount);
                 break;
             case "ac":
             case "acs":

@@ -1,41 +1,56 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.enums;
 
-import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
-import monzter.adventurescraft.plugin.utilities.enums.Professions;
+import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import org.bukkit.ChatColor;
 
 public enum QuestList {
     ACTIVE_QUESTS_JOURNAL(QuestGiver.TUTOR,
             new String[]{ChatColor.GREEN + "Right-Click " + ChatColor.WHITE + "while holding the " + ChatColor.BOLD + "Quest Journal"},
-            null, 0, null, 100, 100, 0),
+            null, 100, null, 100),
     ACTIVE_QUESTS_MENU(QuestGiver.TUTOR,
             new String[]{ChatColor.GREEN + "Left-Click " + ChatColor.WHITE + "while holding the " + ChatColor.BOLD + "Quest Journal", ChatColor.WHITE + "and looking at a " + ChatColor.GREEN + "Block"},
-            null, 0, null, 100, 100, 0),
+            null, 100, null, 100),
     UNCLAIMED_QUESTS_MENU(QuestGiver.TUTOR,
             new String[]{ChatColor.GREEN + "Crouch and Left-Click " + ChatColor.WHITE + "while holding the", ChatColor.WHITE.toString() + ChatColor.BOLD + "Quest Journal " + ChatColor.WHITE + "and looking at a " + ChatColor.GREEN + "Block"},
-            null, 0, null, 100, 100, 0),
+            null, 100, null, 100),
     FOLLOW_THE_ARROW(QuestGiver.TUTOR,
             new String[]{ChatColor.WHITE + "Follow the " + ChatColor.GREEN + "Arrow " + ChatColor.WHITE + "guiding ", ChatColor.WHITE + "you towards the next " + ChatColor.GOLD + "Quester"},
-            null, 0, null, 100, 100, 0),
+            null, 100, null, 100),
+
+    HUNTING_THE_UNDEAD(QuestGiver.CIRL,
+            new String[]{"&aSlay &f%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.amount%/20 &cUndead Skeletons", "&fwithin the &cGraveyard"},
+            new String[]{"ARMOR BONE_SKULL2 1"}, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
+    THE_SILVER_STOOL(QuestGiver.CIRL,
+            new String[]{"&aUse &fthe &c&lSilver Stool &f(-157, 15, 145)", "&fwithin the &cGraveyard &fto", "&aUpgrade &fyour &lSilver Sword"},
+            new String[]{"ARMOR BONE_CHESTPLATE2 1", "ARMOR BONE_LEGS2 1"}, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
+    ARCHER_ANNILATOR(QuestGiver.CIRL,
+            new String[]{"&aSlay &f%betonquest_default-Graveyard-Cirl:point.ARCHER_ANNILATOR.amount%/15 &cUndead Archers &fwithin the &cGraveyard"},
+            new String[]{"ARMOR BONE_FEET2 1"}, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
+    THE_REAPER(QuestGiver.CIRL,
+            new String[]{"&aSlay &fthe &cReaper &f(-96, 15, 176)"},
+            new String[]{"WHIP BONEWHIP4 1"}, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
+    COURTYARD_VENTURE(QuestGiver.CIRL,
+            new String[]{"&aFollow &fthe &aGrass Path", "&fto enter the &cCourtyard &f(-111, 15, 248)"},
+            null, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
 
 
-    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
-            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Wizard:point.Mine1.amount%/100 Blocks" + ChatColor.WHITE + " to earn " +
-                    PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},
-            new String[]{"VOUCHER EXP_VOUCHER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0, 0, 0),
-    NEW_ENCHANTER(QuestGiver.WIZARD,
-            new String[]{ChatColor.WHITE + "Consume the " + ChatColor.BOLD + "EXP Voucher" + ChatColor.WHITE + " given to",
-                    ChatColor.WHITE + "you from the previous quest. ",
-                    "",
-                    ChatColor.WHITE + "Interact with the " + ChatColor.DARK_PURPLE + "Enchanter" + ChatColor.WHITE + " while",
-                    ChatColor.WHITE + "holding a " + ChatColor.BOLD + "Tool" + ChatColor.WHITE + ", then purchase",
-                    ChatColor.WHITE + "the " + ChatColor.GREEN + "Experience " + ChatColor.DARK_PURPLE + "Enchantment" + ChatColor.WHITE + "!"},
-            new String[]{"BOOSTER EXP_BOOSTER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 0, 0),
-    ENCHANTING_PIONEER(QuestGiver.WIZARD,
-            new String[]{ChatColor.WHITE + "Speak with " + ChatColor.GREEN + "Merle" + ChatColor.WHITE + " outside of the",
-                    ChatColor.DARK_PURPLE + "Enchanting Library " + ChatColor.WHITE + "to further increase",
-                    ChatColor.WHITE + "your " + ChatColor.DARK_PURPLE + "Enchanting Profession" + ChatColor.WHITE + "!"},
-            null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0, 0, 0),
+//    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
+//            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +
+//                    PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},
+//            new String[]{"VOUCHER EXP_VOUCHER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 250"}, 0),
+//    NEW_ENCHANTER(QuestGiver.WIZARD,
+//            new String[]{ChatColor.WHITE + "Consume the " + ChatColor.BOLD + "EXP Voucher" + ChatColor.WHITE + " given to",
+//                    ChatColor.WHITE + "you from the previous quest. ",
+//                    "",
+//                    ChatColor.WHITE + "Interact with the " + ChatColor.DARK_PURPLE + "Enchanter" + ChatColor.WHITE + " while",
+//                    ChatColor.WHITE + "holding a " + ChatColor.BOLD + "Tool" + ChatColor.WHITE + ", then purchase",
+//                    ChatColor.WHITE + "the " + ChatColor.GREEN + "Experience " + ChatColor.DARK_PURPLE + "Enchantment" + ChatColor.WHITE + "!"},
+//            new String[]{"BOOSTER EXP_BOOSTER 1"}, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0),
+//    ENCHANTING_PIONEER(QuestGiver.WIZARD,
+//            new String[]{ChatColor.WHITE + "Speak with " + ChatColor.GREEN + "Merle" + ChatColor.WHITE + " outside of the",
+//                    ChatColor.DARK_PURPLE + "Enchanting Library " + ChatColor.WHITE + "to further increase",
+//                    ChatColor.WHITE + "your " + ChatColor.DARK_PURPLE + "Enchanting Profession" + ChatColor.WHITE + "!"},
+//            null, 0, new String[]{Professions.ENCHANTING.name() + " 100"}, 0),
 
 //    EGG_EXERCISE(QuestGiver.JOY,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Joy:point.Mine1.amount%/100 Blocks" + ChatColor.WHITE + " with the " + ChatColor.BOLD + "Pet Egg" + ChatColor.WHITE + " inside",
@@ -68,22 +83,18 @@ public enum QuestList {
     private final QuestGiver questGiver;
     private final String[] questDescription;
     private final String[] rewardItems;
-    private final int rewardEXP;
+    private final int rewardMainEXP;
     private final String[] rewardProfessionEXP;
     private final int rewardMoney;
-    private final int rewardExperience;
-    private final int rewardPetExperience;
 
 
-    QuestList(QuestGiver questGiver, String[] questDescription, String[] rewardItems, int rewardEXP, String[] rewardProfessionEXP, int rewardMoney, int experience, int petExperience) {
+    QuestList(QuestGiver questGiver, String[] questDescription, String[] rewardItems, int rewardMainEXP, String[] rewardProfessionEXP, int rewardMoney) {
         this.questGiver = questGiver;
         this.questDescription = questDescription;
         this.rewardItems = rewardItems;
-        this.rewardEXP = rewardEXP;
+        this.rewardMainEXP = rewardMainEXP;
         this.rewardProfessionEXP = rewardProfessionEXP;
         this.rewardMoney = rewardMoney;
-        this.rewardExperience = experience;
-        this.rewardPetExperience = petExperience;
     }
 
     public QuestGiver getQuestGiver() {
@@ -94,8 +105,8 @@ public enum QuestList {
         return rewardItems;
     }
 
-    public int getRewardEXP() {
-        return rewardEXP;
+    public int getRewardMainEXP() {
+        return rewardMainEXP;
     }
 
     public String[] getRewardProfessionEXP() {
@@ -108,13 +119,5 @@ public enum QuestList {
 
     public String[] getQuestDescription() {
         return questDescription;
-    }
-
-    public int getRewardExperience() {
-        return rewardExperience;
-    }
-
-    public int getRewardPetExperience() {
-        return rewardPetExperience;
     }
 }

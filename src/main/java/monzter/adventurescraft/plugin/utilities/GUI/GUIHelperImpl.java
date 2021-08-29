@@ -13,6 +13,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.main
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.quests.enums.Jobs;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
+import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
@@ -617,13 +618,13 @@ public class GUIHelperImpl implements GUIHelper {
             for (String questLore : quests.getQuestDescription()) {
                 if (questLore.contains("%"))
                     questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
-                lore.add(questLore);
+                lore.add(ChatColor.translateAlternateColorCodes('&', questLore));
             }
         else if (!betonTagManager.hasTag(player, startedTag) || betonTagManager.hasTag(player, completedTag))
             for (String questLore : quests.getQuestDescription()) {
                 if (questLore.contains("%"))
                     questLore = questLore.replaceAll("(%.*?%\\/)", "");
-                lore.add(questLore);
+                lore.add(ChatColor.translateAlternateColorCodes('&', questLore));
             }
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
@@ -632,19 +633,15 @@ public class GUIHelperImpl implements GUIHelper {
                 String[] reward = questItemReward.split(" ");
                 lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
             }
-//        if (quests.getRewardEXP() > 0) We don't use normal EXP in
-//            lore.add(PREFIX + ChatColor.DARK_PURPLE + quests.getRewardEXP() + " EXP");
+        if (quests.getRewardMainEXP() > 0)
+            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMainEXP() + " " + AdventureStatsDisplay.EXP.getName());
         if (quests.getRewardProfessionEXP() != null)
             for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
-                String[] professionReward = questProfessionEXPReward.split(" ");
-                lore.add(PREFIX + ChatColor.BLUE + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+                String[] professionReward = questProfessionEXPReward.split(",");
+                lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
             }
         if (quests.getRewardMoney() > 0)
             lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
-        if (quests.getRewardExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardExperience()) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
-        if (quests.getRewardPetExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardPetExperience()) + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
 
         if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
             lore.add("");
@@ -664,15 +661,13 @@ public class GUIHelperImpl implements GUIHelper {
                         }
                         if (quests.getRewardProfessionEXP() != null)
                             for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
-                                String[] professionReward = questProfessionEXPReward.split(" ");
+                                String[] professionReward = questProfessionEXPReward.split(",");
                                 consoleCommand.consoleCommand("mmocore admin exp give " + player.getName() + " " + professionReward[0] + " " + professionReward[1]);
                             }
                         if (quests.getRewardMoney() > 0)
                             economy.giveMoney(player, quests.getRewardMoney());
-                        if (quests.getRewardExperience() > 0)
-                            betonPointsManager.givePointEXP(player, quests.getRewardExperience());
-                        if (quests.getRewardPetExperience() > 0)
-                            betonPointsManager.givePointEXP(player, quests.getRewardPetExperience());
+                        if (quests.getRewardMainEXP() > 0)
+                            consoleCommand.consoleCommand("reward experience " + quests.getRewardMainEXP() + " " + player.getName());
                         betonTagManager.giveTag(player, claimedTag);
                         player.performCommand("questViewer " + quests.getQuestGiver().name());
                         soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
@@ -680,15 +675,13 @@ public class GUIHelperImpl implements GUIHelper {
                 } else {
                     if (quests.getRewardProfessionEXP() != null)
                         for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
-                            String[] professionReward = questProfessionEXPReward.split(" ");
+                            String[] professionReward = questProfessionEXPReward.split(",");
                             consoleCommand.consoleCommand("mmocore admin exp give " + player.getName() + " " + professionReward[0] + " " + professionReward[1]);
                         }
                     if (quests.getRewardMoney() > 0)
                         economy.giveMoney(player, quests.getRewardMoney());
-                    if (quests.getRewardExperience() > 0)
-                        betonPointsManager.givePointEXP(player, quests.getRewardExperience());
-                    if (quests.getRewardPetExperience() > 0)
-                        betonPointsManager.givePointPetEXP(player, quests.getRewardPetExperience());
+                    if (quests.getRewardMainEXP() > 0)
+                        consoleCommand.consoleCommand("reward experience " + quests.getRewardMainEXP() + " " + player.getName());
                     betonTagManager.giveTag(player, claimedTag);
                     player.performCommand("questViewer " + quests.getQuestGiver().name());
                     soundManager.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
@@ -773,7 +766,7 @@ public class GUIHelperImpl implements GUIHelper {
             }
         if (jobs.getRewardProfessionEXP() != null)
             for (String questProfessionEXPReward : jobs.getRewardProfessionEXP()) {
-                String[] professionReward = questProfessionEXPReward.split(" ");
+                String[] professionReward = questProfessionEXPReward.split(",");
                 lore.add(PREFIX + ChatColor.BLUE + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
             }
         if (jobs.getRewardMoney() > 0)

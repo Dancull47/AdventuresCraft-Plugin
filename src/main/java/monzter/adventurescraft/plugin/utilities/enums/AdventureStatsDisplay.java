@@ -24,7 +24,16 @@ public enum AdventureStatsDisplay {
     VOID_DAMAGE(ChatColor.DARK_PURPLE + "☠ Void Damage"),
 
     COINS(ChatColor.YELLOW + "⛂ Coins"),
-    EXP(ChatColor.AQUA + "Ξ Levels "),
+    EXP(ChatColor.AQUA + "Ξ Experience"),
+
+    FARMING(ChatColor.GREEN + "❦ Farming"),
+    FORAGING(ChatColor.DARK_GREEN + " Foraging"),
+    SLAYER(ChatColor.DARK_RED + "⚔ Slayer"),
+    MINING(ChatColor.DARK_BLUE + "⛏ Mining"),
+    ENCHANTING(ChatColor.DARK_PURPLE + "☄ Enchanting"),
+    COOKING(ChatColor.GOLD + "♨ Cooking"),
+    SPELLFORGING(ChatColor.LIGHT_PURPLE + "☆ Spellforging"),
+
     ;
 
     private final String name;

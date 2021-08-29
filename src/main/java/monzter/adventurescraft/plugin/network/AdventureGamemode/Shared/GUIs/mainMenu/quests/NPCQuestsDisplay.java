@@ -53,6 +53,11 @@ public class NPCQuestsDisplay extends BaseCommand {
         guiHelper.questMenuGenerator(player, QuestGiver.TUTOR, Material.PURPLE_STAINED_GLASS_PANE);
     }
 
+    @Subcommand("Cirl")
+    public void cirl(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.CIRL, Material.RED_STAINED_GLASS_PANE);
+    }
+
 
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
