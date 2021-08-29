@@ -47,9 +47,10 @@ public class NPCQuestsDisplay extends BaseCommand {
         this.economy = economy;
     }
 
-    @Subcommand("Wizard")
-    public void wizard(Player player) {
-        guiHelper.questMenuGenerator(player, QuestGiver.WIZARD, Material.PURPLE_STAINED_GLASS_PANE);
+
+    @Subcommand("Tutor")
+    public void tutor(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.TUTOR, Material.PURPLE_STAINED_GLASS_PANE);
     }
 
 

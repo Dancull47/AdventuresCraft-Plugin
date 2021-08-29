@@ -5,6 +5,20 @@ import monzter.adventurescraft.plugin.utilities.enums.Professions;
 import org.bukkit.ChatColor;
 
 public enum QuestList {
+    ACTIVE_QUESTS_JOURNAL(QuestGiver.TUTOR,
+            new String[]{ChatColor.GREEN + "Right-Click " + ChatColor.WHITE + "while holding the " + ChatColor.BOLD + "Quest Journal"},
+            null, 0, null, 100, 100, 0),
+    ACTIVE_QUESTS_MENU(QuestGiver.TUTOR,
+            new String[]{ChatColor.GREEN + "Left-Click " + ChatColor.WHITE + "while holding the " + ChatColor.BOLD + "Quest Journal", ChatColor.WHITE + "and looking at a " + ChatColor.GREEN + "Block"},
+            null, 0, null, 100, 100, 0),
+    UNCLAIMED_QUESTS_MENU(QuestGiver.TUTOR,
+            new String[]{ChatColor.GREEN + "Crouch and Left-Click " + ChatColor.WHITE + "while holding the", ChatColor.WHITE.toString() + ChatColor.BOLD + "Quest Journal " + ChatColor.WHITE + "and looking at a " + ChatColor.GREEN + "Block"},
+            null, 0, null, 100, 100, 0),
+    FOLLOW_THE_ARROW(QuestGiver.TUTOR,
+            new String[]{ChatColor.WHITE + "Follow the " + ChatColor.GREEN + "Arrow " + ChatColor.WHITE + "guiding ", ChatColor.WHITE + "you towards the next " + ChatColor.GOLD + "Quester"},
+            null, 0, null, 100, 100, 0),
+
+
     UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
             new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Town-Wizard:point.Mine1.amount%/100 Blocks" + ChatColor.WHITE + " to earn " +
                     PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},

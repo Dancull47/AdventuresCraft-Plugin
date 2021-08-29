@@ -16,13 +16,10 @@ import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.*;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.LeashCondition;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.VoidMythicMobSkills;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Enchant;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Knowledge;
@@ -35,6 +32,9 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.LeashCondition;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mount;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.VoidMythicMobSkills;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.cell.commands.CellDisplayGUI;
@@ -434,7 +434,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         } else {
             mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
         }
-        guiHelper = new GUIHelperImpl(numberFormat, betonTagManager, betonPointsManager, fullInventory, itemAdder, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), consoleCommand, economy);
+        guiHelper = new GUIHelperImpl(numberFormat, betonTagManager, betonPointsManager, fullInventory, itemAdder, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), consoleCommand, economy, soundManager);
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);

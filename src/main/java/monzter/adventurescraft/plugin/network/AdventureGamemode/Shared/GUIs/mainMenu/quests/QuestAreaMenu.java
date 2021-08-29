@@ -51,6 +51,10 @@ public class QuestAreaMenu extends BaseCommand {
         this.betonTagManager = betonTagManager;
     }
 
+    @CommandAlias("Tutorial")
+    public void tutorial(Player player) {
+        menuGenerator(player, QuestArea.TUTORIAL, Material.YELLOW_STAINED_GLASS_PANE);
+    }
     @CommandAlias("Town")
     public void town(Player player) {
         menuGenerator(player, QuestArea.TOWN, Material.BROWN_STAINED_GLASS_PANE);

@@ -47,6 +47,15 @@ public class Quests extends BaseCommand {
         this.betonTagManager = betonTagManager;
     }
 
+    @CommandAlias("ActiveQuests|activeQuest")
+    public void active(Player player) {
+        guiHelper.activeQuestMenu(player);
+    }
+    @CommandAlias("UnclaimedQuests|UnclaimedQuest")
+    public void unclaimed(Player player) {
+        guiHelper.unclaimedQuestMenu(player);
+    }
+
 
     @CommandAlias("Quests|Quest")
     public void questMenu(Player player) {
@@ -63,12 +72,12 @@ public class Quests extends BaseCommand {
             questAmount++;
         }
 
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Quests " + completedQuests + "/" + questAmount));
+        ChestGui gui = new ChestGui(5, guiHelper.guiName("Quests " + completedQuests + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-        OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);
-        StaticPane display = new StaticPane(0, 0, 9, 4, Pane.Priority.LOW);
-        OutlinePane main = new OutlinePane(1, 1, 7, 2, Pane.Priority.LOW);
+        OutlinePane background = new OutlinePane(0, 0, 9, 5, Pane.Priority.LOWEST);
+        StaticPane display = new StaticPane(0, 0, 9, 5, Pane.Priority.LOW);
+        OutlinePane main = new OutlinePane(1, 1, 7, 3, Pane.Priority.LOW);
 
 
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
@@ -78,9 +87,9 @@ public class Quests extends BaseCommand {
             main.addItem(itemGenerator(player, questArea));
 
 //        display.addItem(new GuiItem(achievements(player), e -> consoleCommand.consoleCommand("dm open Achievements " + player.getName())), 2, 4);
-//        display.addItem(new GuiItem(activeQuests(), e -> player.performCommand("activequests")), 3, 4);
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 3);
-//        display.addItem(new GuiItem(unclaimedQuests(player), e -> player.performCommand("unclaimedquests")), 5, 4);
+        display.addItem(new GuiItem(activeQuests(), e -> player.performCommand("activequests")), 3, 4);
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
+        display.addItem(new GuiItem(unclaimedQuests(player), e -> player.performCommand("unclaimedquests")), 5, 4);
 //        display.addItem(new GuiItem(jobs(player), e -> consoleCommand.consoleCommand("dm open Bounty " + player.getName())), 6, 4);
 
         gui.addPane(background);
