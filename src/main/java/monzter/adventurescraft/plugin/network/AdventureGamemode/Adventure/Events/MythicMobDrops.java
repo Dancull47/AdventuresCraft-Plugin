@@ -108,6 +108,8 @@ public class MythicMobDrops implements Listener {
                         rareItem(event.getMob(), MMOItems.plugin.getItem("COMPANION", "PET_UNDEAD_CASTER3"), player);
                     if (chanceCheck.chanceCheck(.2))
                         rareItem(event.getMob(), MMOItems.plugin.getItem("CONSUMABLE", "MAGICAL_ESSENSE2"), player);
+                    if (chanceCheck.chanceCheck(.5))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("QUEST", "MAGICAL_FRAGMENT"), player);
                     break;
                 /*
                  *   Castle

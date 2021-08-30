@@ -33,6 +33,25 @@ public enum QuestList {
             new String[]{"&aFollow &fthe &aGrass Path", "&fto enter the &cCourtyard &f(-111, 15, 248)"},
             null, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
 
+    THE_UNDEAD_SLAYER(QuestGiver.NAVID,
+            new String[]{"&aSlay &f%betonquest_default-Courtyard-Navid:point.THE_UNDEAD_SLAYER.amount%/50 &cUndead &fwithin the &cCourtyard"},
+            new String[]{"BOW UNDEAD_BOW3 1"}, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
+    THE_MAGICAL_HUNT(QuestGiver.NAVID,
+            new String[]{"&aSlay &cUndead Casters &fand &adeliver", "&f8 &lMagical Fragments &fto &aNavid"},
+            new String[]{"CONSUMABLE MAGICAL_ESSENSE2 1"}, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
+    SPIDER_EXTERMINATOR(QuestGiver.NAVID,
+            new String[]{"&aSlay &f%betonquest_default-Courtyard-Navid:point.SPIDER_EXTERMINATOR.amount%/20 &cUndead Spiders &fwithin the &cCourtyard"},
+            null, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
+    THE_ALPHAS(QuestGiver.NAVID,
+            new String[]{"&aSlay &f%betonquest_default-Courtyard-Navid:point.THE_ALPHAS.amount%/2 &cAlpha Souls &fwithin the &cCourtyard"},
+            null, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
+    THE_VILLAGE_HERO(QuestGiver.NAVID,
+            new String[]{"&aRescue &f5 &aVillagers &ftrapped around the &cCourtyard"},
+            null, 250, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",250"}, 200),
+    CASTLE_BREACH(QuestGiver.NAVID,
+            new String[]{"&aBreach &fthe &cCastle &fby speaking with &aAnder", "&fat the &cCastle Gate &f(-95, 15, 434)"},
+            null, 0, null, 0),
+
 
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +

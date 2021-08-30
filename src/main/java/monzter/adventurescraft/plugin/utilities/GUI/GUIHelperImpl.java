@@ -469,12 +469,24 @@ public class GUIHelperImpl implements GUIHelper {
             if (quest.getQuestGiver() == questGiver)
                 questAmount += 1;
 
-        if (questAmount == 1)
-            startX = 4;
-        else if (questAmount == 2 || questAmount == 3)
-            startX = 3;
-        else if (questAmount == 4)
-            startX = 2;
+        System.out.println(questAmount);
+        switch (questAmount) {
+            case 1:
+                startX = 4;
+                break;
+            case 2:
+            case 3:
+                startX = 3;
+                break;
+            case 4:
+            case 5:
+                startX = 2;
+                break;
+            case 6:
+                startX = 2;
+                height = 4;
+                break;
+        }
 
         String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
 
@@ -557,17 +569,27 @@ public class GUIHelperImpl implements GUIHelper {
         int length = 5;
         int height = 3;
 
-        for (QuestList quest : QuestList.values()) {
+        for (QuestList quest : QuestList.values())
             if (betonTagManager.hasTag(player, "default-" + WordUtils.capitalizeFully(quest.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quest.getQuestGiver().name()) + "." + quest.name() + "_COMPLETED") &&
                     !betonTagManager.hasTag(player, "default-" + WordUtils.capitalizeFully(quest.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quest.getQuestGiver().name()) + "." + quest.name() + "_CLAIMED"))
                 questAmount += 1;
+
+        switch (questAmount) {
+            case 1:
+                startX = 4;
+                break;
+            case 2:
+            case 3:
+                startX = 3;
+                break;
+            case 4:
+                startX = 2;
+                break;
+            case 5:
+                startX = 2;
+                height = 4;
+                break;
         }
-        if (questAmount == 1)
-            startX = 4;
-        else if (questAmount == 2 || questAmount == 3)
-            startX = 3;
-        else if (questAmount == 4)
-            startX = 2;
 
         ChestGui gui = new ChestGui(height + 1, guiName("Unclaimed Quests " + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
