@@ -52,6 +52,10 @@ public enum QuestList {
             new String[]{"&aBreach &fthe &cCastle &fby speaking with &aAnder", "&fat the &cCastle Gate &f(-95, 15, 434)"},
             null, 0, null, 0),
 
+    SUMMONING_MORDEN(QuestGiver.KLAUS,
+            new String[]{"&aSlay &f%betonquest_default-Castle-Klaus:point.SUMMONING_MORDEN.amount%/100 &cUndead &fwithin the &cCourtyard"},
+            null, 0, null, 0),
+
 
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +

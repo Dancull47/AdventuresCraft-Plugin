@@ -452,11 +452,8 @@ public class GUIHelperImpl implements GUIHelper {
 //    }
 
     /*
-     *
-     *   Used for Prison Quests
-     *
+     *   Displays Quests for Player
      * */
-
     @Override
     public void questMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
         int questAmount = 0;
@@ -469,7 +466,6 @@ public class GUIHelperImpl implements GUIHelper {
             if (quest.getQuestGiver() == questGiver)
                 questAmount += 1;
 
-        System.out.println(questAmount);
         switch (questAmount) {
             case 1:
                 startX = 4;
@@ -507,8 +503,10 @@ public class GUIHelperImpl implements GUIHelper {
         background.setRepeat(true);
 
         for (QuestList quest : QuestList.values())
-            if (quest.getQuestGiver() == questGiver)
+            if (quest.getQuestGiver() == questGiver && quest.getQuestGiver() != QuestGiver.KLAUS)
                 main.addItem(questItemGenerator(player, quest));
+            else if (quest.getQuestGiver() == QuestGiver.KLAUS)
+                main.addItem(repeatableQuestItemGenerator(player, quest));
 
         display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
 
@@ -518,6 +516,9 @@ public class GUIHelperImpl implements GUIHelper {
         gui.show(player);
     }
 
+    /*
+     *   Displays Active Quests for Player
+     * */
     @Override
     public void activeQuestMenu(Player player) {
         int questAmount = 0;
@@ -561,6 +562,9 @@ public class GUIHelperImpl implements GUIHelper {
         gui.show(player);
     }
 
+    /*
+     *   Displays Unclaimed Quests for Player
+     * */
     @Override
     public void unclaimedQuestMenu(Player player) {
         int questAmount = 0;
@@ -710,6 +714,63 @@ public class GUIHelperImpl implements GUIHelper {
                 }
             }
         });
+    }
+
+    private GuiItem repeatableQuestItemGenerator(Player player, QuestList quests) {
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
+        String startedTag = packageDir + quests.name() + "_STARTED";
+        ItemStack item = new ItemStack(Material.PAPER);
+        if (betonTagManager.hasTag(player, startedTag))
+            item = new ItemStack(Material.BOOK);
+        final ItemMeta itemItemMeta = item.getItemMeta();
+
+        itemItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[INACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+
+        if (betonTagManager.hasTag(player, startedTag))
+            itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[ACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
+
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        if (betonTagManager.hasTag(player, startedTag))
+            for (String questLore : quests.getQuestDescription()) {
+                if (questLore.contains("%"))
+                    questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
+                lore.add(ChatColor.translateAlternateColorCodes('&', questLore));
+            }
+        else
+            for (String questLore : quests.getQuestDescription()) {
+                if (questLore.contains("%"))
+                    questLore = questLore.replaceAll("(%.*?%\\/)", "");
+                lore.add(ChatColor.translateAlternateColorCodes('&', questLore));
+            }
+        lore.add("");
+        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "SUMMONS: " + ChatColor.GOLD + betonPointsManager.getPoints(player, packageDir + quests.name() + "_SUMMONED"));
+//            Currently not giving rewards for completing quest
+//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
+//        if (quests.getRewardItems() != null)
+//            for (String questItemReward : quests.getRewardItems()) {
+//                String[] reward = questItemReward.split(" ");
+//                lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
+//            }
+//        if (quests.getRewardMainEXP() > 0)
+//            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMainEXP() + " " + AdventureStatsDisplay.EXP.getName());
+//        if (quests.getRewardProfessionEXP() != null)
+//            for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
+//                String[] professionReward = questProfessionEXPReward.split(",");
+//                lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+//            }
+//        if (quests.getRewardMoney() > 0)
+//            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
+//
+//        if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
+//            lore.add("");
+//            lore.add(PREFIX + ChatColor.YELLOW + "Click to Claim Reward");
+//        }
+
+        item.setItemMeta(itemItemMeta);
+        item.setLore(lore);
+
+        return new GuiItem(item);
     }
 
 //    @Override

@@ -85,10 +85,10 @@ public class QuestAreaMenu extends BaseCommand {
 //        menuGenerator(player, QuestArea.COURTYARD, Material.RED_STAINED_GLASS_PANE);
 //    }
 //
-//    @CommandAlias("Castle")
-//    public void castle(Player player) {
-//        menuGenerator(player, QuestArea.CASTLE, Material.RED_STAINED_GLASS_PANE);
-//    }
+    @CommandAlias("Castle")
+    public void castle(Player player) {
+        menuGenerator(player, QuestArea.CASTLE, Material.RED_STAINED_GLASS_PANE);
+    }
 //
 //    @CommandAlias("Valley")
 //    public void valley(Player player) {
