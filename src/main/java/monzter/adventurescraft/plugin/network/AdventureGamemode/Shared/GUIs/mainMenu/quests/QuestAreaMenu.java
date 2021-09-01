@@ -59,66 +59,66 @@ public class QuestAreaMenu extends BaseCommand {
     public void town(Player player) {
         menuGenerator(player, QuestArea.TOWN, Material.BROWN_STAINED_GLASS_PANE);
     }
-//
-//    @CommandAlias("Farm")
-//    public void farm(Player player) {
-//        menuGenerator(player, QuestArea.FARM, Material.GREEN_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Forest")
-//    public void forest(Player player) {
-//        menuGenerator(player, QuestArea.FOREST, Material.GREEN_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Mine")
-//    public void mine(Player player) {
-//        menuGenerator(player, QuestArea.MINE, Material.GRAY_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Graveyard")
-//    public void graveyard(Player player) {
-//        menuGenerator(player, QuestArea.GRAVEYARD, Material.RED_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Courtyard")
-//    public void courtyard(Player player) {
-//        menuGenerator(player, QuestArea.COURTYARD, Material.RED_STAINED_GLASS_PANE);
-//    }
-//
+
+    @CommandAlias("Farm")
+    public void farm(Player player) {
+        menuGenerator(player, QuestArea.FARM, Material.GREEN_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Forest")
+    public void forest(Player player) {
+        menuGenerator(player, QuestArea.FOREST, Material.GREEN_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Mine")
+    public void mine(Player player) {
+        menuGenerator(player, QuestArea.MINE, Material.GRAY_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Graveyard")
+    public void graveyard(Player player) {
+        menuGenerator(player, QuestArea.GRAVEYARD, Material.RED_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Courtyard")
+    public void courtyard(Player player) {
+        menuGenerator(player, QuestArea.COURTYARD, Material.RED_STAINED_GLASS_PANE);
+    }
+
     @CommandAlias("Castle")
     public void castle(Player player) {
         menuGenerator(player, QuestArea.CASTLE, Material.RED_STAINED_GLASS_PANE);
     }
-//
-//    @CommandAlias("Valley")
-//    public void valley(Player player) {
-//        menuGenerator(player, QuestArea.VALLEY, Material.GREEN_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Estate")
-//    public void estate(Player player) {
-//        menuGenerator(player, QuestArea.ESTATE, Material.GREEN_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("GoblinTown|GoblinVillage")
-//    public void goblinTown(Player player) {
-//        menuGenerator(player, QuestArea.GOBLIN_TOWN, Material.RED_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("SpiritGrounds")
-//    public void spiritGrounds(Player player) {
-//        menuGenerator(player, QuestArea.SPIRIT_GROUNDS, Material.PURPLE_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Hell")
-//    public void hell(Player player) {
-//        menuGenerator(player, QuestArea.HELL, Material.RED_STAINED_GLASS_PANE);
-//    }
-//
-//    @CommandAlias("Void")
-//    public void theVoid(Player player) {
-//        menuGenerator(player, QuestArea.VOID, Material.PURPLE_STAINED_GLASS_PANE);
-//    }
+
+    @CommandAlias("Valley")
+    public void valley(Player player) {
+        menuGenerator(player, QuestArea.VALLEY, Material.GREEN_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Estate")
+    public void estate(Player player) {
+        menuGenerator(player, QuestArea.THE_ESTATE, Material.GREEN_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("GoblinTown|GoblinVillage")
+    public void goblinTown(Player player) {
+        menuGenerator(player, QuestArea.GOBLIN_TOWN, Material.RED_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("SpiritGrounds")
+    public void spiritGrounds(Player player) {
+        menuGenerator(player, QuestArea.SPIRIT_GROUNDS, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Hell")
+    public void hell(Player player) {
+        menuGenerator(player, QuestArea.HELL, Material.RED_STAINED_GLASS_PANE);
+    }
+
+    @CommandAlias("Void")
+    public void theVoid(Player player) {
+        menuGenerator(player, QuestArea.VOID, Material.PURPLE_STAINED_GLASS_PANE);
+    }
 
     public void menuGenerator(Player player, QuestArea questArea, Material backgroundColor) {
         int npcAmount = 0;

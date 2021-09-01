@@ -56,6 +56,23 @@ public enum QuestList {
             new String[]{"&aSlay &f%betonquest_default-Castle-Klaus:point.SUMMONING_MORDEN.amount%/100 &cUndead &fwithin the &cCourtyard"},
             null, 0, null, 0),
 
+    CUCCO_CATCH(QuestGiver.ANJU,
+            new String[]{"&aGrab &fand &adeliver &f%betonquest_default-Farm-Anju:point.CUCCO_CATCH.amount%/20 &aCuccos", "&fwithin the &aFarm &fto &aAnju"},
+            null, 250, new String[]{AdventureStatsDisplay.FARMING.getName() + ",250"}, 100),
+    EGG_DELIVERY(QuestGiver.ANJU,
+            new String[]{"&aDeliver &f25 &aEggs &fto &aAnju"},
+            new String[]{"ACCESSORY SCRAMBLED_EGG 1"}, 250, new String[]{AdventureStatsDisplay.FARMING.getName() + ",250"}, 100),
+
+    GRASS_GATHERER(QuestGiver.INGO,
+            new String[]{"&aHarvest &f%betonquest_default-Farm-Ingo:point.GRASS_GATHERER.amount%/320 &aGrass &ffor &aEpona"},
+            null, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
+    CURING_THE_HUNGER(QuestGiver.INGO,
+            new String[]{"&aFeed &f320 &aGrass &fto &aEpona"},
+            new String[]{"MOUNT EPONA 1"}, 0, null, 0),
+    CUCCO_SEARCH(QuestGiver.INGO,
+            new String[]{"&aRescue &f4 &aCuccos &ftrapped atop the &atrees"},
+            new String[]{"MATERIAL GIANT_EGG 1"}, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
+
 
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +

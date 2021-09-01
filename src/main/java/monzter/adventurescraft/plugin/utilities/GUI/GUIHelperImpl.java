@@ -505,7 +505,7 @@ public class GUIHelperImpl implements GUIHelper {
         for (QuestList quest : QuestList.values())
             if (quest.getQuestGiver() == questGiver && quest.getQuestGiver() != QuestGiver.KLAUS)
                 main.addItem(questItemGenerator(player, quest));
-            else if (quest.getQuestGiver() == QuestGiver.KLAUS)
+            else if (quest.getQuestGiver() == QuestGiver.KLAUS && questGiver == QuestGiver.KLAUS)
                 main.addItem(repeatableQuestItemGenerator(player, quest));
 
         display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
