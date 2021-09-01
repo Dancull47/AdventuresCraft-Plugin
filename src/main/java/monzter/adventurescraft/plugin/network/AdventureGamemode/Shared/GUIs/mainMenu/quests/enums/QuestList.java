@@ -73,6 +73,15 @@ public enum QuestList {
             new String[]{"&aRescue &f4 &aCuccos &ftrapped atop the &atrees"},
             new String[]{"MATERIAL GIANT_EGG 1"}, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
 
+    PESKY_CROP_STOMPERS(QuestGiver.MANDY,
+            new String[]{"&aSlaughter &f%betonquest_default-Farm-Mandy:point.PESKY_CROP_STOMPERS.amount%/25 &aPigs &fusing the &lFarmer Rifle"},
+            null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
+    THE_FIRST_HARVEST(QuestGiver.MANDY,
+            new String[]{"&aHarvest &f%betonquest_default-Farm-Mandy:point.THE_FIRST_HARVEST.amount%/320 &aWheat &fwith a &aWooden Hoe"},
+            null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
+    ACORN_KNOCKER(QuestGiver.MANDY,
+            new String[]{"&aKnock &f%betonquest_default-Farm-Mandy:point.ACORN_KNOCKER.amount%/32 &aAcorns &foff the &aTrees"},
+            null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
 
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +
