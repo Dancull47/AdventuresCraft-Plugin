@@ -83,6 +83,20 @@ public enum QuestList {
             new String[]{"&aKnock &f%betonquest_default-Farm-Mandy:point.ACORN_KNOCKER.amount%/32 &aAcorns &foff the &aTrees"},
             null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
 
+    CARROT_HARVEST(QuestGiver.BILLY,
+            new String[]{"&aHarvest &f%betonquest_default-Farm-Mandy:point.CARROT_HARVEST.amount%/320 &aCarrots &fwith a &aWooden Hoe"},
+            null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
+    POTATO_HARVEST(QuestGiver.BILLY,
+            new String[]{"&aHarvest &f%betonquest_default-Farm-Mandy:point.POTATO_HARVEST.amount%/320 &aPotatoes &fwith a &aWooden Hoe"},
+            null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
+
+    RESCUE_VALLEY_VILLAGERS(QuestGiver.MAEL,
+            new String[]{"&aRescue &f3 &aTownfolk &ftrapped inside", "&fthe &cGoblin Camps &fwithin the &aValley"},
+            null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
+    VALLEY_GOBLIN_SLAUGHTER(QuestGiver.MAEL,
+            new String[]{"&aSlay &f%betonquest_default-Valley-Mael:point.VALLEY_GOBLIN_SLAUGHTER.amount%/25 &cGoblins &fwithin the &aValley"},
+            null, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
+
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +
 //                    PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},
