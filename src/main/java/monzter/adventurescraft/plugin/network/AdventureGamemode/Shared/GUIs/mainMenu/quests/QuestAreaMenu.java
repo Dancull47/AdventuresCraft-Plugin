@@ -97,7 +97,7 @@ public class QuestAreaMenu extends BaseCommand {
 
     @CommandAlias("Estate")
     public void estate(Player player) {
-        menuGenerator(player, QuestArea.THE_ESTATE, Material.GREEN_STAINED_GLASS_PANE);
+        menuGenerator(player, QuestArea.ESTATE, Material.GREEN_STAINED_GLASS_PANE);
     }
 
     @CommandAlias("GoblinTown|GoblinVillage")

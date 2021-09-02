@@ -97,6 +97,28 @@ public enum QuestList {
             new String[]{"&aSlay &f%betonquest_default-Valley-Mael:point.VALLEY_GOBLIN_SLAUGHTER.amount%/25 &cGoblins &fwithin the &aValley"},
             null, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
 
+    BEET_THOSE_ROOTS(QuestGiver.BOWYER,
+            new String[]{"&aHarvest &f%betonquest_default-Estate-Bowyer:point.BEET_THOSE_ROOTS.amount%/128 &aBeatroots &fwith a &aWooden Hoe"},
+            null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+    GOBLIN_PILLAGE(QuestGiver.BOWYER,
+            new String[]{"&aSlay &f%betonquest_default-Estate-Bowyer:point.GOBLIN_PILLAGE.amount%/25 &cGoblins &fwithin the &aEstate"},
+            new String[]{"STAFF HARMING_STAFF2 1"}, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
+    SACRED_CANE(QuestGiver.BOWYER,
+            new String[]{"&aHarvest &f%betonquest_default-Estate-Bowyer:point.SACRED_CANE.amount%/128 &aSugar Cane &fwith a &aWooden Hoe"},
+            null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+
+    PLASTIC_PICKER(QuestGiver.DON,
+            new String[]{"&aPickup &f%betonquest_default-Estate-Don:point.PLASTIC_PICKER.amount%/32 &aPlastic (Chains)", "&fwhich are &cpolluting &fthe &9pond"},
+            null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+    CORAL_CLEANER(QuestGiver.DON,
+            new String[]{"&aCleanup &f%betonquest_default-Estate-Don:point.CORAL_CLEANER.amount%/32 &aFire Coral &ffrom within the &9pond"},
+            null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+    SEA_FEEDER(QuestGiver.DON,
+            new String[]{"&aFeed Leon &f192 &aSea Grass &ffrom within the &9pond"},
+            null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+
+
+
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +
 //                    PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName() + ChatColor.WHITE + "!"},
