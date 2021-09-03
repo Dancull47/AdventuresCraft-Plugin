@@ -654,6 +654,10 @@ public class GUIHelperImpl implements GUIHelper {
             }
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
+        if (quests.getRewardText() != null)
+            for (String questTextReward : quests.getRewardText()) {
+                lore.add(PREFIX + ChatColor.translateAlternateColorCodes('&', questTextReward));
+            }
         if (quests.getRewardItems() != null)
             for (String questItemReward : quests.getRewardItems()) {
                 String[] reward = questItemReward.split(" ");
