@@ -484,7 +484,7 @@ public class GUIHelperImpl implements GUIHelper {
                 break;
         }
 
-        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
 
         int questsCompleted = 0;
         for (QuestList quest : QuestList.values())
@@ -619,7 +619,7 @@ public class GUIHelperImpl implements GUIHelper {
     }
 
     private GuiItem questItemGenerator(Player player, QuestList quests) {
-        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
         String startedTag = packageDir + quests.name() + "_STARTED";
         String completedTag = packageDir + quests.name() + "_COMPLETED";
         String claimedTag = packageDir + quests.name() + "_CLAIMED";
@@ -721,7 +721,7 @@ public class GUIHelperImpl implements GUIHelper {
     }
 
     private GuiItem repeatableQuestItemGenerator(Player player, QuestList quests) {
-        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
         String startedTag = packageDir + quests.name() + "_STARTED";
         ItemStack item = new ItemStack(Material.PAPER);
         if (betonTagManager.hasTag(player, startedTag))
@@ -784,7 +784,7 @@ public class GUIHelperImpl implements GUIHelper {
 //        int length = 5;
 //        int height = 3;
 //
-//        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+//        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
 //
 //        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Jobs " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED")));
 //        gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -907,7 +907,7 @@ public class GUIHelperImpl implements GUIHelper {
 //    public void miningPassMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
 //        int height = 5;
 //
-//        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name()) + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+//        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
 //
 //        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Jobs " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED")));
 //        gui.setOnGlobalClick(event -> event.setCancelled(true));

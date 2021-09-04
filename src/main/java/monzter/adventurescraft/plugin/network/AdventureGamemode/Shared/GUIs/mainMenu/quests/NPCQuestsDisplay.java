@@ -92,6 +92,16 @@ public class NPCQuestsDisplay extends BaseCommand {
         guiHelper.questMenuGenerator(player, QuestGiver.SANDRAH, Material.GREEN_STAINED_GLASS_PANE);
     }
 
+    @Subcommand("Zras")
+    public void zras(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.ZRAS, Material.RED_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("Hazel")
+    public void hazel(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.HAZEL, Material.PINK_STAINED_GLASS_PANE);
+    }
+
     @Subcommand("Cirl")
     public void cirl(Player player) {
         guiHelper.questMenuGenerator(player, QuestGiver.CIRL, Material.RED_STAINED_GLASS_PANE);

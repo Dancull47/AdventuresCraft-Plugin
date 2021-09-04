@@ -127,6 +127,25 @@ public enum QuestList {
             new String[]{"&aClean &f64 &aRed Wool &fat the", "&6Wool Cleaner &fnext to &aSandrah"},
             new String[]{"&eLoom Usage"}, null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
 
+    PILLAGING_GOBLIN_TOWN(QuestGiver.ZRAS,
+            new String[]{"&aSlay &f%betonquest_default-Goblin_Town-Zras:point.PILLAGING_GOBLIN_TOWN.amount%/50 &cGoblins &fwithin the &cGoblin Town"},
+            null, new String[]{"DAGGER GOBLIN_CLUB3 1"}, 300, new String[]{AdventureStatsDisplay.FARMING.getName() + ",300"}, 150),
+    PRISON_BREAK(QuestGiver.ZRAS,
+            new String[]{"&aRescue &f5 &aTownfolk &ffrom the", "&fhanging &cCages &fwithin the &cGoblin Town"},
+            null, null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+    THE_GOBLIN_CHIEF(QuestGiver.ZRAS,
+            new String[]{"&aSlay &fthe &cGoblin Chief &fwithin his &cHeadquarters"},
+            new String[]{"&aFast Travel to &cGoblin Town"}, null, 400, new String[]{AdventureStatsDisplay.FARMING.getName() + ",400"}, 200),
+
+    CROP_PROTECTOR(QuestGiver.HAZEL,
+            new String[]{"&aSlay &f%betonquest_default-Spirit_Grounds-Hazel:point.CROP_PROTECTOR.amount%/25 of the invading &cSpirit Bulls & Crop Spiders"},
+            null, null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
+    WITCHES_CHECKLIST(QuestGiver.HAZEL,
+            new String[]{"&aDeliver &f128 &aBrown Mushrooms, Red", "&aMushrooms, & Melon Slices &fto &aHazel"},
+            null, new String[]{"WAND RESOLVE 1"}, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
+    SPIRIT_WITCH(QuestGiver.HAZEL,
+            new String[]{"&aSlay &fthe &cSpirit Witch &fwhich patrols the &dSpirit Grounds"},
+            new String[]{"&aFast Travel to &dSpirit Grounds"}, null, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
 
 //    UNDERSTANDING_EXPERIENCE(QuestGiver.WIZARD,
 //            new String[]{ChatColor.WHITE + "Mine " + ChatColor.GREEN + "%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.left:20%/100 Blocks" + ChatColor.WHITE + " to earn " +

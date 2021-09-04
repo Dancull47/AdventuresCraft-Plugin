@@ -62,7 +62,7 @@ public class Quests extends BaseCommand {
 
         int completedQuests = 0;
         for (QuestList quests : QuestList.values()) {
-            String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
+            String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
 //                plugin.getLogger().info(packageBuilder + quests.name() + "_COMPLETED");
             if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                 completedQuests++;
@@ -112,7 +112,7 @@ public class Quests extends BaseCommand {
         int completedQuests = 0;
         for (QuestList quests : QuestList.values()) {
             if (quests.getQuestGiver().getArea() == questArea) {
-                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                     completedQuests++;
             }
