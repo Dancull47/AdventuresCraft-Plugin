@@ -479,8 +479,17 @@ public class GUIHelperImpl implements GUIHelper {
                 startX = 2;
                 break;
             case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
                 startX = 2;
                 height = 4;
+                break;
+            case 11:
+            case 12:
+                startX = 2;
+                height = 5;
                 break;
         }
 

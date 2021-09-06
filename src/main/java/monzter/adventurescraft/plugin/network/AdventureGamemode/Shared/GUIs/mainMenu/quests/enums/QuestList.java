@@ -4,6 +4,7 @@ import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import org.bukkit.ChatColor;
 
 public enum QuestList {
+    //  Tutorial
     ACTIVE_QUESTS_JOURNAL(QuestGiver.TUTOR,
             new String[]{ChatColor.GREEN + "Right-Click " + ChatColor.WHITE + "while holding the " + ChatColor.BOLD + "Quest Journal"},
             null, null, 100, null, 100),
@@ -16,6 +17,8 @@ public enum QuestList {
     FOLLOW_THE_ARROW(QuestGiver.TUTOR,
             new String[]{ChatColor.WHITE + "Follow the " + ChatColor.GREEN + "Arrow " + ChatColor.WHITE + "guiding ", ChatColor.WHITE + "you towards the next " + ChatColor.GOLD + "Quester"},
             null, null, 100, null, 100),
+
+    //  Graveyard
 
     HUNTING_THE_UNDEAD(QuestGiver.CIRL,
             new String[]{"&aSlay &f%betonquest_default-Graveyard-Cirl:point.HUNTING_THE_UNDEAD.amount%/20 &cUndead Skeletons", "&fwithin the &cGraveyard"},
@@ -32,6 +35,8 @@ public enum QuestList {
     COURTYARD_VENTURE(QuestGiver.CIRL,
             new String[]{"&aFollow &fthe &aGrass Path", "&fto enter the &cCourtyard &f(-111, 15, 248)"},
             null, null, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
+
+    //  Courtyard
 
     THE_UNDEAD_SLAYER(QuestGiver.NAVID,
             new String[]{"&aSlay &f%betonquest_default-Courtyard-Navid:point.THE_UNDEAD_SLAYER.amount%/50 &cUndead &fwithin the &cCourtyard"},
@@ -56,9 +61,50 @@ public enum QuestList {
             new String[]{"&aSlay &f%betonquest_default-Castle-Klaus:point.SUMMONING_MORDEN.amount%/100 &cUndead &fwithin the &cCourtyard"},
             null, null, 0, null, 0),
 
+    //  Forest
+
+    OAK_TIMBER(QuestGiver.JENNY,
+            new String[]{"&aChop &fand &adeliver &f%betonquest_default-Forest-Jenny:point.OAK_TIMBER.amount%/64 &aOak Logs", "&fwith a &lWooden Axe"},
+            new String[]{"&aFast Travel to &2Oak Forest"}, null, 50, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",50"}, 25),
+    WORST_AXE(QuestGiver.JENNY,
+            new String[]{"&aSpeak &fwith the &aLumberjack", "&fto upgrade your &aAxe"},
+            null, null, 0, null, 0),
+    SPRUCE_TIMBER(QuestGiver.JENNY,
+            new String[]{"&aChop &fand &adeliver &f%betonquest_default-Forest-Jenny:point.SPRUCE_TIMBER.amount%/128 &aSpruce Logs", "&fwith a &lWooden Axe"},
+            new String[]{"&aFast Travel to &2Spruce Forest"}, null, 100, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",100"}, 50),
+    POOR_AXE(QuestGiver.JENNY,
+            new String[]{"&aSpeak &fwith the &aLumberjack", "&fto upgrade your &aAxe"},
+            null, null, 0, null, 0),
+    DARK_OAK_TIMBER(QuestGiver.JENNY,
+            new String[]{"&aChop &fand &adeliver &f%betonquest_default-Forest-Jenny:point.DARK_OAK_TIMBER.amount%/192 &aDark Oak Logs", "&fwith a &lStone Axe"},
+            new String[]{"&aFast Travel to &2Dark Oak Forest"}, null, 150, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",150"}, 75),
+    DECENT_AXE(QuestGiver.JENNY,
+            new String[]{"&aSpeak &fwith the &aLumberjack", "&fto upgrade your &aAxe"},
+            null, null, 0, null, 0),
+    BIRCH_TIMBER(QuestGiver.JENNY,
+            new String[]{"&aChop &fand &adeliver &f%betonquest_default-Forest-Jenny:point.BIRCH_TIMBER.amount%/256 &aBirch Logs", "&fwith a &lIron Axe"},
+            new String[]{"&aFast Travel to &2Birch Forest"}, null, 200, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",200"}, 100),
+    BETTER_AXE(QuestGiver.JENNY,
+            new String[]{"&aSpeak &fwith the &aLumberjack", "&fto upgrade your &aAxe"},
+            null, null, 0, null, 0),
+    ACACIA_TIMBER(QuestGiver.JENNY,
+            new String[]{"&aChop &fand &adeliver &f%betonquest_default-Forest-Jenny:point.ACACIA_TIMBER.amount%/320 &aAcacia Logs", "&fwith a &lDiamond Axe"},
+            new String[]{"&aFast Travel to &2Acacia Forest"}, null, 250, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",250"}, 125),
+    BEST_AXE(QuestGiver.JENNY,
+            new String[]{"&aSpeak &fwith the &aLumberjack", "&fto upgrade your &aAxe"},
+            null, null, 0, null, 0),
+    JUNGLE_TIMBER(QuestGiver.JENNY,
+            new String[]{"&aChop &fand &adeliver &f%betonquest_default-Forest-Jenny:point.JUNGLE_TIMBER.amount%/384 &aJungle Logs", "&fwith a &lGolden Axe"},
+            new String[]{"&aFast Travel to &2Jungle Forest"}, null, 300, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",300"}, 150),
+    JACKS_JOURNEY(QuestGiver.JENNY,
+            new String[]{"&aJourney &fup the &eHive &fto", "&arescue &aJack &fat (621, 119, -43)"},
+            new String[]{"&aFast Travel to &eHive"}, null, 200, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",200"}, 100),
+
+    //  Farm
+
     CUCCO_CATCH(QuestGiver.ANJU,
             new String[]{"&aGrab &fand &adeliver &f%betonquest_default-Farm-Anju:point.CUCCO_CATCH.amount%/20 &aCuccos", "&fwithin the &aFarm &fto &aAnju"},
-            null, null, 250, new String[]{AdventureStatsDisplay.FARMING.getName() + ",250"}, 100),
+            null, null, 250, new String[]{AdventureStatsDisplay.FARMING.getName() + ",250"}, 125),
     EGG_DELIVERY(QuestGiver.ANJU,
             new String[]{"&aDeliver &f25 &aEggs &fto &aAnju"},
             null, new String[]{"ACCESSORY SCRAMBLED_EGG 1"}, 250, new String[]{AdventureStatsDisplay.FARMING.getName() + ",250"}, 100),
@@ -90,12 +136,16 @@ public enum QuestList {
             new String[]{"&aHarvest &f%betonquest_default-Farm-Mandy:point.POTATO_HARVEST.amount%/320 &aPotatoes &fwith a &aWooden Hoe"},
             null, null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
 
+    //  Valley
+
     RESCUE_VALLEY_VILLAGERS(QuestGiver.MAEL,
             new String[]{"&aRescue &f3 &aTownfolk &ftrapped inside", "&fthe &cGoblin Camps &fwithin the &aValley"},
             null, null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
     VALLEY_GOBLIN_SLAUGHTER(QuestGiver.MAEL,
             new String[]{"&aSlay &f%betonquest_default-Valley-Mael:point.VALLEY_GOBLIN_SLAUGHTER.amount%/25 &cGoblins &fwithin the &aValley"},
             null, null, 200, new String[]{AdventureStatsDisplay.FARMING.getName() + ",200"}, 100),
+
+    //  Estate
 
     BEET_THOSE_ROOTS(QuestGiver.BOWYER,
             new String[]{"&aHarvest &f%betonquest_default-Estate-Bowyer:point.BEET_THOSE_ROOTS.amount%/128 &aBeatroots &fwith a &aWooden Hoe"},
@@ -127,6 +177,8 @@ public enum QuestList {
             new String[]{"&aClean &f64 &aRed Wool &fat the", "&6Wool Cleaner &fnext to &aSandrah"},
             new String[]{"&eLoom Usage"}, null, 150, new String[]{AdventureStatsDisplay.FARMING.getName() + ",150"}, 75),
 
+    //  Goblin Town
+
     PILLAGING_GOBLIN_TOWN(QuestGiver.ZRAS,
             new String[]{"&aSlay &f%betonquest_default-Goblin_Town-Zras:point.PILLAGING_GOBLIN_TOWN.amount%/50 &cGoblins &fwithin the &cGoblin Town"},
             null, new String[]{"DAGGER GOBLIN_CLUB3 1"}, 300, new String[]{AdventureStatsDisplay.FARMING.getName() + ",300"}, 150),
@@ -136,6 +188,8 @@ public enum QuestList {
     THE_GOBLIN_CHIEF(QuestGiver.ZRAS,
             new String[]{"&aSlay &fthe &cGoblin Chief &fwithin his &cHeadquarters"},
             new String[]{"&aFast Travel to &cGoblin Town"}, null, 400, new String[]{AdventureStatsDisplay.FARMING.getName() + ",400"}, 200),
+
+    //  Spirit Grounds
 
     CROP_PROTECTOR(QuestGiver.HAZEL,
             new String[]{"&aSlay &f%betonquest_default-Spirit_Grounds-Hazel:point.CROP_PROTECTOR.amount%/25 of the invading &cSpirit Bulls & Crop Spiders"},
