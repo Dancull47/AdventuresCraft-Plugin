@@ -501,7 +501,7 @@ public class GUIHelperImpl implements GUIHelper {
                 if (betonTagManager.hasTag(player, packageBuilder + quest.name() + "_COMPLETED"))
                     questsCompleted++;
 
-        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Quests " + questsCompleted + "/" + questAmount));
+        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name().replace('_', ' ')) + " Quests " + questsCompleted + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
@@ -628,7 +628,7 @@ public class GUIHelperImpl implements GUIHelper {
     }
 
     private GuiItem questItemGenerator(Player player, QuestList quests) {
-        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name().replace('_',' ')).replace(' ', '_') + ".";
         String startedTag = packageDir + quests.name() + "_STARTED";
         String completedTag = packageDir + quests.name() + "_COMPLETED";
         String claimedTag = packageDir + quests.name() + "_CLAIMED";

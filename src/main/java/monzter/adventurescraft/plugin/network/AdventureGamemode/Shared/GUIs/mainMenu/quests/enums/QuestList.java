@@ -100,6 +100,26 @@ public enum QuestList {
             new String[]{"&aJourney &fup the &eHive &fto", "&arescue &aJack &fat (621, 119, -43)"},
             new String[]{"&aFast Travel to &eHive"}, null, 200, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",200"}, 100),
 
+    DONT_GET_STUNG(QuestGiver.BEAR,
+            new String[]{"&aSlay &f%betonquest_default-Forest-Bear:point.DONT_GET_STUNG.amount%/15 &cBees"},
+            null, null, 100, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",100"}, 50),
+    HARE_SAVIOR(QuestGiver.BEAR,
+            new String[]{"&aRescue &f3 lost &aHares"},
+            null, null, 300, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",300"}, 150),
+    HONEY_EXTRACTION(QuestGiver.BEAR,
+            new String[]{"&aSmash &f%betonquest_default-Forest-Bear:point.HONEY_EXTRACTION.amount%/32 &aBee Nests", "&fto steal their &eHoney"},
+            null, new String[]{"CONSUMABLE TASTY_HONEY3 1"}, 150, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",150"}, 75),
+    WASP_NEST(QuestGiver.BEAR,
+            new String[]{"&aSlay &f%betonquest_default-Forest-Bear:point.WASP_NEST.amount%/15 &cWasps &faround the &2Acacia Forest"},
+            null, null, 150, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",150"}, 75),
+    QUEEN_BEE(QuestGiver.BEAR,
+            new String[]{"&aSlay &fa &cQueen Bee &fdeep within the &2Jungle Forest"},
+            null, null, 300, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",300"}, 150),
+
+    CAT_CAPTURE(QuestGiver.CAT_LADY,
+            new String[]{"&aLead &f%betonquest_default-Forest-Cat_Lady:point.CAT_CAPTURE.amount%/10 &aCats", "&fback to the &aCat Lady"},
+            null, new String[]{"ACCESSORY CAT_CLAW2 1"}, 250, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",250"}, 125),
+
     //  Farm
 
     CUCCO_CATCH(QuestGiver.ANJU,
