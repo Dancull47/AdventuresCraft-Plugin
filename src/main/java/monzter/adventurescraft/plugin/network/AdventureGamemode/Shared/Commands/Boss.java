@@ -33,11 +33,6 @@ public class Boss extends BaseCommand implements Listener {
         this.itemAdder = itemAdder;
     }
 
-    @CommandAlias("dryadRepeat")
-    private void dryadRepeat(Player player) {
-        repeat(player, "Dryad");
-    }
-
     @CommandAlias("MordenRepeat")
     @CommandPermission("*")
     private void mordenRepeat(Player player) {
@@ -46,18 +41,20 @@ public class Boss extends BaseCommand implements Listener {
         else {
             player.sendMessage(ChatColor.RED + "This quest is already active!");
             soundManager.soundNo(player, 1);
-            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItems.plugin.getItem("CONSUMABLE", "MORDEN_SUMMONER")), 1);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItems.plugin.getItem("CONSUMABLE", "MORDEN_SUMMONER2")), 1);
         }
     }
-
-    private void repeat(Player player, String name) {
-        String permission = name + ".Repeat";
-        if (player.hasPermission(permission)) {
-            permissionLP.takePermission(player, permission);
-            player.sendMessage(ChatColor.RED + "Upon completing your next " + ChatColor.GOLD + name + ChatColor.RED + " summoning, the quest will not automatically be accepted!");
-        } else {
-            permissionLP.givePermission(player, permission);
-            player.sendMessage(ChatColor.RED + "Upon completing your next " + ChatColor.GOLD + name + ChatColor.RED + " summoning, the quest will be automatically be accepted!");
+    @CommandAlias("DryadRepeat")
+    @CommandPermission("*")
+    private void dryadRepeat(Player player) {
+        if (!betonTagManager.hasTag(player, "default-Forest-Jack.OAK_DRYAD_DESTROYER_STARTED") && !betonTagManager.hasTag(player, "default-Forest-Jack.SPRUCE_DRYAD_DESTROYER_STARTED") &&
+                !betonTagManager.hasTag(player, "default-Forest-Jack.DARK_OAK_DRYAD_DESTROYER_STARTED") && !betonTagManager.hasTag(player, "default-Forest-Jack.BIRCH_DRYAD_DESTROYER_STARTED") &&
+                !betonTagManager.hasTag(player, "default-Forest-Jack.ACACIA_DRYAD_DESTROYER_STARTED") && !betonTagManager.hasTag(player, "default-Forest-Jack.JUNGLE_DRYAD_DESTROYER_STARTED"))
+            consoleCommand.consoleCommand("q event " + player.getName() + " default-Forest-Jack.QUEST_START");
+        else {
+            player.sendMessage(ChatColor.RED + "This quest is already active!");
+            soundManager.soundNo(player, 1);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItems.plugin.getItem("CONSUMABLE", "DRYAD_SUMMONER2")), 1);
         }
     }
 }

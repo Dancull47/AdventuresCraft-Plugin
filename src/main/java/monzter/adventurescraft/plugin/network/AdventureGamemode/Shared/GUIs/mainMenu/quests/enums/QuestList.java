@@ -120,6 +120,25 @@ public enum QuestList {
             new String[]{"&aLead &f%betonquest_default-Forest-Cat_Lady:point.CAT_CAPTURE.amount%/10 &aCats", "&fback to the &aCat Lady"},
             null, new String[]{"ACCESSORY CAT_CLAW2 1"}, 250, new String[]{AdventureStatsDisplay.FORAGING.getName() + ",250"}, 125),
 
+    OAK_DRYAD_DESTROYER(QuestGiver.JACK,
+            new String[]{"&aChop &f%betonquest_default-Forest-Jack:point.OAK_DRYAD_DESTROYER.amount%/320 &aOak Logs"},
+            null, null, 0, null, 0),
+    SPRUCE_DRYAD_DESTROYER(QuestGiver.JACK,
+            new String[]{"&aChop &f%betonquest_default-Forest-Jack:point.SPRUCE_DRYAD_DESTROYER.amount%/320 &aSpruce Logs"},
+            null, null, 0, null, 0),
+    DARK_OAK_DRYAD_DESTROYER(QuestGiver.JACK,
+            new String[]{"&aChop &f%betonquest_default-Forest-Jack:point.DARK_OAK_DRYAD_DESTROYER.amount%/320 &aDark Oak Logs"},
+            null, null, 0, null, 0),
+    BIRCH_DRYAD_DESTROYER(QuestGiver.JACK,
+            new String[]{"&aChop &f%betonquest_default-Forest-Jack:point.BIRCH_DRYAD_DESTROYER.amount%/320 &aBirch Logs"},
+            null, null, 0, null, 0),
+    ACACIA_DRYAD_DESTROYER(QuestGiver.JACK,
+            new String[]{"&aChop &f%betonquest_default-Forest-Jack:point.ACACIA_DRYAD_DESTROYER.amount%/320 &aAcacia Logs"},
+            null, null, 0, null, 0),
+    JUNGLE_DRYAD_DESTROYER(QuestGiver.JACK,
+            new String[]{"&aChop &f%betonquest_default-Forest-Jack:point.JUNGLE_DRYAD_DESTROYER.amount%/320 &aJungle Logs"},
+            null, null, 0, null, 0),
+
     //  Farm
 
     CUCCO_CATCH(QuestGiver.ANJU,

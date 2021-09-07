@@ -493,7 +493,7 @@ public class GUIHelperImpl implements GUIHelper {
                 break;
         }
 
-        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
+        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_', ' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
 
         int questsCompleted = 0;
         for (QuestList quest : QuestList.values())
@@ -512,9 +512,11 @@ public class GUIHelperImpl implements GUIHelper {
         background.setRepeat(true);
 
         for (QuestList quest : QuestList.values())
-            if (quest.getQuestGiver() == questGiver && quest.getQuestGiver() != QuestGiver.KLAUS)
+            if (quest.getQuestGiver() == questGiver && quest.getQuestGiver() != QuestGiver.KLAUS && quest.getQuestGiver() != QuestGiver.JACK)
                 main.addItem(questItemGenerator(player, quest));
             else if (quest.getQuestGiver() == QuestGiver.KLAUS && questGiver == QuestGiver.KLAUS)
+                main.addItem(repeatableQuestItemGenerator(player, quest));
+            else if (quest.getQuestGiver() == QuestGiver.JACK && questGiver == QuestGiver.JACK)
                 main.addItem(repeatableQuestItemGenerator(player, quest));
 
         display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
@@ -628,7 +630,7 @@ public class GUIHelperImpl implements GUIHelper {
     }
 
     private GuiItem questItemGenerator(Player player, QuestList quests) {
-        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name().replace('_',' ')).replace(' ', '_') + ".";
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_', ' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name().replace('_', ' ')).replace(' ', '_') + ".";
         String startedTag = packageDir + quests.name() + "_STARTED";
         String completedTag = packageDir + quests.name() + "_COMPLETED";
         String claimedTag = packageDir + quests.name() + "_CLAIMED";
@@ -661,32 +663,33 @@ public class GUIHelperImpl implements GUIHelper {
                     questLore = questLore.replaceAll("(%.*?%\\/)", "");
                 lore.add(ChatColor.translateAlternateColorCodes('&', questLore));
             }
-        lore.add("");
-        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
-        if (quests.getRewardText() != null)
-            for (String questTextReward : quests.getRewardText()) {
-                lore.add(PREFIX + ChatColor.translateAlternateColorCodes('&', questTextReward));
-            }
-        if (quests.getRewardItems() != null)
-            for (String questItemReward : quests.getRewardItems()) {
-                String[] reward = questItemReward.split(" ");
-                lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
-            }
-        if (quests.getRewardMainEXP() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMainEXP() + " " + AdventureStatsDisplay.EXP.getName());
-        if (quests.getRewardProfessionEXP() != null)
-            for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
-                String[] professionReward = questProfessionEXPReward.split(",");
-                lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
-            }
-        if (quests.getRewardMoney() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
-
-        if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
+        if (quests.getRewardText() != null || quests.getRewardItems() != null || quests.getRewardMainEXP() > 0 || quests.getRewardProfessionEXP() != null || quests.getRewardMoney() > 0) {
             lore.add("");
-            lore.add(PREFIX + ChatColor.YELLOW + "Click to Claim Reward");
-        }
+            lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
+            if (quests.getRewardText() != null)
+                for (String questTextReward : quests.getRewardText()) {
+                    lore.add(PREFIX + ChatColor.translateAlternateColorCodes('&', questTextReward));
+                }
+            if (quests.getRewardItems() != null)
+                for (String questItemReward : quests.getRewardItems()) {
+                    String[] reward = questItemReward.split(" ");
+                    lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
+                }
+            if (quests.getRewardMainEXP() > 0)
+                lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMainEXP() + " " + AdventureStatsDisplay.EXP.getName());
+            if (quests.getRewardProfessionEXP() != null)
+                for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
+                    String[] professionReward = questProfessionEXPReward.split(",");
+                    lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
+                }
+            if (quests.getRewardMoney() > 0)
+                lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
 
+            if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
+                lore.add("");
+                lore.add(PREFIX + ChatColor.YELLOW + "Click to Claim Reward");
+            }
+        }
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
@@ -730,7 +733,7 @@ public class GUIHelperImpl implements GUIHelper {
     }
 
     private GuiItem repeatableQuestItemGenerator(Player player, QuestList quests) {
-        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
+        String packageDir = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_', ' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name()) + ".";
         String startedTag = packageDir + quests.name() + "_STARTED";
         ItemStack item = new ItemStack(Material.PAPER);
         if (betonTagManager.hasTag(player, startedTag))

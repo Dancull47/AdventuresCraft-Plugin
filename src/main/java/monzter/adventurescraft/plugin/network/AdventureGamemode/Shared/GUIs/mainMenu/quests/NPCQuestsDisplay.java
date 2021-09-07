@@ -68,6 +68,11 @@ public class NPCQuestsDisplay extends BaseCommand {
         guiHelper.questMenuGenerator(player, QuestGiver.CAT_LADY, Material.GREEN_STAINED_GLASS_PANE);
     }
 
+    @Subcommand("Jack")
+    public void jack(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.JACK, Material.GREEN_STAINED_GLASS_PANE);
+    }
+
     @Subcommand("Anju")
     public void anju(Player player) {
         guiHelper.questMenuGenerator(player, QuestGiver.ANJU, Material.GREEN_STAINED_GLASS_PANE);
