@@ -733,9 +733,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     }
 
     public void broadcastRestart(String timeUnit, int time) {
-        Bukkit.getServer().broadcast(Component.text(NamedTextColor.RED + "---------------------------------"));
-        Bukkit.getServer().broadcast(Component.text(NamedTextColor.YELLOW + "Server will be " + NamedTextColor.GOLD + "restarting " +
-                NamedTextColor.YELLOW + "in " + NamedTextColor.GOLD + TextDecoration.BOLD + time + NamedTextColor.YELLOW + " " + timeUnit + "!"));
-        Bukkit.getServer().broadcast(Component.text(NamedTextColor.RED + "---------------------------------"));
+        Bukkit.getServer().broadcast(Component.text("---------------------------------", NamedTextColor.RED));
+        Bukkit.getServer().broadcast(Component.text("Server will be " + "restarting " + "in " + time + " " + timeUnit + "!", NamedTextColor.YELLOW));
+        Bukkit.getServer().broadcast(Component.text("---------------------------------", NamedTextColor.RED));
     }
 }

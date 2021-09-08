@@ -137,6 +137,11 @@ public class NPCQuestsDisplay extends BaseCommand {
         guiHelper.questMenuGenerator(player, QuestGiver.KLAUS, Material.RED_STAINED_GLASS_PANE);
     }
 
+    @Subcommand("Khazix")
+    public void khazix(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.KHAZIX, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
 
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
