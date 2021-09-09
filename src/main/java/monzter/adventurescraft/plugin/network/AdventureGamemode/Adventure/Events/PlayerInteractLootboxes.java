@@ -38,7 +38,7 @@ public class PlayerInteractLootboxes implements Listener {
         final Player player = event.getPlayer();
         final ItemStack itemStack = event.getItem();
         final NBTItem nbtItem = NBTItem.get(itemStack);
-        final String id = MMOItems.plugin.getID(nbtItem);
+        final String id = MMOItems.getID(nbtItem);
         if (event.getHand() == EquipmentSlot.HAND) {
             if (id != null)
                 switch (id) {

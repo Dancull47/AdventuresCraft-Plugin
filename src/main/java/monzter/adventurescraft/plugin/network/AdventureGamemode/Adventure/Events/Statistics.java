@@ -24,7 +24,7 @@ public class Statistics implements Listener {
 //            Use this condition to prevent tracking block breaks in Home
             case "Adventure":
                 if (event.getPlayer() != null)
-                    if (event.canBreak())
+                    if (!event.isCancelled())
                         betonPointsManager.givePoint(event.getPlayer(), "blocks." + event.getBlock().getType(), 1);
         }
     }

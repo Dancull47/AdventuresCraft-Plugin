@@ -95,7 +95,6 @@ import monzter.adventurescraft.plugin.utilities.vault.EconomyImpl;
 import monzter.adventurescraft.plugin.utilities.vault.Permission;
 import monzter.adventurescraft.plugin.utilities.vault.PermissionImpl;
 import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.comp.mythicenchants.MythicEnchantsSupport;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -148,7 +147,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private ItemAdder itemAdder;
     private AreaCheck areaCheck;
     private AchievementItemBuilder achievementGUIBuilder;
-    private MythicEnchantsSupport mythicEnchantsSupport;
     private ProgressBar progressBar;
     private ShopOpener shopOpener;
     private Xur xur;

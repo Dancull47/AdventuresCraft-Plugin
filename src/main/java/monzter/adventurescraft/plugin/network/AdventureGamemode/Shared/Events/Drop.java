@@ -65,7 +65,7 @@ public class Drop implements Listener {
                                 player.sendMessage(ChatColor.RED + "This item cannot be dropped!");
                             } else {
                                 player.sendMessage(ChatColor.RED + "Your inventory was full and this item cannot be dropped, so it has been destroyed!");
-                                betonPointsManager.givePoint(player, "refund." + MMOItems.plugin.getID(NBTItem.get(event.getItemDrop().getItemStack())), 1);
+                                betonPointsManager.givePoint(player, "refund." + MMOItems.getID(NBTItem.get(event.getItemDrop().getItemStack())), 1);
                                 soundManager.soundNo(player, 2);
                                 event.getItemDrop().remove();
                             }

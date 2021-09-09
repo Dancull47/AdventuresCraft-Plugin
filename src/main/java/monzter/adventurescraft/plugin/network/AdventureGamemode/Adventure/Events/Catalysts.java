@@ -51,11 +51,11 @@ public class Catalysts implements Listener {
             case "Adventure":
                 if (event.getPlayer() != null) {
                     Player player = event.getPlayer();
-                    if (event.canBreak()) {
+                    if (!event.isCancelled()) {
                         int randomNumber = ThreadLocalRandom.current().nextInt(1, 3);
                         if (regions.contains(areaCheck.getAreaName(player))) {
                             final NBTItem nbtItem = NBTItem.get(event.getPlayer().getInventory().getItemInOffHand());
-                            final String id = MMOItems.plugin.getID(nbtItem);
+                            final String id = MMOItems.getID(nbtItem);
                             if (id != null)
                                 switch (event.getBlock().getType()) {
                                     case COAL_ORE:
@@ -148,10 +148,10 @@ public class Catalysts implements Listener {
             case "Adventure":
                 if (event.getPlayer() != null) {
                     Player player = event.getPlayer();
-                    if (event.canBreak()) {
+                    if (!event.isCancelled()) {
                         if (areaCheck.getAreaName(player).equals(ChatColor.DARK_PURPLE + "Void")) {
                             final NBTItem nbtItem = NBTItem.get(event.getPlayer().getInventory().getItemInOffHand());
-                            final String id = MMOItems.plugin.getID(nbtItem);
+                            final String id = MMOItems.getID(nbtItem);
                             if (id != null)
                                 if (id.equals("HASTY_VOID4"))
                                     player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 20 * 5, 7));

@@ -45,7 +45,7 @@ public class InteractPets extends BaseCommand implements Listener {
         final ItemStack itemStack = event.getItem();
         final NBTItem nbtItem = NBTItem.get(itemStack);
         final String tier = nbtItem.getString(ItemStats.TIER.getNBTPath());
-        final String id = MMOItems.plugin.getID(nbtItem);
+        final String id = MMOItems.getID(nbtItem);
         if (event.getHand() == EquipmentSlot.HAND) {
             if (id != null) {
                 final Set<String> petNames = petsFile.getKeys(false);

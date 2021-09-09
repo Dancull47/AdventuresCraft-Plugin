@@ -205,7 +205,7 @@ public class Hatching extends BaseCommand {
     public boolean hasItem(Player player, String itemID, String displayName) {
         for (ItemStack currentItem : player.getInventory().getContents()) {
             NBTItem nbtItem = NBTItem.get(currentItem);
-            if (MMOItems.plugin.getID(nbtItem) != null && MMOItems.plugin.getID(nbtItem).equals(itemID)) {
+            if (MMOItems.getID(nbtItem) != null && MMOItems.getID(nbtItem).equals(itemID)) {
                 player.getInventory().removeItem(nbtItem.getItem());
                 return true;
             }

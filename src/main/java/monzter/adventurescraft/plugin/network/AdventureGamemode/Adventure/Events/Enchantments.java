@@ -39,7 +39,7 @@ public class Enchantments implements Listener {
             case "Adventure":
                 if (event.getPlayer() != null) {
                     Player player = event.getPlayer();
-                    if (event.canBreak()) {
+                    if (!event.isCancelled()) {
                         if (calculateEnchantments.calculateEnchantments(player, "Fortune") > 0) {
                             if (fortuneBlockList.contains(event.getBlock().getType()))
                                 fortune(player, calculateEnchantments.calculateEnchantments(player, "Fortune"), event.getBlock().getType());

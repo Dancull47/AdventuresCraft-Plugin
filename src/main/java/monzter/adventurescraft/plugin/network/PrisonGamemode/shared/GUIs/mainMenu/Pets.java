@@ -155,9 +155,9 @@ public class Pets extends BaseCommand {
                         player.closeInventory();
                         final NBTItem nbtItem = NBTItem.get(e.getCurrentItem());
                         if (e.isLeftClick())
-                            petUnequip(player, "PET." + currentPetName + "." + currentRarity, MMOItems.plugin.getItem("PET", MMOItems.plugin.getID(nbtItem)));
+                            petUnequip(player, "PET." + currentPetName + "." + currentRarity, MMOItems.plugin.getItem("PET", MMOItems.getID(nbtItem)));
                         if (e.isRightClick())
-                            equipMPet(player, MMOItems.plugin.getID(nbtItem), nbtItem.getItem().getItemMeta().getDisplayName());
+                            equipMPet(player, MMOItems.getID(nbtItem), nbtItem.getItem().getItemMeta().getDisplayName());
                     }));
                 }
             }

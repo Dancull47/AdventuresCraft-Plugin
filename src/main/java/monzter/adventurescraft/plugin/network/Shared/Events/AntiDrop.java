@@ -37,7 +37,7 @@ public class AntiDrop implements Listener {
         final Player player = event.getPlayer();
         final ItemStack droppedItem = event.getItemDrop().getItemStack();
         final NBTItem nbtItem = NBTItem.get(droppedItem);
-        final String id = MMOItems.plugin.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
+        final String id = MMOItems.getID(nbtItem); // Checks if it's an MMOItem and returns its name or null if not
         if (id != null){
             final ItemTier tier = MMOItems.plugin.getTiers().findTier(new LiveMMOItem(droppedItem));
             for (DropTier dropTier : TIERS) {
