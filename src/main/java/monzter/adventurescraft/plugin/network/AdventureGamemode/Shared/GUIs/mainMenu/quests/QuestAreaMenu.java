@@ -70,9 +70,9 @@ public class QuestAreaMenu extends BaseCommand {
         menuGenerator(player, QuestArea.FOREST, Material.GREEN_STAINED_GLASS_PANE);
     }
 
-    @CommandAlias("Mine")
-    public void mine(Player player) {
-        menuGenerator(player, QuestArea.MINE, Material.GRAY_STAINED_GLASS_PANE);
+    @CommandAlias("Cavern")
+    public void cavern(Player player) {
+        menuGenerator(player, QuestArea.CAVERN, Material.GRAY_STAINED_GLASS_PANE);
     }
 
     @CommandAlias("Graveyard")

@@ -135,6 +135,8 @@ public enum ItemList {
     EnchanterITEM11(Shops.ENCHANTER, null, 100, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;8"}, 1, "CONSUMABLE", "XP_BOTTLE2"),
     EnchanterITEM13(Shops.ENCHANTER, null, 500, 0, new String[] {"MATERIAL;ENCHANTED_LAPIS;16"}, 1, "CONSUMABLE", "XP_BOTTLE3"),
 
+    WANDERING_TRADER1(Shops.WANDERING_TRADER, new ItemStack(Material.IRON_INGOT), 0, 0, new String[] {"MATERIAL;IRON_SHARD;8","MATERIAL;GOLD_SHARD;8"}, 64, null, null),
+
     ;
 
 
