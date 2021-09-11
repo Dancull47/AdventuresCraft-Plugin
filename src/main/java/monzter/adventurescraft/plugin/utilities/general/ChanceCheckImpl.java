@@ -12,6 +12,7 @@ public class ChanceCheckImpl implements ChanceCheck {
     }
 
 //    Formula for chance % = chance * 100
+//    .01 = 1% & .10 = 10% & 1 = 100%
 
     @Override
     public boolean chanceCheck(double chance) {

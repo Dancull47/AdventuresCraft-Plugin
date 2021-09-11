@@ -37,33 +37,12 @@ public class ShopBuilderImpl implements ShopBuilder {
         this.numberFormat = numberFormat;
     }
 
+    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shopCommand, Material backgroundColor) {
+        int height = heightCalc(guiContents.size());
+        int length = 7;
+        int displayX = displayXCalc(guiContents.size());
+        int displayY = 1;
 
-    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height,
-                         Material backgroundColor) {
-        menuBase(gui, guiContents, player, shop, height, 7, backgroundColor, 1, 1);
-    }
-
-    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height,
-                         Material backgroundColor, int displayX) {
-        menuBase(gui, guiContents, player, shop, height, 7, backgroundColor, displayX, 1);
-    }
-
-    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height,
-                         Material backgroundColor, int displayX, int displayY) {
-        menuBase(gui, guiContents, player, shop, height, 7, backgroundColor, displayX, displayY);
-    }
-
-    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height, int width,
-                         Material backgroundColor) {
-        menuBase(gui, guiContents, player, shop, height, width, backgroundColor, 1, 1);
-    }
-
-    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height, int length,
-                         Material backgroundColor, int displayX) {
-        menuBase(gui, guiContents, player, shop, height, length, backgroundColor, displayX, 1);
-    }
-
-    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, int height, int length, Material backgroundColor, int displayX, int displayY) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         PaginatedPane page = new PaginatedPane(0, 0, 9, height);
@@ -79,7 +58,7 @@ public class ShopBuilderImpl implements ShopBuilder {
         background.setRepeat(true);
 
         for (ItemList item : guiContents)
-            display.addItem(generateItem(player, item, shop, backgroundColor));
+            display.addItem(generateItem(player, item, shopCommand));
 
         sell.addItem(new GuiItem(guiHelper.itemCreator(Material.CAULDRON, ChatColor.GREEN + "Sell", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Sell"}), e -> player.performCommand("sell")), 4, height - 1);
 
@@ -101,22 +80,13 @@ public class ShopBuilderImpl implements ShopBuilder {
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(generateItem(player, guiContents, "WanderingTraderShop " + shopNumber, Material.GREEN_STAINED_GLASS_PANE));
+        display.addItem(generateItem(player, guiContents, "WanderingTraderShop " + shopNumber));
 
         gui.addPane(page);
     }
 
-    public GuiItem generateItem(Player player, ItemList itemList, String shop, Material backgroundColor) {
-        if (itemList.getMaxPurchaseAmount() == 0 && itemList.getExpPrice() == 0 && itemList.getCoinPrice() == 0 && itemList.getItemStack() == null && itemList.getType() == null && itemList.getID() == null)
-            return new GuiItem(guiHelper.background(backgroundColor));
-
-        ItemStack itemStack;
-
-        if (itemList.getType() == null)
-            itemStack = new ItemStack(itemList.getItemStack());
-        else
-            itemStack = mmoItems.getItem(itemList.getType(), itemList.getID());
-
+    public GuiItem generateItem(Player player, ItemList itemList, String shopCommand) {
+        ItemStack itemStack = new ItemStack(itemList.getItemStack());
         final ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (itemStack != null) {
@@ -128,12 +98,13 @@ public class ShopBuilderImpl implements ShopBuilder {
             lore.add(Component.text(ChatColor.WHITE + "Price:"));
             if (itemList.getCoinPrice() > 0)
                 lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(itemList.getCoinPrice())));
-            if (itemList.getExpPrice() > 0)
-                lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(itemList.getExpPrice())));
             if (itemList.getItemPrice() != null)
-                for (String itemPrice : itemList.getItemPrice()) {
-                    String[] itemPriceSplit = itemPrice.split(";");
-                    lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPriceSplit[2] + "x " + mmoItems.getItem(itemPriceSplit[0], itemPriceSplit[1]).getItemMeta().getDisplayName()));
+                for (ItemStack itemPrice : itemList.getItemPrice()) {
+                    String displayName = itemPrice.getItemMeta().getDisplayName();
+                    if (displayName.isEmpty())
+                        displayName = itemPrice.getI18NDisplayName();
+                    lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPrice.getAmount() + "x " + displayName));
+
                 }
 
             if (itemPurchaseLoreCheck(player, itemList, 1) && itemList.getMaxPurchaseAmount() >= 1) {
@@ -141,11 +112,11 @@ public class ShopBuilderImpl implements ShopBuilder {
                 lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
             }
             if (itemPurchaseLoreCheck(player, itemList, 16) && itemList.getMaxPurchaseAmount() >= 16)
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x)"));
             if (itemPurchaseLoreCheck(player, itemList, 32) && itemList.getMaxPurchaseAmount() >= 32)
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x)"));
             if (itemPurchaseLoreCheck(player, itemList, 64) && itemList.getMaxPurchaseAmount() >= 64)
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x"));
 
             itemMeta.lore(lore);
             itemStack.setItemMeta(itemMeta);
@@ -176,114 +147,56 @@ public class ShopBuilderImpl implements ShopBuilder {
                     if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
                         purchaseUtils.purchase(player, itemList, 64);
                 }
-                player.performCommand(shop + "Shop");
+                player.performCommand(shopCommand);
             });
         }
         return null;
     }
 
-    //    public List<Component> itemPurchaseLore(Player player, ItemList itemList, int amount) {
-//        List<Component> lore = new ArrayList<>();
-//        if (economy.getBalance(player) >= (itemList.getCoinPrice()*amount))
-//        if (itemList.getItemPrice() != null) {
-//            if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 1).size() >= itemList.getItemPrice().length) {
-//                if (economy.getBalance(player) >= itemList.getCoinPrice() && player.getLevel() >= itemList.getExpPrice()) {
-//                    lore.add(Component.text(""));
-//                    lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-//                    if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 16).size() >= itemList.getItemPrice().length)
-//                        if (economy.getBalance(player) >= itemList.getCoinPrice() * 16 && player.getLevel() >= itemList.getExpPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
-//                            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
-//                    if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 32).size() >= itemList.getItemPrice().length)
-//                        if (economy.getBalance(player) >= itemList.getCoinPrice() * 32 && player.getLevel() >= itemList.getExpPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
-//                            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
-//                    if (purchaseUtils.hasItem(player, itemList.getItemPrice(), 64).size() >= itemList.getItemPrice().length) {
-//                        if (economy.getBalance(player) >= itemList.getCoinPrice() * 64 && player.getLevel() >= itemList.getExpPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
-//                            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
-//                    }
-//                }
-//            }
-//        } else if (economy.getBalance(player) >= itemList.getCoinPrice() && player.getLevel() >= itemList.getExpPrice()) {
-//            lore.add(Component.text(""));
-//            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-//            if (economy.getBalance(player) >= itemList.getCoinPrice() * 16 && player.getLevel() >= itemList.getExpPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
-//                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
-//            if (economy.getBalance(player) >= itemList.getCoinPrice() * 32 && player.getLevel() >= itemList.getExpPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
-//                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
-//            if (economy.getBalance(player) >= itemList.getCoinPrice() * 64 && player.getLevel() >= itemList.getExpPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
-//                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
-//        }
-//        return lore;
-//    }
-    public List<Component> itemPurchaseLore(Player player, ItemList itemList) {
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.text(""));
-        if (itemPurchaseLoreCheck(player, itemList, 1) && itemList.getMaxPurchaseAmount() >= 1)
-            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-        if (itemPurchaseLoreCheck(player, itemList, 16) && itemList.getMaxPurchaseAmount() >= 16)
-            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
-        if (itemPurchaseLoreCheck(player, itemList, 32) && itemList.getMaxPurchaseAmount() >= 32)
-            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
-        if (itemPurchaseLoreCheck(player, itemList, 64) && itemList.getMaxPurchaseAmount() >= 64)
-            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
-        return lore;
-    }
-
     public boolean itemPurchaseLoreCheck(Player player, ItemList itemList, int amount) {
         if (economy.getBalance(player) < (itemList.getCoinPrice() * amount))
-            return false;
-        else if (player.getLevel() < (itemList.getExpPrice() * amount))
             return false;
         else if (itemList.getItemPrice() != null && !purchaseUtils.hasItem(player, itemList.getItemPrice(), amount))
             return false;
         return true;
     }
-//        if (economy.getBalance(player) >= itemList.getCoinPrice() && player.getLevel() >= itemList.getExpPrice()) {
-//            lore.add(Component.text(""));
-//            lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
-//            if (economy.getBalance(player) >= itemList.getCoinPrice() * 16 && player.getLevel() >= itemList.getExpPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
-//                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 16) + ")"));
-//            if (economy.getBalance(player) >= itemList.getCoinPrice() * 32 && player.getLevel() >= itemList.getExpPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32)
-//                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 32) + ")"));
-//            if (economy.getBalance(player) >= itemList.getCoinPrice() * 64 && player.getLevel() >= itemList.getExpPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
-//                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x " + ChatColor.YELLOW + "(⛂ " + numberFormat.numberFormat(itemList.getCoinPrice() * 64) + ")"));
-//        }
-//        return lore;
-//    }
 
-    /*
-     *
-     *
-     *       Tired creating one method for all...
-     *
-     * */
+    public int displayXCalc(int size) {
+        switch (size) {
+            case 1:
+                return 4;
+            case 2:
+            case 3:
+                return 3;
+            case 4:
+            case 5:
+                return 2;
+            case 6:
+            case 7:
+                return 1;
+        }
+        return 1;
+    }
 
-//    public void professionVendors(Player player, String guiName, Material backgroundColor, List<GuiItem> guiItemList) {
-//
-//        ChestGui gui = new ChestGui(3, guiHelper.guiName("Baker"));
-//        gui.setOnGlobalClick(event -> event.setCancelled(true));
-//
-//        OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-//        StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
-//
-//
-//        background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
-//        background.setRepeat(true);
-//
-//        for (GuiItem guiItem : guiItemList) {
-//            display.addItem(guiItem);
-//        }
-//            display.addItem(new GuiItem(guiHelper.itemCreator(Material.MUSHROOM_STEW,
-//                    ChatColor.GREEN + "Stew Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-//                    e -> consoleCommand.consoleCommand("mi stations open stews " + player.getName())), 2, 1);
-//        display.addItem(new GuiItem(guiHelper.itemCreator(Material.BREWING_STAND,
-//                ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-//                e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 4, 1);
-//        display.addItem(new GuiItem(guiHelper.itemCreator(Material.TOTEM_OF_UNDYING,
-//                ChatColor.GREEN + "Totem Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-//                e -> consoleCommand.consoleCommand("mi stations open totems " + player.getName())), 6, 1);
-//
-//        gui.addPane(background);
-//        gui.addPane(display);
-//        gui.show(player);
-//    }
+    public int heightCalc(int size) {
+        switch (size) {
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+                return 5;
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+                return 6;
+        }
+        return 4;
+    }
 }

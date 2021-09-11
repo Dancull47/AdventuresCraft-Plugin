@@ -30,7 +30,6 @@ public class MythicMobDrops implements Listener {
         this.soundManager = soundManager;
     }
 
-
     @EventHandler
     public void mobDrops(MythicMobDeathEvent event) {
         Player player = (Player) event.getKiller();
@@ -218,12 +217,27 @@ public class MythicMobDrops implements Listener {
                         rareItem(event.getMob(), MMOItems.plugin.getItem("ARMOR", "BEE_WINGS3"), player);
                     break;
                 /*
-                 *   Mine
+                 *   Cavern
                  */
-                case "ANGRY_BAT":
-                    giveItem(location, Material.IRON_INGOT, 1);
-                    giveItem(location, Material.COAL, 2);
+                case "PILLAGER1":
+                    if (chanceCheck.chanceCheck(.01))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("BOW", "PILLAGER_CROSSBOW2"), player);
                     break;
+                case "VINDICATOR1":
+                    if (chanceCheck.chanceCheck(.01))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("AXE", "VINDICATOR_AXE2"), player);
+                    break;
+                case "DROWNED1":
+                    if (chanceCheck.chanceCheck(.01))
+                        rareItem(event.getMob(), MMOItems.plugin.getItem("TRIDENT", "DROWNED_TRIDENT2"), player);
+                    break;
+                case "DOLPHIN1":
+                    giveItem(location, Material.COD, 2);
+                    break;
+                case "TURTLE2":
+                    giveItem(location, Material.SCUTE, 2);
+                    break;
+
                 case "ANGRY_SPIDER":
                     giveItem(location, Material.IRON_INGOT, 1);
                     giveItem(location, Material.GOLD_INGOT, 2);

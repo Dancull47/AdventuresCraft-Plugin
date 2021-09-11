@@ -34,7 +34,8 @@ public class Statistics implements Listener {
         Player player = (Player) event.getKiller();
         if (player != null) {
             betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
-            betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction().toUpperCase(), 1);
+            if (event.getMob().getFaction() != null)
+                betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction().toUpperCase(), 1);
         }
     }
 }

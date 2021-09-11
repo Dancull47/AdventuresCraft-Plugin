@@ -19,6 +19,7 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
+import monzter.adventurescraft.plugin.utilities.enums.Region;
 import monzter.adventurescraft.plugin.utilities.general.*;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
@@ -80,7 +81,7 @@ public class ShopsBuilder extends BaseCommand {
 
     @CommandAlias("SpellforgingShop")
     public void spellforgingShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
+        if (check(player, Region.TOWN)) {
             ChestGui gui = new ChestGui(3, guiHelper.guiName("Spellforging"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -109,7 +110,7 @@ public class ShopsBuilder extends BaseCommand {
 
     @CommandAlias("BakerShop")
     public void bakerShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
+        if (check(player, Region.TOWN)) {
             ChestGui gui = new ChestGui(3, guiHelper.guiName("Baker"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -138,7 +139,7 @@ public class ShopsBuilder extends BaseCommand {
 
     @CommandAlias("FarmerShop")
     public void farmerShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
+        if (check(player, Region.TOWN)) {
             ChestGui gui = new ChestGui(3, guiHelper.guiName("Farmer"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -164,7 +165,7 @@ public class ShopsBuilder extends BaseCommand {
 
     @CommandAlias("ForagingShop|ForagerShop")
     public void foragingShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
+        if (check(player, Region.TOWN)) {
             ChestGui gui = new ChestGui(3, guiHelper.guiName("Forager"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -193,7 +194,7 @@ public class ShopsBuilder extends BaseCommand {
 
     @CommandAlias("SlayerShop")
     public void slayerShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
+        if (check(player, Region.TOWN)) {
             ChestGui gui = new ChestGui(3, guiHelper.guiName("Slayer"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -219,117 +220,16 @@ public class ShopsBuilder extends BaseCommand {
         }
     }
 
-
-    @CommandAlias("MiningShop")
-    private void miningShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
-            int height = 5;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Mining Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.MINING);
-            shopBuilder.menuBase(gui, guiContents, player, "Mining", height, Material.BLACK_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("FarmShop")
-    private void farmShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Farm")) {
-            int height = 5;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Farm Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.FARMER);
-            shopBuilder.menuBase(gui, guiContents, player, "Farm", height, Material.LIME_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("ForestShop|LumberjackShop")
-    private void lumberjackShop(Player player) {
-        if (check(player, ChatColor.DARK_GREEN + "Forest")) {
-            int height = 6;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Lumberjack Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.LUMBERJACK);
-            shopBuilder.menuBase(gui, guiContents, player, "Lumberjack", height, Material.GREEN_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("MercenaryShop")
-    private void mercenaryShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
-            int height = 5;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Mercenary Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.MERCENARY);
-            shopBuilder.menuBase(gui, guiContents, player, "Mercenary", height, Material.RED_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("EstateShop|Farm2Shop")
-    private void estateShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Farm") || check(player, ChatColor.GREEN + "Estate")) {
-            int height = 5;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Estate Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.ESTATE);
-            shopBuilder.menuBase(gui, guiContents, player, "Estate", height, Material.GREEN_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("LandscapeShop|LandscaperShop")
-    private void landscapeShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
-            int height = 6;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Landscaper Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.LANDSCAPER);
-            shopBuilder.menuBase(gui, guiContents, player, "Landscaper", height, Material.LIGHT_BLUE_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("JoyShop")
-    private void joyShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
-            int height = 4;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Joy Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.JOY);
-            shopBuilder.menuBase(gui, guiContents, player, "Joy", height, Material.PINK_STAINED_GLASS_PANE, 2);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("CatLadyShop")
-    private void catLadyShop(Player player) {
-        if (check(player, ChatColor.DARK_GREEN + "Forest")) {
-            int height = 4;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Cat Lady Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.CAT_LADY);
-            shopBuilder.menuBase(gui, guiContents, player, "CatLady", height, Material.BROWN_STAINED_GLASS_PANE, 4);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("HellShop|DemonShop")
-    private void demonShop(Player player) {
-        if (check(player, ChatColor.RED + "Hell")) {
-            int height = 5;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Demon Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.DEMON);
-            shopBuilder.menuBase(gui, guiContents, player, "Demon", height, Material.RED_STAINED_GLASS_PANE);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("EnchantingShop")
-    private void enchantingShop(Player player) {
-        if (check(player, ChatColor.GREEN + "Town")) {
-            int height = 6;
-            int length = 5;
-            int x = 2;
-            int y = 1;
-            final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanting Shop"));
-            final List<ItemList> guiContents = ItemList.getShop(Shops.ENCHANTER);
-            shopBuilder.menuBase(gui, guiContents, player, "Enchanting", height, length, Material.PURPLE_STAINED_GLASS_PANE, x, y);
-            gui.show(player);
+//    Covers mostly all Vendors
+    @CommandAlias("Shop")
+    private void minerShop(Player player, String shop) {
+        for (Shops shopObj : Shops.values()) {
+            if (shop.equalsIgnoreCase(shopObj.getCommand()) && check(player, shopObj.getArea())) {
+                final List<ItemList> guiContents = ItemList.getShop(shopObj);
+                final ChestGui gui = new ChestGui(heightCalculator(guiContents.size()), guiHelper.guiName(shopObj.getTitle()));
+                shopBuilder.menuBase(gui, guiContents, player, "Shop " + shopObj.getCommand(), shopObj.getBackgroundMaterial());
+                gui.show(player);
+            }
         }
     }
 
@@ -342,16 +242,16 @@ public class ShopsBuilder extends BaseCommand {
         }
     }
 
-    private boolean check(Player player, String area) {
+    private boolean check(Player player, Region region) {
+        String area = region.getName();
         if (player.hasPermission("SHOPS") || areaCheck(player, area))
             return true;
-        else {
-            player.sendMessage(ChatColor.RED + "You must either have the " + ChatColor.BOLD + "Conquerer Rank "
-                    + ChatColor.RED + "or be within the " + area + ChatColor.RED + "!");
-            player.sendMessage(donate);
-            soundManager.soundNo(player, 1);
-            return false;
-        }
+
+        player.sendMessage(ChatColor.RED + "You must either have the " + ChatColor.BOLD + "Conquerer Rank "
+                + ChatColor.RED + "or be within the " + area + ChatColor.RED + "!");
+        player.sendMessage(donate);
+        soundManager.soundNo(player, 1);
+        return false;
     }
 
     private boolean areaCheck(Player player, String area) {
@@ -362,6 +262,36 @@ public class ShopsBuilder extends BaseCommand {
         if (set.queryValue(WorldGuardPlugin.inst().wrapPlayer(player), displayNameFlag).equals(area))
             return true;
         return false;
+    }
+
+    public int heightCalculator(int size) {
+        switch (size) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                return 4;
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+                return 5;
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+                return 6;
+        }
+        return 0;
     }
 
 }
