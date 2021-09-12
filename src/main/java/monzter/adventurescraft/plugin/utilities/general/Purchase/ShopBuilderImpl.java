@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.utilities.general;
+package monzter.adventurescraft.plugin.utilities.general.Purchase;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
@@ -13,6 +13,7 @@ import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -95,7 +96,21 @@ public class ShopBuilderImpl implements ShopBuilder {
                 lore = new ArrayList<>();
             lore.add(Component.empty());
 
-            lore.add(Component.text(ChatColor.WHITE + "Price:"));
+            if (itemList.getProfessionLevel() != null) {
+                lore.add(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "Requirements:"));
+                for (String professionString : itemList.getProfessionLevel()) {
+                    String[] professionLevelSplit = professionString.split(",");
+                    String profession = professionLevelSplit[0];
+                    int professionLevel = Integer.valueOf(professionLevelSplit[1]);
+                    if (!purchaseUtils.professionCheck(player, professionString))
+                        lore.add(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "✖ " + ChatColor.YELLOW + WordUtils.capitalizeFully(profession) + " Level " + professionLevel));
+                    else
+                        lore.add(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "✓ " + ChatColor.YELLOW + WordUtils.capitalizeFully(profession) + " Level " + professionLevel));
+                }
+                lore.add(Component.empty());
+            }
+
+            lore.add(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "Price:"));
             if (itemList.getCoinPrice() > 0)
                 lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(itemList.getCoinPrice())));
             if (itemList.getItemPrice() != null)
@@ -103,7 +118,10 @@ public class ShopBuilderImpl implements ShopBuilder {
                     String displayName = itemPrice.getItemMeta().getDisplayName();
                     if (displayName.isEmpty())
                         displayName = itemPrice.getI18NDisplayName();
-                    lore.add(Component.text(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPrice.getAmount() + "x " + displayName));
+                    if (purchaseUtils.hasItem(player, new ItemStack[]{(itemPrice)}, 1))
+                        lore.add(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "✓ " + ChatColor.GOLD + itemPrice.getAmount() + "x " + displayName));
+                    else
+                        lore.add(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "✖ " + ChatColor.GOLD + itemPrice.getAmount() + "x " + displayName));
 
                 }
 
@@ -123,22 +141,20 @@ public class ShopBuilderImpl implements ShopBuilder {
 
             return new GuiItem(itemStack, e -> {
                 if (itemList.getItemPrice() != null) {
-                    if (e.isLeftClick() && !e.isShiftClick() && purchaseUtils.hasItem(player, itemList.getItemPrice(), 1))
+                    if (e.isLeftClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice()
+                            && purchaseUtils.hasItem(player, itemList.getItemPrice(), 1))
                         purchaseUtils.purchase(player, itemList, 1);
-
                     if (e.isRightClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16
                             && purchaseUtils.hasItem(player, itemList.getItemPrice(), 16))
                         purchaseUtils.purchase(player, itemList, 16);
-
                     if (e.isLeftClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 32 && itemList.getMaxPurchaseAmount() >= 32
                             && purchaseUtils.hasItem(player, itemList.getItemPrice(), 32))
                         purchaseUtils.purchase(player, itemList, 32);
-
                     if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64
                             && purchaseUtils.hasItem(player, itemList.getItemPrice(), 64))
                         purchaseUtils.purchase(player, itemList, 64);
                 } else {
-                    if (e.isLeftClick() && !e.isShiftClick())
+                    if (e.isLeftClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice())
                         purchaseUtils.purchase(player, itemList, 1);
                     if (e.isRightClick() && !e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 16 && itemList.getMaxPurchaseAmount() >= 16)
                         purchaseUtils.purchase(player, itemList, 16);
@@ -156,7 +172,11 @@ public class ShopBuilderImpl implements ShopBuilder {
     public boolean itemPurchaseLoreCheck(Player player, ItemList itemList, int amount) {
         if (economy.getBalance(player) < (itemList.getCoinPrice() * amount))
             return false;
-        else if (itemList.getItemPrice() != null && !purchaseUtils.hasItem(player, itemList.getItemPrice(), amount))
+        if (itemList.getProfessionLevel() != null)
+            for (String profession : itemList.getProfessionLevel())
+                if (!purchaseUtils.professionCheck(player, profession))
+                    return false;
+        if (itemList.getItemPrice() != null && !purchaseUtils.hasItem(player, itemList.getItemPrice(), amount))
             return false;
         return true;
     }

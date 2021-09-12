@@ -1,10 +1,14 @@
-package monzter.adventurescraft.plugin.utilities.general;
+package monzter.adventurescraft.plugin.utilities.general.Purchase;
 
 import io.lumine.mythic.lib.api.item.NBTItem;
+import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationItemList;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ItemList;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
+import monzter.adventurescraft.plugin.utilities.general.FullInventory;
+import monzter.adventurescraft.plugin.utilities.general.PurchaseEvent;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.Indyuce.mmoitems.MMOItems;
@@ -21,15 +25,17 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
     private final NumberFormat numberFormat;
     private final MMOItems mmoItems;
     private final BetonPointsManager betonPointsManager;
+    private final ShopBuilder shopBuilder;
 
 
-    public PurchaseUtilsImpl(Economy economy, FullInventory fullInventory, SoundManager soundManager, NumberFormat numberFormat, MMOItems mmoItems, BetonPointsManager betonPointsManager) {
+    public PurchaseUtilsImpl(Economy economy, FullInventory fullInventory, SoundManager soundManager, NumberFormat numberFormat, MMOItems mmoItems, BetonPointsManager betonPointsManager, ShopBuilder shopBuilder) {
         this.economy = economy;
         this.fullInventory = fullInventory;
         this.soundManager = soundManager;
         this.numberFormat = numberFormat;
         this.mmoItems = mmoItems;
         this.betonPointsManager = betonPointsManager;
+        this.shopBuilder = shopBuilder;
     }
 
     @Override
@@ -133,55 +139,12 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
     public boolean hasBasicCheck(Player player, ItemList itemList, int amount) {
         if (economy.getBalance(player) < (itemList.getCoinPrice() * amount))
             return false;
+        if (itemList.getProfessionLevel() != null)
+            for (String profession : itemList.getProfessionLevel())
+                if (!professionCheck(player, profession))
+                    return false;
         return true;
     }
-
-//    @Override
-//    public void purchase(Player player, ItemStack itemStack, int amount, double coinPrice) {
-//        if (economy.hasMoney(player, coinPrice)) {
-//            if (!fullInventory.fullInventory(player)) {
-//                economy.takeMoney(player, coinPrice * amount);
-//                String id = mmoItems.getID(NBTItem.get(itemStack));
-//                if (id == null) {
-//                    player.getInventory().addItem(new ItemStack(itemStack.getType(), amount));
-//                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
-//                            WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for " +
-//                            ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + "!");
-//                } else {
-//                    player.getInventory().addItem(mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), id).asQuantity(amount));
-//                    player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
-//                            mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), mmoItems.getID(NBTItem.get(itemStack))).getItemMeta().getDisplayName() +
-//                            ChatColor.GREEN + " for " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + ChatColor.GREEN + "!");
-//                }
-//                soundManager.soundYes(player, 1);
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void purchase(Player player, ItemStack itemStack, int amount, double coinPrice, int expPrice) {
-//        if (economy.hasMoney(player, coinPrice))
-//            if (player.getLevel() >= expPrice)
-//                if (!fullInventory.fullInventory(player)) {
-//                    economy.takeMoney(player, coinPrice * amount);
-//                    player.setLevel(player.getLevel() - (expPrice * amount));
-//                    String id = mmoItems.getID(NBTItem.get(itemStack));
-//                    if (id == null) {
-//                        player.getInventory().addItem(new ItemStack(itemStack.getType(), amount));
-//                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
-//                                WordUtils.capitalizeFully(itemStack.getType().toString().replace('_', ' ')) + ChatColor.GREEN + " for " +
-//                                ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + ChatColor.GREEN + ", "
-//                                + ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(expPrice * amount) + ChatColor.GREEN + "!");
-//                    } else {
-//                        player.getInventory().addItem(mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), id).asQuantity(amount));
-//                        player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW +
-//                                mmoItems.getItem(mmoItems.getType(NBTItem.get(itemStack)), mmoItems.getID(NBTItem.get(itemStack))).getItemMeta().getDisplayName() +
-//                                ChatColor.GREEN + " for " + ChatColor.YELLOW + "⛂ " + numberFormat.numberFormat(coinPrice * amount) + ChatColor.GREEN + ", " +
-//                                ChatColor.AQUA + "Ξ " + numberFormat.numberFormat(expPrice * amount) + ChatColor.GREEN + "!");
-//                    }
-//                    soundManager.soundYes(player, 1);
-//                }
-//    }
 
     @Override
     public boolean hasItem(Player player, ItemStack[] items, int purchaseAmount) {
@@ -225,4 +188,16 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
         //        Otherwise return true because all items passed the check
         return true;
     }
+
+    @Override
+    public boolean professionCheck(Player player, String profession) {
+        String[] professionLevelSplit = profession.split(",");
+        String professionName = professionLevelSplit[0];
+        int professionLevel = Integer.valueOf(professionLevelSplit[1]);
+        int playerLevel = Integer.valueOf(PlaceholderAPI.setPlaceholders(player.getPlayer(), "%mmocore_profession_" + professionName + "%"));
+        if (playerLevel >= professionLevel)
+            return true;
+        return false;
+    }
+
 }

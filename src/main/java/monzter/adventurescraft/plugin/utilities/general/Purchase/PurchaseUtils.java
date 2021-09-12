@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.utilities.general;
+package monzter.adventurescraft.plugin.utilities.general.Purchase;
 
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationItemList;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ItemList;
@@ -9,4 +9,5 @@ public interface PurchaseUtils {
     void purchase(Player player, ItemList itemList, int amount);
     void purchase(Player player, DonationItemList itemList, int amount);
     boolean hasItem(Player player, ItemStack[] items, int purchaseAmount);
+    public boolean professionCheck(Player player, String profession);
 }

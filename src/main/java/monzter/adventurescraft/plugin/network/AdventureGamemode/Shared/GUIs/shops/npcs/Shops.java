@@ -4,6 +4,7 @@ import monzter.adventurescraft.plugin.utilities.enums.Region;
 import org.bukkit.Material;
 
 public enum Shops {
+    //    Vendors
     FARMER("Farmer", "Farmer", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
     MERCENARY("Mercenary", "Mercenary", Region.TOWN, Material.RED_STAINED_GLASS_PANE),
     LUMBERJACK("Lumberjack", "Lumberjack", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
@@ -14,6 +15,12 @@ public enum Shops {
     WIZARD("Wizard", "Wizard", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
     ESTATE("Estate", "Estate", Region.ESTATE, Material.GREEN_STAINED_GLASS_PANE),
     CAT_LADY("Cat Lady", "CatLady", Region.FOREST, Material.YELLOW_STAINED_GLASS_PANE),
+
+    //    Stations
+    FARMING_ACCESSORIES("Farming Accessories", "FarmingAccessories", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
+    FARMING_ARMOR("Farming Armor", "FarmingArmor", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
+    FARMING_TOOLS("Farming Tools", "FarmingTools", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
+    FARMING_WEAPONS("Farming Weapons", "FarmingWeapons", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
 
     ENCHANTER("Enchanter", "Enchanter", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
 

@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.utilities.general;
+package monzter.adventurescraft.plugin.utilities.general.Purchase;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
@@ -14,4 +14,4 @@ public interface ShopBuilder {
     public void wanderingTraderBase(ChestGui gui, ItemList guiContents, Player player, int shopNumber);
 
     GuiItem generateItem(Player player, ItemList itemList, String shop);
-}
+    }
