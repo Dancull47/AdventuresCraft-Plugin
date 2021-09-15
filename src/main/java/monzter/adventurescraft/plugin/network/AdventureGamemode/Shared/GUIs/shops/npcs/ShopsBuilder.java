@@ -20,9 +20,11 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.Region;
-import monzter.adventurescraft.plugin.utilities.general.*;
+import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.general.FullInventory;
 import monzter.adventurescraft.plugin.utilities.general.Purchase.PurchaseUtils;
 import monzter.adventurescraft.plugin.utilities.general.Purchase.ShopBuilder;
+import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -33,6 +35,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -222,13 +225,68 @@ public class ShopsBuilder extends BaseCommand {
         }
     }
 
-//    Covers mostly all Vendors
+    @CommandAlias("AreaShop")
+    public void areaShopMenu(Player player, String area) {
+        int height = guiHelper.heightCalc(Shops.getShop(area).size()) - 1;
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName(WordUtils.capitalizeFully(area) + " Shop"));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
+        OutlinePane display = new OutlinePane(guiHelper.displayXCalc(Shops.getShop(area).size()), 1, 7, height, Pane.Priority.LOW);
+
+        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
+        background.setRepeat(true);
+
+        for (Shops shop : Shops.values()) {
+            if (shop.name().contains(area.toUpperCase())) {
+                if (shop.name().contains("ACCESSORIES"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMxMmE1YTEyZWNiMjRkNjg1MmRiMzg4ZTZhMzQ3MjFjYzY3ZjUyMmNjZGU3ZTgyNGI5Zjc1ZTk1MDM2YWM5MyJ9fX0=",
+                            ChatColor.GREEN + "Accessories", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("ARMOR"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.DIAMOND_CHESTPLATE,
+                            ChatColor.GREEN + "Armor", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("CATALYSTS"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRkODkxOGU3ODk0NTRjYWNkNjYzOWE0ODA1OWE1Y2U3NzlmMmQ5ZWZhZGUzNjMzOThmNGRmZDUxMjg2MzQifX19",
+                            ChatColor.GREEN + "Catalysts", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("CONSUMABLES"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.APPLE,
+                            ChatColor.GREEN + "Consumables", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("TOOLS"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.DIAMOND_PICKAXE,
+                            ChatColor.GREEN + "Tools", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("UPGRADES"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.ENCHANTED_BOOK,
+                            ChatColor.GREEN + "Upgrades", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> consoleCommand.consoleCommand("mi stations open " + shop.name() + " " + player.getName())));
+                if (shop.name().contains("WEAPONS"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.DIAMOND_SWORD,
+                            ChatColor.GREEN + "Weapons", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+            }
+        }
+        gui.addPane(background);
+        gui.addPane(display);
+        gui.show(player);
+    }
+
+    private void openShop(Player player, String shop) {
+        if (!player.hasPermission("SHOPS"))
+            try {
+                permissionLP.givePermission(player, "SHOPS");
+                player.performCommand("adventurescraft:shop " + shop);
+            } finally {
+                permissionLP.takePermission(player, "SHOPS");
+            }
+        else
+            player.performCommand("adventurescraft:shop " + shop);
+    }
+
+
+    //    Covers mostly all Vendors
     @CommandAlias("Shop")
     private void minerShop(Player player, String shop) {
         for (Shops shopObj : Shops.values()) {
             if (shop.equalsIgnoreCase(shopObj.getCommand()) && check(player, shopObj.getArea())) {
                 final List<ItemList> guiContents = ItemList.getShop(shopObj);
-                final ChestGui gui = new ChestGui(heightCalculator(guiContents.size()), guiHelper.guiName(shopObj.getTitle()));
+                final ChestGui gui = new ChestGui(guiHelper.heightCalc(guiContents.size()), guiHelper.guiName(shopObj.getTitle()));
                 shopBuilder.menuBase(gui, guiContents, player, "Shop " + shopObj.getCommand(), shopObj.getBackgroundMaterial());
                 gui.show(player);
             }
@@ -265,37 +323,6 @@ public class ShopsBuilder extends BaseCommand {
             return true;
         return false;
     }
-
-    public int heightCalculator(int size) {
-        switch (size) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                return 4;
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-                return 5;
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-                return 6;
-        }
-        return 0;
-    }
-
 }
 
 

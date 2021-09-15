@@ -3,6 +3,9 @@ package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.sho
 import monzter.adventurescraft.plugin.utilities.enums.Region;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Shops {
     //    Vendors
     FARMER("Farmer", "Farmer", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
@@ -22,6 +25,14 @@ public enum Shops {
     FARMING_TOOLS("Farming Tools", "FarmingTools", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
     FARMING_WEAPONS("Farming Weapons", "FarmingWeapons", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
 
+    FORAGING_ACCESSORIES("Foraging Accessories", "ForagingAccessories", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+    FORAGING_ARMOR("Foraging Armor", "ForagingArmor", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+    FORAGING_CATALYSTS("Foraging Catalyst", "ForagingCatalysts", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+    FORAGING_CONSUMABLES("Foraging Consumables", "ForagingConsumables", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+    FORAGING_TOOLS("Foraging Tools", "ForagingTools", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+    FORAGING_UPGRADES("Foraging Upgrades", "ForagingUpgrades", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+    FORAGING_WEAPONS("Foraging Weapons", "ForagingWeapons", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+
     ENCHANTER("Enchanter", "Enchanter", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
 
     MINER("Miner", "Miner", Region.CAVERN, Material.BROWN_STAINED_GLASS_PANE),
@@ -29,6 +40,16 @@ public enum Shops {
 
     WANDERING_TRADER("Wandering Trader", "WanderingTrader", Region.TOWN, Material.GREEN_STAINED_GLASS_PANE),
     ;
+
+    public static List<Shops> getShop(String area) {
+        List list = new ArrayList();
+        for (Shops shop: Shops.values()) {
+            if (shop.name().contains(area.toUpperCase()))
+                list.add(shop);
+        }
+        return list;
+    }
+
 
     public final String title;
     public final String command;

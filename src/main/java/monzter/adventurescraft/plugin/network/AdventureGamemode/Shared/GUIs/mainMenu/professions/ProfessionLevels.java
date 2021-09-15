@@ -9,7 +9,7 @@ public enum ProfessionLevels {
     Farming2(Professions.FARMING, "2", new ItemStack[]{}),
     Farming3(Professions.FARMING, "3", new ItemStack[]{MMOItems.plugin.getItem("ACCESSORY", "DEEP_IMPACTOR3"), MMOItems.plugin.getItem("ACCESSORY", "LUCKY_STRIKER3")}),
     Farming4(Professions.FARMING, "4", new ItemStack[]{MMOItems.plugin.getItem("STAFF", "SEED_STAFF3"), MMOItems.plugin.getItem("ARMOR", "MELON_HAT4")}),
-    Farming5(Professions.FARMING, "5", new ItemStack[]{MMOItems.plugin.getItem("ARMOR", "MELON_HAT5"), MMOItems.plugin.getItem("ACCESSORY", "LUCKY_STRIKER4"), MMOItems.plugin.getItem("MISCELLANEOUS", "UNLIMITED_WATER")}),
+    Farming5(Professions.FARMING, "5", new ItemStack[]{MMOItems.plugin.getItem("ARMOR", "MELON_HAT5"), MMOItems.plugin.getItem("ACCESSORY", "LUCKY_STRIKER4"), MMOItems.plugin.getItem("TOOL", "UNLIMITED_WATER")}),
     Farming6(Professions.FARMING, "6", new ItemStack[]{}),
     Farming7(Professions.FARMING, "7", new ItemStack[]{MMOItems.plugin.getItem("ACCESSORY", "DEEP_IMPACTOR4"), MMOItems.plugin.getItem("ACCESSORY", "LUCKY_STRIKER5"), MMOItems.plugin.getItem("ACCESSORY", "POWERFUL_NECKLACE4")}),
     Farming8(Professions.FARMING, "8", new ItemStack[]{MMOItems.plugin.getItem("STAFF", "WHEAT_STAFF3")}),

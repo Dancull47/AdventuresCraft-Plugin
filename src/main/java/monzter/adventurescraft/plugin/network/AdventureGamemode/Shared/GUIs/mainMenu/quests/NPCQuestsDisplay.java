@@ -107,6 +107,7 @@ public class NPCQuestsDisplay extends BaseCommand {
     public void don(Player player) {
         guiHelper.questMenuGenerator(player, QuestGiver.DON, Material.GREEN_STAINED_GLASS_PANE);
     }
+
     @Subcommand("Sandrah")
     public void sandrah(Player player) {
         guiHelper.questMenuGenerator(player, QuestGiver.SANDRAH, Material.GREEN_STAINED_GLASS_PANE);
@@ -145,6 +146,11 @@ public class NPCQuestsDisplay extends BaseCommand {
     @Subcommand("Kassadin")
     public void kassadin(Player player) {
         guiHelper.questMenuGenerator(player, QuestGiver.KASSADIN, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("Kogmaw")
+    public void kogmaw(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.KOGMAW, Material.PURPLE_STAINED_GLASS_PANE);
     }
 
 

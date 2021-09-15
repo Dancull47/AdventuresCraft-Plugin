@@ -32,7 +32,7 @@ public class UnlimitedWaterBucket implements Listener {
                     final NBTItem nbtItem = NBTItem.get(itemStack);
                     final String id = MMOItems.getID(nbtItem);
                     if (id != null && id.equals("UNLIMITED_WATER"))
-                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> player.getInventory().setItemInMainHand(mmoItems.getItem("MISCELLANEOUS", "UNLIMITED_WATER")), 1);
+                        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> player.getInventory().setItemInMainHand(mmoItems.getItem("TOOL", "UNLIMITED_WATER")), 1);
                 }
         }
     }

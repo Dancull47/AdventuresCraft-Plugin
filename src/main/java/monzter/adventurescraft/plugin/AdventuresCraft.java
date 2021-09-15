@@ -157,7 +157,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     public static Plugin plugin;
     public final String CONTEXT = this.getConfig().getString("Context").toLowerCase();
     public final String SERVER = this.getConfig().getString("Server");
-private ShopBuilder shopBuilder;
+    private ShopBuilder shopBuilder;
+
     @Override
     public void onEnable() {
 //        if (MySQL.isConnected())

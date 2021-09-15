@@ -47,10 +47,16 @@ public interface GUIHelper {
 //    ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String resetTime);
 
     void questMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
+
     void activeQuestMenu(Player player);
+
     void unclaimedQuestMenu(Player player);
 
 //    void jobMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
 
 //    void miningPassMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor);
+
+    public int displayXCalc(int size);
+
+    public int heightCalc(int size);
 }

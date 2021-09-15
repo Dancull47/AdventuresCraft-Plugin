@@ -1097,4 +1097,43 @@ public class GUIHelperImpl implements GUIHelper {
         return new GuiItem(item);
     }
 
+    public int displayXCalc(int size) {
+        switch (size) {
+            case 1:
+                return 4;
+            case 2:
+            case 3:
+                return 3;
+            case 4:
+            case 5:
+                return 2;
+            case 6:
+            case 7:
+                return 1;
+        }
+        return 1;
+    }
+
+    public int heightCalc(int size) {
+        switch (size) {
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+                return 5;
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+                return 6;
+        }
+        return 4;
+    }
+
 }

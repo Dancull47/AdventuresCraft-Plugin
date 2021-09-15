@@ -7,11 +7,12 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shop
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.PrisonStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.general.FullInventory;
-import monzter.adventurescraft.plugin.utilities.general.PurchaseEvent;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
 import net.Indyuce.mmoitems.MMOItems;
+import net.Indyuce.mmoitems.api.event.CraftMMOItemEvent;
+import net.Indyuce.mmoitems.api.player.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -110,8 +111,14 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                 }
             player.getInventory().addItem(itemList.getItemStack().asQuantity(amount));
             soundManager.soundYes(player, 1);
-            PurchaseEvent purchaseEvent = new PurchaseEvent(player, itemList.getItemStack(), amount);
-            Bukkit.getServer().getPluginManager().callEvent(purchaseEvent);
+//            PurchaseEvent purchaseEvent = new PurchaseEvent(player, itemList.getItemStack(), amount);
+//            Bukkit.getServer().getPluginManager().callEvent(purchaseEvent);
+
+//  This is for BetonQuest `mmoitemcraft` Objective
+            if (NBTItem.get(itemList.getItemStack()).hasType()) {
+                CraftMMOItemEvent craftMMOItemEvent = new CraftMMOItemEvent(PlayerData.get(player.getUniqueId()), itemList.getItemStack());
+                Bukkit.getServer().getPluginManager().callEvent(craftMMOItemEvent);
+            }
         }
 
     }
