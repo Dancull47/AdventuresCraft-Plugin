@@ -9,6 +9,7 @@ public enum Region {
     ESTATE(ChatColor.GREEN + "Estate"),
     FOREST(ChatColor.DARK_GREEN + "Forest"),
     HELL(ChatColor.RED + "Hell"),
+    VOID(ChatColor.DARK_PURPLE + "Void"),
 
     ;
 

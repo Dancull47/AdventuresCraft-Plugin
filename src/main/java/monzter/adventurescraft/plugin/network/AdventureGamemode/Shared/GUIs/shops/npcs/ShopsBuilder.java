@@ -251,6 +251,12 @@ public class ShopsBuilder extends BaseCommand {
                 if (shop.name().contains("CONSUMABLES"))
                     display.addItem(new GuiItem(guiHelper.itemCreator(Material.APPLE,
                             ChatColor.GREEN + "Consumables", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("GEM_STONES"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.EMERALD,
+                            ChatColor.GREEN + "Gem Stones", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("MATERIALS"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(Material.BONE,
+                            ChatColor.GREEN + "Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
                 if (shop.name().contains("TOOLS"))
                     display.addItem(new GuiItem(guiHelper.itemCreator(Material.DIAMOND_PICKAXE,
                             ChatColor.GREEN + "Tools", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));

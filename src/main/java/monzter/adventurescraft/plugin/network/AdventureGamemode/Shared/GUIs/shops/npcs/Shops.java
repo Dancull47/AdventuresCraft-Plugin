@@ -33,6 +33,16 @@ public enum Shops {
     FORAGING_UPGRADES("Foraging Upgrades", "ForagingUpgrades", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
     FORAGING_WEAPONS("Foraging Weapons", "ForagingWeapons", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
 
+    VOID_ACCESSORIES("Void Accessories", "VoidAccessories", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_ARMOR("Void Armor", "VoidArmor", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_CATALYSTS("Void Catalyst", "VoidCatalysts", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_CONSUMABLES("Void Consumables", "VoidConsumables", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_GEM_STONES("Void Gem Stones", "VoidGemStones", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_MATERIALS("Void Materials", "VoidMaterials", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_TOOLS("Void Tools", "VoidTools", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_UPGRADES("Void Upgrades", "VoidUpgrades", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_WEAPONS("Void Weapons", "VoidWeapons", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+
     ENCHANTER("Enchanter", "Enchanter", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
 
     MINER("Miner", "Miner", Region.CAVERN, Material.BROWN_STAINED_GLASS_PANE),
