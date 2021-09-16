@@ -257,6 +257,9 @@ public class ShopsBuilder extends BaseCommand {
                 if (shop.name().contains("MATERIALS"))
                     display.addItem(new GuiItem(guiHelper.itemCreator(Material.BONE,
                             ChatColor.GREEN + "Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
+                if (shop.name().contains("MOUNTS"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIxNjY4ZWY3Y2I3OWRkOWMyMmNlM2QxZjNmNGNiNmUyNTU5ODkzYjZkZjRhNDY5NTE0ZTY2N2MxNmFhNCJ9fX0=",
+                            ChatColor.GREEN + "Mounts", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
                 if (shop.name().contains("TOOLS"))
                     display.addItem(new GuiItem(guiHelper.itemCreator(Material.DIAMOND_PICKAXE,
                             ChatColor.GREEN + "Tools", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
@@ -273,22 +276,9 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
-    private void openShop(Player player, String shop) {
-        if (!player.hasPermission("SHOPS"))
-            try {
-                permissionLP.givePermission(player, "SHOPS");
-                player.performCommand("adventurescraft:shop " + shop);
-            } finally {
-                permissionLP.takePermission(player, "SHOPS");
-            }
-        else
-            player.performCommand("adventurescraft:shop " + shop);
-    }
-
-
     //    Covers mostly all Vendors
     @CommandAlias("Shop")
-    private void minerShop(Player player, String shop) {
+    private void shop(Player player, String shop) {
         for (Shops shopObj : Shops.values()) {
             if (shop.equalsIgnoreCase(shopObj.getCommand()) && check(player, shopObj.getArea())) {
                 final List<ItemList> guiContents = ItemList.getShop(shopObj);
@@ -306,6 +296,18 @@ public class ShopsBuilder extends BaseCommand {
             shopBuilder.wanderingTraderBase(gui, ItemList.valueOf("WANDERING_TRADER" + number), player, number);
             gui.show(player);
         }
+    }
+
+    private void openShop(Player player, String shop) {
+        if (!player.hasPermission("SHOPS"))
+            try {
+                permissionLP.givePermission(player, "SHOPS");
+                player.performCommand("adventurescraft:shop " + shop);
+            } finally {
+                permissionLP.takePermission(player, "SHOPS");
+            }
+        else
+            player.performCommand("adventurescraft:shop " + shop);
     }
 
     private boolean check(Player player, Region region) {

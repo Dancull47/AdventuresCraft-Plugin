@@ -39,8 +39,7 @@ public enum Shops {
     VOID_CONSUMABLES("Void Consumables", "VoidConsumables", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
     VOID_GEM_STONES("Void Gem Stones", "VoidGemStones", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
     VOID_MATERIALS("Void Materials", "VoidMaterials", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
-    VOID_TOOLS("Void Tools", "VoidTools", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
-    VOID_UPGRADES("Void Upgrades", "VoidUpgrades", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
+    VOID_MOUNTS("Void Mounts", "VoidMounts", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
     VOID_WEAPONS("Void Weapons", "VoidWeapons", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
 
     ENCHANTER("Enchanter", "Enchanter", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
