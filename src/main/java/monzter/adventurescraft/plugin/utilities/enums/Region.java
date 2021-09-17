@@ -5,6 +5,9 @@ import org.bukkit.ChatColor;
 public enum Region {
     TOWN(ChatColor.GREEN + "Town"),
     FARM(ChatColor.GREEN + "Farm"),
+    COURTYARD(ChatColor.RED + "Courtyard"),
+    GRAVEYARD(ChatColor.RED + "Graveyard"),
+    CASTLE(ChatColor.RED + "Castle"),
     CAVERN(ChatColor.GOLD + "Cavern"),
     ESTATE(ChatColor.GREEN + "Estate"),
     FOREST(ChatColor.DARK_GREEN + "Forest"),

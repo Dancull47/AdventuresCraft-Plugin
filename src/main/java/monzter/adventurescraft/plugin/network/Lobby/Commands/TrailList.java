@@ -2,7 +2,7 @@ package monzter.adventurescraft.plugin.network.Lobby.Commands;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import me.lucko.helper.random.Weighted;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.enums.Rarity;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

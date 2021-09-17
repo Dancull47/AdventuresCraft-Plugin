@@ -13,7 +13,7 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTableTypes;
 import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.DropTables;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import org.bukkit.Material;

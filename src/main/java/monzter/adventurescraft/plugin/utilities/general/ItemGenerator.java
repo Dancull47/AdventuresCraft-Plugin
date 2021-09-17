@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables;
+package monzter.adventurescraft.plugin.utilities.general;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

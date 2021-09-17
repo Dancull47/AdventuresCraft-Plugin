@@ -9,7 +9,7 @@ import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.ItemAdder;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
-import net.Indyuce.mmoitems.MMOItems;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsHelperImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public class Boss extends BaseCommand implements Listener {
         else {
             player.sendMessage(ChatColor.RED + "This quest is already active!");
             soundManager.soundNo(player, 1);
-            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItems.plugin.getItem("CONSUMABLE", "MORDEN_SUMMONER2")), 1);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItemsHelperImpl.getItem("CONSUMABLE", "MORDEN_SUMMONER2")), 1);
         }
     }
     @CommandAlias("DryadRepeat")
@@ -54,7 +54,7 @@ public class Boss extends BaseCommand implements Listener {
         else {
             player.sendMessage(ChatColor.RED + "This quest is already active!");
             soundManager.soundNo(player, 1);
-            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItems.plugin.getItem("CONSUMABLE", "DRYAD_SUMMONER2")), 1);
+            Bukkit.getScheduler().runTaskLater(plugin, () -> itemAdder.itemAdder(player, MMOItemsHelperImpl.getItem("CONSUMABLE", "DRYAD_SUMMONER2")), 1);
         }
     }
 }

@@ -3,6 +3,7 @@ package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
@@ -12,6 +13,7 @@ import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class AdminCommands extends BaseCommand {
 
@@ -59,5 +61,27 @@ public class AdminCommands extends BaseCommand {
                 break;
         }
     }
+
+    @CommandAlias("StatsDebug")
+    @CommandPermission("*")
+    @CommandCompletion("*")
+    public void statsDebug(OnlinePlayer targetPlayer) {
+        Player player = targetPlayer.player;
+        player.sendMessage(AdventureStatsDisplay.HP.getName() + ": " + parsePlaceholder(player, "mmocore_health") + "/" + parsePlaceholder(player, "mmocore_max_health"));
+        player.sendMessage(AdventureStatsDisplay.MANA.getName() + ": " + parsePlaceholder(player, "mmocore_mana") + "/" + parsePlaceholder(player, "mmocore_stat_max_mana"));
+        player.sendMessage(AdventureStatsDisplay.ARMOR.getName() + ": " + parsePlaceholder(player, "mmocore_stat_defense"));
+        player.sendMessage(AdventureStatsDisplay.SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_movement_speed"));
+        player.sendMessage(AdventureStatsDisplay.DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
+        player.sendMessage(AdventureStatsDisplay.ATTACK_SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
+        player.sendMessage(AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_chance"));
+        player.sendMessage(AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_power"));
+        player.sendMessage(AdventureStatsDisplay.MAGIC_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_magic_damage"));
+        player.sendMessage(AdventureStatsDisplay.SKILL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_skill_damage"));
+    }
+
+    private String parsePlaceholder(Player player, String string) {
+        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
+    }
+
 }
 

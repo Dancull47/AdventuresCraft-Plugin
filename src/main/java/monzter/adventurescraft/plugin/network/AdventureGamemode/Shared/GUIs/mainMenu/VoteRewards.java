@@ -15,7 +15,7 @@ import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
-import net.Indyuce.mmoitems.MMOItems;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsHelperImpl;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -70,7 +70,7 @@ public class VoteRewards extends BaseCommand {
 
         int i = 0;
         for (monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.VoteRewardList item : monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.VoteRewardList.values()) {
-            final ItemStack itemStack = MMOItems.plugin.getItem(item.type, item.id);
+            final ItemStack itemStack = MMOItemsHelperImpl.getItem(item.type, item.id);
             final ItemMeta itemMeta = itemStack.getItemMeta();
             if (itemStack != null) {
                 List<Component> lore = itemStack.lore();

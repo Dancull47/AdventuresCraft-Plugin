@@ -35,7 +35,7 @@ public class BlockInteractions implements Listener {
             case "Home":
                 if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.LECTERN))
                     if (event.getClickedBlock().getLocation().equals(location))
-                        consoleCommand.consoleCommand("mi stations open graveyard " + event.getPlayer().getName());
+                        event.getPlayer().performCommand("AreaShop Graveyard");
         }
     }
 

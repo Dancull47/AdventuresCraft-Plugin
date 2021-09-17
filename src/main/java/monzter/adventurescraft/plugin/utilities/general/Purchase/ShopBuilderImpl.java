@@ -130,9 +130,9 @@ public class ShopBuilderImpl implements ShopBuilder {
                 lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase " + ChatColor.GOLD + "1x"));
             }
             if (itemPurchaseLoreCheck(player, itemList, 16) && itemList.getMaxPurchaseAmount() >= 16)
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x)"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Purchase " + ChatColor.GOLD + "16x"));
             if (itemPurchaseLoreCheck(player, itemList, 32) && itemList.getMaxPurchaseAmount() >= 32)
-                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x)"));
+                lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Left-Click to Purchase " + ChatColor.GOLD + "32x"));
             if (itemPurchaseLoreCheck(player, itemList, 64) && itemList.getMaxPurchaseAmount() >= 64)
                 lore.add(Component.text(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Purchase " + ChatColor.GOLD + "64x"));
 

@@ -15,7 +15,7 @@ public enum Achievements {
     Ore3("Ore","Journeyman Ores", "ac_Achievement_Ores", "ORES.3", "Ores Mined: ", Material.REDSTONE_ORE, 2_500, new ItemStack[]{null}, new int[]{0}, new String[]{"exp", "miningpassexp"}, new int[]{2_500, 250}),
     Ore4("Ore","Master Ores", "ac_Achievement_Ores", "ORES.4", "Ores Mined: ", Material.LAPIS_ORE, 5_000, new ItemStack[]{null}, new int[]{0}, new String[]{"exp", "miningpassexp"}, new int[]{5_000, 500}),
     Ore5("Ore","Ascended Ores", "ac_Achievement_Ores", "ORES.5", "Ores Mined: ", Material.DIAMOND_ORE, 7_500, new ItemStack[]{null}, new int[]{0}, new String[]{"exp", "miningpassexp"}, new int[]{7_500, 750}),
-//  MMOItems.plugin.getItem("ARMOR", "PRISONER_HAT")
+//  MMOItemsHelperImpl.getItem("ARMOR", "PRISONER_HAT")
     ;
     private String group;
     private String name;

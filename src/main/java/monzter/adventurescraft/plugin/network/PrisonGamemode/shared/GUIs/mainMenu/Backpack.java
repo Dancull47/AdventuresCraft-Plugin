@@ -10,7 +10,7 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
+import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.WeightPrices;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;

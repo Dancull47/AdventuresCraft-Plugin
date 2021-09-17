@@ -101,7 +101,7 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
             if (displayName.isEmpty())
                 displayName = itemList.getItemStack().getI18NDisplayName();
 
-            player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount + "x " + ChatColor.YELLOW + displayName + ChatColor.GREEN + " for:");
+            player.sendMessage(ChatColor.GREEN + "You purchased " + ChatColor.GOLD + amount * itemList.getItemStack().getAmount() + "x " + ChatColor.YELLOW + displayName + ChatColor.GREEN + " for:");
             if (itemList.getItemPrice() != null)
                 for (ItemStack itemPrice : itemList.getItemPrice()) {
                     String itemDisplayName = itemPrice.getItemMeta().getDisplayName();
@@ -109,7 +109,7 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                         itemDisplayName = itemPrice.getI18NDisplayName();
                     player.sendMessage(ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + "- " + ChatColor.GOLD + itemPrice.getAmount() + "x " + itemDisplayName);
                 }
-            player.getInventory().addItem(itemList.getItemStack().asQuantity(amount));
+            player.getInventory().addItem(itemList.getItemStack().asQuantity(amount * itemList.getItemStack().getAmount()));
             soundManager.soundYes(player, 1);
 //            PurchaseEvent purchaseEvent = new PurchaseEvent(player, itemList.getItemStack(), amount);
 //            Bukkit.getServer().getPluginManager().callEvent(purchaseEvent);

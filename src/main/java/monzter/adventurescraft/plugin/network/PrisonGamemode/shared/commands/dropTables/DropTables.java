@@ -1,6 +1,7 @@
 package monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables;
 
 import me.lucko.helper.random.Weighted;
+import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
 import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

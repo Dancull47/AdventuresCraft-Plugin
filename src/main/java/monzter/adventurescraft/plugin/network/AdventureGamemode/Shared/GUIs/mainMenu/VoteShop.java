@@ -17,9 +17,9 @@ import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsHelperImpl;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import monzter.adventurescraft.plugin.utilities.vault.Economy;
-import net.Indyuce.mmoitems.MMOItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -152,7 +152,7 @@ public class VoteShop extends BaseCommand {
     Random random = new Random();
 
     private void reward(Player player, DailyShopList dailyShopList) {
-        if (MMOItems.plugin.getItem(dailyShopList.type, dailyShopList.getItemID()) != null &&
+        if (MMOItemsHelperImpl.getItem(dailyShopList.type, dailyShopList.getItemID()) != null &&
                 !dailyShopList.itemID.equals("ENCHANTED_PUFFERFISH"))
             mmoItemsGive.giveMMOItem(player, dailyShopList.type, dailyShopList.getItemID(), dailyShopList.amount);
         switch (dailyShopList.getType()) {

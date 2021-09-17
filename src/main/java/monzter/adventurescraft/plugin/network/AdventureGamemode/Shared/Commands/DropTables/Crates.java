@@ -1,9 +1,9 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables;
 
 import me.lucko.helper.random.Weighted;
-import monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.dropTables.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.enums.CrateList;
-import net.Indyuce.mmoitems.MMOItems;
+import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsHelperImpl;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -185,7 +185,7 @@ public enum Crates implements Weighted, ItemGenerator {
     MORDEN9(CrateList.MORDEN, "HAMMER", "GRAVE_DIGGER5", 1, .005),
     MORDEN10(CrateList.MORDEN, "ARMOR", "MORDEN_CHEST4", 1, .0025),
     MORDEN11(CrateList.MORDEN, "ARMOR", "MORDEN_LEGS4", 1, .0025),
-    MORDEN12(CrateList.MORDEN, "SWORD", "BONE_SWORD5", 1, .0025),
+    MORDEN12(CrateList.MORDEN, "SWORD", "BONE_SWORD4", 1, .0025),
     MORDEN13(CrateList.MORDEN, "COMPANION", "PET_MORDEN_THE_UNDEAD5", 1, .0025),
 
     VOID_DRACULA1(CrateList.VOID_DRACULA, "CONSUMABLE", "DRAC_HEART3", 1, .025),
@@ -316,7 +316,7 @@ public enum Crates implements Weighted, ItemGenerator {
 
     @Override
     public ItemStack generateItem() {
-        final ItemStack itemStack = MMOItems.plugin.getItem(type, id);
+        final ItemStack itemStack = MMOItemsHelperImpl.getItem(type, id);
         if (itemStack != null) {
             List<Component> lore = itemStack.lore();
             if (lore == null) {

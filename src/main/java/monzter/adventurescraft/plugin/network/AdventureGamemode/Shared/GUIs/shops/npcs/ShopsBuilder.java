@@ -265,7 +265,7 @@ public class ShopsBuilder extends BaseCommand {
                             ChatColor.GREEN + "Tools", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));
                 if (shop.name().contains("UPGRADES"))
                     display.addItem(new GuiItem(guiHelper.itemCreator(Material.ENCHANTED_BOOK,
-                            ChatColor.GREEN + "Upgrades", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> consoleCommand.consoleCommand("mi stations open " + shop.name() + " " + player.getName())));
+                            ChatColor.GREEN + "Upgrades", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> consoleCommand.consoleCommand("mi stations open " + shop.name().replace("_", "-").toLowerCase() + " " + player.getName())));
                 if (shop.name().contains("WEAPONS"))
                     display.addItem(new GuiItem(guiHelper.itemCreator(Material.DIAMOND_SWORD,
                             ChatColor.GREEN + "Weapons", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}), e -> openShop(player, shop.name().replace("_", ""))));

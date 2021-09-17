@@ -25,6 +25,22 @@ public enum Shops {
     FARMING_TOOLS("Farming Tools", "FarmingTools", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
     FARMING_WEAPONS("Farming Weapons", "FarmingWeapons", Region.FARM, Material.GREEN_STAINED_GLASS_PANE),
 
+    COURTYARD_ARMOR("Courtyard Armor", "CourtyardArmor", Region.COURTYARD, Material.RED_STAINED_GLASS_PANE),
+    COURTYARD_CONSUMABLES("Courtyard Consumables", "CourtyardConsumables", Region.COURTYARD, Material.RED_STAINED_GLASS_PANE),
+    COURTYARD_GEM_STONES("Courtyard Gem Stones", "CourtyardGemStones", Region.COURTYARD, Material.RED_STAINED_GLASS_PANE),
+    COURTYARD_MATERIALS("Courtyard Materials", "CourtyardMaterials", Region.COURTYARD, Material.RED_STAINED_GLASS_PANE),
+    COURTYARD_WEAPONS("Courtyard Weapons", "CourtyardWeapons", Region.COURTYARD, Material.RED_STAINED_GLASS_PANE),
+
+    CASTLE_ARMOR("Castle Armor", "CastleArmor", Region.CASTLE, Material.RED_STAINED_GLASS_PANE),
+    CASTLE_CATALYSTS("Castle Catalysts", "CastleCatalysts", Region.CASTLE, Material.RED_STAINED_GLASS_PANE),
+    CASTLE_CONSUMABLES("Castle Consumables", "CastleConsumables", Region.CASTLE, Material.RED_STAINED_GLASS_PANE),
+    CASTLE_GEM_STONES("Castle Gem Stones", "CastleGemStones", Region.CASTLE, Material.RED_STAINED_GLASS_PANE),
+    CASTLE_MATERIALS("Castle Materials", "CastleMaterials", Region.CASTLE, Material.RED_STAINED_GLASS_PANE),
+    CASTLE_WEAPONS("Castle Weapons", "CastleWeapons", Region.CASTLE, Material.RED_STAINED_GLASS_PANE),
+
+    GRAVEYARD_UPGRADES("Graveyard Upgrades", "GraveyardUpgrades", Region.GRAVEYARD, Material.RED_STAINED_GLASS_PANE),
+    GRAVEYARD_WEAPONS("Graveyard Weapons", "GraveyardWeapons", Region.GRAVEYARD, Material.RED_STAINED_GLASS_PANE),
+
     FORAGING_ACCESSORIES("Foraging Accessories", "ForagingAccessories", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
     FORAGING_ARMOR("Foraging Armor", "ForagingArmor", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
     FORAGING_CATALYSTS("Foraging Catalyst", "ForagingCatalysts", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
