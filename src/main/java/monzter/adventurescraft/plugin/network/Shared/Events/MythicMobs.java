@@ -144,7 +144,7 @@ public class MythicMobs extends BaseCommand implements Listener {
 //                            if (chanceCheck.chanceCheck(.001))
 //                                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_UNDEAD_CASTER3"), player);
 //                            if (chanceCheck.chanceCheck(.2))
-//                                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENSE2"), player);
+//                                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENCE2"), player);
 //                            break;
 //                        /*
 //                         *   Castle
@@ -617,7 +617,7 @@ public class MythicMobs extends BaseCommand implements Listener {
         if (chanceCheck.chanceCheck(.005))
             rareItem(activeMob, MMOItemsHelperImpl.getItem("STAFF", "NECROMANCER_STAFF2"), player);
         else if (chanceCheck.chanceCheck(.01))
-            rareItem(activeMob, MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENSE3"), player);
+            rareItem(activeMob, MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENCE3"), player);
     }
 
     private void voidHealer(Location location, ActiveMob activeMob, Player player) {

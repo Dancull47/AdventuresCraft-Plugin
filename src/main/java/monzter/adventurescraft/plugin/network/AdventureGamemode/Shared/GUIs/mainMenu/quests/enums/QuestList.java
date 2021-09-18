@@ -26,8 +26,8 @@ public enum QuestList {
     THE_SILVER_STOOL(QuestGiver.CIRL,
             new String[]{"&aUse &fthe &c&lSilver Stool &f(-157, 15, 145)", "&fwithin the &cGraveyard &fto", "&aUpgrade &fyour &lSilver Sword"},
             null, new String[]{"ARMOR BONE_CHESTPLATE2 1", "ARMOR BONE_LEGS2 1"}, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
-    ARCHER_ANNILATOR(QuestGiver.CIRL,
-            new String[]{"&aSlay &f%betonquest_default-Graveyard-Cirl:point.ARCHER_ANNILATOR.amount%/15 &cUndead Archers &fwithin the &cGraveyard"},
+    ARCHER_ANNIHILATOR(QuestGiver.CIRL,
+            new String[]{"&aSlay &f%betonquest_default-Graveyard-Cirl:point.ARCHER_ANNIHILATOR.amount%/15 &cUndead Archers &fwithin the &cGraveyard"},
             null, new String[]{"ARMOR BONE_FEET2 1"}, 100, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",100"}, 100),
     THE_REAPER(QuestGiver.CIRL,
             new String[]{"&aSlay &fthe &cReaper &f(-96, 15, 176)"},
@@ -43,7 +43,7 @@ public enum QuestList {
             null, new String[]{"BOW UNDEAD_BOW3 1"}, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
     THE_MAGICAL_HUNT(QuestGiver.NAVID,
             new String[]{"&aSlay &cUndead Casters &fand &adeliver", "&f8 &lMagical Fragments &fto &aNavid"},
-            null, new String[]{"CONSUMABLE MAGICAL_ESSENSE2 1"}, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
+            null, new String[]{"CONSUMABLE MAGICAL_ESSENCE2 1"}, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
     SPIDER_EXTERMINATOR(QuestGiver.NAVID,
             new String[]{"&aSlay &f%betonquest_default-Courtyard-Navid:point.SPIDER_EXTERMINATOR.amount%/20 &cUndead Spiders &fwithin the &cCourtyard"},
             null, null, 200, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",200"}, 150),
@@ -173,7 +173,7 @@ public enum QuestList {
             null, null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
     POTATO_HARVEST(QuestGiver.BILLY,
             new String[]{"&aHarvest &f%betonquest_default-Farm-Mandy:point.POTATO_HARVEST.amount%/320 &aPotatoes &fwith a &aWooden Hoe"},
-            null, null, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
+            null, new String[]{"ARMOR FARMER_HAT 1", "ARMOR FARMER_SHIRT 1", "ARMOR FARMER_PANTS 1", "ARMOR FARMER_SHOES 1"}, 100, new String[]{AdventureStatsDisplay.FARMING.getName() + ",100"}, 50),
 
     //  Valley
 

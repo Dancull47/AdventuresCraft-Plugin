@@ -49,6 +49,8 @@ public enum Shops {
     FORAGING_UPGRADES("Foraging Upgrades", "ForagingUpgrades", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
     FORAGING_WEAPONS("Foraging Weapons", "ForagingWeapons", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
 
+    LUMBERJACK_TOOLS("Lumberjack's Tools", "LumberjackTools", Region.FOREST, Material.GREEN_STAINED_GLASS_PANE),
+
     VOID_ACCESSORIES("Void Accessories", "VoidAccessories", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
     VOID_ARMOR("Void Armor", "VoidArmor", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),
     VOID_CATALYSTS("Void Catalyst", "VoidCatalysts", Region.VOID, Material.PURPLE_STAINED_GLASS_PANE),

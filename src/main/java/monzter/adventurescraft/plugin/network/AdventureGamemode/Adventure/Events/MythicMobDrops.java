@@ -104,7 +104,7 @@ public class MythicMobDrops implements Listener {
                     if (chanceCheck.chanceCheck(.001))
                         rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_UNDEAD_CASTER3"), player);
                     if (chanceCheck.chanceCheck(.2))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENSE2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENCE2"), player);
                     if (chanceCheck.chanceCheck(.5))
                         rareItem(event.getMob(), MMOItemsHelperImpl.getItem("QUEST", "MAGICAL_FRAGMENT"), player);
                     break;
@@ -205,13 +205,13 @@ public class MythicMobDrops implements Listener {
                 case "WASP":
                     forestDropTable(location);
                     giveItem(location, Material.HONEYCOMB, 4);
-                    if (chanceCheck.chanceCheck(.005))
+                    if (chanceCheck.chanceCheck(.0075))
                         rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS2"), player);
                     break;
                 case "QUEEN_BEE":
                     forestDropTable(location);
                     giveItem(location, Material.HONEYCOMB, 5);
-                    if (chanceCheck.chanceCheck(.0075))
+                    if (chanceCheck.chanceCheck(.01))
                         rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS3"), player);
                     break;
                 /*
@@ -580,7 +580,7 @@ public class MythicMobDrops implements Listener {
         if (chanceCheck.chanceCheck(.005))
             rareItem(activeMob, MMOItemsHelperImpl.getItem("STAFF", "NECROMANCER_STAFF2"), player);
         else if (chanceCheck.chanceCheck(.01))
-            rareItem(activeMob, MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENSE3"), player);
+            rareItem(activeMob, MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENCE3"), player);
     }
 
     private void voidHealer(Location location, ActiveMob activeMob, Player player) {

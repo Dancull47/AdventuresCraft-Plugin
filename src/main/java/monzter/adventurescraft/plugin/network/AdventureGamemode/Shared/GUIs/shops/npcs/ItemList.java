@@ -254,10 +254,10 @@ public enum ItemList {
             new String[]{"SLAYER,4"}),
 
     CASTLE_CATALYSTS1(Shops.CASTLE_CATALYSTS, 1, MMOItemsHelperImpl.getItem("CATALYST", "UNDEAD_CATALYST3"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,MORDEN_FLESH,320","MATERIAL,BONE_FRAGMENT,640"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,MORDEN_FLESH,320", "MATERIAL,BONE_FRAGMENT,640"}),
             new String[]{"SLAYER,3"}),
     CASTLE_CATALYSTS2(Shops.CASTLE_CATALYSTS, 1, MMOItemsHelperImpl.getItem("CATALYST", "DEAD_CATALYST4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,MORDEN_FLESH,384","MATERIAL,BONE_FRAGMENT,768"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,MORDEN_FLESH,384", "MATERIAL,BONE_FRAGMENT,768"}),
             new String[]{"SLAYER,4"}),
 
     CASTLE_CONSUMABLES1(Shops.CASTLE_CONSUMABLES, 1, MMOItemsHelperImpl.getItem("CONSUMABLE", "MORDEN_SUMMONER2"),
@@ -365,6 +365,23 @@ public enum ItemList {
     FORAGING_WEAPONS3(Shops.FORAGING_WEAPONS, 1, MMOItemsHelperImpl.getItem("WAND", "ROOTING3"),
             0, new ItemStack[]{MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_OAK_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_BIRCH_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_DARK_OAK_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_JUNGLE_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_ACACIA_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_SPRUCE_LOG").asQuantity(320)},
             new String[]{"FORAGING,6"}),
+
+    //  Lumberjack
+    LUMBERJACK_TOOLS1(Shops.LUMBERJACK_TOOLS, 1, MMOItemsHelperImpl.getItem("TOOL", "JACKS_AXE"),
+            0, MMOItemsHelperImpl.getItem(new String[]{"TOOL,WOODEN_AXE,1", "OAK_LOG,64"}),
+            null),
+    LUMBERJACK_TOOLS2(Shops.LUMBERJACK_TOOLS, 1, MMOItemsHelperImpl.getItem("TOOL", "JACKS_AXE2"),
+            0, MMOItemsHelperImpl.getItem(new String[]{"TOOL,JACKS_AXE,1", "SPRUCE_LOG,128"}),
+            null),
+    LUMBERJACK_TOOLS3(Shops.LUMBERJACK_TOOLS, 1, MMOItemsHelperImpl.getItem("TOOL", "JACKS_AXE3"),
+            0, MMOItemsHelperImpl.getItem(new String[]{"TOOL,JACKS_AXE2,1", "DARK_OAK_LOG,192"}),
+            null),
+    LUMBERJACK_TOOLS4(Shops.LUMBERJACK_TOOLS, 1, MMOItemsHelperImpl.getItem("TOOL", "JACKS_AXE4"),
+            0, MMOItemsHelperImpl.getItem(new String[]{"TOOL,JACKS_AXE3,1", "BIRCH_LOG,256"}),
+            null),
+    LUMBERJACK_TOOLS5(Shops.LUMBERJACK_TOOLS, 1, MMOItemsHelperImpl.getItem("TOOL", "JACKS_AXE5"),
+            0, MMOItemsHelperImpl.getItem(new String[]{"TOOL,JACKS_AXE4,1", "ACACIA_LOG,320"}),
+            null),
 
     //    Void
     VOID_ACCESSORIES1(Shops.VOID_ACCESSORIES, 1, MMOItemsHelperImpl.getItem("ACCESSORY", "CORRUPT_RELIC3"),
