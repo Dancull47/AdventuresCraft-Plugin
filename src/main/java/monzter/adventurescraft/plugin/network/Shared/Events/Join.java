@@ -4,6 +4,10 @@ import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,6 +20,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+
+import java.util.ArrayList;
 
 public class Join implements Listener {
     private final AdventuresCraft plugin;
@@ -26,6 +33,60 @@ public class Join implements Listener {
         this.plugin = plugin;
         this.permissionLP = permissionLP;
     }
+
+    final TextComponent page1 = Component.text("AdventuresCraft \n", NamedTextColor.RED, TextDecoration.BOLD)
+            .append(Component.text("September 19th:", NamedTextColor.BLACK)
+                    .decoration(TextDecoration.BOLD, false))
+
+            .append(Component.text("\n\n"))
+            .append(Component.text("- ", NamedTextColor.BLACK))
+            .append(Component.text("Quests Redone", NamedTextColor.GOLD)
+                    .decoration(TextDecoration.BOLD, false))
+            .append(Component.text("\n"))
+            .append(Component.text("Every single quest has been improved!", NamedTextColor.BLACK)
+                    .decoration(TextDecoration.BOLD, false))
+
+            .append(Component.text("\n\n"))
+            .append(Component.text("- ", NamedTextColor.BLACK))
+            .append(Component.text("The Cavern", NamedTextColor.GOLD)
+                    .decoration(TextDecoration.BOLD, false))
+            .append(Component.text("\n"))
+            .append(Component.text("A new area has been introduced to the world!", NamedTextColor.BLACK)
+                    .decoration(TextDecoration.BOLD, false))
+
+            .append(Component.text("\n\n"))
+            .append(Component.text("Patch Notes within our ", NamedTextColor.DARK_GRAY)
+                    .decoration(TextDecoration.BOLD, false))
+            .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD)
+                    .hoverEvent(Component.text("Click to join Discord!", NamedTextColor.YELLOW))
+                    .clickEvent(ClickEvent.openUrl("https://discord.gg/bw4DztR")));
+
+    final TextComponent page2 = Component.text("  Important Links  ", NamedTextColor.RED, TextDecoration.BOLD)
+            .append(Component.text("----------------", NamedTextColor.BLACK))
+            .append(Component.text("\n\n"))
+            .append(Component.text("Discord", NamedTextColor.BLUE, TextDecoration.BOLD)
+                    .hoverEvent(Component.text("Click to join Discord!", NamedTextColor.YELLOW))
+                    .clickEvent(ClickEvent.openUrl("https://discord.gg/bw4DztR")))
+            .append(Component.text("\n"))
+            .append(Component.text("Get Support, Trade, View Updates, and much more in the Discord!", NamedTextColor.BLACK, TextDecoration.BOLD)
+                    .decoration(TextDecoration.BOLD, false))
+            .append(Component.text("\n\n"))
+            .append(Component.text("Website", NamedTextColor.GREEN, TextDecoration.BOLD)
+                    .hoverEvent(Component.text("Click to visit our Website!", NamedTextColor.YELLOW))
+                    .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/")))
+            .append(Component.text("\n"))
+            .append(Component.text("Store", NamedTextColor.DARK_GREEN, TextDecoration.BOLD)
+                    .hoverEvent(Component.text("Click to visit our Store!", NamedTextColor.YELLOW))
+                    .clickEvent(ClickEvent.openUrl("https://store.adventurescraft.net/")))
+            .append(Component.text("\n"))
+            .append(Component.text("Wiki", NamedTextColor.GOLD, TextDecoration.BOLD)
+                    .hoverEvent(Component.text("Click to visit our Wiki!", NamedTextColor.YELLOW))
+                    .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/wiki/site/")))
+            .append(Component.text("\n"))
+            .append(Component.text("Rules", NamedTextColor.RED, TextDecoration.BOLD)
+                    .hoverEvent(Component.text("Click to view our Rules!", NamedTextColor.YELLOW))
+                    .clickEvent(ClickEvent.openUrl("https://www.adventurescraft.net/html/rules.html")));
+
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
@@ -81,11 +142,11 @@ public class Join implements Listener {
             }
         }, 20L);
 
-        if (player.isOp())
-            if (!player.getAddress().getHostName().equals("***REMOVED***") || !player.getAddress().getHostName().equals("127.0.0.1 ")) {
-                player.setOp(false);
-                player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
-            }
+//        if (player.isOp())
+//            if (!player.getAddress().getHostName().equals("***REMOVED***") || !player.getAddress().getHostName().equals("127.0.0.1 ")) {
+//                player.setOp(false);
+//                player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
+//            }
     }
 
     @EventHandler
@@ -98,12 +159,30 @@ public class Join implements Listener {
         event.quitMessage(Component.text(""));
     }
 
+
     private void openBook(Player player) {
-        if (player.getInventory() != null && player.getInventory().getItem(8).getType() != null)
-            if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
-                final ItemStack book = player.getInventory().getItem(8);
-                if (book != null || book.getType() == Material.WRITTEN_BOOK)
-                    player.openBook(book);
-            }
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+        BookMeta bm = (BookMeta) book.getItemMeta();
+        bm.setAuthor("Adventurer");
+        bm.setTitle("AdventuresCraft");
+        ArrayList<Component> pages = new ArrayList<>();
+
+        pages.add(page1);
+        pages.add(page2);
+
+        bm.pages(pages);
+        book.setItemMeta(bm);
+
+        final ItemStack old = player.getInventory().getItem(8);
+        player.getInventory().setItem(8, book);
+        player.openBook(book);
+        player.getInventory().setItem(8, old);
+
+//        if (player.getInventory() != null && player.getInventory().getItem(8).getType() != null)
+//            if (player.getInventory().getItem(8).getType() == Material.WRITTEN_BOOK) {
+//                final ItemStack book = player.getInventory().getItem(8);
+//                if (book != null || book.getType() == Material.WRITTEN_BOOK)
+//                    player.openBook(book);
+//            }
     }
 }
