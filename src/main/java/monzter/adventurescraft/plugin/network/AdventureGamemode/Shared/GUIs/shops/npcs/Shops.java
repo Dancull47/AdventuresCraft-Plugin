@@ -62,6 +62,10 @@ public enum Shops {
 
     ENCHANTER("Enchanter", "Enchanter", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
 
+    MATERIALS("Material", "Material", null, Material.GREEN_STAINED_GLASS_PANE),
+    MATERIALS_FARMING("Farming Materials", "MaterialFarming", null, Material.GREEN_STAINED_GLASS_PANE),
+    MATERIALS_SLAYER("Slayer Materials", "MaterialFarming", null, Material.RED_STAINED_GLASS_PANE),
+
     MINER("Miner", "Miner", Region.CAVERN, Material.BROWN_STAINED_GLASS_PANE),
     BLAST_FURNACE("Blast Furnace", "BlastFurnace", Region.CAVERN, Material.ORANGE_STAINED_GLASS_PANE),
 

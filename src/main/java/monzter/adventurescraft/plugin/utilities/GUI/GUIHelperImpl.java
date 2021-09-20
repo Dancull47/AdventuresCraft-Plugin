@@ -29,6 +29,7 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -154,22 +155,33 @@ public class GUIHelperImpl implements GUIHelper {
     //    Item Builders
 
     @Override
+    public ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted) {
+        ItemStack complete = new ItemStack(material);
+        return itemCreator(complete, name, lore, enchanted);
+    }
+
+    @Override
     public ItemStack itemCreator(Material material, String name, String[] lore) {
         ItemStack complete = new ItemStack(material);
-        return itemCreator(complete, name, lore);
+        return itemCreator(complete, name, lore, false);
     }
 
     @Override
     public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
-        return itemCreator(complete, name, lore);
+        return itemCreator(complete, name, lore, false);
     }
 
     @Override
-    public ItemStack itemCreator(ItemStack itemStack, String name, String[] lore) {
+    public ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted) {
         ItemStack complete = itemStack;
         final ItemMeta completeItemMeta = complete.getItemMeta();
         completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        if (enchanted) {
+            completeItemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            completeItemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+        }
 
         completeItemMeta.setDisplayName(name);
 

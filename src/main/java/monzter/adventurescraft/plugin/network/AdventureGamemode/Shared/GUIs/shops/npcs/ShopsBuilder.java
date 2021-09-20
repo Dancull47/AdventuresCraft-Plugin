@@ -276,6 +276,40 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
+    @CommandAlias("Materials")
+    public void materialShopMenu(Player player) {
+        int size = 4;
+        int height = guiHelper.heightCalc(size - 1);
+        final ChestGui gui = new ChestGui(height, guiHelper.guiName("Material Shop"));
+        gui.setOnGlobalClick(event -> event.setCancelled(true));
+
+        OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
+        OutlinePane display = new OutlinePane(guiHelper.displayXCalc(size), 1, 7, height, Pane.Priority.LOW);
+
+        background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
+        background.setRepeat(true);
+
+        display.addItem(new GuiItem(guiHelper.itemCreator(Material.WHEAT_SEEDS,
+                ChatColor.GREEN + "Farm Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShops(player, "FARMING")));
+
+        gui.addPane(background);
+        gui.addPane(display);
+        gui.show(player);
+    }
+    @CommandAlias("Materials")
+    private void materialShops(Player player, String shop) {
+        shop = "MATERIALS_" + shop;
+        for (Shops shopObj : Shops.values()) {
+            if (shop.equals(shopObj.name())) {
+                final List<ItemList> guiContents = ItemList.getShop(shopObj);
+                final ChestGui gui = new ChestGui(guiHelper.heightCalc(guiContents.size()), guiHelper.guiName(shopObj.getTitle()));
+                shopBuilder.menuBase(gui, guiContents, player, "Materials " + shopObj.getCommand(), shopObj.getBackgroundMaterial());
+                gui.show(player);
+            }
+        }
+    }
+
+
     //    Covers mostly all Vendors
     @CommandAlias("Shop")
     private void shop(Player player, String shop) {
@@ -311,6 +345,8 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     private boolean check(Player player, Region region) {
+        if (region == null)
+            return true;
         String area = region.getName();
         if (player.hasPermission("SHOPS") || areaCheck(player, area))
             return true;

@@ -78,7 +78,7 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                                 //        Cancels loop once price has been fulfilled (Could probably set to == instead of <=)
                                 if (price <= 0)
                                     break;
-                                if (currentItem != null && item.getType() == currentItem.getType()) {
+                                if (currentItem != null && !NBTItem.get(currentItem).hasType() && item.getType() == currentItem.getType()) {
 //                                    If the current price is less than the ItemStack's Quantity, it'll only take the amount it needs
                                     if (price > 0 && currentItem.getAmount() - price >= 0) {
                                         currentItem.setAmount(currentItem.getAmount() - price);
@@ -182,7 +182,7 @@ public class PurchaseUtilsImpl implements PurchaseUtils {
                 int totalInInv = 0;
                 //        Loops through Player's inventory
                 for (ItemStack currentItem : player.getInventory().getContents()) {
-                    if (currentItem != null && item.getType() == currentItem.getType()) {
+                    if (currentItem != null && !NBTItem.get(currentItem).hasType() && item.getType() == currentItem.getType()) {
                         //        If the item is found within the inventory, the ItemStack amount is added to total
                         totalInInv += currentItem.getAmount();
                     }
