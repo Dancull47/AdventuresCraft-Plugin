@@ -1128,6 +1128,15 @@ public class GUIHelperImpl implements GUIHelper {
 
     public int heightCalc(int size) {
         switch (size) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                return 4;
             case 8:
             case 9:
             case 10:
@@ -1143,9 +1152,9 @@ public class GUIHelperImpl implements GUIHelper {
             case 19:
             case 20:
             case 21:
+            default:
                 return 6;
         }
-        return 4;
     }
 
 }

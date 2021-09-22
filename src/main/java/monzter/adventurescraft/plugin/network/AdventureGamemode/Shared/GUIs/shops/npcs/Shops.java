@@ -63,8 +63,10 @@ public enum Shops {
     ENCHANTER("Enchanter", "Enchanter", Region.TOWN, Material.PURPLE_STAINED_GLASS_PANE),
 
     MATERIALS("Material", "Material", null, Material.GREEN_STAINED_GLASS_PANE),
-    MATERIALS_FARMING("Farming Materials", "MaterialFarming", null, Material.GREEN_STAINED_GLASS_PANE),
-    MATERIALS_SLAYER("Slayer Materials", "MaterialFarming", null, Material.RED_STAINED_GLASS_PANE),
+    MATERIALS_FARMING("Farming Materials", "Farming", null, Material.GREEN_STAINED_GLASS_PANE),
+    MATERIALS_FORAGING("Foraging Materials", "Foraging", null, Material.GREEN_STAINED_GLASS_PANE),
+    MATERIALS_MINING("Mining Materials", "Mining", null, Material.BLUE_STAINED_GLASS_PANE),
+    MATERIALS_COMBAT("Combat Materials", "Combat", null, Material.RED_STAINED_GLASS_PANE),
 
     MINER("Miner", "Miner", Region.CAVERN, Material.BROWN_STAINED_GLASS_PANE),
     BLAST_FURNACE("Blast Furnace", "BlastFurnace", Region.CAVERN, Material.ORANGE_STAINED_GLASS_PANE),
@@ -75,7 +77,7 @@ public enum Shops {
     public static List<Shops> getShop(String area) {
         List list = new ArrayList();
         for (Shops shop: Shops.values()) {
-            if (shop.name().contains(area.toUpperCase()))
+            if (shop.name().contains(area.toUpperCase()+"_"))
                 list.add(shop);
         }
         return list;

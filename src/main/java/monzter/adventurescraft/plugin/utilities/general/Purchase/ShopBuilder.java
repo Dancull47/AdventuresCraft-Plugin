@@ -10,8 +10,9 @@ import java.util.List;
 
 public interface ShopBuilder {
     void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, Material backgroundColor);
+    void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shop, Material backgroundColor, int pageNumber);
 
     public void wanderingTraderBase(ChestGui gui, ItemList guiContents, Player player, int shopNumber);
 
-    GuiItem generateItem(Player player, ItemList itemList, String shop);
+    GuiItem generateItem(Player player, ItemList itemList, String shop, int page);
     }

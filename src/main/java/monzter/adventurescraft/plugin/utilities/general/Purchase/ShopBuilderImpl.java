@@ -39,9 +39,15 @@ public class ShopBuilderImpl implements ShopBuilder {
     }
 
     public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shopCommand, Material backgroundColor) {
-        int height = heightCalc(guiContents.size());
+        menuBase(gui, guiContents, player, shopCommand, backgroundColor, 0);
+    }
+
+    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shopCommand, Material backgroundColor, int pageNumber) {
+        System.out.println(shopCommand);
+
+        int height = guiHelper.heightCalc(guiContents.size());
         int length = 7;
-        int displayX = displayXCalc(guiContents.size());
+        int displayX = guiHelper.displayXCalc(guiContents.size());
         int displayY = 1;
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -50,6 +56,8 @@ public class ShopBuilderImpl implements ShopBuilder {
         OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
         OutlinePane display = new OutlinePane(displayX, displayY, length, height, Pane.Priority.LOW);
         StaticPane sell = new StaticPane(0, 0, 9, height, Pane.Priority.LOW);
+        StaticPane forward = new StaticPane(8, 3, 1, 1, Pane.Priority.HIGH);
+        StaticPane back = new StaticPane(0, 3, 1, 1, Pane.Priority.HIGH);
 
         page.addPane(0, background);
         page.addPane(0, display);
@@ -58,13 +66,97 @@ public class ShopBuilderImpl implements ShopBuilder {
         background.addItem(new GuiItem(guiHelper.background(backgroundColor)));
         background.setRepeat(true);
 
-        for (ItemList item : guiContents)
-            display.addItem(generateItem(player, item, shopCommand));
+        int i = 0;
+        for (ItemList item : guiContents) {
+            if (pageNumber == 0 && i < 28)
+                display.addItem(generateItem(player, item, shopCommand, 0));
+            else if (pageNumber == 1 && i >= 28)
+                display.addItem(generateItem(player, item, shopCommand, 1));
+            i++;
+        }
+
+        System.out.println(pageNumber);
+
+
+        if (guiContents.size() > 27 && pageNumber == 0) {
+            forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> player.performCommand(shopCommand + " 1")), 0, 0);
+        } else if (pageNumber == 1 && i >= 28)
+            back.addItem(new GuiItem((guiHelper.backButton()), event -> player.performCommand(shopCommand + " 0")), 0, 0);
 
         sell.addItem(new GuiItem(guiHelper.itemCreator(Material.CAULDRON, ChatColor.GREEN + "Sell", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Sell"}), e -> player.performCommand("sell")), 4, height - 1);
 
         gui.addPane(page);
+        gui.addPane(back);
+        gui.addPane(forward);
     }
+//    public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shopCommand, Material backgroundColor, int pageNumber) {
+//        int height = guiHelper.heightCalc(guiContents.size());
+//        int length = 7;
+//        int displayX = guiHelper.displayXCalc(guiContents.size());
+//        int displayY = 1;
+//
+//        gui.setOnGlobalClick(event -> event.setCancelled(true));
+//
+//        PaginatedPane page = new PaginatedPane(0, 0, 9, height);
+//        OutlinePane background = new OutlinePane(0, 0, 9, height, Pane.Priority.LOWEST);
+//        OutlinePane display = new OutlinePane(displayX, displayY, length, height, Pane.Priority.LOW);
+//        OutlinePane display2 = new OutlinePane(displayX, displayY, length, height, Pane.Priority.LOW);
+//        StaticPane sell = new StaticPane(0, 0, 9, height, Pane.Priority.LOW);
+//        StaticPane forward = new StaticPane(8, 3, 1, 1, Pane.Priority.HIGH);
+//        StaticPane back = new StaticPane(0, 3, 1, 1, Pane.Priority.HIGH);
+//
+//        page.addPane(0, background);
+//        page.addPane(0, display);
+//        page.addPane(0, sell);
+//        page.addPane(1, background);
+//        page.addPane(1, display2);
+//        page.addPane(1, sell);
+//
+//        background.addItem(new GuiItem(guiHelper.background(backgroundColor)));
+//        background.setRepeat(true);
+//
+//        switch (pageNumber) {
+//            case 0:
+//                page.setPage(0);
+//            case 1:
+//                page.setPage(1);
+//        }
+//
+//        int i = 0;
+//        for (ItemList item : guiContents) {
+//            if (i < 28)
+//                display.addItem(generateItem(player, item, shopCommand, 1));
+//            else
+//                display2.addItem(generateItem(player, item, shopCommand, 2));
+//            i++;
+//        }
+//
+//        if (!display2.getItems().isEmpty()) {
+//            back.addItem(new GuiItem((guiHelper.previousPageButton()), event -> {
+//                page.setPage(page.getPage() - 1);
+//                if (page.getPage() == 0) {
+//                    back.setVisible(false);
+//                }
+//                forward.setVisible(true);
+//                gui.update();
+//            }), 0, 0);
+//            back.setVisible(false);
+//            forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> {
+//                page.setPage(page.getPage() + 1);
+//                if (page.getPage() == page.getPages() - 1) {
+//                    forward.setVisible(false);
+//                }
+//                back.setVisible(true);
+//                gui.update();
+//            }), 0, 0);
+//        }
+//
+//        sell.addItem(new GuiItem(guiHelper.itemCreator(Material.CAULDRON, ChatColor.GREEN + "Sell", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Sell"}), e -> player.performCommand("sell")), 4, height - 1);
+//
+//        gui.addPane(page);
+//        gui.addPane(back);
+//        gui.addPane(forward);
+//    }
 
     public void wanderingTraderBase(ChestGui gui, ItemList guiContents, Player player, int shopNumber) {
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -81,12 +173,12 @@ public class ShopBuilderImpl implements ShopBuilder {
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(generateItem(player, guiContents, "WanderingTraderShop " + shopNumber));
+        display.addItem(generateItem(player, guiContents, "WanderingTraderShop " + shopNumber, 1));
 
         gui.addPane(page);
     }
 
-    public GuiItem generateItem(Player player, ItemList itemList, String shopCommand) {
+    public GuiItem generateItem(Player player, ItemList itemList, String shopCommand, int page) {
         ItemStack itemStack = new ItemStack(itemList.getItemStack());
         final ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -163,7 +255,7 @@ public class ShopBuilderImpl implements ShopBuilder {
                     if (e.isRightClick() && e.isShiftClick() && economy.getBalance(player) >= itemList.getCoinPrice() * 64 && itemList.getMaxPurchaseAmount() >= 64)
                         purchaseUtils.purchase(player, itemList, 64);
                 }
-                player.performCommand(shopCommand);
+                player.performCommand(shopCommand + " " + page);
             });
         }
         return null;
@@ -179,44 +271,5 @@ public class ShopBuilderImpl implements ShopBuilder {
         if (itemList.getItemPrice() != null && !purchaseUtils.hasItem(player, itemList.getItemPrice(), amount))
             return false;
         return true;
-    }
-
-    public int displayXCalc(int size) {
-        switch (size) {
-            case 1:
-                return 4;
-            case 2:
-            case 3:
-                return 3;
-            case 4:
-            case 5:
-                return 2;
-            case 6:
-            case 7:
-                return 1;
-        }
-        return 1;
-    }
-
-    public int heightCalc(int size) {
-        switch (size) {
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-                return 5;
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-                return 6;
-        }
-        return 4;
     }
 }
