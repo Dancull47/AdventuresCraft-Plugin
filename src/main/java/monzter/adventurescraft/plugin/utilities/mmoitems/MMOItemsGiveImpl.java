@@ -18,18 +18,32 @@ public class MMOItemsGiveImpl implements MMOItemsGive {
     }
 
     @Override
+    public void giveMMOItem(Player player, ItemStack itemStack) {
+        giveMMOItem(player, itemStack, 1, false);
+    }
+
+    @Override
     public void giveMMOItem(Player player, String type, String id) {
         giveMMOItem(player, type, id, 1);
     }
 
     @Override
     public void giveMMOItem(Player player, String type, String id, int amount) {
-        giveMMOItem(player, type, id, amount, false);
+        giveMMOItem(player, MMOItemsHelperImpl.getItem(type, id, amount), false);
     }
 
     @Override
     public void giveMMOItem(Player player, String type, String id, int amount, boolean silent) {
-        final ItemStack itemStack = mmoItems.getItem(type, id).asQuantity(amount);
+        giveMMOItem(player, MMOItemsHelperImpl.getItem(type, id, amount), silent);
+    }
+
+    @Override
+    public void giveMMOItem(Player player, ItemStack itemStack, boolean silent) {
+        giveMMOItem(player, itemStack, 1, silent);
+    }
+
+    @Override
+    public void giveMMOItem(Player player, ItemStack itemStack, int amount, boolean silent) {
         new SmartGive(player).give(itemStack);
         if (!silent && amount > 0) {
             player.sendMessage(ChatColor.YELLOW + "You received " + ChatColor.GOLD + amount + ChatColor.YELLOW + "x " + itemStack.getItemMeta().getDisplayName() + ChatColor.YELLOW + "!");

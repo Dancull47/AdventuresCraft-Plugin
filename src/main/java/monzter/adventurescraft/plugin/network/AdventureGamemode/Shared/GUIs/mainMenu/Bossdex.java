@@ -26,6 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.betoncraft.betonquest.BetonQuest;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -73,6 +74,8 @@ public class Bossdex extends BaseCommand {
         gui.show(player);
     }
 
+    DecimalFormat df = new DecimalFormat("#.####");
+
     private GuiItem itemGenerator(Player player, Bosses boss) {
         int points = (betonPointsManager.getPoints("bossReward." + boss.getName().toUpperCase().replace(' ', '_'), BetonQuest.getInstance().getPlayerData(player.getUniqueId().toString()).getPoints()));
         ItemStack itemStack = boss.getItemStack();
@@ -86,7 +89,7 @@ public class Bossdex extends BaseCommand {
 
         final List<Crates> rewards = Crates.getCrates(boss.getCrateList());
         for (Crates reward : rewards)
-            lore.add(Prefix.PREFIX.getString() + mmoItems.getItem(reward.getType(), reward.getId()).getItemMeta().getDisplayName() + " " + ChatColor.WHITE + reward.getWeight() * 100 + "%");
+            lore.add(Prefix.PREFIX.getString() + reward.getItemStack().getItemMeta().getDisplayName() + " " + ChatColor.WHITE + df.format(reward.getWeight() * 100) + "%");
         if (boss.isRespawn()) {
             lore.add("");
             if (player.hasPermission(boss.getName().toUpperCase() + ".TIMER"))

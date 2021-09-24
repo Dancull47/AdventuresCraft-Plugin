@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class DropTablesDeliveryImpl implements DropTablesDelivery {
     private final MMOItemsGive mmoItemsGive;
@@ -16,9 +17,10 @@ public class DropTablesDeliveryImpl implements DropTablesDelivery {
     }
 
     @Override
-    public void giveReward(Player player, String displayName, String rewardType, String rewardName, double chance, int amount) {
+    public void giveReward(Player player, ItemStack itemStack, double chance) {
         final double multipliedChance = chance * 100;
-        mmoItemsGive.giveMMOItem(player, rewardType, rewardName, amount);
+        mmoItemsGive.giveMMOItem(player, itemStack);
+        String displayName = itemStack.getItemMeta().getDisplayName();
         if (multipliedChance < 50 && multipliedChance >= 25) {
             player.sendMessage(displayName + " " + ChatColor.BLUE + ChatColor.BOLD + multipliedChance + "% RARE!");
             soundManager.playSound(player, Sound.ENTITY_WITCH_CELEBRATE, 1, 1);

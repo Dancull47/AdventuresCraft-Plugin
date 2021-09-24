@@ -4,10 +4,7 @@ import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsHelperImpl;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -174,13 +171,13 @@ public enum ItemList {
             new String[]{"FARMING,7"}),
     //    Move to Estate since it's Melons
     FARMING_ARMOR1(Shops.FARMING_ARMOR, 1, MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT3"),
-            0, new ItemStack[]{MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_MELON").asQuantity(5)},
+            0, new ItemStack[]{MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_MELON_SLICE").asQuantity(5)},
             new String[]{"FARMING,2"}),
     FARMING_ARMOR2(Shops.FARMING_ARMOR, 1, MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT4"),
-            0, new ItemStack[]{MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT3").asQuantity(1), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_MELON").asQuantity(50)},
+            0, new ItemStack[]{MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT3").asQuantity(1), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_MELON_SLICE").asQuantity(50)},
             new String[]{"FARMING,4"}),
     FARMING_ARMOR3(Shops.FARMING_ARMOR, 1, MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT5"),
-            0, new ItemStack[]{MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT4").asQuantity(1), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_MELON").asQuantity(100)},
+            0, new ItemStack[]{MMOItemsHelperImpl.getItem("ARMOR", "MELON_HAT4").asQuantity(1), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_MELON_SLICE").asQuantity(100)},
             new String[]{"FARMING,5"}),
 
     FARMING_TOOLS1(Shops.FARMING_TOOLS, 1, MMOItemsHelperImpl.getItem("TOOL", "UNLIMITED_WATER"),
@@ -188,10 +185,10 @@ public enum ItemList {
             new String[]{"FARMING,5"}),
 
     FARMING_WEAPONS1(Shops.FARMING_WEAPONS, 1, MMOItemsHelperImpl.getItem("STAFF", "SEED_STAFF3"),
-            0, new ItemStack[]{MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_SEED").asQuantity(16), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_WHEAT").asQuantity(8)},
+            0, new ItemStack[]{MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_WHEAT_SEEDS").asQuantity(16), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_WHEAT").asQuantity(8)},
             new String[]{"FARMING,4"}),
     FARMING_WEAPONS2(Shops.FARMING_WEAPONS, 1, MMOItemsHelperImpl.getItem("STAFF", "WHEAT_STAFF3"),
-            0, new ItemStack[]{MMOItemsHelperImpl.getItem("STAFF", "SEED_STAFF3").asQuantity(1), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_SEED").asQuantity(16), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_WHEAT").asQuantity(32)},
+            0, new ItemStack[]{MMOItemsHelperImpl.getItem("STAFF", "SEED_STAFF3").asQuantity(1), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_WHEAT_SEEDS").asQuantity(16), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_WHEAT").asQuantity(32)},
             new String[]{"FARMING,6"}),
 
     //    GRAVEYARD
@@ -394,13 +391,13 @@ public enum ItemList {
             0, MMOItemsHelperImpl.getItem(new String[]{"ACCESSORY,CORRUPT_RELIC4,1", "MATERIAL,THRALL_EGG,640", "MATERIAL,ENCHANTED_CHORUS_FRUIT,8"}),
             new String[]{"SLAYER,6"}),
     VOID_ACCESSORIES4(Shops.VOID_ACCESSORIES, 1, MMOItemsHelperImpl.getItem("ACCESSORY", "CORRUPT_DART3"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,ENCHANTED_ENDERPEARL,1", "MATERIAL,ENCHANTED_ENDSTONE,1"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,ENCHANTED_ENDER_PEARL,1", "MATERIAL,ENCHANTED_END_STONE,1"}),
             new String[]{"SLAYER,4"}),
     VOID_ACCESSORIES5(Shops.VOID_ACCESSORIES, 1, MMOItemsHelperImpl.getItem("ACCESSORY", "CORRUPT_DART4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"ACCESSORY,CORRUPT_DART3,1", "MATERIAL,ENCHANTED_ENDERPEARL,8", "MATERIAL,ENCHANTED_ENDSTONE,8"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"ACCESSORY,CORRUPT_DART3,1", "MATERIAL,ENCHANTED_ENDER_PEARL,8", "MATERIAL,ENCHANTED_END_STONE,8"}),
             new String[]{"SLAYER,5"}),
     VOID_ACCESSORIES6(Shops.VOID_ACCESSORIES, 1, MMOItemsHelperImpl.getItem("ACCESSORY", "CORRUPT_DART5"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"ACCESSORY,CORRUPT_DART4,1", "MATERIAL,BULBLIN_ARROW,1", "MATERIAL,ENCHANTED_ENDERPEARL,16", "MATERIAL,ENCHANTED_ENDSTONE,16"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"ACCESSORY,CORRUPT_DART4,1", "MATERIAL,BULBLIN_ARROW,1", "MATERIAL,ENCHANTED_ENDER_PEARL,16", "MATERIAL,ENCHANTED_END_STONE,16"}),
             new String[]{"SLAYER,6"}),
 
     VOID_ARMOR1(Shops.VOID_ARMOR, 1, MMOItemsHelperImpl.getItem("ARMOR", "BOOMER_CHEST3"),
@@ -439,7 +436,7 @@ public enum ItemList {
             0, MMOItemsHelperImpl.getItem(new String[]{"QUEST,VOID_DNA,64", "END_STONE,256"}),
             new String[]{"SLAYER,2"}),
     VOID_CATALYST2(Shops.VOID_CATALYSTS, 1, MMOItemsHelperImpl.getItem("CATALYST", "VOID_STONE4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"CATALYST,VOID_STONE3,1", "QUEST,VOID_DNA,320", "MATERIAL,ENCHANTED_ENDSTONE,8"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"CATALYST,VOID_STONE3,1", "QUEST,VOID_DNA,320", "MATERIAL,ENCHANTED_END_STONE,8"}),
             new String[]{"SLAYER,3"}),
     VOID_CATALYST3(Shops.VOID_CATALYSTS, 1, MMOItemsHelperImpl.getItem("CATALYST", "VOID_STONE5"),
             0, MMOItemsHelperImpl.getItem(new String[]{"CATALYST,VOID_STONE4,1", "QUEST,VOID_DNA,576", "MATERIAL,ENCHANTED_OBSIDIAN,8"}),
@@ -452,19 +449,19 @@ public enum ItemList {
             new String[]{"SLAYER,5"}),
 
     VOID_GEM_STONES1(Shops.VOID_GEM_STONES, 1, MMOItemsHelperImpl.getItem("GEM_STONE", "VOID_GEM"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE,1", "MATERIAL,ENCHANTED_ENDSTONE,1"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE,1", "MATERIAL,ENCHANTED_END_STONE,1"}),
             new String[]{"SLAYER,2", "MINING,1"}),
     VOID_GEM_STONES2(Shops.VOID_GEM_STONES, 1, MMOItemsHelperImpl.getItem("GEM_STONE", "VOID_GEM2"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE2,1", "MATERIAL,ENCHANTED_ENDSTONE,4"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE2,1", "MATERIAL,ENCHANTED_END_STONE,4"}),
             new String[]{"SLAYER,3", "MINING,2"}),
     VOID_GEM_STONES3(Shops.VOID_GEM_STONES, 1, MMOItemsHelperImpl.getItem("GEM_STONE", "VOID_GEM3"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE3,1", "MATERIAL,ENCHANTED_ENDSTONE,8"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE3,1", "MATERIAL,ENCHANTED_END_STONE,8"}),
             new String[]{"SLAYER,4", "MINING,3"}),
     VOID_GEM_STONES4(Shops.VOID_GEM_STONES, 1, MMOItemsHelperImpl.getItem("GEM_STONE", "VOID_GEM4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE4,1", "MATERIAL,ENCHANTED_ENDSTONE,12"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE4,1", "MATERIAL,ENCHANTED_END_STONE,12"}),
             new String[]{"SLAYER,5", "MINING,4"}),
     VOID_GEM_STONES5(Shops.VOID_GEM_STONES, 1, MMOItemsHelperImpl.getItem("GEM_STONE", "VOID_GEM5"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE5,1", "MATERIAL,ENCHANTED_ENDSTONE,16"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE5,1", "MATERIAL,ENCHANTED_END_STONE,16"}),
             new String[]{"SLAYER,6", "MINING,5"}),
     VOID_GEM_STONES6(Shops.VOID_GEM_STONES, 1, MMOItemsHelperImpl.getItem("GEM_STONE", "MYSTICAL_GEM"),
             0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,GEM_BASE4,1", "MATERIAL,DEFENDER_FLESH,8"}),
@@ -485,22 +482,22 @@ public enum ItemList {
             new String[]{"SLAYER,8"}),
 
     VOID_WEAPONS1(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("STAFF", "KHAZIX_STAFF4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"STAFF,KHAZIX_STAFF3,1", "MATERIAL,ENCHANTED_ENDSTONE,8", "MATERIAL,ENCHANTED_ENDERPEARL,8", "QUEST,VOID_DNA,128"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"STAFF,KHAZIX_STAFF3,1", "MATERIAL,ENCHANTED_END_STONE,8", "MATERIAL,ENCHANTED_ENDER_PEARL,8", "QUEST,VOID_DNA,128"}),
             new String[]{"SLAYER,5"}),
     VOID_WEAPONS2(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("HAMMER", "BULLBO_ARM4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"HAMMER,BULLBO_ARM3,1", "MATERIAL,BULLBO_LEG,16", "MATERIAL,ENCHANTED_WITHER_ROSE,8", "MATERIAL,ENCHANTED_ENDSTONE,8"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"HAMMER,BULLBO_ARM3,1", "MATERIAL,BULLBO_LEG,16", "MATERIAL,ENCHANTED_WITHER_ROSE,8", "MATERIAL,ENCHANTED_END_STONE,8"}),
             new String[]{"SLAYER,7"}),
     VOID_WEAPONS3(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("BOW", "DECEITFUL_BOW3"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,ENCHANTED_WITHER_ROSE,6", "MATERIAL,ENCHANTED_ENDSTONE,6"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,ENCHANTED_WITHER_ROSE,6", "MATERIAL,ENCHANTED_END_STONE,6"}),
             new String[]{"SLAYER,4"}),
     VOID_WEAPONS4(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("BOW", "DECEITFUL_BOW4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"BOW,DECEITFUL_BOW3,1", "MATERIAL,ENCHANTED_WITHER_ROSE,16", "MATERIAL,ENCHANTED_ENDSTONE,16"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"BOW,DECEITFUL_BOW3,1", "MATERIAL,ENCHANTED_WITHER_ROSE,16", "MATERIAL,ENCHANTED_END_STONE,16"}),
             new String[]{"SLAYER,5"}),
     VOID_WEAPONS5(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("DAGGER", "SHADOW_DAGGER3"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,SHADOW_ESSENCE,64", "MATERIAL,ENCHANTED_ENDERPEARL,8"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"MATERIAL,SHADOW_ESSENCE,64", "MATERIAL,ENCHANTED_ENDER_PEARL,8"}),
             new String[]{"SLAYER,6"}),
     VOID_WEAPONS6(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("DAGGER", "SHADOW_DAGGER4"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"DAGGER,SHADOW_DAGGER3,1", "MATERIAL,SHADOW_ESSENCE,128", "MATERIAL,ENCHANTED_ENDERPEARL,16"}),
+            0, MMOItemsHelperImpl.getItem(new String[]{"DAGGER,SHADOW_DAGGER3,1", "MATERIAL,SHADOW_ESSENCE,128", "MATERIAL,ENCHANTED_ENDER_PEARL,16"}),
             new String[]{"SLAYER,7"}),
     VOID_WEAPONS7(Shops.VOID_WEAPONS, 1, MMOItemsHelperImpl.getItem("BOW", "BULBLIN_BOW5"),
             0, MMOItemsHelperImpl.getItem(new String[]{"BOW,BULBLIN_BOW4,1", "MATERIAL,BULBLIN_ARROW,8"}),
@@ -567,9 +564,6 @@ public enum ItemList {
             null),
     MATERIALS12(Shops.MATERIALS_MINING, 64, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_NETHERRACK"),
             0, MMOItemsHelperImpl.getItem(new String[]{"NETHERRACK,288"}),
-            null),
-    MATERIALS13(Shops.MATERIALS, 64, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_NETHER_WART"),
-            0, MMOItemsHelperImpl.getItem(new String[]{"NETHER_WART,288"}),
             null),
     MATERIALS14(Shops.MATERIALS_MINING, 64, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_OBSIDIAN"),
             0, MMOItemsHelperImpl.getItem(new String[]{"OBSIDIAN,288"}),
@@ -714,6 +708,9 @@ public enum ItemList {
     MATERIALS55(Shops.MATERIALS_FARMING, 64, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_BEETROOT"),
             0, MMOItemsHelperImpl.getItem(new String[]{"BEETROOT,288"}),
             null),
+    MATERIALS13(Shops.MATERIALS_FARMING, 64, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_NETHER_WART"),
+            0, MMOItemsHelperImpl.getItem(new String[]{"NETHER_WART,288"}),
+            null),
 
     MATERIALS56(Shops.MATERIALS_FORAGING, 64, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_OAK_LOG"),
             0, MMOItemsHelperImpl.getItem(new String[]{"OAK_LOG,288"}),
@@ -763,6 +760,13 @@ public enum ItemList {
                 .collect(Collectors.toList()));
     }
 
+    public static List<ItemList> getMaterials() {
+        List<ItemList> itemLists = new ArrayList<>();
+        for (ItemList shopName : ItemList.values())
+            if (("MATERIALS".contains(shopName.name().replaceAll("\\d", ""))))
+                itemLists.add(shopName);
+        return itemLists;
+    }
 
     private Shops shop;
     private int maxPurchaseAmount;

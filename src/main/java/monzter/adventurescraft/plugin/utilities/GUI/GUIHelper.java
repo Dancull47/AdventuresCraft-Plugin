@@ -22,11 +22,13 @@ public interface GUIHelper {
 
     String guiName(String name);
 
-    ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted);
-
     ItemStack itemCreator(Material material, String name, String[] lore);
 
+    ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted);
+
     ItemStack itemCreator(String skullTexture, String name, String[] lore);
+
+    ItemStack itemCreator(String skullTexture, String name, String[] lore, boolean enchanted);
 
     ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted);
 

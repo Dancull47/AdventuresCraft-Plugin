@@ -70,18 +70,27 @@ public class ShopBuilderImpl implements ShopBuilder {
         for (ItemList item : guiContents) {
             if (pageNumber == 0 && i < 28)
                 display.addItem(generateItem(player, item, shopCommand, 0));
-            else if (pageNumber == 1 && i >= 28)
+            else if (pageNumber == 1 && i >= 28 && i < 56)
                 display.addItem(generateItem(player, item, shopCommand, 1));
+            else if (pageNumber == 2 && i >= 56)
+                display.addItem(generateItem(player, item, shopCommand, 2));
             i++;
         }
 
-        System.out.println(pageNumber);
-
-
-        if (guiContents.size() > 27 && pageNumber == 0) {
+//        Back button
+        switch (pageNumber) {
+            case 1:
+                back.addItem(new GuiItem((guiHelper.backButton()), event -> player.performCommand(shopCommand + " 0")), 0, 0);
+                break;
+            case 2:
+                back.addItem(new GuiItem((guiHelper.backButton()), event -> player.performCommand(shopCommand + " 1")), 0, 0);
+                break;
+        }
+//        Forward button
+        if (pageNumber == 0 && guiContents.size() > 27)
             forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> player.performCommand(shopCommand + " 1")), 0, 0);
-        } else if (pageNumber == 1 && i >= 28)
-            back.addItem(new GuiItem((guiHelper.backButton()), event -> player.performCommand(shopCommand + " 0")), 0, 0);
+        else if (pageNumber == 1 && guiContents.size() > 55)
+            forward.addItem(new GuiItem((guiHelper.nextPageButton()), event -> player.performCommand(shopCommand + " 2")), 0, 0);
 
         sell.addItem(new GuiItem(guiHelper.itemCreator(Material.CAULDRON, ChatColor.GREEN + "Sell", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Sell"}), e -> player.performCommand("sell")), 4, height - 1);
 

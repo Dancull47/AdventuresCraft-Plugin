@@ -1,15 +1,11 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Dependency;
-import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.*;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
-import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.WorldGuard;
@@ -19,6 +15,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.enums.QuestArea;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.enums.Region;
@@ -86,147 +83,6 @@ public class ShopsBuilder extends BaseCommand {
         this.shopBuilder = shopBuilder;
     }
 
-    @CommandAlias("SpellforgingShop")
-    public void spellforgingShop(Player player) {
-        if (check(player, Region.TOWN)) {
-            ChestGui gui = new ChestGui(3, guiHelper.guiName("Spellforging"));
-            gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-            OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-            StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
-
-
-            background.addItem(new GuiItem(guiHelper.background(Material.LIGHT_BLUE_STAINED_GLASS_PANE)));
-            background.setRepeat(true);
-
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.PAPER,
-                    ChatColor.GREEN + "Spell Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open spells " + player.getName())), 2, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.BLAZE_ROD,
-                    ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 4, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.STICK,
-                    ChatColor.GREEN + "Wand Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open wand " + player.getName())), 6, 1);
-
-            gui.addPane(background);
-            gui.addPane(display);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("BakerShop")
-    public void bakerShop(Player player) {
-        if (check(player, Region.TOWN)) {
-            ChestGui gui = new ChestGui(3, guiHelper.guiName("Baker"));
-            gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-            OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-            StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
-
-
-            background.addItem(new GuiItem(guiHelper.background(Material.YELLOW_STAINED_GLASS_PANE)));
-            background.setRepeat(true);
-
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.MUSHROOM_STEW,
-                    ChatColor.GREEN + "Stew Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open stews " + player.getName())), 2, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.BREWING_STAND,
-                    ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 4, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.TOTEM_OF_UNDYING,
-                    ChatColor.GREEN + "Totem Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open totems " + player.getName())), 6, 1);
-
-            gui.addPane(background);
-            gui.addPane(display);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("FarmerShop")
-    public void farmerShop(Player player) {
-        if (check(player, Region.TOWN)) {
-            ChestGui gui = new ChestGui(3, guiHelper.guiName("Farmer"));
-            gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-            OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-            StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
-
-
-            background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
-            background.setRepeat(true);
-
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.NETHERITE_HOE,
-                    ChatColor.GREEN + "Farmer Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open farming " + player.getName())), 3, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.WHEAT,
-                    ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 5, 1);
-
-            gui.addPane(background);
-            gui.addPane(display);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("ForagingShop|ForagerShop")
-    public void foragingShop(Player player) {
-        if (check(player, Region.TOWN)) {
-            ChestGui gui = new ChestGui(3, guiHelper.guiName("Forager"));
-            gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-            OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-            StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
-
-
-            background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
-            background.setRepeat(true);
-
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.NETHERITE_AXE,
-                    ChatColor.GREEN + "Forager Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open foraging " + player.getName())), 2, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.OAK_WOOD,
-                    ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 4, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.GOLDEN_AXE,
-                    ChatColor.GREEN + "Foraging Upgrade Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open foraging-upgrades " + player.getName())), 6, 1);
-
-            gui.addPane(background);
-            gui.addPane(display);
-            gui.show(player);
-        }
-    }
-
-    @CommandAlias("SlayerShop")
-    public void slayerShop(Player player) {
-        if (check(player, Region.TOWN)) {
-            ChestGui gui = new ChestGui(3, guiHelper.guiName("Slayer"));
-            gui.setOnGlobalClick(event -> event.setCancelled(true));
-
-            OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
-            StaticPane display = new StaticPane(0, 0, 9, 3, Pane.Priority.LOW);
-
-
-            background.addItem(new GuiItem(guiHelper.background(Material.RED_STAINED_GLASS_PANE)));
-            background.setRepeat(true);
-
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.NETHERITE_SWORD,
-                    ChatColor.GREEN + "Weapon Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Coming soon..."})), 2, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.BLAZE_POWDER,
-                    ChatColor.GREEN + "Material Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open enchanted-materials " + player.getName())), 4, 1);
-            display.addItem(new GuiItem(guiHelper.itemCreator("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTY3ZTE4NjAyZTAzMDM1YWQ2ODk2N2NlMDkwMjM1ZDg5OTY2NjNmYjllYTQ3NTc4ZDNhN2ViYmM0MmE1Y2NmOSJ9fX0=",
-                    ChatColor.GREEN + "Companion Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}),
-                    e -> consoleCommand.consoleCommand("mi stations open slayer " + player.getName())), 6, 1);
-
-            gui.addPane(background);
-            gui.addPane(display);
-            gui.show(player);
-        }
-    }
-
     @CommandAlias("AreaShop")
     public void areaShopMenu(Player player, String area) {
         int height = guiHelper.heightCalc(Shops.getShop(area).size()) - 1;
@@ -284,10 +140,16 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
+    /*
+    *
+    *   This is a Menu which shows all the available Material Shops
+    *
+    * */
+
     @CommandAlias("Materials")
     public void materialShopMenu(Player player) {
-        int size = 4;
-        int height = guiHelper.heightCalc(size - 1);
+        int size = 5;
+        int height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Material Shop"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -297,6 +159,8 @@ public class ShopsBuilder extends BaseCommand {
         background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
+        display.addItem(new GuiItem(guiHelper.itemCreator(ShopList.MATERIALS.getTexture(),
+                ChatColor.GREEN + "Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShops(player, "MATERIALS")));
         display.addItem(new GuiItem(guiHelper.itemCreator(Material.WHEAT_SEEDS,
                 ChatColor.GREEN + "Farming Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShops(player, "FARMING")));
         display.addItem(new GuiItem(guiHelper.itemCreator(Material.OAK_LOG,
@@ -311,29 +175,49 @@ public class ShopsBuilder extends BaseCommand {
         gui.show(player);
     }
 
-    @CommandAlias("Materials")
+    @CommandAlias("Material|Materials")
     private void materialShops(Player player, String shop) {
         materialShops(player, shop, 0);
     }
 
-    @CommandAlias("Materials")
+    /*
+     *
+     *   This will open the individual Material Shops
+     *
+     * */
+
+    @CommandAlias("Material|Materials")
+    @CommandCompletion("Farming|Foraging|Materials|Mining|Combat")
     private void materialShops(Player player, String shop, @Default("0") int page) {
-        shop = "MATERIALS_" + shop.toUpperCase();
-        for (Shops shopObj : Shops.values()) {
-            if (shop.equals(shopObj.name())) {
-                final List<ItemList> guiContents = ItemList.getShop(shopObj);
-                final ChestGui gui = new ChestGui(guiHelper.heightCalc(guiContents.size()), guiHelper.guiName(shopObj.getTitle()));
-                shopBuilder.menuBase(gui, guiContents, player, "Materials " + shopObj.getCommand(), shopObj.getBackgroundMaterial(), page);
-                gui.show(player);
+        if (!shop.equalsIgnoreCase("MATERIALS")) {
+            shop = "MATERIALS_" + shop.toUpperCase();
+            for (Shops shopObj : Shops.values()) {
+                if (shop.equals(shopObj.name())) {
+                    final List<ItemList> guiContents = ItemList.getShop(shopObj);
+                    final ChestGui gui = new ChestGui(guiHelper.heightCalc(guiContents.size()), guiHelper.guiName(shopObj.getTitle()));
+                    shopBuilder.menuBase(gui, guiContents, player, "Materials " + shopObj.getCommand(), shopObj.getBackgroundMaterial(), page);
+                    gui.show(player);
+                }
             }
+        } else {
+            final List<ItemList> guiContents = ItemList.getMaterials();
+            final ChestGui gui = new ChestGui(guiHelper.heightCalc(guiContents.size()), guiHelper.guiName("Materials"));
+            shopBuilder.menuBase(gui, guiContents, player, "Materials Materials", Material.GREEN_STAINED_GLASS_PANE, page);
+            gui.show(player);
         }
     }
 
-    //    Covers mostly all Vendors
+    /*
+     *
+     *   This creates a Menu for all Shops IF a Shop is not given.
+     *   If a Shop is given, then it'll open that Shop
+     *
+     * */
+
     @CommandAlias("Shop")
     private void shop(Player player, @Optional String shop, @Default("0") int page) {
         if (shop == null) {
-            int size = 4;
+            int size = ShopList.values().length;
             int height = guiHelper.heightCalc(size - 1);
             final ChestGui gui = new ChestGui(height, guiHelper.guiName("Shops"));
             gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -344,14 +228,13 @@ public class ShopsBuilder extends BaseCommand {
             background.addItem(new GuiItem(guiHelper.background(Material.GREEN_STAINED_GLASS_PANE)));
             background.setRepeat(true);
 
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.WHEAT,
-                    ChatColor.GREEN + "Farming Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> areaShopMenu(player, "Farming")));
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.OAK_LOG,
-                    ChatColor.GREEN + "Foraging Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShops(player, "FORAGING")));
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.COBBLESTONE,
-                    ChatColor.GREEN + "Mining Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShops(player, "MINING")));
-            display.addItem(new GuiItem(guiHelper.itemCreator(Material.BONE,
-                    ChatColor.GREEN + "Combat Materials", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShops(player, "COMBAT")));
+            for (ShopList shopList : ShopList.values())
+                if (!shopList.name().equals("MATERIALS"))
+                    display.addItem(new GuiItem(guiHelper.itemCreator(shopList.getTexture(),
+                            ChatColor.GREEN + shopList.getItemName() + " Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> areaShopMenu(player, shopList.name())));
+                else
+                    display.addItem(new GuiItem(guiHelper.itemCreator(shopList.getTexture(),
+                            ChatColor.GREEN + shopList.getItemName() + " Shop", new String[]{"", Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View"}, true), e -> materialShopMenu(player)));
 
             gui.addPane(background);
             gui.addPane(display);
@@ -411,6 +294,34 @@ public class ShopsBuilder extends BaseCommand {
             if (region.getFlag(displayNameFlag).equals(area))
                 return true;
         return false;
+    }
+}
+
+enum ShopList {
+    MATERIALS("Materials", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmNkYzBmZWI3MDAxZTJjMTBmZDUwNjZlNTAxYjg3ZTNkNjQ3OTMwOTJiODVhNTBjODU2ZDk2MmY4YmU5MmM3OCJ9fX0="),
+    FARMING("Farming", QuestArea.FARM.getHead()),
+    FORAGING("Foraging", QuestArea.FOREST.getHead()),
+    LUMBERJACK("Lumberjack", "eyJ0aW1lc3RhbXAiOjE1NDkzMTYwODgxNDEsInByb2ZpbGVJZCI6Ijc3NDEwODQ1NWVhMzRmNGU4MmJmODFjODk0NjExZTYxIiwicHJvZmlsZU5hbWUiOiJsdW1iZXJqYWNrIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lNjYxZjMyYzZjZjAxYWY4NjdkYzViMjMxMmRhMjAxZWJkZTQ1NmFhNDJmOTQwNWY1OTJlNGRiYWEyOTgxMDk5In19fQ=="),
+    GRAVEYARD("Graveyard", QuestArea.GRAVEYARD.getHead()),
+    COURTYARD("Courtyard", QuestArea.COURTYARD.getHead()),
+    CASTLE("Castle", QuestArea.CASTLE.getHead()),
+    VOID("Void", QuestArea.VOID.getHead()),
+    ;
+    public final String itemName;
+    public final String texture;
+
+
+    ShopList(String itemName, String texture) {
+        this.itemName = itemName;
+        this.texture = texture;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public String getTexture() {
+        return texture;
     }
 }
 

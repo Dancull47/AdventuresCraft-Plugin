@@ -152,7 +152,13 @@ public class GUIHelperImpl implements GUIHelper {
                         ChatColor.WHITE + ChatColor.BOLD + "«";
     }
 
+
     //    Item Builders
+    @Override
+    public ItemStack itemCreator(Material material, String name, String[] lore) {
+        ItemStack complete = new ItemStack(material);
+        return itemCreator(complete, name, lore, false);
+    }
 
     @Override
     public ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted) {
@@ -161,15 +167,15 @@ public class GUIHelperImpl implements GUIHelper {
     }
 
     @Override
-    public ItemStack itemCreator(Material material, String name, String[] lore) {
-        ItemStack complete = new ItemStack(material);
+    public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
+        ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
         return itemCreator(complete, name, lore, false);
     }
 
     @Override
-    public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
+    public ItemStack itemCreator(String skullTexture, String name, String[] lore, boolean enchanted) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
-        return itemCreator(complete, name, lore, false);
+        return itemCreator(complete, name, lore, enchanted);
     }
 
     @Override
@@ -1121,9 +1127,9 @@ public class GUIHelperImpl implements GUIHelper {
                 return 2;
             case 6:
             case 7:
+            default:
                 return 1;
         }
-        return 1;
     }
 
     public int heightCalc(int size) {
