@@ -171,8 +171,6 @@ public enum Crates implements Weighted, ItemGenerator {
     REAPER1(CrateList.REAPER, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_BONE", 3), .98),
     REAPER2(CrateList.REAPER, MMOItemsHelperImpl.getItem("QUEST", "REAPER_HEAD3", 1), .15),
     REAPER3(CrateList.REAPER, MMOItemsHelperImpl.getItem("DAGGER", "REAPER_BLADE5", 1), .10),
-    REAPER4(CrateList.REAPER, MMOItemsHelperImpl.getItem("ARMOR", "GOLDEN_SKULL4", 1), .05),
-    REAPER5(CrateList.REAPER, MMOItemsHelperImpl.getItem("COMPANION", "PET_REAPER3", 1), .02),
 
     MORDEN1(CrateList.MORDEN, MMOItemsHelperImpl.getItem("CATALYST", "UNDEAD_CATALYST3", 1), .05),
     MORDEN2(CrateList.MORDEN, MMOItemsHelperImpl.getItem("GEM_STONE", "UNDEAD_GEM3", 1), .05),
@@ -205,7 +203,7 @@ public enum Crates implements Weighted, ItemGenerator {
     DRYAD5(CrateList.DRYAD, MMOItemsHelperImpl.getItem("ACCESSORY", "DRYAD_CHARM4", 1), .02),
     DRYAD6(CrateList.DRYAD, MMOItemsHelperImpl.getItem("QUEST", "DRYAD_BARK5", 1), .009),
 
-    GOBLIN_CHIEF1(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("AXE", "GOBLIN_AXE3", 1), .05),
+    GOBLIN_CHIEF1(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("AXE", "CHIEF_AXE3", 1), .05),
     GOBLIN_CHIEF2(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("CONSUMABLE", "CHIEF_HEAD3", 1), .05),
     GOBLIN_CHIEF3(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("QUEST", "CHIEF_HEAD3", 1), .05),
     GOBLIN_CHIEF4(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("AXE", "CHIEF_AXE4", 1), .02),

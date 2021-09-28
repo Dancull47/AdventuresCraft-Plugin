@@ -141,10 +141,10 @@ public class ShopsBuilder extends BaseCommand {
     }
 
     /*
-    *
-    *   This is a Menu which shows all the available Material Shops
-    *
-    * */
+     *
+     *   This is a Menu which shows all the available Material Shops
+     *
+     * */
 
     @CommandAlias("Materials")
     public void materialShopMenu(Player player) {

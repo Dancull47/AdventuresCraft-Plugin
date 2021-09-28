@@ -16,7 +16,7 @@ public enum AdventureStatsDisplay {
     KNOCKBACK_RESISTANCE(ChatColor.DARK_GRAY + "Ҵ Knockback Resistance"),
     SKILL_DAMAGE(ChatColor.GOLD + "ǂ Skill Damage"),
     MAGIC_DAMAGE(ChatColor.LIGHT_PURPLE + "Δ Magic Damage"),
-    COOLDOWN_REDUCTION(ChatColor.GOLD + "Ψ Skill Cooldown Reduction"),
+    COOLDOWN_REDUCTION(ChatColor.GOLD + "Ψ Skill CooldownOld Reduction"),
     BONUS_EXPERIENCE(ChatColor.YELLOW + "Ж Bonus Experience"),
 
     UNDEAD_DAMAGE(ChatColor.DARK_GREEN + "☠ Undead Damage"),

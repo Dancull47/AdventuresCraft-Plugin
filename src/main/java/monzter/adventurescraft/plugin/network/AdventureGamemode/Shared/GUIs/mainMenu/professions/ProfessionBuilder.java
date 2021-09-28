@@ -83,66 +83,6 @@ public class ProfessionBuilder extends BaseCommand {
     }
 
 
-//    public void createMenu(ChestGui gui, List<ProfessionLevels> guiContents, Player player) {
-//
-//        gui.setOnGlobalClick(event -> event.setCancelled(true));
-//
-//        OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
-//        StaticPane pane = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
-//        OutlinePane display = new OutlinePane(2, 2, 5, 2, Pane.Priority.LOW);
-//
-//        background.addItem(new GuiItem(guiHelper.background(Material.LIME_STAINED_GLASS_PANE)));
-//        background.setRepeat(true);
-//
-//        int level = Integer.valueOf(parsePlaceholder(player, "mmocore_profession_Farming"));
-//
-//        int i = 1;
-//        int amount = 0;
-//        for (ProfessionLevels item : guiContents) {
-//            ItemStack itemStack = new ItemStack(Material.WOODEN_HOE);
-//            final ItemMeta itemMeta = itemStack.getItemMeta();
-//
-//            itemMeta.setDisplayName(ChatColor.YELLOW + "Farming Level " + i);
-//
-//            List<String> lore = new ArrayList<>();
-//            lore.add(" ");
-//            lore.add(KNOWLEDGE);
-//            for (ItemStack itemStack1 : reward.getRewards()) {
-//                plugin.getLogger().info(itemStack1.getItemMeta().getDisplayName());
-//                lore.add("   " + Prefix.PREFIX.getString() + itemStack1.getItemMeta().getDisplayName());
-//                amount++;
-//            }
-//            amount = 0;
-//
-//            if (level < Integer.valueOf(reward.getLevel())) {
-//                itemMeta.setDisplayName(ChatColor.GREEN + "Farming Level " + i + ChatColor.DARK_GRAY + " -" + ChatColor.RED + ChatColor.BOLD + " LOCKED");
-//                lore.add(" ");
-//                lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
-//            } else {
-//                itemStack.setType(Material.STONE_HOE);
-//                itemMeta.setDisplayName(ChatColor.GREEN + "Farming Level " + i + ChatColor.DARK_GRAY + " -" + ChatColor.GREEN + ChatColor.BOLD + " UNLOCKED");
-//                lore.add(" ");
-//                lore.add(ChatColor.GREEN.toString() + ChatColor.BOLD + "UNLOCKED");
-//            }
-//
-//            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-//
-//            itemMeta.setLore(lore);
-//            itemStack.setItemMeta(itemMeta);
-//
-//            display.addItem(new GuiItem(itemStack));
-//            i++;
-//        }
-//
-//
-//        pane.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("professions")), 4, 5);
-//        pane.addItem(new GuiItem(farming(player)), 4, 1);
-//
-//        gui.addPane(background);
-//        gui.addPane(display);
-//        gui.addPane(pane);
-//    }
-
     public void menuGenerator(Player player, Professions profession, Material backgroundColor) {
         final ChestGui gui = new ChestGui(6, WordUtils.capitalizeFully(profession.name()));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -237,49 +177,6 @@ public class ProfessionBuilder extends BaseCommand {
         gui.addPane(pane);
         gui.show(player);
     }
-//    public void menuGenerator(Player player, Professions profession, Material backgroundColor) {
-//        int npcAmount = 0;
-//        int startX = 2;
-//        int startY = 1;
-//        int length = 5;
-//        int height = 3;
-//        for (ProfessionLevels professions : ProfessionLevels.values())
-//            if (professions.getProfession() == profession)
-//                npcAmount += 1;
-//
-//        if (npcAmount == 1)
-//            startX = 4;
-//        else if (npcAmount == 2 || npcAmount == 3)
-//            startX = 3;
-//        else if (npcAmount == 4)
-//            startX = 2;
-//
-//        int questAmount = 0;
-//        for (ProfessionLevels questGiver : ProfessionLevels.values())
-//            if (questGiver.getQ() == profession)
-//                questAmount += questGiver.getQuestAmount();
-//
-//        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(profession.getName() + " Quests " + parsePlaceholder(player, "betonquest_default-Points:point." + profession.getName().replace(" ", "").replace("GoblinTown", "GoblinVillage") + ".amount") + "/" + questAmount));
-//        gui.setOnGlobalClick(event -> event.setCancelled(true));
-//
-//        OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
-//        StaticPane display = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
-//        OutlinePane main = new OutlinePane(startX, startY, length, height - 2, Pane.Priority.LOW);
-//
-//        background.addItem(new GuiItem(guiHelper.background(backgroundColor)));
-//        background.setRepeat(true);
-//        for (ProfessionLevels questGiver : ProfessionLevels.values())
-//            if (questGiver.getArea() == profession)
-//                main.addItem(itemGenerator(player, questGiver));
-//
-//        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("quests")), 4, height);
-//
-//        gui.addPane(background);
-//        gui.addPane(display);
-//        gui.addPane(main);
-//        gui.show(player);
-//    }
-
 
     private ItemStack professionInfo(Player player, Professions professions) {
         Material material = Material.PAPER;

@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.UUID;
+
 public interface GUIHelper {
     ItemStack background();
 
@@ -32,6 +34,8 @@ public interface GUIHelper {
 
     ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted);
 
+    ItemStack itemCreator(UUID skullTexture, String name, String[] lore) ;
+     ItemStack itemCreator(UUID skullTexture, String name, String[] lore, boolean enchanted) ;
 //    ItemStack questInactive(String questName, TextComponent[] questDescription, TextComponent[] questRewards, String questGiver, String questGiverArea);
 //
 //    ItemStack questInactive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea);

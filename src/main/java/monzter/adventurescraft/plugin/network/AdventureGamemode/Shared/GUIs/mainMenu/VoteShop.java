@@ -151,7 +151,7 @@ public class VoteShop extends BaseCommand {
 
     Random random = new Random();
 
-    private void reward(Player player, DailyShopList dailyShopList) {
+    private void reward(Player player, DailyShop.DailyShopList dailyShopList) {
         if (MMOItemsHelperImpl.getItem(dailyShopList.type, dailyShopList.getItemID()) != null &&
                 !dailyShopList.itemID.equals("ENCHANTED_PUFFERFISH"))
             mmoItemsGive.giveMMOItem(player, dailyShopList.type, dailyShopList.getItemID(), dailyShopList.amount);

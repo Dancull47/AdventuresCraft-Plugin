@@ -7,16 +7,23 @@ import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.conditions.IEntityCondition;
 import org.bukkit.entity.LivingEntity;
 
-public class LeashCondition extends SkillCondition implements IEntityCondition {
+public class ManaCondition extends SkillCondition implements IEntityCondition {
 
+    final double manaAmount;
+    final long cooldownSeconds;
+    final String skillName;
 
-    public LeashCondition(MythicLineConfig config) {
+    public ManaCondition(MythicLineConfig config) {
         super(config.getLine());
+        this.manaAmount = config.getInteger(new String[]{"mana", "m"}, 0);
+        this.cooldownSeconds = config.getInteger(new String[]{"cooldown", "cd", "c"}, 1);
+        this.skillName = config.getString(new String[]{"skill", "skillName", "s", "n", "name"}, "DEFAULT");
     }
 
     @Override
     public boolean check(AbstractEntity target) {
         LivingEntity bukkitTarget = (LivingEntity) BukkitAdapter.adapt(target);
-        return bukkitTarget.isLeashed();
+        System.out.println("MANA");
+        return false;
     }
 }

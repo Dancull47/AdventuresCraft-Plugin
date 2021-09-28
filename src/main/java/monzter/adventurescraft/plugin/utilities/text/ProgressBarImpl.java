@@ -9,6 +9,9 @@ public class ProgressBarImpl implements ProgressBar {
         float percent = (float) current / max;
         int progressBars = (int) (totalBars * percent);
 
+        if (current > max)
+            progressBars = totalBars;
+
         return Strings.repeat("" + ChatColor.YELLOW + completedColor + symbol, progressBars)
                 + Strings.repeat("" + ChatColor.WHITE + notCompletedColor + symbol, totalBars - progressBars);
     }

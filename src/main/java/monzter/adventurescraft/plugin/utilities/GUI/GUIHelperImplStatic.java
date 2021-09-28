@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class GUIHelperImpl implements GUIHelper {
+public class GUIHelperImplStatic {
     private final NumberFormat numberFormat;
     private final BetonTagManager betonTagManager;
     private final BetonPointsManager betonPointsManager;
@@ -53,7 +53,7 @@ public class GUIHelperImpl implements GUIHelper {
 
     final String PREFIX = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + Prefix.PREFIX.getString() + " ";
 
-    public GUIHelperImpl(NumberFormat numberFormat, BetonTagManager betonTagManager, BetonPointsManager betonPointsManager, FullInventory fullInventory, ItemAdder itemAdder, MMOItems mmoItems, ConsoleCommand consoleCommand, Economy economy, SoundManager soundManager) {
+    public GUIHelperImplStatic(NumberFormat numberFormat, BetonTagManager betonTagManager, BetonPointsManager betonPointsManager, FullInventory fullInventory, ItemAdder itemAdder, MMOItems mmoItems, ConsoleCommand consoleCommand, Economy economy, SoundManager soundManager) {
         this.numberFormat = numberFormat;
         this.betonTagManager = betonTagManager;
         this.betonPointsManager = betonPointsManager;
@@ -67,8 +67,8 @@ public class GUIHelperImpl implements GUIHelper {
 
 //    Background
 
-    @Override
-    public ItemStack background() {
+
+    public static ItemStack background() {
         final ItemStack backgroundItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
 
@@ -77,8 +77,8 @@ public class GUIHelperImpl implements GUIHelper {
         return backgroundItem;
     }
 
-    @Override
-    public ItemStack background(Material material) {
+    
+    public static ItemStack background(Material material) {
         final ItemStack backgroundItem = new ItemStack(material);
         final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
 
@@ -89,8 +89,8 @@ public class GUIHelperImpl implements GUIHelper {
 
 //    Buttons
 
-    @Override
-    public ItemStack backButton() {
+    
+    public static ItemStack backButton() {
         final ItemStack backButton = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
         final ItemMeta backButtonItemMeta = backButton.getItemMeta();
 
@@ -99,8 +99,8 @@ public class GUIHelperImpl implements GUIHelper {
         return backButton;
     }
 
-    @Override
-    public ItemStack nextPageButton() {
+    
+    public static ItemStack nextPageButton() {
         final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
         final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
 
@@ -109,8 +109,8 @@ public class GUIHelperImpl implements GUIHelper {
         return nextPageItem;
     }
 
-    @Override
-    public ItemStack previousPageButton() {
+    
+    public static ItemStack previousPageButton() {
         final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
         final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
 
@@ -119,8 +119,8 @@ public class GUIHelperImpl implements GUIHelper {
         return previousPageItem;
     }
 
-    @Override
-    public ItemStack firstPageButton() {
+    
+    public static ItemStack firstPageButton() {
         final ItemStack firstPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODE2ZWEzNGE2YTZlYzVjMDUxZTY5MzJmMWM0NzFiNzAxMmIyOThkMzhkMTc5ZjFiNDg3YzQxM2Y1MTk1OWNkNCJ9fX0="));
         final ItemMeta firstPageItemMeta = firstPageItem.getItemMeta();
 
@@ -129,8 +129,8 @@ public class GUIHelperImpl implements GUIHelper {
         return firstPageItem;
     }
 
-    @Override
-    public ItemStack lastPageButton() {
+    
+    public static ItemStack lastPageButton() {
         final ItemStack lastPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWM5ZWM3MWMxMDY4ZWM2ZTAzZDJjOTI4N2Y5ZGE5MTkzNjM5ZjNhNjM1ZTJmYmQ1ZDg3YzJmYWJlNjQ5OSJ9fX0="));
         final ItemMeta lastPageItemMeta = lastPageItem.getItemMeta();
 
@@ -141,8 +141,8 @@ public class GUIHelperImpl implements GUIHelper {
 
 //    Name
 
-    @Override
-    public String guiName(String name) {
+    
+    public static String guiName(String name) {
         if (name.length() > 21)
             System.out.println("Your GUI '" + name + "' found within " + Thread.currentThread().getStackTrace()[2].getClassName().substring(31) + " is longer than what the inventory can NEATLY contain.");
         return
@@ -155,44 +155,42 @@ public class GUIHelperImpl implements GUIHelper {
 
 
     //    Item Builders
-    @Override
-    public ItemStack itemCreator(Material material, String name, String[] lore) {
+    
+    public static ItemStack itemCreator(Material material, String name, String[] lore) {
         ItemStack complete = new ItemStack(material);
         return itemCreator(complete, name, lore, false);
     }
 
-    @Override
-    public ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted) {
+    
+    public static ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted) {
         ItemStack complete = new ItemStack(material);
         return itemCreator(complete, name, lore, enchanted);
     }
 
-    @Override
-    public ItemStack itemCreator(String skullTexture, String name, String[] lore) {
+    
+    public static ItemStack itemCreator(String skullTexture, String name, String[] lore) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
         return itemCreator(complete, name, lore, false);
     }
 
-    @Override
-    public ItemStack itemCreator(String skullTexture, String name, String[] lore, boolean enchanted) {
-        ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
-        return itemCreator(complete, name, lore, enchanted);
-    }
-
-    @Override
-    public ItemStack itemCreator(UUID skullTexture, String name, String[] lore) {
+    public static ItemStack itemCreator(UUID skullTexture, String name, String[] lore) {
         ItemStack complete = SkullCreator.itemFromUuid(skullTexture);
         return itemCreator(complete, name, lore, false);
     }
 
-    @Override
-    public ItemStack itemCreator(UUID skullTexture, String name, String[] lore, boolean enchanted) {
+    
+    public static ItemStack itemCreator(String skullTexture, String name, String[] lore, boolean enchanted) {
+        ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
+        return itemCreator(complete, name, lore, enchanted);
+    }
+
+    public static ItemStack itemCreator(UUID skullTexture, String name, String[] lore, boolean enchanted) {
         ItemStack complete = SkullCreator.itemFromUuid(skullTexture);
         return itemCreator(complete, name, lore, enchanted);
     }
 
-    @Override
-    public ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted) {
+
+    public static ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted) {
         ItemStack complete = itemStack;
         final ItemMeta completeItemMeta = complete.getItemMeta();
         completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -214,278 +212,10 @@ public class GUIHelperImpl implements GUIHelper {
         return complete;
     }
 
-//    @Override
-//    public ItemStack questInactive(String questName, TextComponent[] questDescription, TextComponent[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack inactive = new ItemStack(Material.PAPER);
-//        final ItemMeta inactiveItemMeta = inactive.getItemMeta();
-//
-//        inactiveItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[Inactive] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<Component> lore = new ArrayList<>();
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        for (TextComponent lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        lore.add(Component.text(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:"));
-//        for (TextComponent reward : questRewards)
-//            lore.add(Component.text(Prefix.PREFIX.getString()).append(reward).color(NamedTextColor.WHITE));
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        lore.add(Component.text(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!"));
-//
-//        inactive.setItemMeta(inactiveItemMeta);
-//        inactive.lore(lore);
-//
-//        return inactive;
-//    }
-//
-//    @Override
-//    public ItemStack questInactive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack inactive = new ItemStack(Material.PAPER);
-//        final ItemMeta inactiveItemMeta = inactive.getItemMeta();
-//
-//        inactiveItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[Inactive] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        for (String lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-//        for (String reward : questRewards)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.WHITE + reward);
-//        lore.add("");
-//        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
-//
-//        inactive.setItemMeta(inactiveItemMeta);
-//        inactive.setLore(lore);
-//
-//        return inactive;
-//    }
-//
-//    @Override
-//    public ItemStack questActive(String questName, TextComponent[] questDescription, TextComponent[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack active = new ItemStack(Material.BOOK);
-//        final ItemMeta activeItemMeta = active.getItemMeta();
-//
-//        activeItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<Component> lore = new ArrayList<>();
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        for (TextComponent lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        lore.add(Component.text(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:"));
-//        for (TextComponent reward : questRewards)
-//            lore.add(Component.text(Prefix.PREFIX.getString()).append(reward).color(NamedTextColor.WHITE));
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        lore.add(Component.text(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!"));
-//
-//        active.setItemMeta(activeItemMeta);
-//        active.lore(lore);
-//
-//        return active;
-//    }
-//
-//    @Override
-//    public ItemStack questActive(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack active = new ItemStack(Material.BOOK);
-//        final ItemMeta activeItemMeta = active.getItemMeta();
-//
-//        activeItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        for (String lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-//        for (String reward : questRewards)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.WHITE + reward);
-//        lore.add("");
-//        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
-//
-//        active.setItemMeta(activeItemMeta);
-//        active.setLore(lore);
-//
-//        return active;
-//    }
-//
-//    @Override
-//    public ItemStack questComplete(String questName, TextComponent[] questDescription, TextComponent[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack complete = new ItemStack(Material.ENCHANTED_BOOK);
-//        final ItemMeta completeItemMeta = complete.getItemMeta();
-//
-//        completeItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Complete] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<Component> lore = new ArrayList<>();
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        for (TextComponent lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        lore.add(Component.text(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:"));
-//        for (TextComponent reward : questRewards)
-//            lore.add(Component.text(Prefix.PREFIX.getString()).append(reward).color(NamedTextColor.WHITE));
-//        lore.add(Linebreak.PREFIX.getComponent());
-//        lore.add(Component.text(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!"));
-//
-//        complete.setItemMeta(completeItemMeta);
-//        complete.lore(lore);
-//
-//        return complete;
-//    }
-//
-//    @Override
-//    public ItemStack questComplete(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack complete = new ItemStack(Material.ENCHANTED_BOOK);
-//        final ItemMeta completeItemMeta = complete.getItemMeta();
-//
-//        completeItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Complete] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        for (String lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-//        for (String reward : questRewards)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.WHITE + reward);
-//        lore.add("");
-//        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
-//
-//        complete.setItemMeta(completeItemMeta);
-//        complete.setLore(lore);
-//
-//        return complete;
-//    }
-//
-//    @Override
-//    public ItemStack questUnclaimed(String questName, String[] questDescription, String[] questRewards, String questGiver, String questGiverArea) {
-//        ItemStack unclaimed = new ItemStack(Material.ENCHANTED_BOOK);
-//        final ItemMeta unclaimedItemMeta = unclaimed.getItemMeta();
-//
-//        unclaimedItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[Unclaimed] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        for (String lore2 : questDescription)
-//            lore.add(lore2);
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-//        for (String reward : questRewards)
-//            lore.add(Prefix.PREFIX.getString() + ChatColor.WHITE + reward);
-//        lore.add("");
-//        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
-//        lore.add("");
-//        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Claim Rewards");
-//
-//        unclaimed.setItemMeta(unclaimedItemMeta);
-//        unclaimed.setLore(lore);
-//
-//        return unclaimed;
-//    }
-
-//    @Override
-//    public ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String questGiver, String questGiverArea) {
-//        ItemStack unclaimed = new ItemStack(Material.PAPER);
-//        final ItemMeta unclaimedItemMeta = unclaimed.getItemMeta();
-//
-//        unclaimedItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        lore.add(questDescription);
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-//        int reward = 0;
-//        for (ItemStack lore3 : questRewards) {
-//            if (lore3 != null) {
-//                lore.add("  " + Prefix.PREFIX.getString() + ChatColor.GOLD + rewardsAmount[reward] + "x " + lore3.getItemMeta().getDisplayName());
-//                reward++;
-//            }
-//        }
-//
-//        int currency = 0;
-//        for (String lore2 : currencyRewards) {
-//            if (currencyRewards != null) {
-//                String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(currencyRewardsAmount[currency]) + " ";
-//                switch (lore2) {
-//                    case "exp":
-//                        lore.add(newLore + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
-//                        currency++;
-//                        break;
-//                    case "petexp":
-//                        lore.add(newLore + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
-//                        currency++;
-//                        break;
-//                    case "miningpassexp":
-//                        lore.add(newLore + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
-//                        currency++;
-//                        break;
-//                }
-//            }
-//        }
-//        lore.add("");
-//        lore.add(ChatColor.GREEN + "Given by " + ChatColor.GOLD + questGiver + ChatColor.GREEN + " in the " + ChatColor.YELLOW + questGiverArea + ChatColor.GREEN + "!");
-//
-//        unclaimed.setItemMeta(unclaimedItemMeta);
-//        unclaimed.setLore(lore);
-//
-//        return unclaimed;
-//    }
-//
-//    @Override
-//    public ItemStack jobActive(String questName, String questDescription, ItemStack[] questRewards, int[] rewardsAmount, String[] currencyRewards, int[] currencyRewardsAmount, String resetTime) {
-//        ItemStack unclaimed = new ItemStack(Material.PAPER);
-//        final ItemMeta unclaimedItemMeta = unclaimed.getItemMeta();
-//
-//        unclaimedItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[Active] " + ChatColor.WHITE + ChatColor.BOLD + questName));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        lore.add(questDescription);
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rewards:");
-//        int reward = 0;
-//        for (ItemStack lore3 : questRewards) {
-//            if (lore3 != null) {
-//                lore.add("  " + Prefix.PREFIX.getString() + ChatColor.GOLD + rewardsAmount[reward] + "x " + lore3.getItemMeta().getDisplayName());
-//                reward++;
-//            }
-//        }
-//
-//        int currency = 0;
-//        for (String lore2 : currencyRewards) {
-//            if (currencyRewards != null) {
-//                String newLore = "  " + Prefix.PREFIX.getString() + ChatColor.GOLD + numberFormat.numberFormat(currencyRewardsAmount[currency]) + " ";
-//                switch (lore2) {
-//                    case "exp":
-//                        lore.add(newLore + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
-//                        currency++;
-//                        break;
-//                    case "petexp":
-//                        lore.add(newLore + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
-//                        currency++;
-//                        break;
-//                    case "miningpassexp":
-//                        lore.add(newLore + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
-//                        currency++;
-//                        break;
-//                }
-//            }
-//        }
-//        lore.add("");
-//        lore.add(ChatColor.GREEN + resetTime + ChatColor.YELLOW + " left until this Job resets!");
-//
-//        unclaimed.setItemMeta(unclaimedItemMeta);
-//        unclaimed.setLore(lore);
-//
-//        return unclaimed;
-//    }
-
     /*
      *   Displays Quests for Player
      * */
-    @Override
+    
     public void questMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
         int questAmount = 0;
         int startX = 2;
@@ -561,7 +291,7 @@ public class GUIHelperImpl implements GUIHelper {
     /*
      *   Displays Active Quests for Player
      * */
-    @Override
+    
     public void activeQuestMenu(Player player) {
         int questAmount = 0;
         int startX = 2;
@@ -607,7 +337,7 @@ public class GUIHelperImpl implements GUIHelper {
     /*
      *   Displays Unclaimed Quests for Player
      * */
-    @Override
+    
     public void unclaimedQuestMenu(Player player) {
         int questAmount = 0;
         int startX = 2;
@@ -792,125 +522,12 @@ public class GUIHelperImpl implements GUIHelper {
             }
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "SUMMONS: " + ChatColor.GOLD + betonPointsManager.getPoints(player, packageDir + quests.name() + "_SUMMONED"));
-//            Currently not giving rewards for completing quest
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
-//        if (quests.getRewardItems() != null)
-//            for (String questItemReward : quests.getRewardItems()) {
-//                String[] reward = questItemReward.split(" ");
-//                lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
-//            }
-//        if (quests.getRewardMainEXP() > 0)
-//            lore.add(PREFIX + ChatColor.GOLD + quests.getRewardMainEXP() + " " + AdventureStatsDisplay.EXP.getName());
-//        if (quests.getRewardProfessionEXP() != null)
-//            for (String questProfessionEXPReward : quests.getRewardProfessionEXP()) {
-//                String[] professionReward = questProfessionEXPReward.split(",");
-//                lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
-//            }
-//        if (quests.getRewardMoney() > 0)
-//            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
-//
-//        if (betonTagManager.hasTag(player, completedTag) && !betonTagManager.hasTag(player, claimedTag)) {
-//            lore.add("");
-//            lore.add(PREFIX + ChatColor.YELLOW + "Click to Claim Reward");
-//        }
 
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);
 
         return new GuiItem(item);
     }
-
-//    @Override
-//    public void jobMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
-//        int startX = 2;
-//        int startY = 1;
-//        int length = 5;
-//        int height = 3;
-//
-//        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
-//
-//        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Jobs " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED")));
-//        gui.setOnGlobalClick(event -> event.setCancelled(true));
-//
-//        OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
-//        StaticPane display = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
-//        OutlinePane main = new OutlinePane(startX, startY, length, height - 2, Pane.Priority.LOW);
-//        OutlinePane main2 = new OutlinePane(startX, startY, length, height - 2, Pane.Priority.LOW);
-//
-//        background.addItem(new GuiItem(background(backgroundColor)));
-//        background.setRepeat(true);
-//
-//        main2.addItem(jobAvailable(questGiver));
-//        main2.addItem(jobAvailable(questGiver));
-//        main2.addItem(jobAvailable(questGiver));
-//        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 250)
-//            main2.addItem(jobAvailable(questGiver));
-//        else
-//            main2.addItem(jobLocked(player, packageBuilder, 1));
-//        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 500)
-//            main2.addItem(jobAvailable(questGiver));
-//        else
-//            main2.addItem(jobLocked(player, packageBuilder, 2));
-//
-//        for (Jobs jobs : Jobs.values())
-//            if (jobs.getQuestGiver() == questGiver) {
-//                String startedTag = packageBuilder + jobs.name() + "_STARTED";
-////                plugin.getLogger().info(startedTag);
-//                if (betonTagManager.hasTag(player, startedTag))
-//                    main.addItem(jobItemGenerator(player, jobs));
-//            }
-//
-//        display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
-//
-//        gui.addPane(background);
-//        gui.addPane(display);
-//        gui.addPane(main);
-//        gui.addPane(main2);
-//        gui.show(player);
-//    }
-
-
-//    private GuiItem jobItemGenerator(Player player, Jobs jobs) {
-//        String packageDir = "default-" + WordUtils.capitalizeFully(jobs.getQuestGiver().getArea().name()) + "-" + WordUtils.capitalizeFully(jobs.getQuestGiver().name()) + ".";
-//        String startedTag = packageDir + jobs.name() + "_STARTED";
-//        ItemStack item = new ItemStack(Material.BOOK);
-//        final ItemMeta itemItemMeta = item.getItemMeta();
-//
-//        itemItemMeta.displayName(Component.text(ChatColor.RED.toString() + ChatColor.BOLD + "[INACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(jobs.name().replace("_", " "))));
-//        if (betonTagManager.hasTag(player, startedTag))
-//            itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[ACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(jobs.name().replace("_", " "))));
-//
-//        List<String> lore = new ArrayList<>();
-//        lore.add("");
-//        for (String questLore : jobs.getQuestDescription()) {
-//            if (questLore.contains("%"))
-//                questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
-//            lore.add(questLore);
-//        }
-//        lore.add("");
-//        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
-//        if (jobs.getRewardItems() != null)
-//            for (String questItemReward : jobs.getRewardItems()) {
-//                String[] reward = questItemReward.split(" ");
-//                lore.add(PREFIX + ChatColor.GOLD + reward[2] + ChatColor.DARK_GRAY + "x " + mmoItems.getItem(reward[0], reward[1]).getItemMeta().getDisplayName());
-//            }
-//        if (jobs.getRewardProfessionEXP() != null)
-//            for (String questProfessionEXPReward : jobs.getRewardProfessionEXP()) {
-//                String[] professionReward = questProfessionEXPReward.split(",");
-//                lore.add(PREFIX + ChatColor.BLUE + numberFormat.numberFormat(Integer.valueOf(professionReward[1])) + " " + WordUtils.capitalizeFully(professionReward[0]) + " EXP");
-//            }
-//        if (jobs.getRewardMoney() > 0)
-//            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(jobs.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
-//        if (jobs.getRewardExperience() > 0)
-//            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(jobs.getRewardExperience()) + " " + PrisonStatsDisplay.EXPERIENCE_AMOUNT.getName());
-//        if (jobs.getRewardPetExperience() > 0)
-//            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(jobs.getRewardPetExperience()) + " " + PrisonStatsDisplay.PET_EXPERIENCE_AMOUNT.getName());
-//
-//        item.setItemMeta(itemItemMeta);
-//        item.setLore(lore);
-//
-//        return new GuiItem(item);
-//    }
 
     private GuiItem jobAvailable(QuestGiver questGiver) {
         ItemStack item = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
@@ -945,108 +562,6 @@ public class GUIHelperImpl implements GUIHelper {
 
         return new GuiItem(item);
     }
-
-//    @Override
-//    public void miningPassMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
-//        int height = 5;
-//
-//        String packageBuilder = "default-" + WordUtils.capitalizeFully(questGiver.getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(questGiver.name() + ".");
-//
-//        ChestGui gui = new ChestGui(height + 1, guiName(WordUtils.capitalizeFully(questGiver.name()) + " Jobs " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED")));
-//        gui.setOnGlobalClick(event -> event.setCancelled(true));
-//
-//        OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
-//        StaticPane display = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
-//        StaticPane cover = new StaticPane(0, 0, 9, height + 1, Pane.Priority.LOW);
-//        OutlinePane daily = new OutlinePane(3, 1, 3, 1, Pane.Priority.NORMAL);
-//        OutlinePane weekly = new OutlinePane(2, 2, 5, 1, Pane.Priority.NORMAL);
-//        OutlinePane bonus = new OutlinePane(3, 3, 1, 1, Pane.Priority.NORMAL);
-//        OutlinePane bonus2 = new OutlinePane(4, 3, 1, 1, Pane.Priority.NORMAL);
-//        OutlinePane bonus3 = new OutlinePane(5, 3, 1, 1, Pane.Priority.NORMAL);
-//
-//        background.addItem(new GuiItem(background(backgroundColor)));
-//        background.setRepeat(true);
-//
-//        cover.addItem(jobAvailable(questGiver), 3, 1);
-//        cover.addItem(jobAvailable(questGiver), 4, 1);
-//        cover.addItem(jobAvailable(questGiver), 5, 1);
-//
-//        cover.addItem(jobAvailable(questGiver), 2, 2);
-//        cover.addItem(jobAvailable(questGiver), 3, 2);
-//        cover.addItem(jobAvailable(questGiver), 4, 2);
-//        cover.addItem(jobAvailable(questGiver), 5, 2);
-//        cover.addItem(jobAvailable(questGiver), 6, 2);
-//
-//        cover.addItem(jobAvailable(questGiver), 3, 3);
-//        cover.addItem(jobAvailable(questGiver), 4, 3);
-//        cover.addItem(jobAvailable(questGiver), 5, 3);
-//
-//        for (MiningPassJobs jobs : MiningPassJobs.values()) {
-//            if (jobs.getType().equalsIgnoreCase("DAILY")) {
-//                String startedTag = packageBuilder + jobs.name() + "_STARTED";
-////                System.out.println(startedTag);
-//                if (betonTagManager.hasTag(player, startedTag))
-//                    daily.addItem(miningPassJobGenerator(player, jobs));
-//            }
-//        }
-//
-//        for (MiningPassJobs jobs : MiningPassJobs.values()) {
-//            if (jobs.getType().equalsIgnoreCase("WEEKLY")) {
-//                String startedTag = packageBuilder + jobs.name() + "_STARTED";
-//                if (betonTagManager.hasTag(player, startedTag))
-//                    weekly.addItem(miningPassJobGenerator(player, jobs));
-//            }
-//        }
-//
-//        for (MiningPassJobs jobs : MiningPassJobs.values()) {
-//            if (jobs.getType().equalsIgnoreCase("BONUS1")) {
-//                String startedTag = packageBuilder + jobs.name() + "_STARTED";
-//                if (betonTagManager.hasTag(player, startedTag))
-//                    bonus.addItem(miningPassJobGenerator(player, jobs));
-//            }
-//        }
-//
-//        for (MiningPassJobs jobs : MiningPassJobs.values()) {
-//            if (jobs.getType().equalsIgnoreCase("BONUS2")) {
-//                String startedTag = packageBuilder + jobs.name() + "_STARTED";
-//                if (betonTagManager.hasTag(player, startedTag))
-//                    bonus2.addItem(miningPassJobGenerator(player, jobs));
-//            }
-//        }
-//
-//        for (MiningPassJobs jobs : MiningPassJobs.values()) {
-//            if (jobs.getType().equalsIgnoreCase("BONUS3")) {
-//                String startedTag = packageBuilder + jobs.name() + "_STARTED";
-//                if (betonTagManager.hasTag(player, startedTag))
-//                    bonus3.addItem(miningPassJobGenerator(player, jobs));
-//            }
-//        }
-//
-//        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 50)
-//            bonus.addItem(jobAvailable(questGiver));
-//        else
-//            bonus.addItem(bonusSlotLocked(player, packageBuilder, 1));
-//        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 100)
-//            bonus2.addItem(jobAvailable(questGiver));
-//        else
-//            bonus2.addItem(bonusSlotLocked(player, packageBuilder, 2));
-//        if (betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") >= 150)
-//            bonus3.addItem(jobAvailable(questGiver));
-//        else
-//            bonus3.addItem(bonusSlotLocked(player, packageBuilder, 3));
-//
-//        display.addItem(new GuiItem(backButton(), e -> player.performCommand("QuestAreaMenu " + questGiver.getArea().name())), 4, height);
-//
-//        gui.addPane(background);
-//        gui.addPane(display);
-//        gui.addPane(daily);
-//        gui.addPane(weekly);
-//        gui.addPane(bonus);
-//        gui.addPane(bonus2);
-//        gui.addPane(bonus3);
-//        gui.addPane(cover);
-//        gui.show(player);
-//    }
 
     private GuiItem bonusSlotLocked(Player player, String packageBuilder, int slot) {
         ItemStack item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
@@ -1128,7 +643,7 @@ public class GUIHelperImpl implements GUIHelper {
         return new GuiItem(item);
     }
 
-    public int displayXCalc(int size) {
+    public static int displayXCalc(int size) {
         switch (size) {
             case 1:
                 return 4;
@@ -1145,7 +660,7 @@ public class GUIHelperImpl implements GUIHelper {
         }
     }
 
-    public int heightCalc(int size) {
+    public static int heightCalc(int size) {
         switch (size) {
             case 0:
             case 1:

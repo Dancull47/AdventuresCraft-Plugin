@@ -22,18 +22,17 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.En
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.ItemSlotLock;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Knowledge;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ResourceCollector;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationShopsBuilder;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.Farming;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.ProfessionBuilder;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.ResourceCollector;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Jenny;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.LeashCondition;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.ManaCondition;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.VoidMythicMobSkills;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
@@ -44,6 +43,7 @@ import monzter.adventurescraft.plugin.network.Shared.Events.Join;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImplStatic;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManagerImpl;
 import monzter.adventurescraft.plugin.utilities.beton.BetonTagManager;
@@ -57,7 +57,10 @@ import monzter.adventurescraft.plugin.utilities.general.Purchase.ShopBuilder;
 import monzter.adventurescraft.plugin.utilities.general.Purchase.ShopBuilderImpl;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionImplLP;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
-import monzter.adventurescraft.plugin.utilities.mmoitems.*;
+import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDelivery;
+import monzter.adventurescraft.plugin.utilities.mmoitems.DropTablesDeliveryImpl;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
+import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGiveImpl;
 import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobSpawnImpl;
 import monzter.adventurescraft.plugin.utilities.mythicmobs.MythicMobsSpawn;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
@@ -111,6 +114,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private ProtocolManager protocolManager;
     private PaperCommandManager manager;
     private GUIHelper guiHelper;
+    private GUIHelperImplStatic GUIHelperImplStatic;
     private PurchaseUtils purchaseUtils;
     private ItemAdder itemAdder;
     private AreaCheck areaCheck;
@@ -241,7 +245,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Drop(this, fullInventory, soundManager, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractLootboxes(this, soundManager, permissionLP, consoleCommand, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Pickup(this, betonPointsManager, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Pickup(this, betonPointsManager), this);
 //        Main GUIs
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.MainMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Map(this, guiHelper));
@@ -250,14 +254,8 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.map.FastTravel(this, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.ProfileMenu(this, soundManager, guiHelper));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Farming(this, soundManager, guiHelper, consoleCommand, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), itemAdder));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Slayer(this, soundManager, guiHelper, consoleCommand, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), itemAdder));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Foraging(this, soundManager, guiHelper, consoleCommand, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), itemAdder));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Mining(this, soundManager, guiHelper, consoleCommand, betonPointsManager, permissionLP, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), itemAdder));
         manager.registerCommand(new Professions(this, soundManager, guiHelper, progressBar));
-        manager.registerCommand(new ResourceCollector(this, soundManager, guiHelper, progressBar));
-        manager.registerCommand(new Farming(this, soundManager, guiHelper, progressBar));
-        manager.registerCommand(new Knowledge(this, soundManager, guiHelper, shopOpener, consoleCommand));
+        manager.registerCommand(new ResourceCollector(this, soundManager, guiHelper, progressBar, betonPointsManager, numberFormat, permissionLP, itemAdder, fullInventory));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.DonationMenu(this, soundManager, guiHelper, consoleCommand, betonPointsManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.settings.SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
@@ -400,6 +398,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         if (mmoItems != null)
             mmoItemsGive = new MMOItemsGiveImpl((MMOItems) mmoItems, soundManager);
         guiHelper = new GUIHelperImpl(numberFormat, betonTagManager, betonPointsManager, fullInventory, itemAdder, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), consoleCommand, economy, soundManager);
+        GUIHelperImplStatic = new GUIHelperImplStatic(numberFormat, betonTagManager, betonPointsManager, fullInventory, itemAdder, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), consoleCommand, economy, soundManager);
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager, shopBuilder);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
@@ -644,30 +643,36 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     }
 
-    private final String blinder = "blinder";
-    private final String dismount = "customdismount";
-
     @EventHandler
     public void onMythicMechanicLoad(MythicMechanicLoadEvent event) {
-//        this.getLogger().info("MythicMechanicLoadEvent called for mechanic " + event.getMechanicName());
-        switch (event.getMechanicName().toLowerCase()) {
-            case blinder:
+        switch (event.getMechanicName().toUpperCase()) {
+            case "BLINDER":
                 SkillMechanic blinder = new VoidMythicMobSkills(event.getConfig(), (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"));
                 event.register(blinder);
-//                this.getLogger().info("-- Registered Blinder mechanic!");
+                this.getLogger().info(ChatColor.YELLOW + "BLINDER registered!");
                 break;
-            case dismount:
+            case "DISMOUNT":
                 SkillMechanic dismount = new Mount(event.getConfig());
                 event.register(dismount);
-//                this.getLogger().info("-- Registered customDismount mechanic!");
+                this.getLogger().info(ChatColor.YELLOW + "DISMOUNT registered!");
                 break;
         }
     }
 
     @EventHandler
     public void onMythicConditionLoad(MythicConditionLoadEvent event) {
-        SkillCondition leash = new LeashCondition(event.getConfig());
-        event.register(leash);
+        switch (event.getConditionName().toUpperCase()) {
+            case "LEASH":
+                SkillCondition leash = new LeashCondition(event.getConfig());
+                event.register(leash);
+                this.getLogger().info(ChatColor.GREEN + "LEASH registered!");
+                break;
+            case "MANA":
+                SkillCondition mana = new ManaCondition(event.getConfig());
+                event.register(mana);
+                this.getLogger().info(ChatColor.GREEN + "MANA registered!");
+                break;
+        }
     }
 
     public void restart() {

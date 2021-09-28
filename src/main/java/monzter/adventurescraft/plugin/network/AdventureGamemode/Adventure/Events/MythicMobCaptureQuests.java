@@ -5,7 +5,7 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
-import monzter.adventurescraft.plugin.utilities.general.Cooldown;
+import monzter.adventurescraft.plugin.utilities.general.CooldownOld;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import org.bukkit.Bukkit;
@@ -41,11 +41,11 @@ public class MythicMobCaptureQuests implements Listener {
     public void clickChicken(PlayerInteractEntityEvent event) {
         if (event.getRightClicked() != null && event.getRightClicked().getType() == EntityType.CHICKEN && MythicMobs.inst().getMobManager().isActiveMob(BukkitAdapter.adapt(event.getRightClicked()))
                 && MythicMobs.inst().getMobManager().getMythicMobInstance(event.getRightClicked()).getType().getInternalName().equals("CUCCO") &&
-                event.getHand() == EquipmentSlot.HAND && !Cooldown.isInCooldown(event.getPlayer().getUniqueId(), "Cucco")) {
+                event.getHand() == EquipmentSlot.HAND && !CooldownOld.isInCooldown(event.getPlayer().getUniqueId(), "Cucco")) {
             ActiveMob activeMob = MythicMobs.inst().getMobManager().getMythicMobInstance(event.getRightClicked());
             Player player = event.getPlayer();
             int cooldownSeconds = ThreadLocalRandom.current().nextInt(3, 7);
-            Cooldown cooldown = new Cooldown(player.getUniqueId(), "Cucco", cooldownSeconds);
+            CooldownOld cooldown = new CooldownOld(player.getUniqueId(), "Cucco", cooldownSeconds);
             cooldown.start();
             activeMob.setOwner(player.getUniqueId());
             player.addPassenger(event.getRightClicked());
@@ -64,14 +64,14 @@ public class MythicMobCaptureQuests implements Listener {
         if (event.getRightClicked() != null && event.getRightClicked().getType() == EntityType.OCELOT && event.getHand() == EquipmentSlot.HAND && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.LEAD &&
                 MythicMobs.inst().getMobManager().isActiveMob(BukkitAdapter.adapt(event.getRightClicked())) &&
                 MythicMobs.inst().getMobManager().getMythicMobInstance(event.getRightClicked()).getType().getInternalName().equals("WILD_CAT") &&
-                !Cooldown.isInCooldown(event.getPlayer().getUniqueId(), "WILD_CAT")) {
+                !CooldownOld.isInCooldown(event.getPlayer().getUniqueId(), "WILD_CAT")) {
             Player player = event.getPlayer();
             if (((LivingEntity) event.getRightClicked()).isLeashed()) {
                 player.sendMessage(ChatColor.RED + "This " + ChatColor.GREEN + "Cat " + ChatColor.RED + "is already leashed by someone else!");
             } else {
                 ActiveMob activeMob = MythicMobs.inst().getMobManager().getMythicMobInstance(event.getRightClicked());
                 int cooldownSeconds = ThreadLocalRandom.current().nextInt(3, 9);
-                Cooldown cooldown = new Cooldown(player.getUniqueId(), "WILD_CAT", cooldownSeconds);
+                CooldownOld cooldown = new CooldownOld(player.getUniqueId(), "WILD_CAT", cooldownSeconds);
                 cooldown.start();
                 activeMob.setOwner(player.getUniqueId());
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {

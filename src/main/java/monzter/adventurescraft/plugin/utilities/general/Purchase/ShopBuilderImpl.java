@@ -43,8 +43,6 @@ public class ShopBuilderImpl implements ShopBuilder {
     }
 
     public void menuBase(ChestGui gui, List<ItemList> guiContents, Player player, String shopCommand, Material backgroundColor, int pageNumber) {
-        System.out.println(shopCommand);
-
         int height = guiHelper.heightCalc(guiContents.size());
         int length = 7;
         int displayX = guiHelper.displayXCalc(guiContents.size());
