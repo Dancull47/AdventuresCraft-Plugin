@@ -17,10 +17,7 @@ import monzter.adventure.regions.plugin.AdventureRegions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Drop;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Enchant;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.ItemSlotLock;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Pickup;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Bossdex;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationShopsBuilder;
@@ -31,10 +28,9 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.LeashCondition;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.ManaCondition;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mount;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.VoidMythicMobSkills;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.ModifierDamageMechanic;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidMythicMobSkills;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
@@ -246,6 +242,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractLootboxes(this, soundManager, permissionLP, consoleCommand, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Pickup(this, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new TutorialMessage(this), this);
 //        Main GUIs
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.MainMenu(this, soundManager, guiHelper, consoleCommand));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Map(this, guiHelper));
@@ -656,6 +653,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 event.register(dismount);
                 this.getLogger().info(ChatColor.YELLOW + "DISMOUNT registered!");
                 break;
+            case "CUSTOMDAMAGE":
+                SkillMechanic customDamage = new ModifierDamageMechanic(event.getMechanicName(), event.getConfig());
+                event.register(customDamage);
+                this.getLogger().info(ChatColor.YELLOW + "CUSTOMDAMAGE registered!");
+                break;
         }
     }
 
@@ -667,10 +669,20 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 event.register(leash);
                 this.getLogger().info(ChatColor.GREEN + "LEASH registered!");
                 break;
+            case "SKILLCAST":
+                SkillCondition skillCastCondition = new SkillCastCondition(event.getConfig());
+                event.register(skillCastCondition);
+                this.getLogger().info(ChatColor.GREEN + "SKILLCAST registered!");
+                break;
             case "MANA":
-                SkillCondition mana = new ManaCondition(event.getConfig());
-                event.register(mana);
+                SkillCondition manaCondition = new ManaCondition(event.getConfig());
+                event.register(manaCondition);
                 this.getLogger().info(ChatColor.GREEN + "MANA registered!");
+                break;
+            case "COOLDOWN":
+                SkillCondition cooldownCondition = new CooldownCondition(event.getConfig());
+                event.register(cooldownCondition);
+                this.getLogger().info(ChatColor.GREEN + "COOLDOWN registered!");
                 break;
         }
     }

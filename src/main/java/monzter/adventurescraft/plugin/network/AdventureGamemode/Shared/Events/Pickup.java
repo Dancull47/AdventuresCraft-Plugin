@@ -2,8 +2,10 @@ package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events;
 
 import io.lumine.mythic.lib.api.item.NBTItem;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.CustomEvents.TutorialEvent;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.Resources;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,6 +47,8 @@ public class Pickup implements Listener {
 
                         if (maxCalc(level) >= betonPointsManager.getPoints(player, "items." + item)) {
                             betonPointsManager.givePoint(player, "items." + item, event.getItem().getItemStack().getAmount());
+                            TutorialEvent tutorialEvent = new TutorialEvent(player, TutorialMessages.RESOURCE_COLLECTOR);
+                            Bukkit.getServer().getPluginManager().callEvent(tutorialEvent);
                             event.getItem().remove();
                             event.setCancelled(true);
                             break;

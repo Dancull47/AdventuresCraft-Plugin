@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters;
+package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;

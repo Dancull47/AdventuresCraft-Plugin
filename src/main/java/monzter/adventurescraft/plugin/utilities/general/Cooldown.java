@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class CooldownOld {
-    private static Map<String, CooldownOld> cooldowns = new HashMap<String, CooldownOld>();
+public class Cooldown {
+    private static Map<String, Cooldown> cooldowns = new HashMap<String, Cooldown>();
     private long start;
     private final double timeInSeconds;
     private final UUID id;
     private final String cooldownName;
 
-    public CooldownOld(UUID id, String cooldownName, double timeInSeconds) {
+    public Cooldown(UUID id, String cooldownName, double timeInSeconds) {
         this.id = id;
         this.cooldownName = cooldownName;
         this.timeInSeconds = timeInSeconds;
@@ -28,15 +28,15 @@ public class CooldownOld {
     }
 
     private static void stop(UUID id, String cooldownName) {
-        CooldownOld.cooldowns.remove(id + cooldownName);
+        Cooldown.cooldowns.remove(id + cooldownName);
     }
 
-    private static CooldownOld getCooldown(UUID id, String cooldownName) {
+    private static Cooldown getCooldown(UUID id, String cooldownName) {
         return cooldowns.get(id.toString() + cooldownName);
     }
 
     public static double getTimeLeft(UUID id, String cooldownName) {
-        CooldownOld cooldown = getCooldown(id, cooldownName);
+        Cooldown cooldown = getCooldown(id, cooldownName);
         double timeLeft = -1;
         if (cooldown != null) {
             long now = System.currentTimeMillis();
