@@ -40,6 +40,7 @@ public class MythicMobs extends BaseCommand implements Listener {
 
     @EventHandler
     public void mobTrack(MythicMobDeathEvent event) {
+
         Player player = (Player) event.getKiller();
         Location location = event.getEntity().getLocation();
         if (player != null)

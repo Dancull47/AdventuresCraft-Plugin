@@ -12,10 +12,12 @@ import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
+import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImplStatic;
 import monzter.adventurescraft.plugin.utilities.enums.AdventureStatsDisplay;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,89 +48,48 @@ public class ProfileMenu extends BaseCommand {
 
         OutlinePane background = new OutlinePane(0, 0, 9, 6, Pane.Priority.LOWEST);
         StaticPane display = new StaticPane(0, 0, 9, 6, Pane.Priority.LOW);
+        OutlinePane outline = new OutlinePane(1, 2, 7, 5, Pane.Priority.LOW);
 
 
         background.addItem(new GuiItem(guiHelper.background(Material.LIGHT_BLUE_STAINED_GLASS_PANE)));
         background.setRepeat(true);
 
-        display.addItem(new GuiItem(undeadDamage(player)), 3, 0);
-        display.addItem(new GuiItem(hellDamage(player)), 4, 0);
-        display.addItem(new GuiItem(voidDamage(player)), 5, 0);
+        for (Items item : Items.values())
+            if (item.getxPosition() == 0 && item.getyPosition() == 0)
+                outline.addItem(new GuiItem(itemStack(item, player)));
 
-        display.addItem(new GuiItem(booster(player)), 3, 1);
+//        display.addItem(new GuiItem(booster()), 3, 1);
         display.addItem(new GuiItem(profile(player)), 4, 1);
-        display.addItem(new GuiItem(attributes(player), e -> player.performCommand("attributes")), 5, 1);
-
-        display.addItem(new GuiItem(hp(player)), 2, 2);
-        display.addItem(new GuiItem(mana(player)), 3, 2);
-        display.addItem(new GuiItem(armor(player)), 4, 2);
-        display.addItem(new GuiItem(speed(player)), 5, 2);
-        display.addItem(new GuiItem(damage(player)), 6, 2);
-
-        display.addItem(new GuiItem(attackSpeed(player)), 2, 3);
-        display.addItem(new GuiItem(critChance(player)), 3, 3);
-        display.addItem(new GuiItem(critDamage(player)), 4, 3);
-        display.addItem(new GuiItem(projectileDamage(player)), 5, 3);
-        display.addItem(new GuiItem(knockbackResistance(player)), 6, 3);
-
-        display.addItem(new GuiItem(skillDamage(player)), 2, 4);
-        display.addItem(new GuiItem(magicDamage(player)), 3, 4);
-        display.addItem(new GuiItem(cooldownReduction(player)), 4, 4);
-        display.addItem(new GuiItem(bonusExperience(player)), 5, 4);
+        display.addItem(new GuiItem(attributes(), e -> player.performCommand("attributes")), 5, 1);
 
 
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 5);
 
         gui.addPane(background);
         gui.addPane(display);
+        gui.addPane(outline);
         gui.show(player);
     }
 
-
-    private ItemStack undeadDamage(Player player) {
-        String name = AdventureStatsDisplay.UNDEAD_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_faction_damage_Undead");
-        return guiHelper.itemCreator(Material.GREEN_DYE, name, new String[]{"",
-                AdventureStatsDisplay.UNDEAD_DAMAGE.getName() + ChatColor.GRAY + " increases the amount",
-                ChatColor.GRAY + "of damage you deal to " + ChatColor.DARK_GREEN + "Undead " + ChatColor.GRAY + "enemies!",
-                "",
-                ChatColor.GRAY + "Increase your " + ChatColor.DARK_GREEN + "Undead Damage " + ChatColor.GRAY + "by",
-                ChatColor.GRAY + "increasing your reputation in",
-                ChatColor.GRAY + "the " + ChatColor.DARK_GREEN + "Undead" + ChatColor.GRAY + ", and by obtaining",
-                ChatColor.GRAY + "items from within the " + ChatColor.DARK_GREEN + "Undead Areas" + ChatColor.GRAY + "!",
-        });
+    private ItemStack itemStack(Items item, Player player) {
+        ItemStack itemStack = item.getGuiItem().getItem();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(itemMeta.getDisplayName().replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(itemMeta.getDisplayName(), "%", "%") + "%")));
+        List<String> newLore = new ArrayList<>();
+        for (String lore : item.getGuiItem().getItem().getLore()) {
+            if (lore.contains("%"))
+                lore = lore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(lore, "%", "%") + "%"));
+            newLore.add(lore);
+        }
+        itemMeta.setLore(newLore);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 
-    private ItemStack hellDamage(Player player) {
-        String name = AdventureStatsDisplay.HELL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_faction_damage_Hell");
-        return guiHelper.itemCreator(Material.RED_DYE, name, new String[]{"",
-                AdventureStatsDisplay.HELL_DAMAGE.getName() + ChatColor.GRAY + " increases the amount",
-                ChatColor.GRAY + "of damage you deal to " + ChatColor.RED + "Hell " + ChatColor.GRAY + "enemies!",
-                "",
-                ChatColor.GRAY + "Increase your " + ChatColor.RED + "Hell Damage " + ChatColor.GRAY + "by",
-                ChatColor.GRAY + "increasing your reputation in",
-                ChatColor.GRAY + "the " + ChatColor.RED + "Hell" + ChatColor.GRAY + ", and by obtaining",
-                ChatColor.GRAY + "items from within the " + ChatColor.DARK_RED + "Hell Areas" + ChatColor.GRAY + "!",
-        });
-    }
-
-    private ItemStack voidDamage(Player player) {
-        String name = AdventureStatsDisplay.VOID_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_faction_damage_Void");
-        return guiHelper.itemCreator(Material.PURPLE_DYE, name, new String[]{"",
-                AdventureStatsDisplay.VOID_DAMAGE.getName() + ChatColor.GRAY + " increases the amount",
-                ChatColor.GRAY + "of damage you deal to " + ChatColor.DARK_PURPLE + "Void " + ChatColor.GRAY + "enemies!",
-                "",
-                ChatColor.GRAY + "Increase your " + ChatColor.DARK_PURPLE + "Void Damage " + ChatColor.GRAY + "by",
-                ChatColor.GRAY + "increasing your reputation in",
-                ChatColor.GRAY + "the " + ChatColor.DARK_PURPLE + "Void" + ChatColor.GRAY + ", and by obtaining",
-                ChatColor.GRAY + "items from within the " + ChatColor.DARK_PURPLE + "Void Areas" + ChatColor.GRAY + "!",
-        });
-    }
-
-
-    private ItemStack booster(Player player) {
+    private ItemStack booster() {
         String name = ChatColor.GREEN + "Active Boosters";
         return guiHelper.itemCreator(Material.EXPERIENCE_BOTTLE, name, new String[]{"",
-                ChatColor.GRAY + " Boosters can increase the XP",
+                ChatColor.GRAY + "Boosters can increase the XP",
                 ChatColor.GRAY + "you receive for " + ChatColor.GOLD + "Professions ",
                 ChatColor.GRAY + "and " + ChatColor.GOLD + "Main " + ChatColor.GRAY + "level!",
                 "",
@@ -150,7 +111,7 @@ public class ProfileMenu extends BaseCommand {
         lore.add(AdventureStatsDisplay.ARMOR.getName() + ": " + parsePlaceholder(player, "mmocore_stat_defense"));
         lore.add(AdventureStatsDisplay.SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_movement_speed"));
         lore.add(AdventureStatsDisplay.DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
-        lore.add(AdventureStatsDisplay.ATTACK_SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_damage"));
+        lore.add(AdventureStatsDisplay.ATTACK_SPEED.getName() + ": " + parsePlaceholder(player, "mmocore_stat_attack_speed"));
         lore.add(AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_chance"));
         lore.add(AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_power"));
 
@@ -160,7 +121,7 @@ public class ProfileMenu extends BaseCommand {
         return profile;
     }
 
-    private ItemStack attributes(Player player) {
+    private ItemStack attributes() {
         final ItemStack attributes = new ItemStack(Material.CAULDRON);
         final ItemMeta attributesItemMeta = attributes.getItemMeta();
 
@@ -179,76 +140,6 @@ public class ProfileMenu extends BaseCommand {
         return attributes;
     }
 
-
-    private ItemStack hp(Player player) {
-        String name = AdventureStatsDisplay.HP.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_max_health");
-        return guiHelper.itemCreator(Material.LIME_DYE, name, new String[]{"",
-                AdventureStatsDisplay.HP.getName() + ChatColor.GRAY + " is your Health, which is",
-                ChatColor.GRAY + "important for staying alive!",
-                "",
-                ChatColor.GREEN + "Health Regeneration" + ChatColor.GRAY + ": " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_health_regeneration")});
-    }
-
-    private ItemStack mana(Player player) {
-        String name = AdventureStatsDisplay.MANA.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_max_mana");
-        return guiHelper.itemCreator(Material.CYAN_DYE, name, new String[]{"",
-                AdventureStatsDisplay.MANA.getName() + ChatColor.GRAY + " is consumed by Wands,",
-                ChatColor.GRAY + "Spells, and Abilities!",
-                "",
-                ChatColor.AQUA + "Mana Regeneration" + ChatColor.GRAY + ": " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_mana_regeneration")});
-    }
-
-    private ItemStack armor(Player player) {
-        String name = AdventureStatsDisplay.ARMOR.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_defense");
-        return guiHelper.itemCreator(Material.YELLOW_DYE, name, new String[]{"",
-                AdventureStatsDisplay.ARMOR.getName() + ChatColor.GRAY + " reduces the",
-                ChatColor.GRAY + "amount of incoming damage!",
-                "",
-                ChatColor.YELLOW + parsePlaceholder(player, "mmoitems_stat_defense_percent") + ChatColor.GRAY + " damage will be reduced!"});
-    }
-
-    private ItemStack speed(Player player) {
-        String name = AdventureStatsDisplay.SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_movement_speed");
-        return guiHelper.itemCreator(Material.GREEN_DYE, name, new String[]{"",
-                AdventureStatsDisplay.SPEED.getName() + ChatColor.GRAY + " is how fast you are!"});
-    }
-
-    private ItemStack damage(Player player) {
-        String name = AdventureStatsDisplay.DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_attack_damage");
-        return guiHelper.itemCreator(Material.RED_DYE, name, new String[]{"",
-                AdventureStatsDisplay.DAMAGE.getName() + ChatColor.GRAY + " is determined",
-        ChatColor.GRAY + "by how powerful you are!"});
-    }
-
-
-    private ItemStack attackSpeed(Player player) {
-        String name = AdventureStatsDisplay.ATTACK_SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_attack_speed");
-        return guiHelper.itemCreator(Material.BLUE_DYE, name, new String[]{"",
-                AdventureStatsDisplay.ATTACK_SPEED.getName() + ChatColor.GRAY + " increases the amount",
-                ChatColor.GRAY + "of damage you can do per hit"});
-    }
-
-    private ItemStack critChance(Player player) {
-        String name = AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_critical_strike_chance");
-        return guiHelper.itemCreator(Material.ORANGE_DYE, name, new String[]{"",
-                AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ChatColor.GRAY + " increases your",
-                ChatColor.GRAY + "chance of hitting a critical attack!"});
-    }
-
-    private ItemStack critDamage(Player player) {
-        String name = AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_critical_strike_power");
-        return guiHelper.itemCreator(Material.RED_DYE, name, new String[]{"",
-                AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ChatColor.GRAY + " increases the amount of",
-                ChatColor.GRAY + "damage when hitting a critical attack!"});
-    }
-
-    private ItemStack projectileDamage(Player player) {
-        String name = AdventureStatsDisplay.PROJECTILE_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_projectile_damage");
-        return guiHelper.itemCreator(Material.BONE_MEAL, name, new String[]{"",
-                AdventureStatsDisplay.PROJECTILE_DAMAGE.getName() + ChatColor.GRAY + " increases the",
-                ChatColor.GRAY + "amount of damage done by projectiles!"});
-    }
-
     private ItemStack knockbackResistance(Player player) {
         String name = AdventureStatsDisplay.KNOCKBACK_RESISTANCE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_knockback_resistance");
         return guiHelper.itemCreator(Material.GRAY_DYE, name, new String[]{"",
@@ -256,38 +147,102 @@ public class ProfileMenu extends BaseCommand {
                 ChatColor.GRAY + "the distance you get knocked back!"});
     }
 
-    private ItemStack skillDamage(Player player) {
-        String name = AdventureStatsDisplay.SKILL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_skill_damage");
-        return guiHelper.itemCreator(Material.PURPLE_DYE, name, new String[]{"",
-                AdventureStatsDisplay.SKILL_DAMAGE.getName() + ChatColor.GRAY + " increases the amount",
-                ChatColor.GRAY + "of damage when using an " + ChatColor.GOLD + "Ability" + ChatColor.GRAY + "!"});
-    }
-
-    private ItemStack magicDamage(Player player) {
-        String name = AdventureStatsDisplay.MAGIC_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_magic_damage");
-        return guiHelper.itemCreator(Material.ORANGE_DYE, name, new String[]{"",
-                AdventureStatsDisplay.MAGIC_DAMAGE.getName() + ChatColor.GRAY + " increases the amount of",
-                ChatColor.GRAY + "damage done by " + ChatColor.LIGHT_PURPLE + "Magical attacks" + ChatColor.GRAY + "!"});
-    }
-
-    private ItemStack cooldownReduction(Player player) {
-        String name = AdventureStatsDisplay.COOLDOWN_REDUCTION.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_cooldown_reduction");
-        return guiHelper.itemCreator(Material.BLUE_DYE, name, new String[]{"",
-                AdventureStatsDisplay.COOLDOWN_REDUCTION.getName() + ChatColor.GRAY + " decreases",
-                ChatColor.GRAY + "the cooldown timer on " + ChatColor.GOLD + "Abilities" + ChatColor.GRAY + "!"});
-    }
-
-    private ItemStack bonusExperience(Player player) {
-        String name = AdventureStatsDisplay.BONUS_EXPERIENCE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_additional_experience");
-        return guiHelper.itemCreator(Material.YELLOW_DYE, name, new String[]{"",
-                AdventureStatsDisplay.BONUS_EXPERIENCE.getName() + ChatColor.GRAY + " increases the",
-                ChatColor.GRAY + "amount of experience you receive",
-                ChatColor.GRAY + "towards your " + ChatColor.GREEN + "Main " + ChatColor.GRAY + "and " + ChatColor.GOLD + "Professions" + ChatColor.GRAY + "!",
-        });
-    }
-
     private String parsePlaceholder(Player player, String string) {
         return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
+    }
+
+    enum Items {
+        HP(new GuiItem(GUIHelperImplStatic.itemCreator(Material.LIME_DYE, AdventureStatsDisplay.HP.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_max_health%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.HP.getName() + " &7is your &aHealth&7, which is"),
+                        ChatColor.translateAlternateColorCodes('&', "&7key to staying alive!"),
+                        "",
+                        ChatColor.translateAlternateColorCodes('&', "&aHealth Regeneration&7: &e%mmocore_stat_health_regeneration%")}, false)), 0, 0),
+        MANA(new GuiItem(GUIHelperImplStatic.itemCreator(Material.LIGHT_BLUE_DYE, AdventureStatsDisplay.MANA.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_max_mana%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.MANA.getName() + " &7is consumed by &aWands&7,"),
+                        ChatColor.translateAlternateColorCodes('&', "&aSpells&7, and &aAbilities&7!"),
+                        "",
+                        ChatColor.translateAlternateColorCodes('&', "&bMana Regeneration&7: &e%mmocore_stat_mana_regeneration%")}, false)), 0, 0),
+        ARMOR(new GuiItem(GUIHelperImplStatic.itemCreator(Material.YELLOW_DYE, AdventureStatsDisplay.ARMOR.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmoitems_stat_defense%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.ARMOR.getName() + " &areduces &7the"),
+                        ChatColor.translateAlternateColorCodes('&', "&7amount of incoming &cdamage&7!"),
+                        "",
+                        ChatColor.translateAlternateColorCodes('&', "&e%mmoitems_stat_defense_percent% &7of &cdamage &7will be &areduced&7!")}, false)), 0, 0),
+        SPEED(new GuiItem(GUIHelperImplStatic.itemCreator(Material.GREEN_DYE, AdventureStatsDisplay.SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_movement_speed%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.SPEED.getName() + " &7is how &afast &7you move&7!")}, false)), 0, 0),
+        DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.RED_DYE, AdventureStatsDisplay.DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_attack_damage%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.DAMAGE.getName() + " &7increases the amount of"),
+                        ChatColor.translateAlternateColorCodes('&', "&7damage done by &cPhysical Attacks&7!")}, false)), 0, 0),
+        MAGIC_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.PINK_DYE, AdventureStatsDisplay.MAGIC_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_magic_damage%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.MAGIC_DAMAGE.getName() + " &7increases the amount of"),
+                        ChatColor.translateAlternateColorCodes('&', "&7damage done by &dMagical Attacks&7!")}, false)), 0, 0),
+        ABILITY_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.ORANGE_DYE, AdventureStatsDisplay.ABILITY_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_skill_damage%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.ABILITY_DAMAGE.getName() + " &7increases the amount of"),
+                        ChatColor.translateAlternateColorCodes('&', "&7damage done by all &6Abilities&7!")}, false)), 0, 0),
+        PROJECTILE_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.WHITE_DYE, AdventureStatsDisplay.PROJECTILE_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_projectile_damage%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.PROJECTILE_DAMAGE.getName() + " &7increases the amount of"),
+                        ChatColor.translateAlternateColorCodes('&', "&7damage done by &6Projectiles&7!")}, false)), 0, 0),
+        COOLDOWN_REDUCTION(new GuiItem(GUIHelperImplStatic.itemCreator(Material.ORANGE_DYE, AdventureStatsDisplay.COOLDOWN_REDUCTION.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_cooldown_reduction%%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.COOLDOWN_REDUCTION.getName() + " &7decreases"),
+                        ChatColor.translateAlternateColorCodes('&', "&7the cooldown on all &6Abilities&7!")}, false)), 0, 0),
+        ATTACK_SPEED(new GuiItem(GUIHelperImplStatic.itemCreator(Material.BLUE_DYE, AdventureStatsDisplay.ATTACK_SPEED.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_attack_speed%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.ATTACK_SPEED.getName() + " &7increases the amount"),
+                        ChatColor.translateAlternateColorCodes('&', "&7of times you can attack per second!")}, false)), 0, 0),
+        CRITICAL_CHANCE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.ORANGE_DYE, AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_critical_strike_chance%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.CRITICAL_CHANCE.getName() + " &7increases the chance"),
+                        ChatColor.translateAlternateColorCodes('&', "&7of hitting a &4critical strike&7!")}, false)), 0, 0),
+        CRITICAL_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.RED_DYE, AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmocore_stat_critical_strike_power%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + " &7increases damage dealt"),
+                        ChatColor.translateAlternateColorCodes('&', "&7by a &4critical strike&7!")}, false)), 0, 0),
+        UNDEAD_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.GREEN_DYE, AdventureStatsDisplay.UNDEAD_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmoitems_stat_faction_damage_Undead%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.UNDEAD_DAMAGE.getName() + " &7increases the amount"),
+                        ChatColor.translateAlternateColorCodes('&', "&7of damage dealt to &2Undead &cenemies&7!")}, false)), 0, 0),
+        HELL_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.RED_DYE, AdventureStatsDisplay.HELL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmoitems_stat_faction_damage_Hell%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.HELL_DAMAGE.getName() + " &7increases the amount"),
+                        ChatColor.translateAlternateColorCodes('&', "&7of damage dealt to &cHell enemies&7!")}, false)), 0, 0),
+        VOID_DAMAGE(new GuiItem(GUIHelperImplStatic.itemCreator(Material.PURPLE_DYE, AdventureStatsDisplay.VOID_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + "%mmoitems_stat_faction_damage_Void%",
+                new String[]{"",
+                        ChatColor.translateAlternateColorCodes('&', AdventureStatsDisplay.VOID_DAMAGE.getName() + " &7increases the amount"),
+                        ChatColor.translateAlternateColorCodes('&', "&7of damage dealt to &5Void &cenemies&7!")}, false)), 0, 0),
+        ;
+        public GuiItem guiItem;
+        public int xPosition;
+        public int yPosition;
+
+        Items(GuiItem guiItem, int xPosition, int yPosition) {
+            this.guiItem = guiItem;
+            this.xPosition = xPosition;
+            this.yPosition = yPosition;
+        }
+
+        public GuiItem getGuiItem() {
+            return guiItem;
+        }
+
+        public int getxPosition() {
+            return xPosition;
+        }
+
+        public int getyPosition() {
+            return yPosition;
+        }
+
+        public void setGuiItem(GuiItem guiItem) {
+            this.guiItem = guiItem;
+        }
     }
 
 }

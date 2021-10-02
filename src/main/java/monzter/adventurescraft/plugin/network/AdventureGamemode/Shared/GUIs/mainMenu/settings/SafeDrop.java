@@ -46,7 +46,7 @@ public class SafeDrop extends BaseCommand {
 
     @CommandAlias("safeDrop|safeDropMenu")
     public void setting(Player player) {
-        ChestGui gui = new ChestGui(4, guiHelper.guiName("Safe Drop"));
+        ChestGui gui = new ChestGui(4, guiHelper.guiName("Safe AccountBound"));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, 4, Pane.Priority.LOWEST);

@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 public enum AdventureStatsDisplay {
     HP(ChatColor.GREEN + "❤ HP"),
     MANA(ChatColor.AQUA + "⭐ Mana"),
-    ARMOR(ChatColor.YELLOW + "⛨ Mana"),
+    ARMOR(ChatColor.YELLOW + "⛨ Armor"),
     SPEED(ChatColor.DARK_GREEN + "✤ Speed"),
     DAMAGE(ChatColor.RED + "✜ Damage"),
     ATTACK_SPEED(ChatColor.DARK_AQUA + "⌭ Attack Speed"),
@@ -14,9 +14,9 @@ public enum AdventureStatsDisplay {
 
     PROJECTILE_DAMAGE(ChatColor.WHITE + "Ӿ Projectile Damage"),
     KNOCKBACK_RESISTANCE(ChatColor.DARK_GRAY + "Ҵ Knockback Resistance"),
-    SKILL_DAMAGE(ChatColor.GOLD + "ǂ Skill Damage"),
+    ABILITY_DAMAGE(ChatColor.GOLD + "ǂ Ability Damage"),
     MAGIC_DAMAGE(ChatColor.LIGHT_PURPLE + "Δ Magic Damage"),
-    COOLDOWN_REDUCTION(ChatColor.GOLD + "Ψ Skill Cooldown Reduction"),
+    COOLDOWN_REDUCTION(ChatColor.GOLD + "Ψ Ability Cooldown Reduction"),
     BONUS_EXPERIENCE(ChatColor.YELLOW + "Ж Bonus Experience"),
 
     UNDEAD_DAMAGE(ChatColor.DARK_GREEN + "☠ Undead Damage"),

@@ -13,14 +13,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-public class Drop implements Listener {
+public class AccountBound implements Listener {
     private final AdventuresCraft plugin;
     private final FullInventory fullInventory;
     private final SoundManager soundManager;
     private final BetonPointsManager betonPointsManager;
 
 
-    public Drop(AdventuresCraft plugin, FullInventory fullInventory, SoundManager soundManager, BetonPointsManager betonPointsManager) {
+    public AccountBound(AdventuresCraft plugin, FullInventory fullInventory, SoundManager soundManager, BetonPointsManager betonPointsManager) {
         this.plugin = plugin;
         this.fullInventory = fullInventory;
         this.soundManager = soundManager;

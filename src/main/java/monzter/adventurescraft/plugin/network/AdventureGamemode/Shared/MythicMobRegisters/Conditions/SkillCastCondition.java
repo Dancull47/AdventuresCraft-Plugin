@@ -17,19 +17,23 @@ import org.bukkit.entity.Player;
 public class SkillCastCondition extends SkillCondition implements IEntityCondition {
 
     final double manaAmount;
-    final long cooldownSeconds;
-    final String skillName;
+    final double cooldownSeconds;
+    private String skillName;
+    private boolean requiresEntityTarget;
 
     public SkillCastCondition(MythicLineConfig config) {
         super(config.getLine());
 
         this.manaAmount = config.getInteger(new String[]{"mana", "m"}, 0);
-        this.cooldownSeconds = config.getInteger(new String[]{"cooldown", "cd", "c"}, 1);
-        this.skillName = config.getString(new String[]{"skill", "skillName", "s", "n", "name"}, "DEFAULT");
+        this.cooldownSeconds = config.getDouble(new String[]{"cooldown", "cd", "c"}, 1);
+        this.skillName = config.getString(new String[]{"skillName", "skill", "s"});
+        this.requiresEntityTarget = config.getBoolean(new String[]{"requiresEntityTarget", "rET", "rT", "r"}, true);
     }
 
     @Override
     public boolean check(AbstractEntity target) {
+        if (target.isDead() || target.getHealth() <= 0) return false;
+        if (requiresEntityTarget && target == null) return false;
         LivingEntity bukkitTarget = (LivingEntity) BukkitAdapter.adapt(target);
         if (!Cooldown.isInCooldown(bukkitTarget.getUniqueId(), "cast")) {
             RPGPlayer mmoCoreRPGPlayer = new MMOCoreHook.MMOCoreRPGPlayer(PlayerData.get(bukkitTarget.getUniqueId()));
@@ -64,6 +68,8 @@ public class SkillCastCondition extends SkillCondition implements IEntityConditi
     }
 
     public boolean cooldownCheck(Player player, String skillName) {
+        System.out.println(skillName);
+
         if (Cooldown.isInCooldown(player.getUniqueId(), skillName)) {
             String timeLeft = Cooldown.getTimeLeftTrimmed(player.getUniqueId(), skillName);
             player.sendMessage(ChatColor.RED + "You must wait " + ChatColor.GOLD + timeLeft + ChatColor.RED + " seconds before using this skill again!");

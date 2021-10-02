@@ -2,6 +2,6 @@ name: AdventuresCraft
 version: 1.0
 api-version: 1.16
 main: monzter.adventurescraft.plugin.AdventuresCraft
-depend: [AdventureRegions, MMOItems, LuckPerms]
-softdepend: [PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier, MythicMobs, helper, BetonQuest, MysqlPlayerDataBridge, Plan, MythicEnchants]
+depend: [AdventureRegions, MMOItems, LuckPerms, MythicMobs]
+softdepend: [PlaceholderAPI, HolographicDisplays, WorldGuard, Votifier, helper, BetonQuest, MysqlPlayerDataBridge, Plan, MythicEnchants]
 commands:

@@ -324,6 +324,15 @@
             </systemPath>
         </dependency>
         <dependency>
+            <groupId>com.gmail.berndivader.mythicmobsext</groupId>
+            <artifactId>MythicMobsExtension</artifactId>
+            <version>1.739</version>
+            <scope>system</scope>
+            <systemPath>
+                ${project.basedir}/.idea/libraries/MythicMobsExtension.jar
+            </systemPath>
+        </dependency>
+        <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>MythicEnchants</artifactId>
             <version>0.0.1-SNAPSHOT</version>

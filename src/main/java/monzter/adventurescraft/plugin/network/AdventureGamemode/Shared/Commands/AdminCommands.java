@@ -76,7 +76,7 @@ public class AdminCommands extends BaseCommand {
         player.sendMessage(AdventureStatsDisplay.CRITICAL_CHANCE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_chance"));
         player.sendMessage(AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_power"));
         player.sendMessage(AdventureStatsDisplay.MAGIC_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_magic_damage"));
-        player.sendMessage(AdventureStatsDisplay.SKILL_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_skill_damage"));
+        player.sendMessage(AdventureStatsDisplay.ABILITY_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_skill_damage"));
     }
 
     private String parsePlaceholder(Player player, String string) {

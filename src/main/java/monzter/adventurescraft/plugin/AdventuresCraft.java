@@ -238,7 +238,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ItemSlotLock(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Drop(this, fullInventory, soundManager, betonPointsManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new AccountBound(this, fullInventory, soundManager, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractLootboxes(this, soundManager, permissionLP, consoleCommand, fullInventory), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Catalysts(this, calculateEnchantments, itemAdder, areaCheck, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Pickup(this, betonPointsManager), this);
@@ -654,8 +654,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 this.getLogger().info(ChatColor.YELLOW + "DISMOUNT registered!");
                 break;
             case "CUSTOMDAMAGE":
-                SkillMechanic customDamage = new ModifierDamageMechanic(event.getMechanicName(), event.getConfig());
-                event.register(customDamage);
+                event.register(new ModifierDamageMechanic(event.getMechanicName(), event.getConfig()));
                 this.getLogger().info(ChatColor.YELLOW + "CUSTOMDAMAGE registered!");
                 break;
         }
@@ -670,20 +669,19 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 this.getLogger().info(ChatColor.GREEN + "LEASH registered!");
                 break;
             case "SKILLCAST":
-                SkillCondition skillCastCondition = new SkillCastCondition(event.getConfig());
-                event.register(skillCastCondition);
+                event.register(new SkillCastCondition(event.getConfig()));
                 this.getLogger().info(ChatColor.GREEN + "SKILLCAST registered!");
                 break;
-            case "MANA":
-                SkillCondition manaCondition = new ManaCondition(event.getConfig());
-                event.register(manaCondition);
-                this.getLogger().info(ChatColor.GREEN + "MANA registered!");
-                break;
-            case "COOLDOWN":
-                SkillCondition cooldownCondition = new CooldownCondition(event.getConfig());
-                event.register(cooldownCondition);
-                this.getLogger().info(ChatColor.GREEN + "COOLDOWN registered!");
-                break;
+//            case "MANA":
+//                SkillCondition manaCondition = new ManaCondition(event.getConfig());
+//                event.register(manaCondition);
+//                this.getLogger().info(ChatColor.GREEN + "MANA registered!");
+//                break;
+//            case "COOLDOWN":
+//                SkillCondition cooldownCondition = new CooldownCondition(event.getConfig());
+//                event.register(cooldownCondition);
+//                this.getLogger().info(ChatColor.GREEN + "COOLDOWN registered!");
+//                break;
         }
     }
 
