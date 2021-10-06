@@ -169,8 +169,10 @@ public enum Crates implements Weighted, ItemGenerator {
 //    ENCHANTED_BOX3_4(CrateList.ENCHANTED_BOX3, "ENCHANTMENT", "ENCHANTING_STONE5", 1, .05),
 
     REAPER1(CrateList.REAPER, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_BONE", 3), .98),
+    REAPER2_2(CrateList.MORDEN, MMOItemsHelperImpl.getItem("GEM_STONE", "UNDEAD_GEM2", 1), .20),
     REAPER2(CrateList.REAPER, MMOItemsHelperImpl.getItem("QUEST", "REAPER_HEAD3", 1), .15),
     REAPER3(CrateList.REAPER, MMOItemsHelperImpl.getItem("DAGGER", "REAPER_BLADE5", 1), .10),
+    REAPER4(CrateList.REAPER, MMOItemsHelperImpl.getItem("ARMOR", "REAPER_HEAD5", 1), .05),
 
     MORDEN1(CrateList.MORDEN, MMOItemsHelperImpl.getItem("CATALYST", "UNDEAD_CATALYST3", 1), .05),
     MORDEN2(CrateList.MORDEN, MMOItemsHelperImpl.getItem("GEM_STONE", "UNDEAD_GEM3", 1), .05),

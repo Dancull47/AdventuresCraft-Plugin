@@ -102,7 +102,7 @@ public class Bossdex extends BaseCommand {
         lore.add("");
         if (points > 0)
             lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Claim Reward");
-        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View AccountBound Table");
+        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to View Drop Table");
 //        lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to View Achievements");
 
         itemStack.setItemMeta(itemMeta);

@@ -29,6 +29,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.GravediggerMechanic;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.ModifierDamageMechanic;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidMythicMobSkills;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
@@ -656,6 +657,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "CUSTOMDAMAGE":
                 event.register(new ModifierDamageMechanic(event.getMechanicName(), event.getConfig()));
                 this.getLogger().info(ChatColor.YELLOW + "CUSTOMDAMAGE registered!");
+                break;
+            case "GRAVEDIGGER":
+                event.register(new GravediggerMechanic(event.getMechanicName(), event.getConfig()));
+                this.getLogger().info(ChatColor.YELLOW + "GRAVEDIGGER registered!");
                 break;
         }
     }

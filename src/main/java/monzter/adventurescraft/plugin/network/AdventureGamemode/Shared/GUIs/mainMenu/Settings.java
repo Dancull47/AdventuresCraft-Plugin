@@ -146,11 +146,11 @@ public class Settings extends BaseCommand {
         final ItemStack safeDrop = new ItemStack(Material.BUCKET);
         final ItemMeta safeDropItemMeta = safeDrop.getItemMeta();
 
-        safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Safe AccountBound"));
+        safeDropItemMeta.displayName(Component.text(ChatColor.GREEN + "Safe Drop"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.GRAY + "Manage your " + ChatColor.YELLOW + "Safe AccountBound" + ChatColor.GRAY + "!");
+        lore.add(ChatColor.GRAY + "Manage your " + ChatColor.YELLOW + "Safe Drop" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");
 

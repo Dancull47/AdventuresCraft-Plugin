@@ -40,8 +40,12 @@ public class MythicMobs extends BaseCommand implements Listener {
 
     @EventHandler
     public void mobTrack(MythicMobDeathEvent event) {
+        Player player = event.getKiller().getKiller();
+        if (player == null)
+            player = Bukkit.getPlayer(io.lumine.xikage.mythicmobs.MythicMobs.inst().getMobManager().getMythicMobInstance(event.getKiller()).getParent().getEntity().getUniqueId());
+        if (player == null)
+            return;
 
-        Player player = (Player) event.getKiller();
         Location location = event.getEntity().getLocation();
         if (player != null)
             switch (plugin.SERVER) {

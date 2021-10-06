@@ -1,5 +1,6 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events;
 
+import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
@@ -39,9 +40,14 @@ public class MythicMobDrops implements Listener {
 
     @EventHandler
     public void mobDrops(MythicMobDeathEvent event) {
-        Player player = (Player) event.getKiller();
+        Player killer = event.getKiller().getKiller();
+        if (killer == null)
+            killer = Bukkit.getPlayer(MythicMobs.inst().getMobManager().getMythicMobInstance(event.getKiller()).getParent().getEntity().getUniqueId());
+        if (killer == null)
+            return;
+
         Location location = event.getEntity().getLocation();
-        if (player != null) {
+        if (killer != null) {
             switch (event.getMobType().getInternalName()) {
                 /*
                  *   Graveyard
@@ -50,14 +56,14 @@ public class MythicMobDrops implements Listener {
                     giveItem(location, Material.BONE, 2);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), 2);
                     if (chanceCheck.chanceCheck(.001))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETON3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETON3"), killer);
                     break;
                 case "UNDEAD_ARCHER":
                     giveItem(location, Material.BONE, 2);
                     giveItem(location, Material.ARROW, 3);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), 3);
                     if (chanceCheck.chanceCheck(.001))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETONARCHER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETONARCHER3"), killer);
                     break;
                 case "LOST_SOUL":
                     if (chanceCheck.chanceCheck(.33))
@@ -73,47 +79,47 @@ public class MythicMobDrops implements Listener {
                  *   Courtyard
                  */
                 case "UNDEAD_SKELETON2":
-                    undeadSkeleton(location, event.getMob(), player);
+                    undeadSkeleton(location, event.getMob(), killer);
                     giveItem(location, Material.BONE, 5);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
                     if (chanceCheck.chanceCheck(.005))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETON3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETON3"), killer);
                     break;
                 case "UNDEAD_ARCHER2":
-                    undeadSkeleton(location, event.getMob(), player);
+                    undeadSkeleton(location, event.getMob(), killer);
                     giveItem(location, Material.BONE, 5);
                     giveItem(location, Material.ARROW, 5);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
                     if (chanceCheck.chanceCheck(.005))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETONARCHER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_SKELETONARCHER3"), killer);
                     else if (chanceCheck.chanceCheck(.005))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("BOW", "UNDEAD_BOW4ut"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("BOW", "UNDEAD_BOW4ut"), killer);
                     break;
                 case "ALPHA_SOUL":
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "ALPHA_SOUL"), 1);
                     if (chanceCheck.chanceCheck(.005))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_ALPHA_SOUL3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_ALPHA_SOUL3"), killer);
                     if (chanceCheck.chanceCheck(.66))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "SOUL4"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "SOUL4"), killer);
                     if (chanceCheck.chanceCheck(.50))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("MATERIAL", "LOST_SOUL"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("MATERIAL", "LOST_SOUL"), killer);
                     break;
                 case "UNDEAD_SPIDER":
                     giveItem(location, Material.STRING, 3);
                     giveItem(location, Material.SPIDER_EYE, 3);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), 4);
                     if (chanceCheck.chanceCheck(.001))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_UNDEAD_SPIDER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_UNDEAD_SPIDER3"), killer);
                     break;
                 case "UNDEAD_CASTER":
                     giveItem(location, Material.BONE, 4);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), 5);
                     if (chanceCheck.chanceCheck(.001))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_UNDEAD_CASTER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("COMPANION", "PET_UNDEAD_CASTER3"), killer);
                     if (chanceCheck.chanceCheck(.2))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENCE2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_ESSENCE2"), killer);
                     if (chanceCheck.chanceCheck(.5))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("QUEST", "MAGICAL_FRAGMENT"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("QUEST", "MAGICAL_FRAGMENT"), killer);
                     break;
                 /*
                  *   Castle
@@ -135,24 +141,24 @@ public class MythicMobDrops implements Listener {
                 case "BABY_GOBLIN":
                     giveItem(location, Material.ROTTEN_FLESH, 3);
                     if (chanceCheck.chanceCheck(.01))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), killer);
                     break;
                 case "BABY_GOBLIN2":
                 case "GOBLIN":
                     giveItem(location, Material.ROTTEN_FLESH, 4);
                     if (chanceCheck.chanceCheck(.0125))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), killer);
                     break;
                 case "GOBLIN2":
                     giveItem(location, Material.ROTTEN_FLESH, 5);
                     if (chanceCheck.chanceCheck(.015))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), killer);
                     break;
                 case "ARCHER_GOBLIN":
                     giveItem(location, Material.ROTTEN_FLESH, 4);
                     giveItem(location, Material.ARROW, 3);
                     if (chanceCheck.chanceCheck(.015))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("HAMMER", "GOBLIN_HAMMER3"), killer);
                     break;
                 /*
                  *   Spirit Grounds
@@ -194,7 +200,7 @@ public class MythicMobDrops implements Listener {
                     forestDropTable(location);
                     giveItem(location, Material.HONEYCOMB, 2);
                     if (chanceCheck.chanceCheck(.005))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS2"), killer);
                     break;
                 case "HARE":
                     forestDropTable(location);
@@ -213,28 +219,28 @@ public class MythicMobDrops implements Listener {
                     forestDropTable(location);
                     giveItem(location, Material.HONEYCOMB, 4);
                     if (chanceCheck.chanceCheck(.0075))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS2"), killer);
                     break;
                 case "QUEEN_BEE":
                     forestDropTable(location);
                     giveItem(location, Material.HONEYCOMB, 5);
                     if (chanceCheck.chanceCheck(.01))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS3"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("ARMOR", "BEE_WINGS3"), killer);
                     break;
                 /*
                  *   Cavern
                  */
                 case "PILLAGER1":
                     if (chanceCheck.chanceCheck(.01))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("BOW", "PILLAGER_CROSSBOW2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("BOW", "PILLAGER_CROSSBOW2"), killer);
                     break;
                 case "VINDICATOR1":
                     if (chanceCheck.chanceCheck(.01))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("AXE", "VINDICATOR_AXE2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("AXE", "VINDICATOR_AXE2"), killer);
                     break;
                 case "DROWNED1":
                     if (chanceCheck.chanceCheck(.01))
-                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("TRIDENT", "DROWNED_TRIDENT2"), player);
+                        rareItem(event.getMob(), MMOItemsHelperImpl.getItem("TRIDENT", "DROWNED_TRIDENT2"), killer);
                     break;
                 case "DOLPHIN1":
                     giveItem(location, Material.COD, 2);
@@ -252,27 +258,27 @@ public class MythicMobDrops implements Listener {
                     break;
 
                 case "VOID_BAT":
-                    mineDropTable(location, event.getMob(), player);
+                    mineDropTable(location, event.getMob(), killer);
                     giveItem(location, Material.REDSTONE, 2);
                     giveItem(location, Material.LAPIS_LAZULI, 2);
                     break;
                 case "VOID_BOOMER":
-                    mineDropTable(location, event.getMob(), player);
-                    voidBoomer(location, event.getMob(), player);
+                    mineDropTable(location, event.getMob(), killer);
+                    voidBoomer(location, event.getMob(), killer);
                     giveItem(location, Material.REDSTONE, 2);
                     giveItem(location, Material.LAPIS_LAZULI, 2);
                     giveItem(location, Material.GUNPOWDER, 3);
                     break;
                 case "VOID_SPIDER":
-                    mineDropTable(location, event.getMob(), player);
+                    mineDropTable(location, event.getMob(), killer);
                     giveItem(location, Material.REDSTONE, 2);
                     giveItem(location, Material.LAPIS_LAZULI, 2);
                     giveItem(location, Material.SPIDER_EYE, 3);
                     giveItem(location, Material.STRING, 3);
                     break;
                 case "VOID_VAMPIRE":
-                    mineDropTable(location, event.getMob(), player);
-                    voidVampire(location, event.getMob(), player);
+                    mineDropTable(location, event.getMob(), killer);
+                    voidVampire(location, event.getMob(), killer);
                     giveItem(location, Material.REDSTONE, 2);
                     giveItem(location, Material.LAPIS_LAZULI, 2);
                     giveItem(location, Material.BONE, 3);
@@ -282,15 +288,15 @@ public class MythicMobDrops implements Listener {
                     giveItem(location, Material.DIAMOND, 1);
                     break;
                 case "VOID_VAMPIRE2":
-                    mineDropTable(location, event.getMob(), player);
-                    voidVampire(location, event.getMob(), player);
+                    mineDropTable(location, event.getMob(), killer);
+                    voidVampire(location, event.getMob(), killer);
                     giveItem(location, Material.EMERALD, 2);
                     giveItem(location, Material.DIAMOND, 2);
                     giveItem(location, Material.BONE, 3);
                     break;
                 case "VOID_DRACULA":
-                    mineDropTable(location, event.getMob(), player);
-                    voidVampire(location, event.getMob(), player);
+                    mineDropTable(location, event.getMob(), killer);
+                    voidVampire(location, event.getMob(), killer);
                     giveItem(location, Material.EMERALD, 5);
                     giveItem(location, Material.DIAMOND, 5);
                     giveItem(location, Material.BONE, 5);
@@ -299,54 +305,54 @@ public class MythicMobDrops implements Listener {
                  *   Hell
                  */
                 case "VOID_PIGMAN":
-                    hellDropTable(location, event.getMob(), player);
-                    voidPigman(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidPigman(location, event.getMob(), killer);
                     giveItem(location, Material.ROTTEN_FLESH, 4);
                     break;
                 case "VOID_DEMON":
-                    hellDropTable(location, event.getMob(), player);
-                    voidDemon(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidDemon(location, event.getMob(), killer);
                     giveItem(location, Material.ROTTEN_FLESH, 4);
                     break;
                 case "VOID_NECROMANCER":
-                    hellDropTable(location, event.getMob(), player);
-                    voidNecromancer(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidNecromancer(location, event.getMob(), killer);
                     giveItem(location, Material.ROTTEN_FLESH, 4);
                     break;
                 case "VOID_BLAZE":
-                    hellDropTable(location, event.getMob(), player);
-                    voidBlaze(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidBlaze(location, event.getMob(), killer);
                     giveItem(location, Material.BLAZE_ROD, 3);
                     break;
                 case "VOID_PROTECTOR":
-                    hellDropTable(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
                     giveItem(location, Material.IRON_INGOT, 3);
                     break;
                 case "VOID_HEALER":
-                    hellDropTable(location, event.getMob(), player);
-                    voidHealer(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidHealer(location, event.getMob(), killer);
                     giveItem(location, Material.BONE, 3);
                     break;
 
                 case "VOID_MAGMA":
                 case "VOID_MAGMA2":
                 case "VOID_MAGMA3":
-                    voidMagma(location, event.getMob(), player);
-                    hellDropTable(location, event.getMob(), player);
+                    voidMagma(location, event.getMob(), killer);
+                    hellDropTable(location, event.getMob(), killer);
                     giveItem(location, Material.MAGMA_CREAM, 4);
                     break;
                 case "VOID_SKELETON":
-                    hellDropTable(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
                     giveItem(location, Material.BONE, 4);
                     break;
                 case "VOID_PIGMAN2":
-                    hellDropTable(location, event.getMob(), player);
-                    voidPigman(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidPigman(location, event.getMob(), killer);
                     giveItem(location, Material.ROTTEN_FLESH, 5);
                     break;
                 case "VOID_NECROMANCER2":
-                    hellDropTable(location, event.getMob(), player);
-                    voidNecromancer(location, event.getMob(), player);
+                    hellDropTable(location, event.getMob(), killer);
+                    voidNecromancer(location, event.getMob(), killer);
                     giveItem(location, Material.BONE, 4);
                     break;
 
@@ -354,70 +360,70 @@ public class MythicMobDrops implements Listener {
                  *   Void
                  */
                 case "VOID_WORSHIPER":
-                    voidDropTable(location, event.getMob(), player);
-                    voidWorshiper(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidWorshiper(location, event.getMob(), killer);
                     giveItem(location, Material.ENDER_PEARL, 4);
                     break;
                 case "VOID_SOURCE":
-                    voidDropTable(location, event.getMob(), player);
-                    voidSource(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidSource(location, event.getMob(), killer);
                     giveItem(location, Material.SHULKER_SHELL, 4);
                     break;
                 case "VOID_THRALL":
-                    voidDropTable(location, event.getMob(), player);
-                    voidThrall(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidThrall(location, event.getMob(), killer);
                     giveItem(location, Material.OBSIDIAN, 3);
                     break;
                 case "VOID_ASSASSIN":
-                    voidDropTable(location, event.getMob(), player);
-                    voidAssassin(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidAssassin(location, event.getMob(), killer);
                     giveItem(location, MMOItemsHelperImpl.getItem("MATERIAL", "CHORUS_SEED"), 3);
                     giveItem(location, Material.OBSIDIAN, 2);
                     break;
                 case "VOID_VEIN":
-                    voidDropTable(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
                     giveItem(location, Material.WITHER_ROSE, 5);
                     break;
 
                 case "VOID_MONITOR":
-                    voidDropTable(location, event.getMob(), player);
-                    voidMonitor(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidMonitor(location, event.getMob(), killer);
                     giveItem(location, Material.OBSIDIAN, 2);
                     break;
                 case "VOID_MEGA_BOOMER":
-                    voidDropTable(location, event.getMob(), player);
-                    voidMegaBoomer(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidMegaBoomer(location, event.getMob(), killer);
                     giveItem(location, Material.GUNPOWDER, 5);
                     break;
                 case "VOID_CHAMPION":
-                    voidDropTable(location, event.getMob(), player);
-                    voidChampion(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidChampion(location, event.getMob(), killer);
                     break;
 
                 case "VOID_BOSS_DEFENDER":
                 case "VOID_BOSS_DEFENDER3":
-                    voidDropTable(location, event.getMob(), player);
-                    voidDefender(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidDefender(location, event.getMob(), killer);
                     giveItem(location, Material.OBSIDIAN, 5);
                     break;
                 case "VOID_BOSS_DEFENDER2":
-                    voidDropTable(location, event.getMob(), player);
-                    voidDefender(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidDefender(location, event.getMob(), killer);
                     break;
                 case "VOID_BOSS_DEFENDER4":
-                    voidDropTable(location, event.getMob(), player);
-                    voidDefender(location, event.getMob(), player);
+                    voidDropTable(location, event.getMob(), killer);
+                    voidDefender(location, event.getMob(), killer);
                     giveItem(location, Material.ENDER_PEARL, 3);
                     break;
             }
             if (chanceCheck.chanceCheck(.001))
-                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "BORGS_BOX5"), player);
+                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "BORGS_BOX5"), killer);
             else if (chanceCheck.chanceCheck(.025))
-                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_BOX5"), player);
+                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("CONSUMABLE", "MAGICAL_BOX5"), killer);
             else if (chanceCheck.chanceCheck(.0095))
-                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("MATERIAL", "ENGRAM1"), player);
+                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("MATERIAL", "ENGRAM1"), killer);
             else if (chanceCheck.chanceCheck(.00075))
-                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("MATERIAL", "ENGRAM2"), player);
+                rareItem(event.getMob(), MMOItemsHelperImpl.getItem("MATERIAL", "ENGRAM2"), killer);
         }
     }
 
