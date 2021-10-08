@@ -10,13 +10,14 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void;
+import monzter.adventurescraft.plugin.utilities.general.Cooldown;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import pl.betoncraft.betonquest.BetonQuest;
 import pl.betoncraft.betonquest.Point;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static monzter.adventurescraft.plugin.AdventuresCraft.restartTime;
@@ -71,13 +72,11 @@ public class Placeholder extends PlaceholderExpansion {
             case "Currency_VotingCoins":
                 return String.valueOf(getPoints("items.Vote", points));
             case "Void_Timer":
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(Void.enchantressCooldown - System.currentTimeMillis());
-                long seconds = (TimeUnit.MILLISECONDS.toSeconds(Void.enchantressCooldown - System.currentTimeMillis()) % 60);
-                return (minutes + " Minutes and " + seconds + " seconds");
+                return (Cooldown.getTimeLeftFormatted(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_ENCHANTRESS"));
             case "Restart_Timer":
                 long hours = TimeUnit.MILLISECONDS.toHours(restartTime - System.currentTimeMillis());
-                minutes = (TimeUnit.MILLISECONDS.toMinutes(restartTime - System.currentTimeMillis()) % 60);
-                seconds = (TimeUnit.MILLISECONDS.toSeconds(restartTime - System.currentTimeMillis()) % 60);
+                long minutes = (TimeUnit.MILLISECONDS.toMinutes(restartTime - System.currentTimeMillis()) % 60);
+                long seconds = (TimeUnit.MILLISECONDS.toSeconds(restartTime - System.currentTimeMillis()) % 60);
                 return (hours + " hours and " + minutes + " Minutes and " + seconds + " seconds");
             case "Restarting":
                 return String.valueOf(restarting);

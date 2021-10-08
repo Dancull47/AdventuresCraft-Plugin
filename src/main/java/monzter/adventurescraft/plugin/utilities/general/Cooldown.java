@@ -55,6 +55,16 @@ public class Cooldown {
         return df.format(getTimeLeft(id, cooldownName));
     }
 
+    public static String getTimeLeftFormatted(UUID id, String cooldownName) {
+        int minutes = (int) getTimeLeft(id, cooldownName) / 60;
+        int seconds = (int) getTimeLeft(id, cooldownName) % 60;
+
+        if (minutes == 0)
+            return seconds + " seconds";
+        else
+            return minutes + " minutes " + seconds + " seconds";
+    }
+
     public void start() {
         this.start = System.currentTimeMillis();
         cooldowns.put(this.id.toString() + this.cooldownName, this);

@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events;
+package monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;

@@ -1,4 +1,4 @@
-package monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events;
+package monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.util.Location;
@@ -9,9 +9,11 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDespawnEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
+import monzter.adventurescraft.plugin.utilities.general.Cooldown;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import net.Indyuce.mmoitems.MMOItems;
@@ -26,6 +28,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.UUID;
 
 import static org.bukkit.potion.PotionEffectType.DAMAGE_RESISTANCE;
 import static org.bukkit.potion.PotionEffectType.REGENERATION;
@@ -91,18 +95,46 @@ public class Void implements Listener {
         }
     }
 
-    public static long enchantressCooldown = 0;
-
     @EventHandler
     public void enchantressSpawn(MythicMobSpawnEvent event) {
-        if (event.getMobType().getInternalName().equals("VOID_ENCHANTRESS"))
-            enchantressCooldown = System.currentTimeMillis() + 10 * 60000;
+        switch (event.getMobType().getInternalName()) {
+            case "VOID_ENCHANTRESS":
+                Cooldown cooldown = new Cooldown(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_ENCHANTRESS", 600);
+                cooldown.start();
+                break;
+            case "VOID_PORTAL":
+                cooldown = new Cooldown(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_PORTAL", 30);
+                cooldown.start();
+                break;
+        }
     }
 
     @EventHandler
     public void enchantressDeath(MythicMobDeathEvent event) {
-        if (event.getMobType().getInternalName().equals("VOID_ENCHANTRESS"))
-            enchantressCooldown = 0;
+        switch (event.getMobType().getInternalName()) {
+            case "VOID_ENCHANTRESS":
+                Cooldown cooldown = new Cooldown(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_ENCHANTRESS", 1);
+                cooldown.start();
+                break;
+            case "VOID_PORTAL":
+                cooldown = new Cooldown(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_PORTAL", 1);
+                cooldown.start();
+                break;
+        }
+    }
+
+    @EventHandler
+    public void enchantressDeath(MythicMobDespawnEvent event) {
+        switch (event.getMobType().getInternalName()) {
+            case "VOID_ENCHANTRESS":
+                Cooldown cooldown = new Cooldown(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_ENCHANTRESS", 1);
+                cooldown.start();
+                break;
+            case "VOID_PORTAL":
+                cooldown = new Cooldown(UUID.fromString("123e4567-e89b-12d3-a456-556642440000"), "VOID_PORTAL", 1);
+                cooldown.start();
+                break;
+        }
     }
 
     private void potion(Player player, PotionEffectType potionEffectType) {

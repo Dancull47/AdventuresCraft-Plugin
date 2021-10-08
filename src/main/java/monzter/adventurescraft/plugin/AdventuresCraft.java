@@ -14,7 +14,13 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventure.regions.plugin.AdventureRegions;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.MythicMobCaptureQuests;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.MythicMobDrops;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.Void;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Statistics;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.*;
@@ -28,15 +34,16 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.LeashCondition;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.Mount;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.SkillCastCondition;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.GravediggerMechanic;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.ModifierDamageMechanic;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidMythicMobSkills;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidWarpMechanic;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
-import monzter.adventurescraft.plugin.network.Shared.Events.BlockInteractions;
-import monzter.adventurescraft.plugin.network.Shared.Events.Join;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
@@ -212,7 +219,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Enchantments(this, calculateEnchantments, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Void(this, soundManager, permissionLP, consoleCommand, AdventureRegions.getInstance().displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Void(this, soundManager, permissionLP, consoleCommand, AdventureRegions.getInstance().displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Statistics(this, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.UnlimitedWaterBucket(this, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Join(this, permissionLP), this);
@@ -658,6 +665,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 event.register(new ModifierDamageMechanic(event.getMechanicName(), event.getConfig()));
                 this.getLogger().info(ChatColor.YELLOW + "CUSTOMDAMAGE registered!");
                 break;
+            case "VOIDWARP":
+                event.register(new VoidWarpMechanic(event.getMechanicName(), event.getConfig(), this, chanceCheck, soundManager, itemAdder));
+                this.getLogger().info(ChatColor.YELLOW + "VOIDWARP registered!");
+                break;
             case "GRAVEDIGGER":
                 event.register(new GravediggerMechanic(event.getMechanicName(), event.getConfig()));
                 this.getLogger().info(ChatColor.YELLOW + "GRAVEDIGGER registered!");
@@ -677,6 +688,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
                 event.register(new SkillCastCondition(event.getConfig()));
                 this.getLogger().info(ChatColor.GREEN + "SKILLCAST registered!");
                 break;
+//            case "ENCHANTRESS_COOLDOWN":
+//                event.register(new Enchantress(event.getConfig()));
+//                this.getLogger().info(ChatColor.GREEN + "ENCHANTRESS_COOLDOWN registered!");
+//                break;
 //            case "MANA":
 //                SkillCondition manaCondition = new ManaCondition(event.getConfig());
 //                event.register(manaCondition);
