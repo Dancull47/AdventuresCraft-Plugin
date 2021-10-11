@@ -27,6 +27,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.BQTagCondition;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.LeashCondition;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.SkillCastCondition;
@@ -501,6 +502,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "SKILLCAST":
                 event.register(new SkillCastCondition(event.getConfig()));
                 this.getLogger().info(ChatColor.GREEN + "SKILLCAST registered!");
+                break;
+            case "BQ_TAG":
+                event.register(new BQTagCondition(event.getConfig(), betonTagManager));
+                this.getLogger().info(ChatColor.GREEN + "BQ_TAG registered!");
                 break;
 
             case "SKILLTREELEVEL":

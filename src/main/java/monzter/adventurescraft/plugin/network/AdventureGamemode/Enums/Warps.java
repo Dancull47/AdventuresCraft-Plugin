@@ -37,9 +37,6 @@ public enum Warps {
     Goblin_Town(Arrays.asList("GoblinTown"), Arrays.asList("warp.GoblinTown","warp.goblintown"), new Location(Bukkit.getWorld("Spawn"), -894.63, 32, -396.59, -15F, 0F)),
     Spirit_Grounds(Arrays.asList("SpiritGrounds"), Arrays.asList("warp.SpiritGrounds","warp.spiritgrounds"), new Location(Bukkit.getWorld("Spawn"), -892.26, 32, -509.90, 180F, 0F)),
 
-    Hell(Arrays.asList("Hell"), Arrays.asList("warp.Hell","cmi.command.portal.hell"), new Location(Bukkit.getWorld("Spawn"), -146.96, 48, -1153.16, 180, 0)),
-    Lower_Hell(Arrays.asList("Hell2", "HellBottom","LowerHell","HellLower"), Arrays.asList("warp.Hell2","warp.hellbottom"), new Location(Bukkit.getWorld("Spawn"), -230, 12, -1260.16, 0, 0)),
-
     Void(Arrays.asList("Void"), Arrays.asList("warp.Void","cmi.command.portal.void"), new Location(Bukkit.getWorld("Spawn"), -217.6, 36, -1107.9, 0F, 0F)),
     Void_Maze(Arrays.asList("VoidMaze"), Arrays.asList("warp.VoidMaze","warp.Void2"), new Location(Bukkit.getWorld("Spawn"), -193.5, 13, -826.5, 0F, 0)),
     Void_Abyss(Arrays.asList("VoidAbyss"), Arrays.asList("warp.VoidAbyss"), new Location(Bukkit.getWorld("Spawn"), -71.5, 25, -762.5, -90F, 0)),

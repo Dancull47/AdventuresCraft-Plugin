@@ -49,7 +49,7 @@ public class Warp extends BaseCommand implements PluginMessageListener {
     @CommandAlias("warp|travel")
     @CommandCompletion("Town|Spawn|Farm|Forest|SpruceForest|DarkOakForest|BirchForest|AcaciaForest|JungleForest|HiveForest|" +
             "MineEntrance|CoalMine|GoldMine|RedstoneMine|LapisMine|DiamondMine|EmeraldMine|Graveyard|Courtyard|Castle|Morden|" +
-            "Estate|GoblinTown|SpiritGrounds|Hell|LowerHell|Void|" +
+            "Estate|GoblinTown|SpiritGrounds|Void|" +
             "Enchanter|Auction|Dracula|Reaper|VoidWither|VoidMagma|Ghastly|Bullbo")
     public void warp(Player player, String warpName) {
         Warps warps = warpExists(warpName);

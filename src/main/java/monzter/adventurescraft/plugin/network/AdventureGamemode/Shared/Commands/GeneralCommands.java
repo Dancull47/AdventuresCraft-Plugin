@@ -161,7 +161,7 @@ public class GeneralCommands extends BaseCommand implements Listener {
     }
 
     @CommandAlias("shops")
-    @CommandCompletion("farming|foraging|mining|gems|slayer|cooking|wand|wands|hell|void|enchanted|material|enchantedMaterials")
+    @CommandCompletion("farming|foraging|mining|gems|slayer|cooking|wand|wands|void|enchanted|material|enchantedMaterials")
     private void shop(Player player, String shop) {
         switch (shop.toLowerCase()) {
             case "farming":

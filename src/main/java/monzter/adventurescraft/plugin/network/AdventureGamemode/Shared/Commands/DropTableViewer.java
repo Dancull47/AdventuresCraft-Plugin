@@ -11,7 +11,7 @@ import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import monzter.adventurescraft.plugin.AdventuresCraft;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables.Crates;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables.DropTables;
 import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.enums.CrateList;
@@ -46,7 +46,7 @@ public class DropTableViewer extends BaseCommand {
     private void undeadCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Undead Crate"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.UNDEAD);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.UNDEAD);
         createMenu(player, gui, guiContents, Material.GREEN_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
@@ -55,7 +55,7 @@ public class DropTableViewer extends BaseCommand {
     private void hellCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Hell Crate"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.HELL);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.HELL);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
@@ -64,7 +64,7 @@ public class DropTableViewer extends BaseCommand {
     private void professionCrate(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Profession Crate"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.PROFESSION);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.PROFESSION);
         createMenu(player, gui, guiContents, Material.CYAN_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
@@ -73,7 +73,7 @@ public class DropTableViewer extends BaseCommand {
     private void magicalBox(Player player) {
         height = 6;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Magical Box"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.MAGICAL);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.MAGICAL);
         createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
@@ -82,7 +82,7 @@ public class DropTableViewer extends BaseCommand {
     private void borgBox(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Borg's Box"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.BORG);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.BORG);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, false);
         gui.show(player);
     }
@@ -91,7 +91,7 @@ public class DropTableViewer extends BaseCommand {
     private void enchantedBox(Player player) {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.ENCHANTED_BOX);
         createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2, false);
         gui.show(player);
     }
@@ -100,7 +100,7 @@ public class DropTableViewer extends BaseCommand {
     private void enchantedBox2(Player player) {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX2);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.ENCHANTED_BOX2);
         createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 2, false);
         gui.show(player);
     }
@@ -109,7 +109,7 @@ public class DropTableViewer extends BaseCommand {
     private void enchantedBox3(Player player) {
         height = 3;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchanted Box"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTED_BOX3);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.ENCHANTED_BOX3);
         createMenu(player, gui, guiContents, Material.PURPLE_STAINED_GLASS_PANE, height, 3, false);
         gui.show(player);
     }
@@ -118,7 +118,7 @@ public class DropTableViewer extends BaseCommand {
     private void reaper(Player player) {
         height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Reaper"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.REAPER);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.REAPER);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2, true);
         gui.show(player);
     }
@@ -127,7 +127,7 @@ public class DropTableViewer extends BaseCommand {
     private void morden(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Morden"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.MORDEN);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.MORDEN);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -136,7 +136,7 @@ public class DropTableViewer extends BaseCommand {
     private void voidDracula(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Dracula"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.VOID_DRACULA);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.VOID_DRACULA);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -145,7 +145,7 @@ public class DropTableViewer extends BaseCommand {
     private void dryad(Player player) {
         height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Dryad"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.DRYAD);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.DRYAD);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -154,7 +154,7 @@ public class DropTableViewer extends BaseCommand {
     private void goblinChief(Player player) {
         height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Goblin Chief"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.GOBLIN_CHIEF);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.GOBLIN_CHIEF);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2, true);
         gui.show(player);
     }
@@ -163,7 +163,7 @@ public class DropTableViewer extends BaseCommand {
     private void voidWither(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Void Wither"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.VOID_WITHER);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.VOID_WITHER);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -172,7 +172,7 @@ public class DropTableViewer extends BaseCommand {
     private void voidMagma(Player player) {
         height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Void Magma"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.VOID_MAGMA);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.VOID_MAGMA);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 2, true);
         gui.show(player);
     }
@@ -181,7 +181,7 @@ public class DropTableViewer extends BaseCommand {
     private void ghastly(Player player) {
         height = 4;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Ghastly"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.GHASTLY);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.GHASTLY);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -190,7 +190,7 @@ public class DropTableViewer extends BaseCommand {
     private void bulblin(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Bulblin"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.BULBLIN);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.BULBLIN);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -199,7 +199,7 @@ public class DropTableViewer extends BaseCommand {
     private void bullbo(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Bullbo"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.BULLBO);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.BULLBO);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }
@@ -208,7 +208,7 @@ public class DropTableViewer extends BaseCommand {
     private void enchantress(Player player) {
         height = 5;
         final ChestGui gui = new ChestGui(height, guiHelper.guiName("Enchantress"));
-        final List<Crates> guiContents = Crates.getCrates(CrateList.ENCHANTRESS);
+        final List<DropTables> guiContents = DropTables.getCrates(CrateList.ENCHANTRESS);
         createMenu(player, gui, guiContents, Material.RED_STAINED_GLASS_PANE, height, 1, true);
         gui.show(player);
     }

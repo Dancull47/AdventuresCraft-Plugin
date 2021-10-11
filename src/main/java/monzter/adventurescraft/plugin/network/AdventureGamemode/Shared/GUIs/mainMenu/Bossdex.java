@@ -13,7 +13,7 @@ import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Enums.Bosses;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables.Crates;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables.DropTables;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
 import monzter.adventurescraft.plugin.utilities.enums.Prefix;
@@ -87,8 +87,8 @@ public class Bossdex extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
 
-        final List<Crates> rewards = Crates.getCrates(boss.getCrateList());
-        for (Crates reward : rewards)
+        final List<DropTables> rewards = DropTables.getCrates(boss.getCrateList());
+        for (DropTables reward : rewards)
             lore.add(Prefix.PREFIX.getString() + reward.getItemStack().getItemMeta().getDisplayName() + " " + ChatColor.WHITE + df.format(reward.getWeight() * 100) + "%");
         if (boss.isRespawn()) {
             lore.add("");

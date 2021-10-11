@@ -70,12 +70,6 @@ public class Map extends BaseCommand {
 
         display.addItem(new GuiItem(goblinTown(player), e -> player.performCommand("warp goblinTown")), 1, 2);
         display.addItem(new GuiItem(spiritGrounds(player), e -> player.performCommand("warp spiritGrounds")), 2, 2);
-        display.addItem(new GuiItem(hell(player), e -> {
-            if (e.isLeftClick())
-                player.performCommand("warp hell");
-            else if (e.isRightClick())
-                player.performCommand("warp hellBottom");
-        }), 3, 2);
         display.addItem(new GuiItem(theVoid(player), e -> player.performCommand("warp void")), 4, 2);
 
         display.addItem(new GuiItem(townHall(player), e -> player.performCommand("warp townHall")), 3, 4);
@@ -311,38 +305,38 @@ public class Map extends BaseCommand {
         return spiritGrounds;
     }
 
-    private ItemStack hell(Player player) {
-        ItemStack hell = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0="));
-        if (!player.hasPermission("cmi.command.portal.hell"))
-            hell = new ItemStack(LOCKED);
-
-        final ItemMeta hellItemMeta = hell.getItemMeta();
-
-        hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell"));
-        if (!player.hasPermission("cmi.command.portal.hell"))
-            hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell " + LOCKED_TEXT));
-
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.DARK_GRAY + "/warp hell");
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Slay your way through " + ChatColor.RED + "Demons" + ChatColor.GRAY + ",");
-        lore.add(ChatColor.GRAY + "and eventually defeat " + ChatColor.RED + "Ghastly" + ChatColor.GRAY + "!");
-        lore.add("");
-        if (!player.hasPermission("cmi.command.portal.hell")) {
-            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
-            lore.add(ChatColor.GREEN + "Level" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "5");
-        } else if (player.hasPermission("cmi.command.portal.hell") && !player.hasPermission("warp.hellbottom")) {
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
-        } else {
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel to Upper Hell");
-            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Travel to Lower Hell");
-        }
-
-        hell.setItemMeta(hellItemMeta);
-        hell.setLore(lore);
-
-        return hell;
-    }
+//    private ItemStack hell(Player player) {
+//        ItemStack hell = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0="));
+//        if (!player.hasPermission("cmi.command.portal.hell"))
+//            hell = new ItemStack(LOCKED);
+//
+//        final ItemMeta hellItemMeta = hell.getItemMeta();
+//
+//        hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell"));
+//        if (!player.hasPermission("cmi.command.portal.hell"))
+//            hellItemMeta.displayName(Component.text(ChatColor.GREEN + "Hell " + LOCKED_TEXT));
+//
+//        List<String> lore = new ArrayList<>();
+//        lore.add(ChatColor.DARK_GRAY + "/warp hell");
+//        lore.add("");
+//        lore.add(ChatColor.GRAY + "Slay your way through " + ChatColor.RED + "Demons" + ChatColor.GRAY + ",");
+//        lore.add(ChatColor.GRAY + "and eventually defeat " + ChatColor.RED + "Ghastly" + ChatColor.GRAY + "!");
+//        lore.add("");
+//        if (!player.hasPermission("cmi.command.portal.hell")) {
+//            lore.add(ChatColor.RED.toString() + ChatColor.BOLD + "LOCKED");
+//            lore.add(ChatColor.GREEN + "Level" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "5");
+//        } else if (player.hasPermission("cmi.command.portal.hell") && !player.hasPermission("warp.hellbottom")) {
+//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to Travel");
+//        } else {
+//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Travel to Upper Hell");
+//            lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Right-Click to Travel to Lower Hell");
+//        }
+//
+//        hell.setItemMeta(hellItemMeta);
+//        hell.setLore(lore);
+//
+//        return hell;
+//    }
 
     private ItemStack theVoid(Player player) {
         ItemStack theVoid = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIwMWFlMWE4YTA0ZGY1MjY1NmY1ZTQ4MTNlMWZiY2Y5Nzg3N2RiYmZiYzQyNjhkMDQzMTZkNmY5Zjc1MyJ9fX0="));

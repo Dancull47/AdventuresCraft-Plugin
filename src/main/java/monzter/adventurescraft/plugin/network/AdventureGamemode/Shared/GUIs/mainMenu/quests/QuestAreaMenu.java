@@ -55,6 +55,7 @@ public class QuestAreaMenu extends BaseCommand {
     public void tutorial(Player player) {
         menuGenerator(player, QuestArea.TUTORIAL, Material.YELLOW_STAINED_GLASS_PANE);
     }
+
     @CommandAlias("Town")
     public void town(Player player) {
         menuGenerator(player, QuestArea.TOWN, Material.BROWN_STAINED_GLASS_PANE);
@@ -100,19 +101,14 @@ public class QuestAreaMenu extends BaseCommand {
         menuGenerator(player, QuestArea.ESTATE, Material.GREEN_STAINED_GLASS_PANE);
     }
 
-    @CommandAlias("GoblinTown|GoblinVillage")
+    @CommandAlias("GoblinTown|GoblinVillage|Goblin_Town")
     public void goblinTown(Player player) {
         menuGenerator(player, QuestArea.GOBLIN_TOWN, Material.RED_STAINED_GLASS_PANE);
     }
 
-    @CommandAlias("SpiritGrounds")
+    @CommandAlias("SpiritGrounds|Spirit_Grounds")
     public void spiritGrounds(Player player) {
         menuGenerator(player, QuestArea.SPIRIT_GROUNDS, Material.PURPLE_STAINED_GLASS_PANE);
-    }
-
-    @CommandAlias("Hell")
-    public void hell(Player player) {
-        menuGenerator(player, QuestArea.HELL, Material.RED_STAINED_GLASS_PANE);
     }
 
     @CommandAlias("Void")
@@ -152,7 +148,7 @@ public class QuestAreaMenu extends BaseCommand {
         int completedQuests = 0;
         for (QuestList quests : QuestList.values()) {
             if (quests.getQuestGiver().getArea() == questArea) {
-                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_', ' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
 //                plugin.getLogger().info(packageBuilder + quests.name() + "_COMPLETED");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                     completedQuests++;
@@ -160,7 +156,7 @@ public class QuestAreaMenu extends BaseCommand {
         }
 
 
-        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(WordUtils.capitalizeFully(questArea.name()) + " Quests " + completedQuests + "/" + questAmount));
+        ChestGui gui = new ChestGui(height + 1, guiHelper.guiName(WordUtils.capitalizeFully(questArea.name().replace('_', ' ')) + " Quests " + completedQuests + "/" + questAmount));
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
         OutlinePane background = new OutlinePane(0, 0, 9, height + 1, Pane.Priority.LOWEST);
@@ -192,7 +188,7 @@ public class QuestAreaMenu extends BaseCommand {
         int completedQuests = 0;
         for (QuestList quests : QuestList.values()) {
             if (quests.getQuestGiver() == questGiver) {
-                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_',' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
+                String packageBuilder = "default-" + WordUtils.capitalizeFully(quests.getQuestGiver().getArea().name().replace('_', ' ')).replace(' ', '_') + "-" + WordUtils.capitalizeFully(quests.getQuestGiver().name() + ".");
                 if (betonTagManager.hasTag(player, packageBuilder + quests.name() + "_COMPLETED"))
                     completedQuests++;
             }

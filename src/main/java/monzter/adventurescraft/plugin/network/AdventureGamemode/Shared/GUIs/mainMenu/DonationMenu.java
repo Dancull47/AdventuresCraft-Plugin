@@ -121,12 +121,12 @@ public class DonationMenu extends BaseCommand {
         final ItemStack adventureShop = new ItemStack(Material.CHEST);
         final ItemMeta adventureShopItemMeta = adventureShop.getItemMeta();
 
-        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "Crates"));
+        adventureShopItemMeta.displayName(Component.text(ChatColor.GOLD + "DropTables"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GRAY + "Use your " + PrisonStatsDisplay.ADVENTURE_COINS.getName());
-        lore.add(ChatColor.GRAY + "to purchase " + ChatColor.GREEN + "Crates " + ChatColor.GRAY + "which ");
+        lore.add(ChatColor.GRAY + "to purchase " + ChatColor.GREEN + "DropTables " + ChatColor.GRAY + "which ");
         lore.add(ChatColor.GRAY + "hold " + ChatColor.GREEN + "Skins " + ChatColor.GRAY + "or " + ChatColor.BLUE + "Boosters" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Click to View");

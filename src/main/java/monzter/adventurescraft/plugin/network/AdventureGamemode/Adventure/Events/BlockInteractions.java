@@ -8,6 +8,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,6 +37,11 @@ public class BlockInteractions implements Listener {
                 if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.LECTERN))
                     if (event.getClickedBlock().getLocation().equals(location))
                         event.getPlayer().performCommand("AreaShop Graveyard");
+
+                if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE && event.getPlayer().isSneaking() && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    event.getPlayer().performCommand("materials");
+                    event.setCancelled(true);
+                }
         }
     }
 

@@ -3,7 +3,7 @@ package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mai
 public enum DonationShops {
     SKINS("Skins"),
     BOOSTERS("Boosters"),
-    CRATES("Crates"),
+    CRATES("DropTables"),
     ;
 
     public final String name;

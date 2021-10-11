@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public enum Crates implements Weighted, ItemGenerator {
+public enum DropTables implements Weighted, ItemGenerator {
 //    HELL2(CrateList.HELL, "SKIN", "RUSTED_SWORD3", 1, .20),
 //    HELL8(CrateList.HELL, "SKIN", "RUSTED_BATTLE_AXE3", 1, .20),
 //    HELL9(CrateList.HELL, "SKIN", "MAGMA_BATTLE_AXE3", 1, .20),
@@ -211,30 +211,6 @@ public enum Crates implements Weighted, ItemGenerator {
     GOBLIN_CHIEF4(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("AXE", "CHIEF_AXE4", 1), .02),
     GOBLIN_CHIEF5(CrateList.GOBLIN_CHIEF, MMOItemsHelperImpl.getItem("WAND", "CHIEF_JUKEBOX5", 1), .01),
 
-    VOID_WITHER1(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("QUEST", "WITHER_HEAD3", 1), .05),
-    VOID_WITHER2(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("CONSUMABLE", "WITHER_HEAD3", 1), .05),
-    VOID_WITHER3(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "CURSED_BOOTS4", 1), .01),
-    VOID_WITHER4(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "CURSED_HELMET4", 1), .0095),
-    VOID_WITHER5(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "CURSED_LEGGINGS4", 1), .009),
-    VOID_WITHER6(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "CURSED_CHESTPLATE4", 1), .0085),
-    VOID_WITHER7(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_HEAD5", 1), .005),
-    VOID_WITHER8(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_BOOTS5", 1), .005),
-    VOID_WITHER9(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_CHEST5", 1), .001),
-    VOID_WITHER10(CrateList.VOID_WITHER, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_LEGS5", 1), .001),
-
-    VOID_MAGMA1(CrateList.VOID_MAGMA, MMOItemsHelperImpl.getItem("CONSUMABLE", "VOIDMAGMA_HEAD3", 1), .05),
-    VOID_MAGMA2(CrateList.VOID_MAGMA, MMOItemsHelperImpl.getItem("QUEST", "VOIDMAGMA_HEAD3", 1), .05),
-    VOID_MAGMA3(CrateList.VOID_MAGMA, MMOItemsHelperImpl.getItem("SPELL", "MAGMA_FISSURE2", 1), .02),
-    VOID_MAGMA4(CrateList.VOID_MAGMA, MMOItemsHelperImpl.getItem("SPELL", "MAGMA_FISSURE3", 1), .001),
-
-    GHASTLY1(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("QUEST", "GHASTLY_TEAR3", 1), 1),
-    GHASTLY2(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("CONSUMABLE", "GHASTLY_HEAD3", 1), .05),
-    GHASTLY3(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("QUEST", "GHASTLY_HEAD3", 1), .05),
-    GHASTLY4(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_HEAD5", 1), .0075),
-    GHASTLY5(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_BOOTS5", 1), .0075),
-    GHASTLY6(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_CHEST5", 1), .005),
-    GHASTLY7(CrateList.GHASTLY, MMOItemsHelperImpl.getItem("ARMOR", "DEVIL_LEGS5", 1), .005),
-
     BULBLIN1(CrateList.BULBLIN, MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_ENDER_PEARL", 1), .5),
     BULBLIN2(CrateList.BULBLIN, MMOItemsHelperImpl.getItem("CONSUMABLE", "BULBLIN_HEAD3", 1), .05),
     BULBLIN3(CrateList.BULBLIN, MMOItemsHelperImpl.getItem("QUEST", "BULBLIN_HEAD3", 1), .05),
@@ -268,9 +244,9 @@ public enum Crates implements Weighted, ItemGenerator {
     ENCHANTRESS12(CrateList.ENCHANTRESS, MMOItemsHelperImpl.getItem("ARMOR", "ENCHANTRESS_BOOTS4", 1), .01),
     ;
 
-    private static final Map<CrateList, List<Crates>> RARITY_LISTS = new EnumMap<>(CrateList.class);
+    private static final Map<CrateList, List<DropTables>> RARITY_LISTS = new EnumMap<>(CrateList.class);
 
-    public static List<Crates> getCrates(CrateList rarity) {
+    public static List<DropTables> getCrates(CrateList rarity) {
         return RARITY_LISTS.computeIfAbsent(rarity, key -> Arrays.stream(values())
                 .filter(lootbox -> lootbox.getCrate() == key)
                 .collect(Collectors.toList()));
@@ -280,7 +256,7 @@ public enum Crates implements Weighted, ItemGenerator {
     private final ItemStack itemStack;
     private final double weight;
 
-    Crates(CrateList crate, ItemStack itemStack, double weight) {
+    DropTables(CrateList crate, ItemStack itemStack, double weight) {
         this.crate = crate;
         this.itemStack = itemStack;
         this.weight = weight;

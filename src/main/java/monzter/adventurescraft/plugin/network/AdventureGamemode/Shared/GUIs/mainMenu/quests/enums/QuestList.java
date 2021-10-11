@@ -242,7 +242,7 @@ public enum QuestList {
 
     THRALL_THRASHING(QuestGiver.KHAZIX,
             new String[]{"&aSlay &f%betonquest_default-Void-Khazix:point.THRALL_THRASHING.amount%/30 &cVoid Thralls &fwithin the &5Void"},
-            null, new String[]{"CONSUMABLE THRALL_BALL3 4"}, 300, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",300"}, 150),
+            null, new String[]{"SPELL THRALL_BALL3 4"}, 300, new String[]{AdventureStatsDisplay.SLAYER.getName() + ",300"}, 150),
     THRALL_EGG_DELIVERY(QuestGiver.KHAZIX,
             new String[]{"&aDeliver &f16 &2Thrall Eggs &fto &aKhazix"},
             null, null, 0, null, 0),
