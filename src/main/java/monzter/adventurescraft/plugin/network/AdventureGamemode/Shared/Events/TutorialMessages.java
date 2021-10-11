@@ -1,18 +1,16 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events;
 
-import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 
 public enum TutorialMessages {
-    RESOURCE_COLLECTOR(Prefix.TUT_PREFIX.getComponent().append(Component.text("The item you just picked up was deposited in your ")
-            .color(NamedTextColor.GREEN)
-            .append(Component.text("Resource Collector, ", NamedTextColor.GOLD))
-            .hoverEvent(Component.text("Click to view Resource Collector!", NamedTextColor.GREEN))
-            .clickEvent(ClickEvent.suggestCommand("/resourcecollector"))
-            .append(Component.text("which holds common resources to help keep your inventory clean!")))),
+    RESOURCE_COLLECTOR(MiniMessage.get().parse("<click:suggest_command:/resourcecollector><hover:show_text:'<green>Click to view Resource Collector!'>" +
+            "<green>The item you just picked up was deposited into your " +
+            "<gold>Resource Collector" +
+            "<green>, which holds common resources to help keep your inventory clean!")),
     ;
 
     public final Component component;

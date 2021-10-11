@@ -4,6 +4,7 @@ import dev.dbassett.skullcreator.SkullCreator;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,7 +34,12 @@ public class ItemSlotLock implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void click(InventoryClickEvent event) {
-        if (event.getSlot() == 8 || event.getHotbarButton() == 8) {
+        if (event.getHotbarButton() == 8) {
+            Player player = (Player) event.getWhoClicked();
+            player.performCommand("Main");
+            event.setCancelled(true);
+        } else if (event.getSlot() == 8 && event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR
+                && event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "Menu")) {
             Player player = (Player) event.getWhoClicked();
             player.performCommand("Main");
             event.setCancelled(true);

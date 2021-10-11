@@ -10,6 +10,7 @@ import java.util.List;
 public enum Resources {
     ROTTEN_FLESH(new ItemStack(Material.ROTTEN_FLESH), "COMBAT"),
     BONE(new ItemStack(Material.BONE), "COMBAT"),
+    ARROW(new ItemStack(Material.ARROW), "COMBAT"),
     BONE_FRAG(MMOItemsHelperImpl.getItem("MATERIAL", "BONE_FRAGMENT"), "COMBAT"),
     SPIDER_EYE(new ItemStack(Material.SPIDER_EYE), "COMBAT"),
     STRING(new ItemStack(Material.STRING), "COMBAT"),
