@@ -2,13 +2,6 @@ package monzter.adventurescraft.plugin;
 
 import co.aikar.commands.PaperCommandManager;
 import com.comphenix.protocol.ProtocolManager;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.LocationFlag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.StringFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
@@ -43,6 +36,8 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMob
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidWarpMechanic;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
+import monzter.adventurescraft.plugin.network.NarutoGamemode.GUIs.NarutoSkillTree;
+import monzter.adventurescraft.plugin.network.NarutoGamemode.MythicMobs.Conditions.SkillTreeLevelCondition;
 import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
@@ -146,10 +141,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "Lobby":
                 lobbyLoad();
                 break;
-//            case "Prison":
-//                prisonLoad();
-//                prisonShared();
-//                break;
+            case "Naruto":
+                narutoLoad();
+                break;
 //            case "Cell":
 //                cellLoad();
 //                prisonShared();
@@ -236,7 +230,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void adventureShared() {
 //        Placeholder
-        new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.Placeholder(this, AdventureRegions.getInstance().displayNameFlag).register();
+        new Placeholder(this, AdventureRegions.getInstance().displayNameFlag).register();
 //        Commands
         manager.registerCommand(new HomeCommands(this, consoleCommand, permissionLP, soundManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.GeneralCommands(this, consoleCommand, permissionLP, soundManager));
@@ -294,81 +288,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     }
 
-//    private void prisonLoad() {
-////        Commands
-//        manager.registerCommand(new MineTeleport(this));
-//        manager.registerCommand(new Sell(this, AdventureRegions.getInstance().sellLocationFlag, economy, numberFormat, soundManager));
-////        Events
-//        Bukkit.getServer().getPluginManager().registerEvents(new Tutorial(this, mmoItemsGive, permissionLP, areaCheck), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new JoinPrison(this, mmoItemsGive, permissionLP), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new ChestInteract(this, AdventureRegions.getInstance().prisonMineFlag, dropTablesDelivery), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakMining(this, AdventureRegions.getInstance().prisonMineFlag, soundManager, chanceCheck, consoleCommand, mmoItemsGive, betonPointsManager, economy, numberFormat), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new BeachEvent(this, consoleCommand, mythicMobsSpawn), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new Xur(this, soundManager), this);
-//        xur = new Xur(this, soundManager);
-//        xur.onEnable();
-//    }
-//
-//    private void cellLoad() {
-////        GUIs
-//        manager.registerCommand(new CellFlagsGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
-//        manager.registerCommand(new CellDisplayGUI(this, soundManager, BentoBox.getInstance(), guiHelper));
-//        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.PrisonGamemode.cell.events.Join(this, permissionLP, BentoBox.getInstance()), this);
-////        Event
-//    }
-//
-//    private void prisonShared() {
-//        getLogger().info("Prison / Cell Shared Loaded");
-//        prisonTipMessages();
-////        Placeholder
-//        new Placeholder(this, perms, numberFormat, loadPets(), AdventureRegions.getInstance().displayNameFlag, restartTime, economy, BentoBox.getInstance(), calculateEnchantments).register();
-////        Events
-//        Bukkit.getServer().getPluginManager().registerEvents(new ProjectileCancelArrowDrop(this), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new InteractPetEgg(this, numberFormat), this);
-//        Bukkit.getServer().getPluginManager().registerEvents(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager), this);
-////        Main GUIs
-//        manager.registerCommand(new MainMenu(this, soundManager, guiHelper, betonTagManager));
-//        manager.registerCommand(new ProfileMenu(this, soundManager, guiHelper));
-//        manager.registerCommand(new Map(this, soundManager, guiHelper, consoleCommand));
-//        manager.registerCommand(new RankMap(this, soundManager, guiHelper, consoleCommand));
-//        manager.registerCommand(new PrestigeMap(this, soundManager, guiHelper, consoleCommand));
-//        manager.registerCommand(new Leaderboards(this, soundManager, guiHelper, consoleCommand));
-//        manager.registerCommand(new Pets(this, soundManager, guiHelper, consoleCommand, loadPetsConfig(), mmoItemsGive, permissionLP, betonPointsManager, fullInventory));
-//        manager.registerCommand(new DonationMenu(this, soundManager, guiHelper, consoleCommand));
-//        manager.registerCommand(new DonationShop(this, soundManager, guiHelper, consoleCommand, numberFormat));
-//        manager.registerCommand(new Settings(this, soundManager, guiHelper, consoleCommand, permissionLP));
-//        manager.registerCommand(new Social(this, soundManager, guiHelper, consoleCommand, permissionLP));
-//        manager.registerCommand(new Quests(this, soundManager, guiHelper, consoleCommand, betonTagManager));
-//        manager.registerCommand(new NPCQuestsDisplay(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonTagManager, fullInventory, itemAdder, betonPointsManager, economy));
-//        manager.registerCommand(new QuestAreaMenu(this, soundManager, guiHelper, consoleCommand, betonTagManager));
-//        manager.registerCommand(new SafeDrop(this, soundManager, guiHelper, consoleCommand, permissionLP));
-//        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.mainMenu.donation.MiningPass(this, soundManager, guiHelper, consoleCommand, numberFormat, fullInventory, permissionLP, betonPointsManager));
-//        manager.registerCommand(new Backpack(this, soundManager, guiHelper, consoleCommand));
-//        manager.registerCommand(new DropTablesView(this, guiHelper));
-////        Shop GUIs
-//        manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
-//        manager.registerCommand(new Weight(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, betonPointsManager, permissionLP));
-//        manager.registerCommand(new Armor(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
-//        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Hatching(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
-//        manager.registerCommand(new Tools(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat));
-//        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.GUIs.shops.Enchanting(this, soundManager, guiHelper, consoleCommand, economy, fullInventory, mmoItemsGive, numberFormat, calculateEnchantments));
-//        manager.registerCommand(new VoteRewards(this, soundManager, guiHelper, consoleCommand, mmoItemsGive, betonPointsManager));
-////        Quest GUIs
-//        manager.registerCommand(new Achivements(this, soundManager, guiHelper, numberFormat, betonPointsManager));
-//        manager.registerCommand(new AchievementGUI(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand, achievementGUIBuilder));
-////        Commands
-//        manager.registerCommand(new AdminCommands(this, mmoItemsGive, permissionLP, betonPointsManager, numberFormat, economy));
-//        manager.registerCommand(new GeneralCommands(this, consoleCommand, soundManager));
-//        manager.registerCommand(new Security(this));
-//        manager.registerCommand(new Donate(this, mmoItemsGive, soundManager, permission));
-//        manager.registerCommand(new Giveaways(this, mmoItemsGive, soundManager, permission));
-//        manager.registerCommand(new Hatching(this, soundManager, consoleCommand, dropTablesDelivery, numberFormat));
-//        manager.registerCommand(new DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery));
-//        manager.registerCommand(new Enchanting(this, numberFormat, soundManager, consoleCommand, (MythicEnchants) Bukkit.getPluginManager().getPlugin("MythicEnchants"), betonPointsManager, calculateEnchantments));
-//        manager.registerCommand(new InteractPets(this, loadPetsConfig(), permissionLP, betonPointsManager, soundManager));
-//        manager.registerCommand(new MoneyMultiplier(economy, this, mmoItemsGive));
-//        manager.registerCommand(new monzter.adventurescraft.plugin.network.PrisonGamemode.shared.commands.Warp(this, permissionLP));
-//    }
+    private void narutoLoad() {
+        new monzter.adventurescraft.plugin.network.NarutoGamemode.Events.Placeholder(this, AdventureRegions.getInstance().displayNameFlag).register();
+//        Commands
+        manager.registerCommand(new NarutoSkillTree(this, soundManager, guiHelper, betonPointsManager));
+    }
 
     private void lobbyLoad() {
 //        Commands
@@ -426,116 +350,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void setupPermissions() {
         perms = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class).getProvider();
-    }
-
-//    private Set<Pet> loadPets() {
-//        File petsFile = new File(getDataFolder(), "pets.yml");
-//        if (!petsFile.exists()) {
-//            saveResource("pets.yml", false);
-//        }
-//
-//        Set<Pet> petSet = new HashSet<>();
-//
-//        YamlConfiguration petConfig = YamlConfiguration.loadConfiguration(petsFile);
-//        Set<String> petNames = petConfig.getKeys(false);
-//        for (String currentPetName : petNames) {
-//            if (!petConfig.isConfigurationSection(currentPetName)) {
-//                getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Rarity Config section with key: '" + currentPetName + "'.");
-//                continue;
-//            }
-//            ConfigurationSection rarityConfigSection = petConfig.getConfigurationSection(currentPetName);
-//            Set<String> rarities = rarityConfigSection.getKeys(false);
-//            for (String currentRarity : rarities) {
-//                if (!rarityConfigSection.isConfigurationSection(currentRarity)) {
-//                    getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Stat Config section with key: '" + currentPetName + "." + currentRarity + "'.");
-//                    continue;
-//                }
-//                Pet.Builder pet = Pet.builder()
-//                        .setName(currentPetName)
-//                        .setRarity(currentRarity)
-//                        .setPermissionPrefix("PET");
-//                ConfigurationSection statsConfigSection = rarityConfigSection.getConfigurationSection(currentRarity);
-//                Set<String> stats = statsConfigSection.getKeys(false);
-//                for (String currentStat : stats) {
-//                    if (!statsConfigSection.isDouble(currentStat) && !statsConfigSection.isInt(currentStat) && !statsConfigSection.isLong(currentStat)) {
-//                        getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Stat value with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
-//                        continue;
-//                    }
-//                    try {
-//                        Stats statType = Stats.valueOf(currentStat);
-//                        double statsValue = statsConfigSection.getDouble(currentStat);
-//                        pet.addStat(statType, statsValue);
-//                    } catch (IllegalArgumentException e) {
-//                        getLogger().log(Level.WARNING, TITLE + ChatColor.RED + "Cannot find Pet Stat type with key: '" + currentPetName + "." + currentRarity + "." + currentStat + "'.");
-//                    }
-//                }
-//                petSet.add(pet.build());
-//            }
-//        }
-//        return petSet;
-//    }
-//
-//    private YamlConfiguration loadPetsConfig() {
-//        File petsFile = new File(getDataFolder(), "pets.yml");
-//        if (!petsFile.exists()) {
-//            saveResource("pets.yml", false);
-//        }
-//        YamlConfiguration petsConfig = YamlConfiguration.loadConfiguration(petsFile);
-//        return petsConfig;
-//    }
-
-    /**
-     * This will register our custom World-Guard flag "prison-mine".
-     * <br>https://worldguard.enginehub.org/en/latest/developer/regions/custom-flags/
-     * <br>Flag Types
-     * <br>https://worldguard.enginehub.org/en/latest/regions/flags/
-     */
-    public StateFlag registerStateFlag() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            StateFlag flag = new StateFlag("prison-mine", false);
-            registry.register(flag);
-            return flag;
-        } catch (FlagConflictException e) {
-            Flag<?> existing = registry.get("prison-mine");
-            if (existing instanceof StateFlag) {
-                return (StateFlag) existing;
-            } else {
-                throw new IllegalStateException();
-            }
-        }
-    }
-
-    public StringFlag registerStringFlag() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            StringFlag stringFlag = new StringFlag("region-display-name");
-            registry.register(stringFlag);
-            return stringFlag;
-        } catch (FlagConflictException e) {
-            Flag<?> existing = registry.get("region-display-name");
-            if (existing instanceof StateFlag) {
-                return (StringFlag) existing;
-            } else {
-                throw new IllegalStateException();
-            }
-        }
-    }
-
-    public LocationFlag registerLocationFlag() {
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        try {
-            LocationFlag LocationFlag = new LocationFlag("sell-location");
-            registry.register(LocationFlag);
-            return LocationFlag;
-        } catch (FlagConflictException e) {
-            Flag<?> existing = registry.get("sell-location");
-            if (existing instanceof StateFlag) {
-                return (LocationFlag) existing;
-            } else {
-                throw new IllegalStateException();
-            }
-        }
     }
 
     private void prisonTipMessages() {
@@ -687,6 +501,11 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "SKILLCAST":
                 event.register(new SkillCastCondition(event.getConfig()));
                 this.getLogger().info(ChatColor.GREEN + "SKILLCAST registered!");
+                break;
+
+            case "SKILLTREELEVEL":
+                event.register(new SkillTreeLevelCondition(event.getConfig(), betonPointsManager));
+                this.getLogger().info(ChatColor.GREEN + "SKILLTREELEVEL registered!");
                 break;
 //            case "ENCHANTRESS_COOLDOWN":
 //                event.register(new Enchantress(event.getConfig()));

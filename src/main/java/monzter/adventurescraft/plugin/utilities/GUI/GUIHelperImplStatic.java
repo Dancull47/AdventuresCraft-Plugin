@@ -77,7 +77,7 @@ public class GUIHelperImplStatic {
         return backgroundItem;
     }
 
-    
+
     public static ItemStack background(Material material) {
         final ItemStack backgroundItem = new ItemStack(material);
         final ItemMeta backgroundItemMeta = backgroundItem.getItemMeta();
@@ -89,7 +89,7 @@ public class GUIHelperImplStatic {
 
 //    Buttons
 
-    
+
     public static ItemStack backButton() {
         final ItemStack backButton = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
         final ItemMeta backButtonItemMeta = backButton.getItemMeta();
@@ -99,7 +99,7 @@ public class GUIHelperImplStatic {
         return backButton;
     }
 
-    
+
     public static ItemStack nextPageButton() {
         final ItemStack nextPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjhmNjgxZGFhZDhiZjQzNmNhZThkYTNmZTgxMzFmNjJhMTYyYWI4MWFmNjM5YzNlMDY0NGFhNmFiYWMyZiJ9fX0="));
         final ItemMeta nextPageItemMeta = nextPageItem.getItemMeta();
@@ -109,7 +109,7 @@ public class GUIHelperImplStatic {
         return nextPageItem;
     }
 
-    
+
     public static ItemStack previousPageButton() {
         final ItemStack previousPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY1MmUyYjkzNmNhODAyNmJkMjg2NTFkN2M5ZjI4MTlkMmU5MjM2OTc3MzRkMThkZmRiMTM1NTBmOGZkYWQ1ZiJ9fX0="));
         final ItemMeta previousPageItemMeta = previousPageItem.getItemMeta();
@@ -119,7 +119,7 @@ public class GUIHelperImplStatic {
         return previousPageItem;
     }
 
-    
+
     public static ItemStack firstPageButton() {
         final ItemStack firstPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODE2ZWEzNGE2YTZlYzVjMDUxZTY5MzJmMWM0NzFiNzAxMmIyOThkMzhkMTc5ZjFiNDg3YzQxM2Y1MTk1OWNkNCJ9fX0="));
         final ItemMeta firstPageItemMeta = firstPageItem.getItemMeta();
@@ -129,7 +129,7 @@ public class GUIHelperImplStatic {
         return firstPageItem;
     }
 
-    
+
     public static ItemStack lastPageButton() {
         final ItemStack lastPageItem = new ItemStack(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWM5ZWM3MWMxMDY4ZWM2ZTAzZDJjOTI4N2Y5ZGE5MTkzNjM5ZjNhNjM1ZTJmYmQ1ZDg3YzJmYWJlNjQ5OSJ9fX0="));
         final ItemMeta lastPageItemMeta = lastPageItem.getItemMeta();
@@ -141,7 +141,7 @@ public class GUIHelperImplStatic {
 
 //    Name
 
-    
+
     public static String guiName(String name) {
         if (name.length() > 21)
             System.out.println("Your GUI '" + name + "' found within " + Thread.currentThread().getStackTrace()[2].getClassName().substring(31) + " is longer than what the inventory can NEATLY contain.");
@@ -155,44 +155,50 @@ public class GUIHelperImplStatic {
 
 
     //    Item Builders
-    
+
     public static ItemStack itemCreator(Material material, String name, String[] lore) {
         ItemStack complete = new ItemStack(material);
-        return itemCreator(complete, name, lore, false);
+        return itemCreator(complete, name, lore, false, 0);
     }
 
-    
+
+    public static ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted, int customModelData) {
+        ItemStack complete = new ItemStack(material);
+        return itemCreator(complete, name, lore, enchanted, customModelData);
+    }
+
     public static ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted) {
         ItemStack complete = new ItemStack(material);
-        return itemCreator(complete, name, lore, enchanted);
+        return itemCreator(complete, name, lore, enchanted, 0);
     }
 
-    
+
     public static ItemStack itemCreator(String skullTexture, String name, String[] lore) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
-        return itemCreator(complete, name, lore, false);
+        return itemCreator(complete, name, lore, false, 0);
     }
 
-    public static ItemStack itemCreator(UUID skullTexture, String name, String[] lore) {
+    public static ItemStack itemCreator(UUID skullTexture, String name, String[] lore, int customModelData) {
         ItemStack complete = SkullCreator.itemFromUuid(skullTexture);
-        return itemCreator(complete, name, lore, false);
+        return itemCreator(complete, name, lore, false, customModelData);
     }
 
-    
+
     public static ItemStack itemCreator(String skullTexture, String name, String[] lore, boolean enchanted) {
         ItemStack complete = SkullCreator.itemFromBase64(skullTexture);
-        return itemCreator(complete, name, lore, enchanted);
+        return itemCreator(complete, name, lore, enchanted, 0);
     }
 
-    public static ItemStack itemCreator(UUID skullTexture, String name, String[] lore, boolean enchanted) {
+    public static ItemStack itemCreator(UUID skullTexture, String name, String[] lore, boolean enchanted, int customModelData) {
         ItemStack complete = SkullCreator.itemFromUuid(skullTexture);
-        return itemCreator(complete, name, lore, enchanted);
+        return itemCreator(complete, name, lore, enchanted, customModelData);
     }
 
 
-    public static ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted) {
+    public static ItemStack itemCreator(ItemStack itemStack, String name, String[] lore, boolean enchanted, int customModelData) {
         ItemStack complete = itemStack;
         final ItemMeta completeItemMeta = complete.getItemMeta();
+        completeItemMeta.setCustomModelData(customModelData);
         completeItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         if (enchanted) {
@@ -215,7 +221,7 @@ public class GUIHelperImplStatic {
     /*
      *   Displays Quests for Player
      * */
-    
+
     public void questMenuGenerator(Player player, QuestGiver questGiver, Material backgroundColor) {
         int questAmount = 0;
         int startX = 2;
@@ -291,7 +297,7 @@ public class GUIHelperImplStatic {
     /*
      *   Displays Active Quests for Player
      * */
-    
+
     public void activeQuestMenu(Player player) {
         int questAmount = 0;
         int startX = 2;
@@ -337,7 +343,7 @@ public class GUIHelperImplStatic {
     /*
      *   Displays Unclaimed Quests for Player
      * */
-    
+
     public void unclaimedQuestMenu(Player player) {
         int questAmount = 0;
         int startX = 2;
