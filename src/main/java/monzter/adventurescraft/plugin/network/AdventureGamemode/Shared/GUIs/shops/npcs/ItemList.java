@@ -359,7 +359,7 @@ public enum ItemList {
     FORAGING_WEAPONS1(Shops.FORAGING_WEAPONS, 1, MMOItemsHelperImpl.getItem("WAND", "DRYAD_STRONG_VINE5"),
             0, new ItemStack[]{MMOItemsHelperImpl.getItem("QUEST", "DRYAD_BARK5").asQuantity(1), MMOItemsHelperImpl.getItem("WAND", "DRYAD_WEAK_VINE4").asQuantity(1)},
             new String[]{"FORAGING,5"}),
-    FORAGING_WEAPONS3(Shops.FORAGING_WEAPONS, 1, MMOItemsHelperImpl.getItem("WAND", "ROOTING3"),
+    FORAGING_WEAPONS3(Shops.FORAGING_WEAPONS, 1, MMOItemsHelperImpl.getItem("WAND", "ROOTING4"),
             0, new ItemStack[]{MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_OAK_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_BIRCH_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_DARK_OAK_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_JUNGLE_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_ACACIA_LOG").asQuantity(320), MMOItemsHelperImpl.getItem("MATERIAL", "ENCHANTED_SPRUCE_LOG").asQuantity(320)},
             new String[]{"FORAGING,6"}),
 

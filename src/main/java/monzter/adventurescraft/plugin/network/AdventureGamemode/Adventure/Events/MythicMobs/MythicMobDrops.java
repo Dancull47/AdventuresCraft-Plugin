@@ -40,7 +40,7 @@ public class MythicMobDrops implements Listener {
 
     @EventHandler
     public void mobDrops(MythicMobDeathEvent event) {
-        Player killer = event.getKiller().getKiller();
+        Player killer = Bukkit.getPlayer(event.getKiller().getUniqueId());
         if (killer == null)
             killer = Bukkit.getPlayer(MythicMobs.inst().getMobManager().getMythicMobInstance(event.getKiller()).getParent().getEntity().getUniqueId());
         if (killer == null)

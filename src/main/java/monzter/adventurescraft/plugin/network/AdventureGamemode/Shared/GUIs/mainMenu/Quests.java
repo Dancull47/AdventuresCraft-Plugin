@@ -86,11 +86,9 @@ public class Quests extends BaseCommand {
         for (QuestArea questArea : QuestArea.values())
             main.addItem(itemGenerator(player, questArea));
 
-//        display.addItem(new GuiItem(achievements(player), e -> consoleCommand.consoleCommand("dm open Achievements " + player.getName())), 2, 4);
         display.addItem(new GuiItem(activeQuests(), e -> player.performCommand("activequests")), 3, 4);
         display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
         display.addItem(new GuiItem(unclaimedQuests(player), e -> player.performCommand("unclaimedquests")), 5, 4);
-//        display.addItem(new GuiItem(jobs(player), e -> consoleCommand.consoleCommand("dm open Bounty " + player.getName())), 6, 4);
 
         gui.addPane(background);
         gui.addPane(display);

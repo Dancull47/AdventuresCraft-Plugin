@@ -7,7 +7,6 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import dev.dbassett.skullcreator.SkullCreator;
 import me.clip.placeholderapi.PlaceholderAPI;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.enums.MiningPassJobs;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.enums.QuestGiver;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.enums.QuestList;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
@@ -155,6 +154,16 @@ public class GUIHelperImpl implements GUIHelper {
 
 
     //    Item Builders
+    @Override
+    public ItemStack itemCreator(Material material) {
+        return itemCreator(new ItemStack(material));
+    }
+
+    @Override
+    public ItemStack itemCreator(ItemStack itemStack) {
+        return itemCreator(itemStack, "", new String[]{""}, false);
+    }
+
     @Override
     public ItemStack itemCreator(Material material, String name, String[] lore) {
         ItemStack complete = new ItemStack(material);
@@ -791,68 +800,6 @@ public class GUIHelperImpl implements GUIHelper {
         lore.add(ChatColor.GRAY + "Complete " + ChatColor.YELLOW + "Jobs " + ChatColor.GRAY + "to unlock more " + ChatColor.GREEN + "Job Slots" + ChatColor.GRAY + "!");
         lore.add("");
         lore.add(ChatColor.YELLOW + "Completed Jobs: " + betonPointsManager.getPoints(player, packageBuilder + "QUESTS_COMPLETED") + "/" + slot * 50);
-
-        item.setItemMeta(itemItemMeta);
-        item.setLore(lore);
-
-        return new GuiItem(item);
-    }
-
-    private GuiItem miningPassJobGenerator(Player player, MiningPassJobs quests) {
-        String packageDir = "default-Town-Dan.";
-        String startedTag = packageDir + quests.name() + "_STARTED";
-        String completedTag = packageDir + quests.name() + "_COMPLETED";
-        ItemStack item = new ItemStack(Material.PAPER);
-        if (betonTagManager.hasTag(player, completedTag))
-            item = new ItemStack(Material.ENCHANTED_BOOK);
-        else if (betonTagManager.hasTag(player, startedTag))
-            item = new ItemStack(Material.BOOK);
-        final ItemMeta itemItemMeta = item.getItemMeta();
-
-        if (betonTagManager.hasTag(player, completedTag))
-            itemItemMeta.displayName(Component.text(ChatColor.GOLD.toString() + ChatColor.BOLD + "[COMPLETED] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
-        else if (betonTagManager.hasTag(player, startedTag))
-            itemItemMeta.displayName(Component.text(ChatColor.GREEN.toString() + ChatColor.BOLD + "[ACTIVE] " + ChatColor.WHITE + WordUtils.capitalizeFully(quests.name().replace("_", " "))));
-
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        if (betonTagManager.hasTag(player, startedTag) && !betonTagManager.hasTag(player, completedTag))
-            for (String questLore : quests.getQuestDescription()) {
-                if (questLore.contains("%"))
-                    questLore = questLore.replaceAll("(%.*?%)", PlaceholderAPI.setPlaceholders(player, "%" + StringUtils.substringBetween(questLore, "%", "%") + "%"));
-                lore.add(questLore);
-            }
-        else if (!betonTagManager.hasTag(player, startedTag) || betonTagManager.hasTag(player, completedTag))
-            for (String questLore : quests.getQuestDescription()) {
-                if (questLore.contains("%"))
-                    questLore = questLore.replaceAll("(%.*?%\\/)", "");
-                lore.add(questLore);
-            }
-        lore.add("");
-        lore.add(ChatColor.YELLOW.toString() + ChatColor.BOLD + "REWARDS:");
-        if (quests.getRewardMoney() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMoney()) + " " + PrisonStatsDisplay.MONEY_AMOUNT.getName());
-        if (quests.getRewardMiningPassExperience() > 0)
-            lore.add(PREFIX + ChatColor.GOLD + numberFormat.numberFormat(quests.getRewardMiningPassExperience()) + " " + PrisonStatsDisplay.MINING_PASS_EXPERIENCE.getName());
-
-        lore.add("");
-        switch (quests.getType().toUpperCase()) {
-            case "DAILY":
-                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.DAILY_RESET.left%") + ChatColor.YELLOW + "!");
-                break;
-            case "WEEKLY":
-                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.WEEKLY_RESET.left%") + ChatColor.YELLOW + "!");
-                break;
-            case "BONUS1":
-                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.BONUS1_RESET.left%") + ChatColor.YELLOW + "!");
-                break;
-            case "BONUS2":
-                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.BONUS2_RESET.left%") + ChatColor.YELLOW + "!");
-                break;
-            case "BONUS3":
-                lore.add(ChatColor.YELLOW + "Resets in " + ChatColor.GOLD + PlaceholderAPI.setPlaceholders(player, "%betonquest_default-Town-Dan:objective.BONUS3_RESET.left%") + ChatColor.YELLOW + "!");
-                break;
-        }
 
         item.setItemMeta(itemItemMeta);
         item.setLore(lore);

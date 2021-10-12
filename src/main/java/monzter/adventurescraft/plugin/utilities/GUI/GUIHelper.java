@@ -24,6 +24,8 @@ public interface GUIHelper {
 
     String guiName(String name);
 
+    ItemStack itemCreator(Material material);
+    ItemStack itemCreator(ItemStack itemStack);
     ItemStack itemCreator(Material material, String name, String[] lore);
 
     ItemStack itemCreator(Material material, String name, String[] lore, boolean enchanted);

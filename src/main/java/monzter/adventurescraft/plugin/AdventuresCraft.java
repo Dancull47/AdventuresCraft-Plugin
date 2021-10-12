@@ -21,7 +21,6 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.main
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Professions;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.donation.DonationShopsBuilder;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.professions.ProfessionBuilder;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.achievements.AchievementItemBuilder;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.resourceCollector.ResourceCollector;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Jenny;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
@@ -31,10 +30,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMob
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.LeashCondition;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.Mount;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.SkillCastCondition;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.GravediggerMechanic;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.ModifierDamageMechanic;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidMythicMobSkills;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.VoidWarpMechanic;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.*;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.NarutoGamemode.GUIs.NarutoSkillTree;
@@ -118,7 +114,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private PurchaseUtils purchaseUtils;
     private ItemAdder itemAdder;
     private AreaCheck areaCheck;
-    private AchievementItemBuilder achievementGUIBuilder;
     private ProgressBar progressBar;
     private ShopOpener shopOpener;
     //    private Xur xur;
@@ -264,6 +259,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.QuestAreaMenu(this, soundManager, guiHelper, consoleCommand, betonTagManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Quests(this, soundManager, guiHelper, consoleCommand, betonTagManager));
+        manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Achievements.AchievementMenu(this, soundManager, guiHelper, consoleCommand, betonTagManager));
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.quests.NPCQuestsDisplay(this, soundManager, guiHelper, consoleCommand, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonTagManager, fullInventory, itemAdder, betonPointsManager, economy));
 
 //          NPC GUIs
@@ -332,7 +328,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         dropTablesDelivery = new DropTablesDeliveryImpl(mmoItemsGive, soundManager);
         purchaseUtils = new PurchaseUtilsImpl(economy, fullInventory, soundManager, numberFormat, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager, shopBuilder);
         chanceCheck = new ChanceCheckImpl(mmoItemsGive);
-        achievementGUIBuilder = new AchievementItemBuilder(this, soundManager, guiHelper, numberFormat, betonPointsManager, permissionLP, consoleCommand);
         progressBar = new ProgressBarImpl();
         shopBuilder = new ShopBuilderImpl(guiHelper, economy, purchaseUtils, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), numberFormat);
     }
@@ -487,6 +482,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "GRAVEDIGGER":
                 event.register(new GravediggerMechanic(event.getMechanicName(), event.getConfig()));
                 this.getLogger().info(ChatColor.YELLOW + "GRAVEDIGGER registered!");
+                break;
+            case "LOGSET":
+                event.register(new LogSetMechanic(event.getMechanicName(), event.getConfig()));
+                this.getLogger().info(ChatColor.YELLOW + "LOGSET registered!");
                 break;
         }
     }

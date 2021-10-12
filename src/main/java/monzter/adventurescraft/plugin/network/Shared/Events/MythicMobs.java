@@ -40,7 +40,7 @@ public class MythicMobs extends BaseCommand implements Listener {
 
     @EventHandler
     public void mobTrack(MythicMobDeathEvent event) {
-        Player player = event.getKiller().getKiller();
+        Player player = Bukkit.getPlayer(event.getKiller().getUniqueId());
         if (player == null)
             player = Bukkit.getPlayer(io.lumine.xikage.mythicmobs.MythicMobs.inst().getMobManager().getMythicMobInstance(event.getKiller()).getParent().getEntity().getUniqueId());
         if (player == null)
@@ -49,13 +49,7 @@ public class MythicMobs extends BaseCommand implements Listener {
         Location location = event.getEntity().getLocation();
         if (player != null)
             switch (plugin.SERVER) {
-                case "Prison":
-                    betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
-                    betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction().toUpperCase(), 1);
-                    break;
                 case "Adventure":
-                    betonPointsManager.givePoint(player, "mobs." + event.getMobType().getInternalName(), 1);
-                    betonPointsManager.givePoint(player, "faction." + event.getMob().getFaction().toUpperCase(), 1);
                     switch (event.getMobType().getInternalName()) {
                         case "REAPER":
                         case "MORDEN_THE_UNDEAD":

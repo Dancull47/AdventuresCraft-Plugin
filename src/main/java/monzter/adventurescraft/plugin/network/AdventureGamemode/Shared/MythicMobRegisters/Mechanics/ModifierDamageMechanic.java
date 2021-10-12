@@ -51,6 +51,7 @@ public class ModifierDamageMechanic extends SkillMechanic implements ITargetedEn
                     modifierValue = rpgPlayer.getPlayerData().getStats().getStat(ItemStats.MAX_MANA);
                     break;
                 case "MAGIC_DAMAGE":
+                case "MAGIC":
                     modifierValue = rpgPlayer.getPlayerData().getStats().getStat(ItemStats.MAGIC_DAMAGE);
                     break;
             }
