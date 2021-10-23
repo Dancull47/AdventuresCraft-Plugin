@@ -20,6 +20,7 @@ import monzter.adventurescraft.plugin.utilities.enums.Prefix;
 import monzter.adventurescraft.plugin.utilities.general.ConsoleCommand;
 import monzter.adventurescraft.plugin.utilities.general.SoundManager;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
+import net.Indyuce.mmoitems.MMOItems;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -32,7 +33,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class Enchant extends BaseCommand {
 
@@ -83,7 +83,9 @@ public class Enchant extends BaseCommand {
 
             for (Enchantments enchantments : Enchantments.values()) {
                 if (Arrays.asList(enchantments.getTypeAllowed()).contains(nbtItem.getType()))
-                    main.addItem(itemGenerator(player, enchantments, exp));
+                    if (enchantments.getIdBlacklist() == null || !Arrays.asList(enchantments.getIdBlacklist()).contains(MMOItems.getID(nbtItem)))
+                        if (enchantments.getMaterialAllowed() == null || Arrays.asList(enchantments.getMaterialAllowed()).contains(itemStack.getType()))
+                            main.addItem(itemGenerator(player, enchantments, exp));
             }
 
             display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 4);
@@ -93,13 +95,6 @@ public class Enchant extends BaseCommand {
             gui.addPane(main);
             gui.show(player);
         } else {
-//            System.out.println(Enchantments.values());
-//            if (!Arrays.asList(Enchantments.values()).contains(enchantment)) {
-//                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f" + enchantment + " &cis not a valid &5Enchantment&c!"));
-//                soundManager.soundNo(player, 1);
-//                return;
-//            }
-
             for (Enchantments enchantments : Enchantments.values()) {
                 if (enchantments.name().equalsIgnoreCase(enchantment)) {
                     final int level = calculateEnchantments(player, enchantments.name());
@@ -125,7 +120,7 @@ public class Enchant extends BaseCommand {
                         return;
                     }
                     MythicEnchants.inst().getEnchantManager().applyEnchantment(player.getInventory().getItemInMainHand(), enchantment, nextLevel);
-                    enchantLore(player.getInventory().getItemInMainHand(), enchantment, nextLevel);
+                    enchantLore(player.getInventory().getItemInMainHand());
                     betonPointsManager.takePoint(player, "EXP.EXP", enchantments.cost);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou successfully purchased &f" + WordUtils.capitalizeFully(enchantment) + " "
                             + nextLevel + " &afor &b" + numberFormat.numberFormat(cost) + " " + AdventureStatsDisplay.EXP.getName() + "&a!"));
@@ -136,103 +131,6 @@ public class Enchant extends BaseCommand {
             }
         }
     }
-
-
-    private void enchantLore(ItemStack itemStack, String enchant, int level) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        boolean hasEnchants = hasEnchants(itemMeta.getLore());
-        if (hasEnchants)
-            clearEnchantLore(itemStack);
-        addEnchantLore(itemStack);
-    }
-
-    private void clearEnchantLore(ItemStack itemStack) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        int enchantLine = enchantmentLine(itemMeta.getLore());
-        List<String> lore = new ArrayList<>();
-        int i = 0;
-        for (String originalLore : itemMeta.getLore()) {
-            if (i < enchantLine || i == itemMeta.getLore().size() - 1)
-                lore.add(originalLore);
-            i++;
-        }
-        itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
-    }
-
-    private void addEnchantLore(ItemStack itemStack) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        List<String> lore = new ArrayList<>();
-        Map<Enchantment, Integer> enchants = itemMeta.getEnchants();
-        List<String> enchantmentLine = enchantmentLines(itemStack);
-
-//        System.out.println(enchantmentLine.get(0) + "LINE");
-        for (int i = 0; i < itemMeta.getLore().size(); i++) {
-//            System.out.println(i + " I");
-//            System.out.println(itemMeta.getLore().size() + " SIZE");
-
-            lore.add(itemMeta.getLore().get(i));
-            if (i == itemMeta.getLore().size() - 2) {
-                lore.add(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:");
-                for (String enchantLine : enchantmentLine)
-                    lore.add(enchantLine);
-            }
-        }
-        itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
-    }
-
-    private List<String> enchantmentLines(ItemStack itemStack) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        List<String> enchantmentLine = new ArrayList<>();
-        List<String> finalEnchantmentLine = new ArrayList<>();
-        String helperLine = "";
-
-        System.out.println(itemMeta.getEnchants().size() + " SIZE");
-        for (Enchantment enchant : itemMeta.getEnchants().keySet()) {
-            if (itemMeta.getEnchants().size() > 1)
-                enchantmentLine.add(WordUtils.capitalizeFully(enchant.getName().replace('_', ' ')) + " " + itemMeta.getEnchants().get(enchant) + ", ");
-            else
-                enchantmentLine.add(WordUtils.capitalizeFully(enchant.getName().replace('_', ' ')) + " " + itemMeta.getEnchants().get(enchant));
-        }
-
-        int i = 0;
-        for (String line : enchantmentLine) {
-            if (helperLine.isEmpty())
-                helperLine = line;
-            else if (i < 2)
-                helperLine = helperLine + line;
-            else if (i == 2 || i == enchantmentLine.size() - 1)
-                finalEnchantmentLine.add(helperLine);
-
-            if (i == 2) {
-                i = 0;
-                helperLine = "";
-            } else
-                i++;
-        }
-
-        return finalEnchantmentLine;
-    }
-
-
-    private boolean hasEnchants(List<String> lore) {
-        for (String itemLore : lore)
-            if (itemLore.contains(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:"))
-                return true;
-        return false;
-    }
-
-    private int enchantmentLine(List<String> lore) {
-        int i = 0;
-        for (String itemLore : lore) {
-            if (itemLore.contains(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:"))
-                return i;
-            i++;
-        }
-        return 0;
-    }
-
 
     private GuiItem itemGenerator(Player player, Enchantments enchantment, int exp) {
         final ItemStack item = new ItemStack(Material.BOOK);
@@ -261,10 +159,10 @@ public class Enchant extends BaseCommand {
             lore.add(ChatColor.GOLD + ChatColor.BOLD.toString() + "PRICE:");
             lore.add(ChatColor.AQUA + numberFormat.numberFormat(cost) + " " + AdventureStatsDisplay.EXP.getName());
             lore.add("");
+            if (level > 0)
+                lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Remove Enchantment");
             if (exp >= cost)
                 lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Left-Click to Purchase");
-            else if (level > 0)
-                lore.add(Prefix.PREFIX.getString() + ChatColor.YELLOW + "Shift-Right-Click to Remove Enchantment");
             else
                 lore.add(ChatColor.RED + "You only have " + ChatColor.AQUA + numberFormat.numberFormat(exp) + " " + AdventureStatsDisplay.EXP.getName());
         }
@@ -284,6 +182,129 @@ public class Enchant extends BaseCommand {
             });
     }
 
+
+    private void enchantLore(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        boolean hasEnchants = hasEnchants(itemMeta.getLore());
+        if (hasEnchants)
+            clearEnchantLore(itemStack);
+        addEnchantLore(itemStack);
+    }
+
+    private void clearEnchantLore(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        int enchantLine = enchantmentLine(itemMeta.getLore());
+        List<String> lore = new ArrayList<>();
+        int i = 0;
+        for (String originalLore : itemMeta.getLore()) {
+            if (i < enchantLine)
+                lore.add(originalLore);
+            i++;
+        }
+        lore.add(itemMeta.getLore().get(itemMeta.getLore().size() - 1));
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    private void addEnchantLore(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        List<String> lore = new ArrayList<>();
+        List<String> enchantmentLine = enchantmentLines(itemStack);
+
+        for (int i = 0; i < itemMeta.getLore().size(); i++) {
+            lore.add(itemMeta.getLore().get(i));
+            if (i == itemMeta.getLore().size() - 2) {
+                lore.add(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:");
+                for (String enchantLine : enchantmentLine)
+                    lore.add(enchantLine);
+                lore.add("");
+            }
+        }
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    private String enchantmentColor(String enchantment) {
+        for (Enchantments enchant : Enchantments.values())
+            if (enchant.name().equalsIgnoreCase(enchantment))
+                return enchant.getColor() + WordUtils.capitalizeFully(enchant.name().toUpperCase().replace('_', ' '));
+        return "";
+    }
+
+    private List<String> enchantmentLines(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        List<String> enchantmentLine = new ArrayList<>();
+        List<String> finalEnchantmentLine = new ArrayList<>();
+        String helperLine = "";
+        String enchantment;
+
+        int a = 0;
+        for (Enchantment enchant : itemMeta.getEnchants().keySet()) {
+            enchantment = enchantmentColor(enchant.getName());
+            if (a == itemMeta.getEnchants().size() - 1)
+                enchantmentLine.add(enchantment + " " + itemMeta.getEnchants().get(enchant));
+            else if (itemMeta.getEnchants().size() > 1)
+                enchantmentLine.add(enchantment + " " + itemMeta.getEnchants().get(enchant) + ", ");
+            a++;
+        }
+
+        /*
+         *
+         * Loops through Enchantment Line
+         * If only 1 Enchantment, returns just that Enchantment
+         *
+         * Else it will then set HelperLine to first Enchantment
+         * then add 1 to i
+         * This will repeat either 2 MORE TIMES (3 total)
+         * OR until Tracker = the amount of Enchantments
+         * then it'll add that String (helperLine) to the List
+         *
+         * */
+
+
+        int i = 0;
+        int tracker = 0;
+        for (String line : enchantmentLine) {
+
+            if (enchantmentLine.size() == 1)
+                return enchantmentLine;
+
+            if (helperLine.isEmpty())
+                helperLine = line;
+            else if (i < 2)
+                helperLine = helperLine + line;
+
+            if (i == 1 || tracker == enchantmentLine.size() - 1)
+                finalEnchantmentLine.add(helperLine);
+
+            if (i == 1) {
+                i = 0;
+                helperLine = "";
+            } else
+                i++;
+            tracker++;
+        }
+        return finalEnchantmentLine;
+    }
+
+
+    private boolean hasEnchants(List<String> lore) {
+        for (String itemLore : lore)
+            if (itemLore.contains(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:"))
+                return true;
+        return false;
+    }
+
+    private int enchantmentLine(List<String> lore) {
+        int i = 0;
+        for (String itemLore : lore) {
+            if (itemLore.contains(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:"))
+                return i;
+            i++;
+        }
+        return 0;
+    }
+
     private int calculateEnchantments(Player player, String enchantment) {
         ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
         if (meta != null && meta.hasEnchants())
@@ -295,114 +316,95 @@ public class Enchant extends BaseCommand {
     }
 
     private void removeEnchantment(Player player, String enchantment) {
-        ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
+        ItemMeta meta = itemStack.getItemMeta();
         if (meta != null && meta.hasEnchants())
             for (Enchantment enchant : meta.getEnchants().keySet()) {
                 if (enchant.getKey().getKey().equalsIgnoreCase(enchantment)) {
+                    meta.removeEnchant(enchant);
+                    itemStack.setItemMeta(meta);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f" + WordUtils.capitalizeFully(enchantment) + " &ahas been successfully removed!"));
                     soundManager.soundYes(player, 1);
-                    String romanNumeral = romanCalculator(meta.getEnchants().get(enchant));
-                    List<String> lore = new ArrayList<>();
-                    for (String originalLore : meta.getLore())
-                        if (!originalLore.contains(WordUtils.capitalizeFully(enchantment) + " " + romanNumeral))
-                            lore.add(originalLore);
-                    meta.removeEnchant(enchant);
-                    meta.setLore(lore);
-                    player.getInventory().getItemInMainHand().setItemMeta(meta);
+                    enchantLore(itemStack);
+                    if (meta.getEnchants().size() == 0) {
+                        meta = player.getInventory().getItemInMainHand().getItemMeta();
+                        List<String> newLore = meta.getLore();
+                        newLore.remove(enchantmentLine(meta.getLore()));
+                        newLore.remove(enchantmentLine(meta.getLore()));
+                        meta.setLore(newLore);
+                        itemStack.setItemMeta(meta);
+                    }
                 }
             }
     }
 
-    private String romanCalculator(int number) {
-        switch (number) {
-            case 1:
-                return "I";
-            case 2:
-                return "II";
-            case 3:
-                return "III";
-            case 4:
-                return "IV";
-            case 5:
-                return "V";
-            case 6:
-                return "VI";
-            case 7:
-                return "VII";
-            case 8:
-                return "VIII";
-            case 9:
-                return "IX";
-            case 10:
-                return "X";
-            case 11:
-                return "XI";
-            case 12:
-                return "XII";
-            case 13:
-                return "XIII";
-            case 14:
-                return "XIV";
-            case 15:
-                return "XV";
-            case 16:
-                return "XVI";
-            case 17:
-                return "XVII";
-            case 18:
-                return "XVIII";
-            case 19:
-                return "XIX";
-            case 20:
-                return "XX";
-            case 21:
-                return "XXI";
-            case 22:
-                return "XXII";
-            case 23:
-                return "XXIII";
-            case 24:
-                return "XXIV";
-            case 25:
-                return "XXV";
-        }
-        return null;
-    }
+    public enum Enchantments {
+        DRAIN(25, 100 * .0004, 100, ChatColor.RED.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&cDamage &7the &cenemy &7for"),
+                        ChatColor.translateAlternateColorCodes('&', "&a%p%% &7of their &aMax HP&7!")}),
+        SHARPNESS(25, 100 * .0004, 100, ChatColor.YELLOW.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&cDamage &7the &cenemy &7for"),
+                        ChatColor.translateAlternateColorCodes('&', "&a%p%% &7of your " + AdventureStatsDisplay.DAMAGE.getName() + "&7!")}),
+        LOOTING(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of &cenemies"),
+                        ChatColor.translateAlternateColorCodes('&', "&7dropping their &aArmor &7by &a%p%%&7!")}),
+        PARALYZE(25, 1, 100, ChatColor.GREEN.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of &4paralyzing &7an"),
+                        ChatColor.translateAlternateColorCodes('&', "&cenemy &7when &cattacking &7them &7by &a%p%%&7!")}),
+        POSTHUMOUS(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of gaining"),
+                        ChatColor.translateAlternateColorCodes('&', "&7a &especial effect &7when &cslaying"),
+                        ChatColor.translateAlternateColorCodes('&', "&7an &cenemy &7by &a%p%%&7!")}),
 
-    enum Enchantments {
-        DRAIN(25, 100 * .0004, 100, new String[]{"TOOL", "SWORD"}, null,
-                new String[]{ChatColor.translateAlternateColorCodes('&', "&cDamage &7the &cenemy &7for"),
-                        ChatColor.translateAlternateColorCodes('&', "&a%p%% &7of their &aMax HP&7!")}),
-        SHARPNESS(25, 100 * .0004, 100, new String[]{"TOOL", "SWORD"}, null,
-                new String[]{ChatColor.translateAlternateColorCodes('&', "&cDamage &7the &cenemy &7for"),
-                        ChatColor.translateAlternateColorCodes('&', "&a%p%% &7of their &aMax HP&7!")}),
-        AOE_DAMAGE(25, 100 * .0004, 100, new String[]{"TOOL", "SWORD"}, null,
-                new String[]{ChatColor.translateAlternateColorCodes('&', "&cDamage &7the &cenemy &7for"),
-                        ChatColor.translateAlternateColorCodes('&', "&a%p%% &7of their &aMax HP&7!")}),
-        BURGLE_CASTLE(25, 100 * .0004, 100, new String[]{"TOOL", "SWORD"}, null,
-                new String[]{ChatColor.translateAlternateColorCodes('&', "&cDamage &7the &cenemy &7for"),
-                        ChatColor.translateAlternateColorCodes('&', "&a%p%% &7of their &aMax HP&7!")}),
+        FORTUNE(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"TOOL"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of getting"),
+                        ChatColor.translateAlternateColorCodes('&', "&adouble drops &7while mining &7by &a%p%%&7!")}),
+
+        KAMIKAZE(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"ARMOR"}, new Material[]{Material.CHAINMAIL_CHESTPLATE, Material.DIAMOND_CHESTPLATE, Material.IRON_CHESTPLATE, Material.GOLDEN_CHESTPLATE, Material.LEATHER_CHESTPLATE, Material.NETHERITE_CHESTPLATE}, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of &4exploding"),
+                        ChatColor.translateAlternateColorCodes('&', "&7when you die &7by &a%p%%&7!")}),
+        REFLECT(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"ARMOR"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&eReflect &a%p%% &7of incoming"),
+                        ChatColor.translateAlternateColorCodes('&', "&cdamage &7back to the &cattacker&7!")}),
+        NEGATION(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"ARMOR"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of &8negating"),
+                        ChatColor.translateAlternateColorCodes('&', "&7incoming &cdamage &7by &a%p%%&7!")}),
+
+        EXPERIENCE(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the amount of " + AdventureStatsDisplay.EXP.getName()),
+                        ChatColor.translateAlternateColorCodes('&', "&7gained by &aMining &7& &cSlaying &7by &a%p%%&7!")}),
+        COINED(25, 100 * .0004, 100, ChatColor.GREEN.toString(), new String[]{"TOOL", "SWORD"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the amount of " + AdventureStatsDisplay.COINS.getName()),
+                        ChatColor.translateAlternateColorCodes('&', "&7gained by &aMining &7& &cSlaying &7by &a%p%%&7!")}),
         ;
 
         private final int maxLevel;
         private final double increasePerLevel;
         private final int cost;
+        private final String color;
         private final String[] typeAllowed;
+        private final Material[] materialAllowed;
         private final String[] idBlacklist;
         private final String[] lore;
 
 
-        Enchantments(int maxLevel, double increasePerLevel, int cost, String[] typeAllowed, String[] idBlacklist, String[] lore) {
+        Enchantments(int maxLevel, double increasePerLevel, int cost, String color, String[] typeAllowed, Material[] materialAllowed, String[] idBlacklist, String[] lore) {
             this.maxLevel = maxLevel;
             this.increasePerLevel = increasePerLevel;
             this.cost = cost;
+            this.color = color;
             this.typeAllowed = typeAllowed;
+            this.materialAllowed = materialAllowed;
             this.idBlacklist = idBlacklist;
             this.lore = lore;
         }
 
         public int getMaxLevel() {
             return maxLevel;
+        }
+
+        public Material[] getMaterialAllowed() {
+            return materialAllowed;
         }
 
         public int getCost() {
@@ -423,6 +425,10 @@ public class Enchant extends BaseCommand {
 
         public String[] getLore() {
             return lore;
+        }
+
+        public String getColor() {
+            return color;
         }
     }
 }

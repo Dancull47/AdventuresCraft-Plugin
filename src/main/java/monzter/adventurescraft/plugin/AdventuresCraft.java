@@ -26,10 +26,7 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.LiftOperator;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs.Weatherman;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.BQTagCondition;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.LeashCondition;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.Mount;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.SkillCastCondition;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.*;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
@@ -507,6 +504,10 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "BQ_TAG":
                 event.register(new BQTagCondition(event.getConfig(), betonTagManager));
                 this.getLogger().info(ChatColor.GREEN + "BQ_TAG registered!");
+                break;
+            case "CHANCE":
+                event.register(new ChanceCondition(event.getConfig(), chanceCheck));
+                this.getLogger().info(ChatColor.GREEN + "CHANCE registered!");
                 break;
 
             case "SKILLTREELEVEL":
