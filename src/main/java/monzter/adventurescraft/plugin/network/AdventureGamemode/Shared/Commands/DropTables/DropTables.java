@@ -1,6 +1,5 @@
 package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTables;
 
-import me.lucko.helper.random.Weighted;
 import monzter.adventurescraft.plugin.utilities.enums.CrateList;
 import monzter.adventurescraft.plugin.utilities.general.ItemGenerator;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsHelperImpl;
@@ -14,7 +13,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public enum DropTables implements Weighted, ItemGenerator {
+public enum DropTables implements ItemGenerator {
 //    HELL2(CrateList.HELL, "SKIN", "RUSTED_SWORD3", 1, .20),
 //    HELL8(CrateList.HELL, "SKIN", "RUSTED_BATTLE_AXE3", 1, .20),
 //    HELL9(CrateList.HELL, "SKIN", "MAGMA_BATTLE_AXE3", 1, .20),
@@ -249,7 +248,6 @@ public enum DropTables implements Weighted, ItemGenerator {
         this.weight = weight;
     }
 
-    @Override
     public double getWeight() {
         return weight;
     }

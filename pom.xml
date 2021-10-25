@@ -180,41 +180,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.elmakers.mine.bukkit</groupId>
-            <artifactId>EffectLib</artifactId>
-            <version>9.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.gmail.filoghost.holographicdisplays</groupId>
             <artifactId>holographicdisplays-api</artifactId>
             <version>2.4.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.vexsoftware</groupId>
-            <artifactId>nuvotifier-universal</artifactId>
-            <version>2.6.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/.idea/libraries/nuvotifier-2.7.2.jar
-            </systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>LATEST</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.lucko</groupId>
-            <artifactId>helper</artifactId>
-            <version>5.6.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.lucko</groupId>
-            <artifactId>helper-sql</artifactId>
-            <version>1.3.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -240,15 +208,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>MysqlPlayerDataBridge-v3.35.1</groupId>
-            <artifactId>net.craftersland.data</artifactId>
-            <version>3.35.1</version>
-            <scope>system</scope>
-            <systemPath>
-                ${project.basedir}/.idea/libraries/MysqlPlayerDataBridge-v3.35.1.jar
-            </systemPath>
-        </dependency>
-        <dependency>
             <groupId>dev.dbassett</groupId>
             <artifactId>skullcreator</artifactId>
             <version>3.0.0</version>
@@ -272,26 +231,6 @@
             <version>1.16.1</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.plan-player-analytics</groupId>
-            <artifactId>Plan</artifactId>
-            <version>5.3.1284</version> <!-- Add the version number here -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId> <!-- Usage: Iterating Backwards -->
-            <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
-        </dependency>
-        <dependency>
-            <groupId>MiniaturePets</groupId>
-            <artifactId>net.craftersland.data</artifactId>
-            <version>3.35.1</version>
-            <scope>system</scope>
-            <systemPath>
-                ${project.basedir}/.idea/libraries/MiniaturePets.jar
-            </systemPath>
-        </dependency>
         <!--        Mythic        -->
         <dependency>
             <groupId>io.lumine</groupId>
@@ -314,7 +253,7 @@
         <dependency>
             <groupId>net.Indyuce</groupId>
             <artifactId>MMOCore</artifactId>
-            <version>1.6.2</version>
+            <version>1.8.1</version>
             <scope>system</scope>
             <systemPath>
                 ${project.basedir}/.idea/libraries/MMOCore.jar
@@ -355,21 +294,6 @@
             <systemPath>
                 ${project.basedir}/.idea/libraries/AdventureRegions.jar
             </systemPath>
-        </dependency>
-        <dependency>
-            <groupId>Register</groupId>
-            <artifactId>mySQL.library</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>
-                ${project.basedir}/.idea/libraries/MySQL.jar
-            </systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

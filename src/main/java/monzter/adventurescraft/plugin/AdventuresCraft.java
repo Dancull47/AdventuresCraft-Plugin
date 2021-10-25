@@ -27,7 +27,6 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shop
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.PlaceholderRegistery;
-import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.NarutoGamemode.GUIs.NarutoSkillTree;
 import monzter.adventurescraft.plugin.network.NarutoGamemode.MythicMobs.Conditions.SkillTreeLevelCondition;
@@ -205,7 +204,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
     private void adventureLoad() {
 //        Commands
 //        Events
-        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Enchantments(this, calculateEnchantments, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.BlockInteractions(this, soundManager, permissionLP, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Void(this, soundManager, permissionLP, consoleCommand, AdventureRegions.getInstance().displayNameFlag, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems")), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Statistics(this, betonPointsManager), this);
@@ -297,9 +295,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
 
     private void lobbyLoad() {
 //        Commands
-        manager.registerCommand(new Trails(this, soundManager, guiHelper));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Lobby.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery, permissionLP));
-        manager.registerCommand(new monzter.adventurescraft.plugin.network.Lobby.Commands.DropTablesView(this, guiHelper));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new CancelDrops(this), this);
     }

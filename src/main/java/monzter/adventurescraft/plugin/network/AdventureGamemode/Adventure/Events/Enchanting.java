@@ -28,6 +28,7 @@ public class Enchanting implements Listener {
     }
 
 
+    //    This doesn't work since MythicEnchants doesn't fire this Event
     @EventHandler
     public void enchant(EnchantItemEvent event) {
         enchantLore(event.getItem());
@@ -45,7 +46,7 @@ public class Enchanting implements Listener {
         boolean hasEnchants = hasEnchants(itemMeta.getLore());
         if (hasEnchants)
             clearEnchantLore(itemStack);
-        if (itemMeta.getEnchants().size() > 0)
+        if (itemMeta.getEnchants().size() > 0 && itemMeta.getEnchants().get(Enchantment.DURABILITY) < 1)
             addEnchantLore(itemStack);
     }
 
