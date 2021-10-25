@@ -7,13 +7,11 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import monzter.adventure.regions.plugin.AdventureRegions;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Catalysts;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.FireDamage;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.DamageTracker;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.MythicMobCaptureQuests;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.MythicMobDrops;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.Void;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.PlayerInteractLootboxes;
-import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Statistics;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTableViewer;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.HomeCommands;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Events.*;
@@ -28,11 +26,14 @@ import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.npcs
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.shops.npcs.ShopsBuilder;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Conditions.*;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.Mechanics.*;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.MythicMobRegisters.PlaceholderRegistery;
 import monzter.adventurescraft.plugin.network.Lobby.Commands.Trails;
 import monzter.adventurescraft.plugin.network.Lobby.Events.CancelDrops;
 import monzter.adventurescraft.plugin.network.NarutoGamemode.GUIs.NarutoSkillTree;
 import monzter.adventurescraft.plugin.network.NarutoGamemode.MythicMobs.Conditions.SkillTreeLevelCondition;
 import monzter.adventurescraft.plugin.network.Shared.Commands.Ranks;
+import monzter.adventurescraft.plugin.network.Shared.Events.BlockInteractions;
+import monzter.adventurescraft.plugin.network.Shared.Events.Join;
 import monzter.adventurescraft.plugin.network.Shared.Events.*;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelper;
 import monzter.adventurescraft.plugin.utilities.GUI.GUIHelperImpl;
@@ -232,6 +233,9 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.Warp(this, permissionLP));
 //        Events
         Bukkit.getServer().getPluginManager().registerEvents(new FireDamage(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new DamageTracker(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new Enchanting(this, soundManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.Enchantments(economy, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ItemSlotLock(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AccountBound(this, fullInventory, soundManager, betonPointsManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractLootboxes(this, soundManager, permissionLP, consoleCommand, fullInventory), this);
@@ -282,6 +286,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         manager.registerCommand(new monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands.DropTablesGive(this, mmoItemsGive, soundManager, dropTablesDelivery, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), chanceCheck));
         manager.registerCommand(new Bossdex(this, guiHelper, (MMOItems) Bukkit.getPluginManager().getPlugin("MMOItems"), betonPointsManager, consoleCommand));
 
+        new PlaceholderRegistery();
     }
 
     private void narutoLoad() {
@@ -481,6 +486,14 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
             case "GRAVEDIGGER":
                 event.register(new GravediggerMechanic(event.getMechanicName(), event.getConfig()));
                 this.getLogger().info(ChatColor.YELLOW + "GRAVEDIGGER registered!");
+                break;
+            case "BQPOINT":
+                event.register(new BetonQuestPointMechanic(event.getMechanicName(), event.getConfig(), betonPointsManager));
+                this.getLogger().info(ChatColor.YELLOW + "BQPOINT registered!");
+                break;
+            case "POSTHUMOUS":
+                event.register(new PosthumousMechanic(event.getMechanicName(), event.getConfig()));
+                this.getLogger().info(ChatColor.YELLOW + "POSTHUMOUS registered!");
                 break;
             case "LOGSET":
                 event.register(new LogSetMechanic(event.getMechanicName(), event.getConfig()));

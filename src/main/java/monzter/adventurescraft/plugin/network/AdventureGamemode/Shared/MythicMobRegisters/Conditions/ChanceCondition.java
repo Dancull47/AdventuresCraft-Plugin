@@ -11,12 +11,12 @@ import monzter.adventurescraft.plugin.utilities.general.Cooldown;
 import monzter.adventurescraft.plugin.utilities.general.EnchantmentCalculator;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class ChanceCondition extends SkillCondition implements IEntityCondition {
 
     final String skillName;
     private final ChanceCheck chanceCheck;
-
 
     public ChanceCondition(MythicLineConfig config, ChanceCheck chanceCheck) {
         super(config.getLine());
@@ -32,8 +32,17 @@ public class ChanceCondition extends SkillCondition implements IEntityCondition 
             for (Enchant.Enchantments enchantment : Enchant.Enchantments.values())
                 if (enchantment.name().equalsIgnoreCase(skillName)) {
                     double chance = (enchantment.getIncreasePerLevel() * EnchantmentCalculator.calculateEnchantments(player, skillName)) / 100;
-                    System.out.println(chance);
-
+                    switch (enchantment) {
+                        case KAMIKAZE:
+                        case REFLECT:
+                        case NEGATION:
+                            chance = enchantment.getIncreasePerLevel() * EnchantmentCalculator.calculateEnchantments(player, skillName, EquipmentSlot.HEAD);
+                            chance += enchantment.getIncreasePerLevel() * EnchantmentCalculator.calculateEnchantments(player, skillName, EquipmentSlot.CHEST);
+                            chance += enchantment.getIncreasePerLevel() * EnchantmentCalculator.calculateEnchantments(player, skillName, EquipmentSlot.LEGS);
+                            chance += enchantment.getIncreasePerLevel() * EnchantmentCalculator.calculateEnchantments(player, skillName, EquipmentSlot.FEET);
+                            chance = chance / 100;
+                            break;
+                    }
                     return chanceCheck.chanceCheck(chance);
                 }
         }

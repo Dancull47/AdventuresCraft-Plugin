@@ -7,8 +7,11 @@ public interface Economy {
 
     void giveMoney(Player player, double amount);
 
+    void giveMoney(Player player, double amount, boolean silent);
+
     double getBalance(Player player);
 
     boolean hasMoney(Player player, int price);
+
     boolean hasMoney(Player player, double price);
-    }
+}

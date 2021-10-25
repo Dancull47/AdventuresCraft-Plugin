@@ -29,8 +29,14 @@ public class EconomyImpl implements Economy {
 
     @Override
     public void giveMoney(Player player, double amount) {
+        giveMoney(player, amount, false);
+    }
+
+    @Override
+    public void giveMoney(Player player, double amount, boolean silent) {
         EconomyResponse r = econ.depositPlayer(player, amount);
-        player.sendMessage(ChatColor.GREEN + "You received " + ChatColor.YELLOW + "⛂ " + numberFormat(amount) + ChatColor.GREEN + "!");
+        if (!silent)
+            player.sendMessage(ChatColor.GREEN + "You received " + ChatColor.YELLOW + "⛂ " + numberFormat(amount) + ChatColor.GREEN + "!");
         if (!r.transactionSuccess()) {
             player.sendMessage(ChatColor.RED + "An error occurred while trying to give you money, report to Admins!" + dateFormat.format(timestamp));
             plugin.getLogger().info(ChatColor.RED + "An error occurred while sending " + numberFormat(amount) + " to " + player);

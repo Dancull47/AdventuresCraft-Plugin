@@ -31,13 +31,6 @@ public class MythicMobDrops implements Listener {
         this.soundManager = soundManager;
     }
 
-//    Can be used for Damage Tracking
-//    @EventHandler
-//    public void w(EntityDamageEvent event) {
-//        plugin.getLogger().info(String.valueOf(event.getFinalDamage()));
-//
-//    }
-
     @EventHandler
     public void mobDrops(MythicMobDeathEvent event) {
         Player killer = Bukkit.getPlayer(event.getKiller().getUniqueId());
