@@ -192,7 +192,6 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new Death(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new Join(this, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new AntiDrop(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new Enchant(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new BlockInteractions(this, soundManager, permissionLP, consoleCommand, shopOpener), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobs(this, fullInventory, betonPointsManager, soundManager, chanceCheck, itemAdder), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InteractQuestBook(this), this);
@@ -211,6 +210,7 @@ public class AdventuresCraft extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.Join(this, permissionLP), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobCaptureQuests(this, soundManager, permissionLP, consoleCommand), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MythicMobDrops(this, chanceCheck, itemAdder, soundManager), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new BlockBreakSystem(this,soundManager, areaCheck, itemAdder, chanceCheck, consoleCommand, betonPointsManager, betonTagManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 

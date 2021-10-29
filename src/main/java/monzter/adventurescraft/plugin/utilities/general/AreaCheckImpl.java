@@ -19,6 +19,14 @@ public class AreaCheckImpl implements AreaCheck {
     }
 
     @Override
+    public boolean areaCheck(Player player, String[] area) {
+        for (String region : area)
+            if (areaCheck(player, region))
+                return true;
+        return false;
+    }
+
+    @Override
     public boolean areaCheck(Player player, String area) {
         Location location = BukkitAdapter.adapt(player.getLocation());
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
@@ -29,6 +37,7 @@ public class AreaCheckImpl implements AreaCheck {
                 return true;
         return false;
     }
+
     @Override
     public String getAreaName(Player player) {
         Location location = BukkitAdapter.adapt(player.getLocation());

@@ -126,18 +126,33 @@ public class QuestAreaMenu extends BaseCommand {
             if (questGiver.getArea() == questArea)
                 npcAmount += 1;
 
-        if (npcAmount == 1)
-            startX = 4;
-        else if (npcAmount == 2 || npcAmount == 3)
-            startX = 3;
-        else if (npcAmount == 4)
-            startX = 2;
-        else if (npcAmount == 5)
-            startX = 1;
-        else if (npcAmount == 6) {
-            startX = 1;
-            length = 6;
-        }
+            switch (npcAmount) {
+                case 1:
+                    startX = 4;
+                    break;
+                case 2:
+                case 3:
+                    startX = 3;
+                    break;
+                case 4:
+                    startX = 2;
+                    break;
+                case 5:
+                    startX = 1;
+                    break;
+                case 6:
+                    startX = 1;
+                    length = 6;
+                    break;
+                case 7:
+                    startX = 1;
+                    length = 7;
+                    break;
+                case 8:
+                    startX = 1;
+                    length = 8;
+                    break;
+            }
 
         int questAmount = 0;
         for (QuestList quests : QuestList.values()) {

@@ -53,6 +53,36 @@ public class NPCQuestsDisplay extends BaseCommand {
         guiHelper.questMenuGenerator(player, QuestGiver.TUTOR, Material.PURPLE_STAINED_GLASS_PANE);
     }
 
+    @Subcommand("Guider")
+    public void guider(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.GUIDER, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("COMBATINSTRUCTOR|COMBAT_INSTRUCTOR")
+    public void combatInstructor(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.COMBAT_INSTRUCTOR, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("ATTRIBUTOR")
+    public void ATTRIBUTOR(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.ATTRIBUTOR, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("REESE")
+    public void REESE(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.REESE, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("CRAFTER")
+    public void CRAFTER(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.CRAFTER, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
+    @Subcommand("HOMER")
+    public void HOMER(Player player) {
+        guiHelper.questMenuGenerator(player, QuestGiver.HOMER, Material.PURPLE_STAINED_GLASS_PANE);
+    }
+
     @Subcommand("Jenny")
     public void jenny(Player player) {
         guiHelper.questMenuGenerator(player, QuestGiver.JENNY, Material.GREEN_STAINED_GLASS_PANE);

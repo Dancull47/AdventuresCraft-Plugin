@@ -3,6 +3,7 @@ package monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.Commands
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.AdventuresCraft;
 import monzter.adventurescraft.plugin.utilities.beton.BetonPointsManager;
@@ -13,7 +14,12 @@ import monzter.adventurescraft.plugin.utilities.luckperms.PermissionLP;
 import monzter.adventurescraft.plugin.utilities.mmoitems.MMOItemsGive;
 import monzter.adventurescraft.plugin.utilities.text.NumberFormat;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 public class AdminCommands extends BaseCommand {
 
@@ -77,6 +83,20 @@ public class AdminCommands extends BaseCommand {
         player.sendMessage(AdventureStatsDisplay.CRITICAL_DAMAGE.getName() + ": " + parsePlaceholder(player, "mmocore_stat_critical_strike_power"));
         player.sendMessage(AdventureStatsDisplay.MAGIC_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_magic_damage"));
         player.sendMessage(AdventureStatsDisplay.ABILITY_DAMAGE.getName() + ChatColor.WHITE + " = " + ChatColor.YELLOW + parsePlaceholder(player, "mmocore_stat_skill_damage"));
+    }
+
+    @CommandAlias("NPCHead")
+    @CommandPermission("*")
+    @CommandCompletion("*")
+    public void npcHead(Player player) {
+        Entity entity = player.getTargetEntity(5);
+        Player playerEntity = (Player) entity;
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        for (ProfileProperty property : playerEntity.getPlayerProfile().getProperties()) {
+            System.out.println(ChatColor.GREEN + "COPY: " + property.getValue());
+            clipboard.setContents(new StringSelection(property.getValue()), null);
+        }
+        player.sendMessage(ChatColor.GREEN + "Texture copied & sent to console!");
     }
 
     private String parsePlaceholder(Player player, String string) {

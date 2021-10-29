@@ -6,4 +6,6 @@ import org.bukkit.inventory.ItemStack;
 public interface ItemAdder {
     void itemAdder(Player player, ItemStack itemStack);
     void itemAdder(Player player, ItemStack[] itemStack);
+    void itemDropper(Player player, ItemStack itemStack);
+    void itemDropper(Player player, ItemStack[] itemStack);
 }

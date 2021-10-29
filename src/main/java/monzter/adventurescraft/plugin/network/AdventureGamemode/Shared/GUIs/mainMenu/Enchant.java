@@ -121,7 +121,11 @@ public class Enchant extends BaseCommand {
                         soundManager.soundNo(player, 1);
                         return;
                     }
-                    MythicEnchants.inst().getEnchantManager().applyEnchantment(player.getInventory().getItemInMainHand(), enchantment, nextLevel);
+                    if (!enchantments.name().equals(Enchantments.EFFICIENCY.name()))
+                        MythicEnchants.inst().getEnchantManager().applyEnchantment(player.getInventory().getItemInMainHand(), enchantment, nextLevel);
+                    else
+                        player.getInventory().getItemInMainHand().addEnchantment(Enchantment.DIG_SPEED, nextLevel);
+
                     Enchanting.enchantLore(player.getInventory().getItemInMainHand());
                     betonPointsManager.takePoint(player, "EXP.EXP", enchantments.cost);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou successfully purchased &f" + WordUtils.capitalizeFully(enchantment) + " "
@@ -224,7 +228,13 @@ public class Enchant extends BaseCommand {
 
         FORTUNE(25, 100 * .04, 100, ChatColor.GREEN.toString(), new String[]{"TOOL"}, null, null,
                 new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of getting"),
+                        ChatColor.translateAlternateColorCodes('&', "&9rare drops &7while mining &7by &a%p%%&7!")}),
+        YIELD(25, 100 * .04, 100, ChatColor.GREEN.toString(), new String[]{"TOOL"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the chance of getting"),
                         ChatColor.translateAlternateColorCodes('&', "&adouble drops &7while mining &7by &a%p%%&7!")}),
+        EFFICIENCY(5, 5, 100, ChatColor.GREEN.toString(), new String[]{"TOOL"}, null, null,
+                new String[]{ChatColor.translateAlternateColorCodes('&', "&7Increase the &aspeed &7at which"),
+                        ChatColor.translateAlternateColorCodes('&', "&7you &abreak blocks &7by &a%p%%&7!")}),
 
         //        new Material[]{Material.CHAINMAIL_CHESTPLATE, Material.DIAMOND_CHESTPLATE, Material.IRON_CHESTPLATE, Material.GOLDEN_CHESTPLATE, Material.LEATHER_CHESTPLATE, Material.NETHERITE_CHESTPLATE}
         KAMIKAZE(25, 1, 100, ChatColor.GREEN.toString(), new String[]{"ARMOR"}, null, null,

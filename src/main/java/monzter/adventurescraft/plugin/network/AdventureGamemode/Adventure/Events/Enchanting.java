@@ -41,12 +41,13 @@ public class Enchanting implements Listener {
 
     public static void enchantLore(ItemStack itemStack) {
         ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta.hasEnchant(Enchantment.DURABILITY)) return;
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         itemStack.setItemMeta(itemMeta);
         boolean hasEnchants = hasEnchants(itemMeta.getLore());
         if (hasEnchants)
             clearEnchantLore(itemStack);
-        if (itemMeta.getEnchants().size() > 0 && itemMeta.getEnchants().get(Enchantment.DURABILITY) < 1)
+        if (itemMeta.getEnchants().size() > 0)
             addEnchantLore(itemStack);
     }
 
@@ -74,8 +75,10 @@ public class Enchanting implements Listener {
             lore.add(itemMeta.getLore().get(i));
             if (i == itemMeta.getLore().size() - 2) {
                 lore.add(ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "Enchantments:");
-                for (String enchantLine : enchantmentLine)
+                for (String enchantLine : enchantmentLine) {
+                    System.out.println(enchantLine);
                     lore.add(enchantLine);
+                }
                 lore.add("");
             }
         }
@@ -99,7 +102,10 @@ public class Enchanting implements Listener {
 
         int a = 0;
         for (Enchantment enchant : itemMeta.getEnchants().keySet()) {
-            enchantment = enchantmentColor(enchant.getName());
+            if (!enchant.getName().equals("DIG_SPEED"))
+                enchantment = enchantmentColor(enchant.getName());
+            else
+                enchantment = enchantmentColor("EFFICIENCY");
             if (a == itemMeta.getEnchants().size() - 1)
                 enchantmentLine.add(enchantment + " " + itemMeta.getEnchants().get(enchant));
             else if (itemMeta.getEnchants().size() > 1)

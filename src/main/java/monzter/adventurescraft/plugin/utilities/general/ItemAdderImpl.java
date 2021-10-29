@@ -29,4 +29,15 @@ public class ItemAdderImpl implements ItemAdder {
             }
         }
     }
+
+    @Override
+    public void itemDropper(Player player, ItemStack[] itemStack) {
+        for (ItemStack item : itemStack)
+            itemDropper(player, item);
+    }
+
+    @Override
+    public void itemDropper(Player player, ItemStack itemStack) {
+        player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
+    }
 }
