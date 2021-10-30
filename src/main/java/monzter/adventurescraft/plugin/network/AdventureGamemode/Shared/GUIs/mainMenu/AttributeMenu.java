@@ -42,7 +42,7 @@ public class AttributeMenu extends BaseCommand {
         this.consoleCommand = consoleCommand;
     }
 
-    @CommandAlias("Attributes|AttributesMenu")
+    @CommandAlias("Attribute|Attributes|AttributesMenu")
     public void attributeMenu(Player player) {
 
         ChestGui gui = new ChestGui(6, guiHelper.guiName("Attributes"));
@@ -62,10 +62,10 @@ public class AttributeMenu extends BaseCommand {
         display.addItem(guardian(player, unusedPoints), 4, 1);
         display.addItem(slasher(player, unusedPoints), 6, 1);
 
-        display.addItem(resetAttribute(player, unusedReallocationPoints), 4, 3);
+        display.addItem(resetAttribute(player, unusedReallocationPoints, unusedPoints), 4, 3);
 
 
-        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("main")), 4, 5);
+        display.addItem(new GuiItem(guiHelper.backButton(), e -> player.performCommand("profile")), 4, 5);
 
         gui.addPane(background);
         gui.addPane(display);
@@ -231,9 +231,10 @@ public class AttributeMenu extends BaseCommand {
         });
     }
 
-    private GuiItem resetAttribute(Player player, int reallocationPoints) {
+    private GuiItem resetAttribute(Player player, int reallocationPoints, int unusedPoints) {
         final ItemStack itemStack = new ItemStack(Material.ANVIL);
         final ItemMeta itemMeta = itemStack.getItemMeta();
+        final int usedPoints = Integer.valueOf(parsePlaceholder(player, "mmocore_attribute_Wizardly")) + Integer.valueOf(parsePlaceholder(player, "mmocore_attribute_Guardian")) + Integer.valueOf(parsePlaceholder(player, "mmocore_attribute_Slasher"));
 
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
@@ -243,7 +244,6 @@ public class AttributeMenu extends BaseCommand {
         lore.add("");
         lore.add(ChatColor.translateAlternateColorCodes('&', "&7Reallocation Points: &a" + reallocationPoints));
         lore.add("");
-//        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Points Spent: &6" + level + "&7/&6" + maxLevel));
 
         if (reallocationPoints == 0)
             lore.add(ChatColor.translateAlternateColorCodes('&', "&cYou have &e0 &6Reallocation Points"));
@@ -260,9 +260,9 @@ public class AttributeMenu extends BaseCommand {
             } else {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Attributes &ehave been reset!"));
                 soundManager.soundPurchase(player, 2);
-//                Set Player's Attribute Points to spent points + current points
-//                consoleCommand.consoleCommand("mmocore admin attribute-points set " + player.getName() + " " + (unusedPoints - 1));
+                consoleCommand.consoleCommand("mmocore admin attribute-points set " + player.getName() + " " + (unusedPoints + usedPoints));
                 consoleCommand.consoleCommand("mmocore admin attr-realloc-points set " + player.getName() + " " + (reallocationPoints - 1));
+                consoleCommand.consoleCommand("mmocore admin reset attributes " + player.getName());
                 player.performCommand("AttributesMenu");
             }
         });

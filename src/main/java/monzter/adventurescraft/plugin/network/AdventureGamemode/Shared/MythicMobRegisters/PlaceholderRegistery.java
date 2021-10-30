@@ -5,6 +5,7 @@ import com.gmail.berndivader.mythicmobsext.utils.Utils;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicReloadedEvent;
 import io.lumine.xikage.mythicmobs.skills.placeholders.Placeholder;
 import io.lumine.xikage.mythicmobs.skills.placeholders.PlaceholderManager;
+import me.clip.placeholderapi.PlaceholderAPI;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Adventure.Events.MythicMobs.DamageTracker;
 import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.GUIs.mainMenu.Enchant;
 import monzter.adventurescraft.plugin.utilities.general.EnchantmentCalculator;
@@ -51,6 +52,10 @@ public class PlaceholderRegistery implements Listener {
             amount += EnchantmentCalculator.calculateEnchantments(player, "REFLECT", EquipmentSlot.LEGS) * Enchant.Enchantments.REFLECT.getIncreasePerLevel();
             amount += EnchantmentCalculator.calculateEnchantments(player, "REFLECT", EquipmentSlot.FEET) * Enchant.Enchantments.REFLECT.getIncreasePerLevel();
             return String.valueOf(amount);
+        }));
+        manager.register("placeholder.", Placeholder.entity((target, arg) -> {
+            Player player = Bukkit.getPlayer(target.getUniqueId());
+            return parsePlaceholder(player, arg);
         }));
 //        manager.register("caster.l.dy", Placeholder.meta((meta, arg) -> {
 //            return Double.toString(meta.getCaster().getLocation().getY());
@@ -117,4 +122,7 @@ public class PlaceholderRegistery implements Listener {
         Main.logger.info("registered AdventureCraft placeholders");
     }
 
+    private String parsePlaceholder(Player player, String string) {
+        return PlaceholderAPI.setPlaceholders(player, "%" + string + "%");
+    }
 }

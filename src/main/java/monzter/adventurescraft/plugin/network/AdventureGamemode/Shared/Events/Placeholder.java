@@ -10,6 +10,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import monzter.adventurescraft.plugin.AdventuresCraft;
+import monzter.adventurescraft.plugin.network.AdventureGamemode.Shared.ClassSystem.ProfessionHandler;
 import monzter.adventurescraft.plugin.utilities.general.Cooldown;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -80,6 +81,95 @@ public class Placeholder extends PlaceholderExpansion {
                 return (hours + " hours and " + minutes + " Minutes and " + seconds + " seconds");
             case "Restarting":
                 return String.valueOf(restarting);
+
+            case "Profession_Level_Main":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Main"));
+            case "Profession_EXP_Main":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Main"));
+            case "Profession_EXP_Main_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Main");
+            case "Profession_NEXT_EXP_Main_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Main");
+            case "Profession_NEXT_PERCENT_Main":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Main");
+
+            case "Profession_Level_Farming":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Farming"));
+            case "Profession_EXP_Farming":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Farming"));
+            case "Profession_EXP_Farming_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Farming");
+            case "Profession_NEXT_EXP_Farming_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Farming");
+            case "Profession_NEXT_PERCENT_Farming":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Farming");
+
+            case "Profession_Level_Foraging":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Foraging"));
+            case "Profession_EXP_Foraging":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Foraging"));
+            case "Profession_EXP_Foraging_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Foraging");
+            case "Profession_NEXT_EXP_Foraging_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Foraging");
+            case "Profession_NEXT_PERCENT_Foraging":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Foraging");
+
+            case "Profession_Level_Mining":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Mining"));
+            case "Profession_EXP_Mining":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Mining"));
+            case "Profession_EXP_Mining_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Mining");
+            case "Profession_NEXT_EXP_Mining_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Mining");
+            case "Profession_NEXT_PERCENT_Mining":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Mining");
+
+            case "Profession_Level_Slayer":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Slayer"));
+            case "Profession_EXP_Slayer":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Slayer"));
+            case "Profession_EXP_Slayer_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Slayer");
+            case "Profession_NEXT_EXP_Slayer_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Slayer");
+            case "Profession_NEXT_PERCENT_Slayer":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Slayer");
+
+            case "Profession_Level_Enchanting":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Enchanting"));
+            case "Profession_EXP_Enchanting":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Enchanting"));
+            case "Profession_EXP_Enchanting_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Enchanting");
+            case "Profession_NEXT_EXP_Enchanting_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Enchanting");
+            case "Profession_NEXT_PERCENT_Enchanting":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Enchanting");
+
+            case "Profession_Level_Cooking":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Cooking"));
+            case "Profession_EXP_Cooking":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Cooking"));
+            case "Profession_EXP_Cooking_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Cooking");
+            case "Profession_NEXT_EXP_Cooking_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Cooking");
+            case "Profession_NEXT_PERCENT_Cooking":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Cooking");
+
+            case "Profession_Level_Spellforging":
+                return String.valueOf(ProfessionHandler.getLevel(player.getPlayer(), "Spellforging"));
+            case "Profession_EXP_Spellforging":
+                return String.valueOf(ProfessionHandler.getEXP(player.getPlayer(), "Spellforging"));
+            case "Profession_EXP_Spellforging_formatted":
+                return ProfessionHandler.getEXPFormatted(player.getPlayer(), "Spellforging");
+            case "Profession_NEXT_EXP_Spellforging_formatted":
+                return ProfessionHandler.getNextLevelEXPFormatted(player.getPlayer(), "Spellforging");
+            case "Profession_NEXT_PERCENT_Spellforging":
+                return ProfessionHandler.getNextLevelPercentage(player.getPlayer(), "Spellforging");
+
             default:
                 return null;
         }
