@@ -143,7 +143,7 @@ public class Join implements Listener {
         }, 20L);
 
 //        if (player.isOp())
-//            if (!player.getAddress().getHostName().equals("***REMOVED***") || !player.getAddress().getHostName().equals("127.0.0.1 ")) {
+//            if (!player.getAddress().getHostName().equals("****REMOVED****") || !player.getAddress().getHostName().equals("127.0.0.1 ")) {
 //                player.setOp(false);
 //                player.sendMessage(ChatColor.DARK_RED + "Your OP has been removed!");
 //            }
